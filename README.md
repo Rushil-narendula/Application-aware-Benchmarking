@@ -82,14 +82,51 @@ Evaluated using TPC-H and IMDB. The authors construct benchmark workloads with u
 - The refinement process is driven largely by optimizer costs and profiling rather than by semantic similarity to real user workloads.
 - Matching distributions alone may overlook other important characteristics, including join patterns, predicate correlations, temporal locality, or business logic.
 
-## My Analysis and Results
-In my replication using the JOB benchmark and IMDB database, I synthetically created 113 queries to test this hypothesis. 
-A deep dive into the cost comparison of the original queries versus the synthetic queries reveals significant discrepancies:
-- **Extreme Outliers:** While distributions may align broadly, individual query variance can be wild. For example, some queries exhibited an error margin of over 200%, with one outlier (Query #39) having an error of 2,429%.
-- **Variance Across Cost Buckets:** Queries with original costs over 700K tended to have lower percentage errors (typically 6–35%), suggesting synthetic estimation improves at higher cost ranges. However, at lower costs, small absolute errors resulted in massive percentage errors.
-- **Conclusion:** Reproducing a target cost distribution is valuable for stress-testing DBMS engines (execution cost, memory pressure), but it is not, by itself, evidence that the generated queries are realistic in structure or intent. The synthetic queries may execute at the same cost but perform fundamentally different logic, lacking the nuanced semantics of real-world workloads.
+## Replication Analytics & Dashboard Results
+In my replication using the Join Order Benchmark (JOB) and the IMDB database, I synthetically generated 113 queries. To analyze the pipeline's effectiveness, I developed a series of interactive dashboards that break down the workload generation process step-by-step. 
+
+The results from each stage provide critical insights into the limitations of distribution-matching workload generators:
+
+### 1. Template Profiling & Shift Metrics (`sqlbarber_dashboard_v2.html`)
+The first step of the pipeline generated 33 base SQL templates. Analyzing their raw execution costs revealed severe inconsistencies:
+- **Massive Distribution Drift:** A staggering **81.8% (27 of 33)** of the generated templates drifted into completely different cost bins than intended during instantiation.
+- **Perfect Matches:** Only **9.1% (3 templates)** aligned perfectly with their targeted cost bins.
+- **Out of Bounds (OOB) Anomalies:** Another **9.1% (3 templates)** generated execution costs entirely outside the defined measurement window (normalized cost range of 0–10,000).
+- **Verdict:** The initial instantiation exhibits **low structural fidelity**. The sheer variance in parameter sampling proves that without aggressive refinement, base templates cannot reliably populate a targeted distribution histogram.
+
+### 2. Initial Profiling Stage Distribution (`Final_updated_profiling.html`)
+When mapping the initially instantiated templates against the ground-truth JOB distribution (10 bins of 1,000 cost width), major structural gaps were exposed:
+- **Over-Concentration:** The LLM heavily favored specific structures. Bins 0 (0–1k) and 5 (5–6k) were massively overrepresented in the synthetic output (e.g., 42 synthetic queries vs 29 ground-truth in Bin 5).
+- **Under-Representation:** Mid-to-high cost queries were difficult to generate organically. Bins 3 and 8 had severe deficits.
+- **Missing Intervals:** Bin 9 (9k–10k) was entirely empty in the synthetic run, despite the ground truth requiring 10 high-cost queries.
+- **Discarded Templates:** Templates 3, 10, and 29 were fully discarded at this stage due to producing out-of-range cost values (cost underflows/overflows).
+
+### 3. Post-Refinement Calibration & Remediation (`Updated_refinement.html`)
+To fix the broken initial distribution, the pipeline applied aggressive structural and quota-based refinements. This stage successfully forced the synthetic workload to match the ground truth, but required heavy manual/automated intervention:
+- **Calibration Status:** PASSED. All 10 cost bins were forcibly realigned to perfectly match the ground-truth counts (e.g., the 3k–4k peak was nailed at exactly 27 queries).
+- **Templates Modified:** **19 of the 33** templates required active modifications (structural rewriting or quota shifting) to achieve this match.
+- **OOB Rescues:** The 3 out-of-bounds templates were successfully rescued and reassigned to anchor high/low bins.
+- **Pivotal Fix (Template 17 Spotlight):** T17 was initially generating unwanted noise in the bloated 0–1k bin. It was structurally modified to boost its optimizer cost, successfully rerouting it to completely fill the 2k–3k gap with 9 targeted queries.
+- **Throttling:** Over-concentration in the 5k–6k bin was resolved by heavily throttling the query quotas of T7, T11, T13, and T15.
+
+### 4. Final Query Comparison & Cost Outliers (`updated_final_query_comparision.html`)
+Even after the macroscopic distribution perfectly matched the ground truth, comparing the individual synthetic queries against the original workload revealed massive per-query deviations:
+- **Extreme Outliers:** While broad distributions aligned, individual query variance was wild. One outlier (**Query #39**) exhibited a cost prediction error of **2,429%**.
+- **Variance Across Cost Buckets:** Queries with original costs over 700K tended to have lower percentage errors (typically 6–35%), suggesting synthetic estimation is somewhat stable at extreme high-end complexities. However, at lower costs, small absolute errors resulted in massive percentage errors (often exceeding 200%).
+- **Conclusion:** A matched histogram obscures massive individual query inaccuracies.
+
+### 5. Final Synthetic Workload Repository (`Updated_queries_all_with_advanced_features.html`)
+The pipeline successfully output a repository of 113 executable, synthetically generated benchmark queries:
+- The queries successfully execute against the IMDB schema.
+- They span varied complexity tiers (Low, Medium, High, Very High) and include advanced structural features like deep JOINs, subqueries, `GROUP BY` aggregations, and `ORDER BY` clauses.
+
+### Final Conclusion on the SQLBarber Hypothesis
+Reproducing a target execution-cost distribution is highly valuable for stress-testing DBMS engines (evaluating memory pressure, caching, and execution time under load). However, my analysis strongly proves that **it is not, by itself, evidence that the generated queries are realistic in structure or intent**. 
+
+The heavy reliance on quota-throttling and structural rewriting during the refinement stage forces queries into cost bins artificially. The synthetic queries may execute at the exact same optimizer cost as the production logs, but they perform fundamentally different logic, lack the nuanced semantic patterns of real-world business workloads, and exhibit massive per-query cost variance.
 
 ---
-**Repository Contents:**
-- Interactive HTML dashboards visualizing the comparison between the 113 original JOB queries and the synthetically generated SQLBarber queries.
-- Result datasets and refined query scripts.
+**Repository Setup & Presentation:**
+- The `imdb/` dataset directory has been git-ignored due to file size constraints.
+- All analytical findings are available as interactive HTML dashboards in this repository. 
+- **To view the results:** Do not convert the `.html` files to PDF, as you will lose the interactive Chart.js functionality. Simply drag and drop the `.html` files directly into a modern browser (like Chrome) to explore the data dynamically.
