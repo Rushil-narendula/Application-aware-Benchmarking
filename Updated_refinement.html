@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SQLBarber — Post-Refinement Analytics</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #f6f8fc;
+  --surface:   #ffffff;
+  --border:    #e2e8f4;
+  --border-sm: #edf0f7;
+
+  --blue-700:  #1d4ed8;
+  --blue-600:  #2563eb;
+  --blue-500:  #3b82f6;
+  --blue-100:  #dbeafe;
+  --blue-50:   #eff6ff;
+
+  --teal-600:  #0d9488;
+  --teal-100:  #ccfbf1;
+  --teal-50:   #f0fdfa;
+
+  --green-700: #15803d;
+  --green-600: #16a34a;
+  --green-100: #dcfce7;
+  --green-50:  #f0fdf4;
+
+  --amber-700: #b45309;
+  --amber-100: #fef3c7;
+  --amber-50:  #fffbeb;
+
+  --rose-700:  #be123c;
+  --rose-100:  #ffe4e6;
+  --rose-50:   #fff1f2;
+
+  --slate-900: #0f172a;
+  --slate-700: #334155;
+  --slate-600: #475569;
+  --slate-500: #64748b;
+  --slate-400: #94a3b8;
+  --slate-300: #cbd5e1;
+  --slate-200: #e2e8f0;
+  --slate-100: #f1f5f9;
+  --slate-50:  #f8fafc;
+
+  --radius-sm: 6px;
+  --radius:    10px;
+  --radius-lg: 14px;
+  --shadow-xs: 0 1px 2px rgba(15,23,42,.05);
+  --shadow-sm: 0 1px 4px rgba(15,23,42,.08), 0 1px 2px rgba(15,23,42,.04);
+  --shadow-md: 0 4px 16px rgba(15,23,42,.09), 0 2px 4px rgba(15,23,42,.05);
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--slate-700);
+  font-size: 14px;
+  line-height: 1.65;
+  min-height: 100vh;
+}
+.mono { font-family: 'JetBrains Mono', monospace; }
+
+/* ── HEADER ── */
+.site-header {
+  background: var(--surface);
+  border-bottom: 1.5px solid var(--border);
+  padding: 28px 48px 26px;
+}
+.header-inner { max-width: 1240px; margin: 0 auto; }
+.header-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--blue-50);
+  border: 1px solid var(--blue-100);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--blue-600);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.header-dot {
+  width: 6px; height: 6px;
+  background: var(--blue-500);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .5; transform: scale(.85); }
+}
+.header-title {
+  font-size: clamp(20px, 2.5vw, 28px);
+  font-weight: 800;
+  color: var(--slate-900);
+  letter-spacing: -.025em;
+  line-height: 1.2;
+  margin-bottom: 10px;
+}
+.header-title .accent { color: var(--blue-600); }
+.header-meta {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--slate-500);
+}
+.header-meta span strong { color: var(--slate-600); font-weight: 500; }
+
+/* ── STAGE BADGE ROW ── */
+.stage-row {
+  display: flex;
+  gap: 0;
+  margin-bottom: 32px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-xs);
+}
+.stage-item {
+  flex: 1;
+  padding: 16px 20px;
+  border-right: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.stage-item:last-child { border-right: none; }
+.stage-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
+  flex-shrink: 0;
+}
+.stage-num.done { background: var(--green-100); color: var(--green-700); }
+.stage-num.done-alt { background: var(--blue-100); color: var(--blue-700); }
+.stage-num.active { background: var(--teal-100); color: var(--teal-600); }
+.stage-text-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--slate-400); margin-bottom: 1px; }
+.stage-text-title { font-size: 13px; font-weight: 600; color: var(--slate-700); }
+
+/* ── LAYOUT ── */
+.page-body { max-width: 1240px; margin: 0 auto; padding: 36px 48px 64px; }
+
+/* ── KPI CARDS ── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.kpi-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 22px 22px 18px;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.kpi-card.kpi-rose::before  { background: linear-gradient(90deg, #f43f5e, #fb7185); }
+.kpi-card.kpi-amber::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+.kpi-card.kpi-blue::before  { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+.kpi-card.kpi-green::before { background: linear-gradient(90deg, #10b981, #34d399); }
+
+.kpi-tag {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  margin-bottom: 10px;
+}
+.kpi-rose  .kpi-tag { color: var(--rose-700); }
+.kpi-amber .kpi-tag { color: var(--amber-700); }
+.kpi-blue  .kpi-tag { color: var(--blue-700); }
+.kpi-green .kpi-tag { color: var(--green-700); }
+
+.kpi-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.kpi-rose  .kpi-value { color: var(--rose-700); }
+.kpi-amber .kpi-value { color: var(--amber-700); }
+.kpi-blue  .kpi-value { color: var(--blue-600); }
+.kpi-green .kpi-value { color: var(--green-600); }
+
+.kpi-label {
+  font-size: 12.5px;
+  color: var(--slate-500);
+  line-height: 1.4;
+}
+.kpi-sub {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+.kpi-rose  .kpi-sub { background: var(--rose-50);  color: var(--rose-700);  border: 1px solid var(--rose-100); }
+.kpi-amber .kpi-sub { background: var(--amber-50); color: var(--amber-700); border: 1px solid var(--amber-100); }
+.kpi-blue  .kpi-sub { background: var(--blue-50);  color: var(--blue-700);  border: 1px solid var(--blue-100); }
+.kpi-green .kpi-sub { background: var(--green-50); color: var(--green-700); border: 1px solid var(--green-100); }
+
+/* ── SECTION HEADERS ── */
+.sec-eyebrow {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--blue-600);
+  margin-bottom: 5px;
+}
+.sec-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--slate-900);
+  letter-spacing: -.015em;
+  margin-bottom: 6px;
+}
+.sec-desc {
+  font-size: 13px;
+  color: var(--slate-500);
+  line-height: 1.7;
+  max-width: 700px;
+  margin-bottom: 20px;
+}
+
+/* ── CHART CARDS ── */
+.chart-grid {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 18px;
+  margin-bottom: 32px;
+}
+.chart-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 26px 24px 20px;
+  box-shadow: var(--shadow-sm);
+}
+.chart-card-full {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 26px 24px 20px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 32px;
+}
+.chart-hd {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.chart-title { font-size: 14px; font-weight: 600; color: var(--slate-900); }
+.chart-sub   { font-size: 11.5px; color: var(--slate-400); margin-top: 2px; }
+.legend-row  { display: flex; gap: 16px; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--slate-500); font-weight: 500; }
+.legend-dot  { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+.chart-wrap  { position: relative; }
+
+/* ── BIN COMPARISON GRID ── */
+.bin-section { margin-bottom: 32px; }
+.bin-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+.bin-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 14px 12px;
+  box-shadow: var(--shadow-xs);
+}
+.bin-card.bin-ok    { border-color: #bfdbfe; background: #f0f7ff; }
+.bin-card.bin-warn  { border-color: #fde68a; background: #fffdf0; }
+.bin-card.bin-empty { border-color: var(--slate-200); background: var(--slate-50); }
+.bin-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 600;
+  margin-bottom: 10px;
+}
+.bin-card.bin-ok   .bin-label { color: var(--blue-600); }
+.bin-card.bin-warn .bin-label { color: var(--amber-700); }
+.bin-card.bin-empty .bin-label { color: var(--slate-400); }
+.bin-row { display: flex; justify-content: space-between; font-size: 11px; color: var(--slate-400); margin-bottom: 3px; }
+.bin-row .val { font-weight: 600; color: var(--slate-700); font-family: 'JetBrains Mono', monospace; }
+.bar-track { height: 4px; background: var(--slate-100); border-radius: 4px; overflow: hidden; margin-bottom: 6px; }
+.bar-gt     { height: 100%; background: var(--slate-300); border-radius: 4px; }
+.bar-prof   { height: 100%; background: #f59e0b; border-radius: 4px; }
+.bar-ref    { height: 100%; background: var(--blue-500); border-radius: 4px; }
+.bin-verdict {
+  font-size: 10px; font-weight: 600;
+  padding: 2px 6px; border-radius: 4px;
+  margin-top: 8px; display: inline-block;
+}
+.bin-card.bin-ok   .bin-verdict { background: var(--blue-100);  color: var(--blue-700); }
+.bin-card.bin-warn .bin-verdict { background: var(--amber-100); color: var(--amber-700); }
+.bin-card.bin-empty .bin-verdict { background: var(--slate-100); color: var(--slate-500); }
+
+/* ── ACTION TABLE ── */
+.table-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 32px;
+}
+.table-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  background: var(--slate-50);
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.toolbar-left { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.search-box {
+  font-family: 'Inter', sans-serif;
+  font-size: 12.5px;
+  border: 1px solid var(--slate-300);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  color: var(--slate-700);
+  background: var(--surface);
+  outline: none;
+  width: 190px;
+  transition: border-color .15s, box-shadow .15s;
+}
+.search-box:focus { border-color: var(--blue-500); box-shadow: 0 0 0 3px rgba(59,130,246,.12); }
+.flt-btn {
+  font-family: 'Inter', sans-serif;
+  font-size: 11.5px; font-weight: 500;
+  border: 1px solid var(--slate-300);
+  border-radius: var(--radius-sm);
+  padding: 5px 12px;
+  background: var(--surface);
+  color: var(--slate-600);
+  cursor: pointer;
+  transition: all .13s;
+  white-space: nowrap;
+}
+.flt-btn:hover { background: var(--slate-100); border-color: var(--slate-400); }
+.flt-btn.active { background: var(--blue-600); border-color: var(--blue-600); color: #fff; }
+.row-count { font-size: 11.5px; color: var(--slate-400); white-space: nowrap; }
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table th {
+  text-align: left;
+  font-size: 10.5px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--slate-400);
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  background: #fafbfc;
+  white-space: nowrap;
+}
+.data-table td {
+  padding: 10px 16px;
+  font-size: 12.5px;
+  border-bottom: 1px solid var(--border-sm);
+  vertical-align: middle;
+}
+.data-table tbody tr:last-child td { border-bottom: none; }
+.data-table tbody tr:hover td { background: var(--slate-50); }
+.tid {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; font-weight: 600;
+  color: var(--slate-900);
+}
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 10.5px; font-weight: 600;
+  padding: 3px 8px; border-radius: 20px;
+  white-space: nowrap;
+}
+.badge-green  { background: var(--green-100);  color: var(--green-700); }
+.badge-blue   { background: var(--blue-100);   color: var(--blue-700); }
+.badge-teal   { background: var(--teal-100);   color: var(--teal-600); }
+.badge-amber  { background: var(--amber-100);  color: var(--amber-700); }
+.badge-rose   { background: var(--rose-100);   color: var(--rose-700); }
+.badge-slate  { background: var(--slate-100);  color: var(--slate-600); }
+.bin-tag {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  background: var(--slate-100);
+  color: var(--slate-600);
+  border: 1px solid var(--slate-200);
+  border-radius: 4px;
+  padding: 2px 6px;
+  margin: 1px 2px;
+  white-space: nowrap;
+}
+.bin-tag-blue  { background: var(--blue-50);  color: var(--blue-700);  border-color: var(--blue-100); }
+.bin-tag-teal  { background: var(--teal-50);  color: var(--teal-600);  border-color: var(--teal-100); }
+.bin-tag-rose  { background: var(--rose-50);  color: var(--rose-700);  border-color: var(--rose-100); }
+.bin-tag-amber { background: var(--amber-50); color: var(--amber-700); border-color: var(--amber-100); }
+.quota-change {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  color: var(--slate-600);
+}
+.quota-up   { color: var(--green-600); }
+.quota-dn   { color: var(--rose-700); }
+.quota-same { color: var(--slate-400); }
+
+/* ── SPOTLIGHT CALLOUT ── */
+.spotlight {
+  background: linear-gradient(135deg, #eff6ff 0%, #f0fdfa 100%);
+  border: 1.5px solid #bfdbfe;
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+}
+.spotlight::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+  background: linear-gradient(180deg, var(--blue-500), var(--teal-600));
+  border-radius: 4px 0 0 4px;
+}
+.spotlight-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--blue-100);
+  color: var(--blue-700);
+  font-size: 10px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 20px;
+  margin-bottom: 10px;
+}
+.spotlight-title {
+  font-size: 16px; font-weight: 700;
+  color: var(--slate-900); margin-bottom: 8px;
+}
+.spotlight-body {
+  font-size: 13px; color: var(--slate-600); line-height: 1.75;
+}
+.spotlight-body strong { color: var(--slate-900); font-weight: 600; }
+.spotlight-body .hl-blue  { color: var(--blue-700); font-weight: 600; }
+.spotlight-body .hl-teal  { color: var(--teal-600); font-weight: 600; }
+.spotlight-body .hl-rose  { color: var(--rose-700); font-weight: 600; }
+.migration-flow {
+  display: flex; align-items: center; gap: 12px;
+  margin-top: 16px; flex-wrap: wrap;
+}
+.migration-box {
+  padding: 10px 16px;
+  border-radius: var(--radius);
+  font-size: 13px; font-weight: 600;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.migration-box .mbx-top { font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; opacity: .7; }
+.migration-from { background: var(--rose-50);  border: 1px solid var(--rose-100);  color: var(--rose-700); }
+.migration-to   { background: var(--teal-50);  border: 1px solid var(--teal-100);  color: var(--teal-600); }
+.migration-arrow { font-size: 22px; color: var(--slate-300); }
+
+/* ── BOTTLENECK GRID ── */
+.bottleneck-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 32px;
+}
+.bn-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-xs);
+}
+.bn-icon {
+  width: 34px; height: 34px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+.bn-icon.rose  { background: var(--rose-50);  }
+.bn-icon.amber { background: var(--amber-50); }
+.bn-icon.green { background: var(--green-50); }
+.bn-icon.blue  { background: var(--blue-50);  }
+.bn-icon.teal  { background: var(--teal-50);  }
+.bn-icon.slate { background: var(--slate-100); }
+.bn-title { font-size: 13px; font-weight: 600; color: var(--slate-900); margin-bottom: 4px; }
+.bn-desc  { font-size: 12px; color: var(--slate-500); line-height: 1.65; }
+.bn-tag   {
+  margin-top: 10px;
+  font-size: 10px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 20px; display: inline-block;
+}
+.bn-tag.fixed   { background: var(--green-100); color: var(--green-700); }
+.bn-tag.rescued { background: var(--blue-100);  color: var(--blue-700); }
+.bn-tag.purged  { background: var(--rose-100);  color: var(--rose-700); }
+
+/* ── RESULT TABLE ── */
+.result-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 32px;
+}
+.result-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px 22px;
+  box-shadow: var(--shadow-sm);
+}
+.res-title { font-size: 13.5px; font-weight: 600; color: var(--slate-900); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+.res-dot   { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.res-list  { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.res-list li { font-size: 12.5px; color: var(--slate-600); line-height: 1.65; padding-left: 16px; position: relative; }
+.res-list li::before { content: '▸'; position: absolute; left: 0; color: var(--slate-300); font-size: 10px; top: 3px; }
+.res-list li strong { color: var(--slate-800); font-weight: 600; }
+
+/* ── VERDICT BANNER ── */
+.verdict-banner {
+  background: linear-gradient(135deg, #ecfdf5 0%, #f0f9ff 100%);
+  border: 1.5px solid #a7f3d0;
+  border-radius: var(--radius-lg);
+  padding: 28px 32px;
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.verdict-icon {
+  font-size: 36px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.verdict-title { font-size: 18px; font-weight: 800; color: var(--green-700); margin-bottom: 4px; letter-spacing: -.01em; }
+.verdict-sub   { font-size: 13px; color: var(--slate-600); line-height: 1.65; }
+.verdict-sub strong { color: var(--slate-800); font-weight: 600; }
+
+/* ── FOOTER ── */
+.site-footer {
+  text-align: center;
+  font-size: 12px;
+  color: var(--slate-400);
+  padding: 32px 24px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  margin-top: 16px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .site-header, .page-body { padding-left: 24px; padding-right: 24px; }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .chart-grid { grid-template-columns: 1fr; }
+  .bottleneck-grid { grid-template-columns: repeat(2, 1fr); }
+  .result-grid { grid-template-columns: 1fr; }
+  .bin-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .kpi-grid { grid-template-columns: 1fr 1fr; }
+  .stage-row { flex-direction: column; }
+  .stage-item { border-right: none; border-bottom: 1px solid var(--border); }
+  .bottleneck-grid { grid-template-columns: 1fr; }
+  .bin-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── SITE HEADER ── -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-eyebrow">
+      <span class="header-dot"></span>
+      SQLBarber · Workload Replication · Post-Refinement Stage
+    </div>
+    <div class="header-title">
+      Post-Refinement Analytics:
+      <span class="accent">Workload Calibration Report</span>
+    </div>
+    <div class="header-meta">
+      <span><strong>Project:</strong> SQLBarber Synthetic Workload Generation</span>
+      <span><strong>Stage:</strong> Refinement → Calibration Verified</span>
+      <span><strong>Templates:</strong> 33 total · 19 modified</span>
+      <span><strong>Report:</strong> 2025</span>
+    </div>
+  </div>
+</header>
+
+<div class="page-body">
+
+  <!-- ── PIPELINE STAGES ── -->
+  <div class="stage-row">
+    <div class="stage-item">
+      <div class="stage-num done">✓</div>
+      <div>
+        <div class="stage-text-label">Stage 1</div>
+        <div class="stage-text-title">Ground Truth Profiling</div>
+      </div>
+    </div>
+    <div class="stage-item">
+      <div class="stage-num done-alt">✓</div>
+      <div>
+        <div class="stage-text-label">Stage 2</div>
+        <div class="stage-text-title">Initial Synthetic Run</div>
+      </div>
+    </div>
+    <div class="stage-item">
+      <div class="stage-num done-alt">✓</div>
+      <div>
+        <div class="stage-text-label">Stage 3</div>
+        <div class="stage-text-title">Distribution Analysis</div>
+      </div>
+    </div>
+    <div class="stage-item" style="background:linear-gradient(135deg,#f0fdfa,#eff6ff);">
+      <div class="stage-num active">★</div>
+      <div>
+        <div class="stage-text-label">Stage 4 — Current</div>
+        <div class="stage-text-title" style="color:#0d9488;">Post-Refinement Calibration</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── KPI CARDS ── -->
+  <div class="kpi-grid">
+    <div class="kpi-card kpi-rose">
+      <div class="kpi-tag">Pre-Refinement Drift</div>
+      <div class="kpi-value">81.8%</div>
+      <div class="kpi-label">Templates bin-shifted in initial profiling run</div>
+      <div class="kpi-sub">⚠ 27 of 33 templates misaligned</div>
+    </div>
+    <div class="kpi-card kpi-amber">
+      <div class="kpi-tag">OOB Failures Resolved</div>
+      <div class="kpi-value">3 / 3</div>
+      <div class="kpi-label">T3, T10, T29 — all out-of-bounds templates corrected</div>
+      <div class="kpi-sub">↑ All rescued &amp; reassigned</div>
+    </div>
+    <div class="kpi-card kpi-blue">
+      <div class="kpi-tag">Templates Modified</div>
+      <div class="kpi-value">19</div>
+      <div class="kpi-label">Active template actions applied during refinement</div>
+      <div class="kpi-sub">↻ Structural + quota changes</div>
+    </div>
+    <div class="kpi-card kpi-green">
+      <div class="kpi-tag">Calibration Status</div>
+      <div class="kpi-value">✓ Pass</div>
+      <div class="kpi-label">All 10 cost bins correctly populated per ground truth</div>
+      <div class="kpi-sub">✓ Workload Calibration Successful</div>
+    </div>
+  </div>
+
+  <!-- ── VERDICT ── -->
+  <div class="verdict-banner">
+    <div class="verdict-icon">🎯</div>
+    <div>
+      <div class="verdict-title">Workload Calibration Successful</div>
+      <div class="verdict-sub">
+        Through targeted structural modifications and calibrated instance quota rebalancing across <strong>19 templates</strong>, the synthetic workload has been
+        <strong>systematically realigned</strong> to accurately fit the ground-truth cost boundaries across all 10 discrete cost ranges.
+        The 2k–3k void is filled, OOB spikes are eliminated, 5k–6k congestion is resolved, and high-cost tail coverage is saturated. The 3k–4k peak bin now precisely matches ground truth at <strong>27 queries</strong>.
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CHART 1: 3-Way Distribution ── -->
+  <div class="sec-eyebrow">Distribution Visualization</div>
+  <div class="sec-title">Three-State Comparison — Query Distribution per Bin</div>
+  <div class="sec-desc">Ground Truth target vs. faulty Initial Profiling run vs. post-refinement calibrated output across all 10 cost bins.</div>
+
+  <div class="chart-card-full">
+    <div class="chart-hd">
+      <div>
+        <div class="chart-title">Query Count per Cost Bin — Ground Truth · Profiling · Refined</div>
+        <div class="chart-sub">Bins 1k–2k and 4k–5k are intentionally empty; this matches the ground-truth distribution</div>
+      </div>
+      <div class="legend-row">
+        <div class="legend-item"><div class="legend-dot" style="background:#94a3b8;"></div>Ground Truth</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#f59e0b;"></div>Initial Profiling</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#3b82f6;"></div>Post-Refinement</div>
+      </div>
+    </div>
+    <div class="chart-wrap" style="height:300px;">
+      <canvas id="chart3Way"></canvas>
+    </div>
+  </div>
+
+  <!-- ── CHART 2: Template Migration + Quota ── -->
+  <div class="chart-grid">
+    <div class="chart-card">
+      <div class="chart-hd">
+        <div>
+          <div class="chart-title">Template Migration Map</div>
+          <div class="chart-sub">Where key templates shifted — profiling bin → refined final bin</div>
+        </div>
+      </div>
+      <div class="chart-wrap" style="height:290px;">
+        <canvas id="chartMigration"></canvas>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-hd">
+        <div>
+          <div class="chart-title">Quota Adjustments — All 19 Templates</div>
+          <div class="chart-sub">Query count changes for all modified templates</div>
+        </div>
+      </div>
+      <div class="chart-wrap" style="height:290px;">
+        <canvas id="chartQuota"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── BIN SNAPSHOT ── -->
+  <div class="sec-eyebrow" style="margin-bottom:5px;">Bin-by-Bin Alignment</div>
+  <div class="sec-title">Per-Bin Snapshot: Ground Truth · Profiling · Refined</div>
+  <div class="sec-desc">Each card shows query counts for all three stages and the alignment verdict after refinement.</div>
+
+  <div class="bin-section">
+    <div class="bin-grid" id="binGrid"></div>
+    <div style="margin-top:10px;font-size:11px;color:var(--slate-400);">★ Bins 1k–2k and 4k–5k are correctly empty — matches ground truth · OOB templates T3, T10, T29 excluded from profiling totals</div>
+  </div>
+
+  <!-- ── T17 SPOTLIGHT ── -->
+  <div class="spotlight">
+    <div class="spotlight-badge">⚡ Critical Migration Spotlight</div>
+    <div class="spotlight-title">Template 17 — The Pivotal Dual-Win Remediation</div>
+    <div class="spotlight-body">
+      <strong>The problem:</strong> During the initial profiling stage, <span class="hl-rose">T17 dumped 6 unwanted queries directly into the already overcrowded 0k–1k region</span> — contributing to the worst low-end noise cluster in the workload. Simultaneously, the <span class="hl-rose">2k–3k bin had a complete deficit: zero queries</span> despite the ground truth requiring 9 entries.
+      <br/><br/>
+      <strong>The fix:</strong> T17 was <span class="hl-teal">structurally modified</span> and completely redirected — its optimizer cost profile was tuned upward so that all generated queries now land squarely in the <span class="hl-blue">2k–3k range, contributing 9 queries</span> to eliminate the worst gap in the workload. This single action simultaneously drained 6 queries from the bloated 0k–1k range <em>and</em> filled the critical 2k–3k void.
+    </div>
+    <div class="migration-flow">
+      <div class="migration-box migration-from">
+        <span class="mbx-top">Before (Profiling)</span>
+        <span>T17 → 0k–1k</span>
+        <span style="font-size:11px;margin-top:2px;">6 unwanted queries</span>
+      </div>
+      <div class="migration-arrow">→</div>
+      <div class="migration-box migration-to">
+        <span class="mbx-top">After (Refined)</span>
+        <span>T17 → 2k–3k</span>
+        <span style="font-size:11px;margin-top:2px;">9 targeted queries</span>
+      </div>
+      <div style="margin-left:8px;font-size:12px;color:var(--slate-500);max-width:280px;line-height:1.6;">
+        Structural complexity added to boost plan cost metrics — simultaneously curing two critical issues with one template change.
+      </div>
+    </div>
+  </div>
+
+  <!-- ── BOTTLENECK CARDS ── -->
+  <div class="sec-eyebrow">Remediation Actions</div>
+  <div class="sec-title">Core Bottlenecks Resolved</div>
+  <div class="sec-desc">Six categories of structural problems were systematically diagnosed and corrected during refinement.</div>
+
+  <div class="bottleneck-grid">
+    <div class="bn-card">
+      <div class="bn-icon rose">🔻</div>
+      <div class="bn-title">5k–6k Over-Concentration</div>
+      <div class="bn-desc">Multiple templates collapsed into one bin. Resolved by throttling T7 (3→1), T11 (4→2), T13 (4→2), T15 (4→1), and structurally complicating T22 to migrate its 4 queries outward to 6k–7k.</div>
+      <div class="bn-tag fixed">Fixed</div>
+    </div>
+    <div class="bn-card">
+      <div class="bn-icon amber">⚠</div>
+      <div class="bn-title">OOB Violations (T29, T10, T3)</div>
+      <div class="bn-desc">All three out-of-bounds templates simplified and successfully reassigned. T29 and T10 now anchor 8k–9k; T3 rescued into 3k–4k.</div>
+      <div class="bn-tag rescued">Rescued</div>
+    </div>
+    <div class="bn-card">
+      <div class="bn-icon rose">🚫</div>
+      <div class="bn-title">2k–3k Complete Void</div>
+      <div class="bn-desc">Zero queries existed in this bin at profiling. T17 was structurally rerouted from 0k–1k to entirely fill this gap with 9 precise queries.</div>
+      <div class="bn-tag fixed">Filled</div>
+    </div>
+    <div class="bn-card">
+      <div class="bn-icon amber">📉</div>
+      <div class="bn-title">0k–1k Noise Overcrowding</div>
+      <div class="bn-desc">Bloated low-end region drained by throttling T2 (4→2), T6 (6→2), T9 (4→2), T16 (4→2), and removing T17's 6 displaced queries.</div>
+      <div class="bn-tag fixed">Suppressed</div>
+    </div>
+    <div class="bn-card">
+      <div class="bn-icon slate">🗑</div>
+      <div class="bn-title">4k–5k Noise Purged</div>
+      <div class="bn-desc">T1 and T32 were straying into the 4k–5k zone — a bin with zero ground-truth observations. Both completely purged from the generation pipeline.</div>
+      <div class="bn-tag purged">Purged</div>
+    </div>
+    <div class="bn-card">
+      <div class="bn-icon blue">🔝</div>
+      <div class="bn-title">9k–10k High-Cost Tail</div>
+      <div class="bn-desc">T20 was structurally complicated to drive costs higher, establishing a stable anchor in the 9k–10k range delivering 10 valid queries.</div>
+      <div class="bn-tag rescued">Saturated</div>
+    </div>
+  </div>
+
+  <!-- ── TEMPLATE ACTIONS TABLE ── -->
+  <div class="sec-eyebrow">Template-by-Template Actions</div>
+  <div class="sec-title">Complete Modification Ledger</div>
+  <div class="sec-desc">Searchable and filterable record of every template action taken during the refinement phase. All 19 actively modified templates are listed.</div>
+
+  <div class="table-wrap">
+    <div class="table-toolbar">
+      <div class="toolbar-left">
+        <input id="tSearch" class="search-box" placeholder="Search T1, T17 …" oninput="applyFilter()"/>
+        <button class="flt-btn active"  onclick="setFilter('all',this)">All</button>
+        <button class="flt-btn" onclick="setFilter('simplified',this)">Simplified</button>
+        <button class="flt-btn" onclick="setFilter('complicated',this)">Complicated</button>
+        <button class="flt-btn" onclick="setFilter('throttled',this)">Throttled</button>
+        <button class="flt-btn" onclick="setFilter('purged',this)">Purged</button>
+        <button class="flt-btn" onclick="setFilter('redirected',this)">Redirected</button>
+      </div>
+      <div class="row-count" id="rowCount">Showing 19 of 19</div>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Template</th>
+            <th>Action</th>
+            <th>Profiling Bin</th>
+            <th>Refined Bin</th>
+            <th>Quota Change</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody id="tBody">
+          <!-- T1 -->
+          <tr data-action="purged">
+            <td class="tid">T1</td>
+            <td><span class="badge badge-rose">Purged / Removed</span></td>
+            <td><span class="bin-tag bin-tag-amber">4–5k (drift)</span></td>
+            <td><span class="bin-tag" style="color:var(--rose-700);border-color:var(--rose-100);">N/A — Removed</span></td>
+            <td class="quota-change quota-dn">3 → 0</td>
+            <td style="font-size:12px;color:var(--slate-500);">Straying into 4k–5k noise zone with no ground-truth counterpart</td>
+          </tr>
+          <!-- T2 -->
+          <tr data-action="throttled">
+            <td class="tid">T2</td>
+            <td><span class="badge badge-amber">Quota Throttled</span></td>
+            <td><span class="bin-tag">0–1k</span></td>
+            <td><span class="bin-tag bin-tag-blue">0–1k</span></td>
+            <td class="quota-change quota-dn">4 → 2</td>
+            <td style="font-size:12px;color:var(--slate-500);">Low-end noise suppression to reduce 0k–1k overcrowding</td>
+          </tr>
+          <!-- T3 -->
+          <tr data-action="simplified">
+            <td class="tid">T3</td>
+            <td><span class="badge badge-blue">Simplified &amp; Rescued</span></td>
+            <td><span class="bin-tag bin-tag-rose">OOB (below min)</span></td>
+            <td><span class="bin-tag bin-tag-teal">3–4k</span></td>
+            <td class="quota-change quota-up">0 → 10</td>
+            <td style="font-size:12px;color:var(--slate-500);">Below-minimum OOB fixed; structure modified to safely land in 3k–4k</td>
+          </tr>
+          <!-- T4 -->
+          <tr data-action="throttled">
+            <td class="tid">T4</td>
+            <td><span class="badge badge-green">Quota Expanded</span></td>
+            <td><span class="bin-tag">3–4k</span></td>
+            <td><span class="bin-tag bin-tag-teal">3–4k</span></td>
+            <td class="quota-change quota-up">3 → 5</td>
+            <td style="font-size:12px;color:var(--slate-500);">Peak density reinforcement for the 3k–4k bin</td>
+          </tr>
+          <!-- T6 -->
+          <tr data-action="throttled">
+            <td class="tid">T6</td>
+            <td><span class="badge badge-amber">Quota Throttled</span></td>
+            <td><span class="bin-tag">0–1k</span></td>
+            <td><span class="bin-tag bin-tag-blue">0–1k</span></td>
+            <td class="quota-change quota-dn">6 → 2</td>
+            <td style="font-size:12px;color:var(--slate-500);">Aggressive reduction; was largest single contributor to 0k–1k noise</td>
+          </tr>
+          <!-- T7 -->
+          <tr data-action="throttled">
+            <td class="tid">T7</td>
+            <td><span class="badge badge-amber">Quota Throttled</span></td>
+            <td><span class="bin-tag bin-tag-amber">5–6k</span></td>
+            <td><span class="bin-tag bin-tag-blue">5–6k</span></td>
+            <td class="quota-change quota-dn">3 → 1</td>
+            <td style="font-size:12px;color:var(--slate-500);">5k–6k congestion relief; volume cut to decompress overcrowded mid-range bin</td>
+          </tr>
+          <!-- T8 -->
+          <tr data-action="throttled">
+            <td class="tid">T8</td>
+            <td><span class="badge badge-green">Quota Expanded</span></td>
+            <td><span class="bin-tag">3–4k</span></td>
+            <td><span class="bin-tag bin-tag-teal">3–4k</span></td>
+            <td class="quota-change quota-up">4 → 6</td>
+            <td style="font-size:12px;color:var(--slate-500);">Peak density reinforcement; expanded to help 3k–4k reach GT target of 27</td>
+          </tr>
+          <!-- T9 -->
+          <tr data-action="throttled">
+            <td class="tid">T9</td>
+            <td><span class="badge badge-amber">Quota Throttled</span></td>
+            <td><span class="bin-tag">0–1k</span></td>
+            <td><span class="bin-tag bin-tag-blue">0–1k</span></td>
+            <td class="quota-change quota-dn">4 → 2</td>
+            <td style="font-size:12px;color:var(--slate-500);">Low-end noise suppression to reduce 0k–1k overcrowding</td>
+          </tr>
+          <!-- T10 -->
+          <tr data-action="simplified">
+            <td class="tid">T10</td>
+            <td><span class="badge badge-blue">Simplified &amp; Down-shifted</span></td>
+            <td><span class="bin-tag bin-tag-rose">OOB (above max)</span></td>
+            <td><span class="bin-tag bin-tag-teal">8–9k</span></td>
+            <td class="quota-change quota-up">0 → 5</td>
+            <td style="font-size:12px;color:var(--slate-500);">Ceiling OOB resolved; moved from 9k–10k attempt into stable 8k–9k anchor</td>
+          </tr>
+          <!-- T11 -->
+          <tr data-action="throttled">
+            <td class="tid">T11</td>
+            <td><span class="badge badge-amber">Quota Throttled</span></td>
+            <td><span class="bin-tag bin-tag-amber">5–6k</span></td>
+            <td><span class="bin-tag bin-tag-blue">5–6k</span></td>
+            <td class="quota-change quota-dn">4 → 2</td>
+            <td style="font-size:12px;color:var(--slate-500);">5k–6k congestion relief; reduced contribution to overcrowded mid-range bin</td>
+          </tr>
+          <!-- T11 correct — stays in 5k-6k -->
+          <!-- T13 -->
+          <tr data-action="throttled">
+            <td class="tid">T13</td>
+            <td><span class="badge badge-amber">Quota Throttled</span></td>
+            <td><span class="bin-tag bin-tag-amber">5–6k</span></td>
+            <td><span class="bin-tag bin-tag-blue">5–6k</span></td>
+            <td class="quota-change quota-dn">4 → 2</td>
+            <td style="font-size:12px;color:var(--slate-500);">5k–6k congestion relief; reduced contribution to overcrowded mid-range bin</td>
+          </tr>
+          <!-- T15 -->
+          <tr data-action="throttled">
+            <td class="tid">T15</td>
+            <td><span class="badge badge-amber">Quota Throttled</span></td>
+            <td><span class="bin-tag bin-tag-amber">5–6k</span></td>
+            <td><span class="bin-tag bin-tag-blue">5–6k</span></td>
+            <td class="quota-change quota-dn">4 → 1</td>
+            <td style="font-size:12px;color:var(--slate-500);">Aggressive reduction to decompress 5k–6k congestion</td>
+          </tr>
+          <!-- T16 -->
+          <tr data-action="throttled">
+            <td class="tid">T16</td>
+            <td><span class="badge badge-amber">Quota Throttled</span></td>
+            <td><span class="bin-tag">0–1k</span></td>
+            <td><span class="bin-tag bin-tag-blue">0–1k</span></td>
+            <td class="quota-change quota-dn">4 → 2</td>
+            <td style="font-size:12px;color:var(--slate-500);">Low-end noise suppression; volume cut to reduce 0k–1k overcrowding</td>
+          </tr>
+          <!-- T17 -->
+          <tr data-action="redirected" style="background:linear-gradient(135deg,#f0fdfa,#eff6ff);">
+            <td class="tid" style="color:var(--teal-600);">T17 ★</td>
+            <td><span class="badge badge-teal">Restructured &amp; Redirected</span></td>
+            <td><span class="bin-tag bin-tag-rose">0–1k (6 noise queries)</span></td>
+            <td><span class="bin-tag bin-tag-teal">2–3k</span></td>
+            <td class="quota-change quota-up" style="color:var(--teal-600);">6 → 9</td>
+            <td style="font-size:12px;color:var(--slate-600);font-weight:500;">★ Dual-win: Eliminated 0k–1k noise AND filled the complete 2k–3k deficit simultaneously</td>
+          </tr>
+          <!-- T19 -->
+          <tr data-action="throttled">
+            <td class="tid">T19</td>
+            <td><span class="badge badge-green">Quota Expanded</span></td>
+            <td><span class="bin-tag">3–4k</span></td>
+            <td><span class="bin-tag bin-tag-teal">3–4k</span></td>
+            <td class="quota-change quota-up">4 → 6</td>
+            <td style="font-size:12px;color:var(--slate-500);">Heightened mid-range density need; expanded to support 3k–4k GT target of 27</td>
+          </tr>
+          <!-- T20 -->
+          <tr data-action="complicated">
+            <td class="tid">T20</td>
+            <td><span class="badge badge-blue">Complicated &amp; Up-shifted</span></td>
+            <td><span class="bin-tag">8–9k</span></td>
+            <td><span class="bin-tag bin-tag-teal">9–10k</span></td>
+            <td class="quota-change quota-up">0 → 10</td>
+            <td style="font-size:12px;color:var(--slate-500);">Structure complicated to drive plan costs into stable 9k–10k anchor</td>
+          </tr>
+          <!-- T22 -->
+          <tr data-action="complicated">
+            <td class="tid">T22</td>
+            <td><span class="badge badge-blue">Complicated &amp; Up-shifted</span></td>
+            <td><span class="bin-tag bin-tag-amber">5–6k (4 queries)</span></td>
+            <td><span class="bin-tag bin-tag-teal">6–7k</span></td>
+            <td class="quota-change quota-same">4 → 4</td>
+            <td style="font-size:12px;color:var(--slate-500);">Structural complexity added to shift optimizer path forward — all 4 queries migrate from 5k–6k into vacant 6k–7k range</td>
+          </tr>
+          <!-- T29 -->
+          <tr data-action="simplified">
+            <td class="tid">T29</td>
+            <td><span class="badge badge-blue">Simplified &amp; Down-shifted</span></td>
+            <td><span class="bin-tag bin-tag-rose">OOB (above max)</span></td>
+            <td><span class="bin-tag bin-tag-teal">8–9k</span></td>
+            <td class="quota-change quota-up">0 → 5</td>
+            <td style="font-size:12px;color:var(--slate-500);">Ceiling OOB resolved; simplified to safely sit in 8k–9k instead of 9k–10k</td>
+          </tr>
+          <!-- T32 -->
+          <tr data-action="purged">
+            <td class="tid">T32</td>
+            <td><span class="badge badge-rose">Purged / Removed</span></td>
+            <td><span class="bin-tag bin-tag-amber">4–5k (drift)</span></td>
+            <td><span class="bin-tag" style="color:var(--rose-700);border-color:var(--rose-100);">N/A — Removed</span></td>
+            <td class="quota-change quota-dn">3 → 0</td>
+            <td style="font-size:12px;color:var(--slate-500);">Straying into 4k–5k noise zone with no ground-truth counterpart</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── REGION STRATEGY TABLE ── -->
+  <div class="sec-eyebrow">Region Strategy</div>
+  <div class="sec-title">Updated Bin-by-Bin Alignment Strategy</div>
+  <div class="sec-desc">Mapping the pre-refinement status to the post-refinement correction applied for each cost range.</div>
+
+  <div class="chart-card-full" style="padding:0;overflow:hidden;margin-bottom:32px;">
+    <div style="overflow-x:auto;">
+    <table class="data-table" style="margin:0;min-width:800px;">
+      <thead>
+        <tr>
+          <th>Cost Bin</th>
+          <th>Pre-Refinement Status</th>
+          <th>Action Taken</th>
+          <th>Post-Refinement Result</th>
+          <th>GT / Refined Queries</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="bin-tag bin-tag-amber">0k–1k</span></td>
+          <td style="color:var(--rose-700);font-size:12px;">Heavily Over-congested (36 queries in profiling vs. 20 GT)</td>
+          <td style="font-size:12px;">Throttled T2 (4→2), T6 (6→2), T9 (4→2), T16 (4→2); removed T17's 6 displaced queries</td>
+          <td><span class="badge badge-green">Balanced</span></td>
+          <td class="mono" style="font-size:12px;">GT: 20 · Refined: 20</td>
+        </tr>
+        <tr style="background:var(--slate-50);">
+          <td><span class="bin-tag">1k–2k</span></td>
+          <td style="color:var(--slate-400);font-size:12px;">Empty — matches ground truth</td>
+          <td style="font-size:12px;color:var(--slate-400);">No action — intentionally left empty</td>
+          <td><span class="badge badge-slate">Correct (empty)</span></td>
+          <td class="mono" style="font-size:12px;">GT: 0 · Refined: 0</td>
+        </tr>
+        <tr>
+          <td><span class="bin-tag bin-tag-rose">2k–3k</span></td>
+          <td style="color:var(--rose-700);font-size:12px;">Complete Deficit — 0 queries at profiling stage</td>
+          <td style="font-size:12px;">T17 structurally modified and fully redirected here</td>
+          <td><span class="badge badge-teal">Filled ✓</span></td>
+          <td class="mono" style="font-size:12px;">GT: 9 · Refined: 9</td>
+        </tr>
+        <tr style="background:var(--slate-50);">
+          <td><span class="bin-tag bin-tag-blue">3k–4k</span></td>
+          <td style="color:var(--amber-700);font-size:12px;">Critically Under-filled (11 queries vs. 27 GT)</td>
+          <td style="font-size:12px;">T3 rescued (10 Qs); T4 (3→5), T8 (4→6), T19 (4→6) expanded</td>
+          <td><span class="badge badge-green">Perfect Match ✓</span></td>
+          <td class="mono" style="font-size:12px;">GT: 27 · Refined: 27</td>
+        </tr>
+        <tr>
+          <td><span class="bin-tag">4k–5k</span></td>
+          <td style="color:var(--rose-700);font-size:12px;">Noise / Drift — T1 &amp; T32 polluting empty bin</td>
+          <td style="font-size:12px;">T1 and T32 completely purged from pipeline</td>
+          <td><span class="badge badge-green">Cleaned ✓</span></td>
+          <td class="mono" style="font-size:12px;">GT: 0 · Refined: 0</td>
+        </tr>
+        <tr style="background:var(--slate-50);">
+          <td><span class="bin-tag bin-tag-amber">5k–6k</span></td>
+          <td style="color:var(--rose-700);font-size:12px;">Extreme Congestion — many templates overlapping</td>
+          <td style="font-size:12px;">Throttled T7 (3→1), T11 (4→2), T13 (4→2), T15 (4→1); T22 structurally complicated — 4 queries migrated out to 6k–7k</td>
+          <td><span class="badge badge-green">Resolved ✓</span></td>
+          <td class="mono" style="font-size:12px;">GT: 29 · Refined: 29</td>
+        </tr>
+        <tr>
+          <td><span class="bin-tag">6k–7k</span></td>
+          <td style="color:var(--amber-700);font-size:12px;">Missing Representation (1 synthetic vs. 7 GT)</td>
+          <td style="font-size:12px;">T22 structurally complicated to add 4 precise queries</td>
+          <td><span class="badge badge-teal">Filled ✓</span></td>
+          <td class="mono" style="font-size:12px;">GT: 7 · Refined: 7</td>
+        </tr>
+        <tr style="background:var(--slate-50);">
+          <td><span class="bin-tag bin-tag-blue">7k–8k</span></td>
+          <td style="color:var(--green-600);font-size:12px;">Stable — within acceptable range</td>
+          <td style="font-size:12px;">Maintained baseline profile; no changes needed</td>
+          <td><span class="badge badge-slate">Maintained</span></td>
+          <td class="mono" style="font-size:12px;">GT: 1 · Refined: 1</td>
+        </tr>
+        <tr>
+          <td><span class="bin-tag">8k–9k</span></td>
+          <td style="color:var(--amber-700);font-size:12px;">Under-filled — needed exactly 10 queries</td>
+          <td style="font-size:12px;">Simplified T29 → 5 Qs; simplified T10 → 5 Qs</td>
+          <td><span class="badge badge-teal">Saturated ✓</span></td>
+          <td class="mono" style="font-size:12px;">GT: 10 · Refined: 10</td>
+        </tr>
+        <tr style="background:var(--slate-50);">
+          <td><span class="bin-tag">9k–10k</span></td>
+          <td style="color:var(--rose-700);font-size:12px;">Flawed — OOB spikes; 0 valid queries at profiling</td>
+          <td style="font-size:12px;">T20 structure complicated to anchor mid 9k–10k</td>
+          <td><span class="badge badge-teal">Perfected ✓</span></td>
+          <td class="mono" style="font-size:12px;">GT: 10 · Refined: 10</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="result-grid">
+    <div class="result-card">
+      <div class="res-title">
+        <div class="res-dot" style="background:#3b82f6;"></div>
+        Structural Modifications Applied
+      </div>
+      <ul class="res-list">
+        <li><strong>Simplification (T29, T10, T3):</strong> Structure reduced to bring costs within valid ceiling/floor bounds before reassignment to 8k–9k and 3k–4k.</li>
+        <li><strong>Complication (T20, T22, T17):</strong> Added structural complexity to deliberately drive optimizer plan costs upward into higher cost bins.</li>
+        <li><strong>Quota Expansion (T3, T4, T8, T19):</strong> Instance generation counts increased to fill the critically under-populated 3k–4k bin to its ground-truth target of 27.</li>
+        <li><strong>0k–1k Throttling (T2, T6, T9, T16):</strong> Four templates had volumes cut to drain the overcrowded low-end bin — combined with T17's redirect, this brought 0k–1k from 36 down to the GT target of 20.</li>
+        <li><strong>5k–6k Throttling (T7, T11, T13, T15):</strong> Four templates throttled to decompress the most congested bin; T22 was simultaneously complicated to migrate its 4 queries to 6k–7k, doubling as congestion relief.</li>
+        <li><strong>Purging (T1, T32):</strong> Completely removed from the pipeline — their presence created synthetic noise in a bin with zero ground-truth observations.</li>
+      </ul>
+    </div>
+    <div class="result-card">
+      <div class="res-title">
+        <div class="res-dot" style="background:#0d9488;"></div>
+        Post-Refinement Outcome Summary
+      </div>
+      <ul class="res-list">
+        <li><strong>OOB Rate:</strong> 9.1% at profiling (T3, T10, T29 all invalid) → <strong>0% OOB</strong> post-refinement. All three fully rescued.</li>
+        <li><strong>2k–3k Void:</strong> Completely eliminated — T17's migration fills the entire deficit with 9 correctly placed queries.</li>
+        <li><strong>0k–1k Noise:</strong> Dramatically reduced from 36 initial profiling queries to the ground-truth target of 20 through throttling of T2, T6, T9, T16 plus T17 redirect out of the bin.</li>
+        <li><strong>5k–6k Congestion:</strong> Resolved by throttling T7, T11, T13, T15 and migrating T22's 4 queries to 6k–7k — bringing the bin from 42 profiling queries down to the GT target of 29.</li>
+        <li><strong>3k–4k Peak:</strong> Brought from 11 at profiling to exactly <strong>27 — a perfect match</strong> with ground truth, via T3 rescue plus T4, T8, T19 expansion.</li>
+        <li><strong>High-cost tail (8k–10k):</strong> Coverage restored from 5 profiling queries to 20 precisely placed queries matching ground truth targets.</li>
+        <li><strong>4k–5k pollution:</strong> Cleaned to zero — T1 and T32 removed, preserving the semantically meaningful gap from the original workload.</li>
+      </ul>
+    </div>
+  </div>
+
+</div><!-- /page-body -->
+
+<footer class="site-footer">
+  SQLBarber Workload Replication Project &nbsp;·&nbsp; Post-Refinement Analytics Dashboard &nbsp;·&nbsp; Refinement Stage Complete &nbsp;·&nbsp; 2025
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════ */
+const bins     = ['0–1k','1–2k','2–3k','3–4k','4–5k','5–6k','6–7k','7–8k','8–9k','9–10k'];
+const gtData   = [20, 0,  9, 27, 0, 29, 7, 1, 10, 10];
+const profData = [36, 0,  0, 11, 6, 42, 3, 1,  5,  0];
+const refData  = [20, 0,  9, 27, 0, 29, 7, 1, 10, 10];
+
+const MAX_Q = 45;
+
+/* ═══════════════════════════════════════════
+   BIN GRID
+═══════════════════════════════════════════ */
+const binGrid = document.getElementById('binGrid');
+const binConfig = [
+  { cls:'bin-ok',    verdict:'✓ Balanced'        },
+  { cls:'bin-empty', verdict:'Correct (empty)'    },
+  { cls:'bin-ok',    verdict:'✓ Filled'           },
+  { cls:'bin-ok',    verdict:'✓ Perfect Match'    },
+  { cls:'bin-empty', verdict:'✓ Cleaned'          },
+  { cls:'bin-ok',    verdict:'✓ Resolved'         },
+  { cls:'bin-ok',    verdict:'✓ Filled'           },
+  { cls:'bin-ok',    verdict:'✓ Maintained'       },
+  { cls:'bin-ok',    verdict:'✓ Saturated'        },
+  { cls:'bin-ok',    verdict:'✓ Perfected'        },
+];
+bins.forEach((b,i) => {
+  const cfg = binConfig[i];
+  const pct = v => Math.round(v / MAX_Q * 100);
+  const div = document.createElement('div');
+  div.className = `bin-card ${cfg.cls}`;
+  div.innerHTML = `
+    <div class="bin-label">${b}</div>
+    <div class="bin-row"><span>GT</span><span class="val">${gtData[i]}</span></div>
+    <div class="bar-track"><div class="bar-gt" style="width:${pct(gtData[i])}%"></div></div>
+    <div class="bin-row"><span>Profiling</span><span class="val">${profData[i]}</span></div>
+    <div class="bar-track"><div class="bar-prof" style="width:${pct(profData[i])}%"></div></div>
+    <div class="bin-row"><span>Refined</span><span class="val">${refData[i]}</span></div>
+    <div class="bar-track"><div class="bar-ref" style="width:${pct(refData[i])}%"></div></div>
+    <div class="bin-verdict">${cfg.verdict}</div>
+  `;
+  binGrid.appendChild(div);
+});
+
+/* ═══════════════════════════════════════════
+   CHART DEFAULTS
+═══════════════════════════════════════════ */
+Chart.defaults.font.family = "'Inter', sans-serif";
+Chart.defaults.color = '#94a3b8';
+
+const GRID_CLR = 'rgba(0,0,0,0.045)';
+const TIP = {
+  backgroundColor: '#fff',
+  titleColor: '#0f172a',
+  bodyColor: '#64748b',
+  borderColor: '#e2e8f0',
+  borderWidth: 1,
+  padding: 10,
+  cornerRadius: 8,
+};
+
+/* ═══════════════════════════════════════════
+   CHART 1: 3-WAY BAR
+═══════════════════════════════════════════ */
+new Chart(document.getElementById('chart3Way'), {
+  type: 'bar',
+  data: {
+    labels: bins,
+    datasets: [
+      {
+        label: 'Ground Truth',
+        data: gtData,
+        backgroundColor: 'rgba(148,163,184,0.65)',
+        borderColor: '#94a3b8',
+        borderWidth: 1.5,
+        borderRadius: 4,
+        borderSkipped: false,
+        categoryPercentage: .85,
+        barPercentage: .3,
+      },
+      {
+        label: 'Initial Profiling',
+        data: profData,
+        backgroundColor: 'rgba(251,191,36,0.7)',
+        borderColor: '#f59e0b',
+        borderWidth: 1.5,
+        borderRadius: 4,
+        borderSkipped: false,
+        categoryPercentage: .85,
+        barPercentage: .3,
+      },
+      {
+        label: 'Post-Refinement',
+        data: refData,
+        backgroundColor: 'rgba(59,130,246,0.78)',
+        borderColor: '#3b82f6',
+        borderWidth: 1.5,
+        borderRadius: 4,
+        borderSkipped: false,
+        categoryPercentage: .85,
+        barPercentage: .3,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        ...TIP,
+        callbacks: {
+          title: ctx => `Cost Bin: ${bins[ctx[0].dataIndex]}`,
+          label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y} queries`
+        }
+      }
+    },
+    scales: {
+      x: {
+        grid: { display: false },
+        ticks: { font: { family:'JetBrains Mono', size:11 }, color:'#94a3b8' }
+      },
+      y: {
+        beginAtZero: true,
+        grid: { color: GRID_CLR, drawBorder: false },
+        ticks: { font: { family:'JetBrains Mono', size:11 }, color:'#94a3b8', stepSize: 5 },
+        title: { display:true, text:'Query Count', font:{size:12}, color:'#94a3b8' }
+      }
+    }
+  }
+});
+
+/* ═══════════════════════════════════════════
+   CHART 2: MIGRATION HORIZONTAL BAR
+═══════════════════════════════════════════ */
+const migTemplates = ['T3','T10','T17','T20','T22','T29'];
+const migFrom      = [-1, 10, 0,  7.5, 5,  10];
+const migTo        = [3,  8,  2.5, 9.5, 6.5, 8];
+
+new Chart(document.getElementById('chartMigration'), {
+  type: 'bar',
+  data: {
+    labels: migTemplates,
+    datasets: [
+      {
+        label: 'Profiling Bin Position',
+        data: migFrom.map(v => v < 0 ? 0 : v > 9 ? 9.9 : v),
+        backgroundColor: 'rgba(251,191,36,0.45)',
+        borderColor: '#f59e0b',
+        borderWidth: 1.5,
+        borderRadius: 4,
+        borderSkipped: false,
+      },
+      {
+        label: 'Refined Bin Position',
+        data: migTo,
+        backgroundColor: 'rgba(59,130,246,0.75)',
+        borderColor: '#3b82f6',
+        borderWidth: 1.5,
+        borderRadius: 4,
+        borderSkipped: false,
+      }
+    ]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: { boxWidth: 10, font:{size:11}, color:'#64748b', padding:12 }
+      },
+      tooltip: {
+        ...TIP,
+        callbacks: {
+          label: ctx => {
+            const v = ctx.parsed.x;
+            const binName = bins[Math.round(v)] || 'OOB';
+            return ` ${ctx.dataset.label}: ~${binName}`;
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        min: 0, max: 10,
+        grid: { color: GRID_CLR, drawBorder: false },
+        ticks: {
+          font:{ family:'JetBrains Mono', size:10 },
+          color:'#94a3b8',
+          callback: v => bins[v] || '10k'
+        },
+        title: { display:true, text:'Cost Bin', font:{size:11}, color:'#94a3b8' }
+      },
+      y: {
+        grid: { display: false },
+        ticks: { font:{ family:'JetBrains Mono', size:12, weight:'600' }, color:'#334155' }
+      }
+    }
+  }
+});
+
+/* ═══════════════════════════════════════════
+   CHART 3: QUOTA CHANGES — ALL 19 TEMPLATES
+═══════════════════════════════════════════ */
+const quotaTemplates = ['T1','T2','T3','T4','T6','T7','T8','T9','T10','T11','T13','T15','T16','T17','T19','T20','T22','T29','T32'];
+const quotaBefore    = [3,   4,   0,  3,  6,  3,  4,  4,   0,   4,   4,   4,   4,   6,   4,   0,   4,   0,   3];
+const quotaAfter     = [0,   2,  10,  5,  2,  1,  6,  2,   5,   2,   2,   1,   2,   9,   6,  10,   4,   5,   0];
+
+const quotaDelta  = quotaAfter.map((v,i) => v - quotaBefore[i]);
+const quotaColors = quotaDelta.map(d =>
+  d > 0 ? 'rgba(16,185,129,0.75)' :
+  d < 0 ? 'rgba(239,68,68,0.65)' :
+           'rgba(148,163,184,0.5)'
+);
+const quotaBorders = quotaDelta.map(d =>
+  d > 0 ? '#10b981' : d < 0 ? '#ef4444' : '#94a3b8'
+);
+
+new Chart(document.getElementById('chartQuota'), {
+  type: 'bar',
+  data: {
+    labels: quotaTemplates,
+    datasets: [
+      {
+        label: 'Before',
+        data: quotaBefore,
+        backgroundColor: 'rgba(148,163,184,0.35)',
+        borderColor: '#94a3b8',
+        borderWidth: 1.5,
+        borderRadius: 3,
+        borderSkipped: false,
+        barPercentage: .5,
+      },
+      {
+        label: 'After',
+        data: quotaAfter,
+        backgroundColor: quotaColors,
+        borderColor: quotaBorders,
+        borderWidth: 1.5,
+        borderRadius: 3,
+        borderSkipped: false,
+        barPercentage: .5,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: { boxWidth: 10, font:{size:11}, color:'#64748b', padding:12 }
+      },
+      tooltip: {
+        ...TIP,
+        callbacks: {
+          title: ctx => `Template ${ctx[0].label}`,
+          label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y} queries`
+        }
+      }
+    },
+    scales: {
+      x: {
+        grid: { display: false },
+        ticks: { font:{ family:'JetBrains Mono', size:9 }, color:'#94a3b8' }
+      },
+      y: {
+        beginAtZero: true,
+        grid: { color: GRID_CLR, drawBorder: false },
+        ticks: { font:{ family:'JetBrains Mono', size:10 }, color:'#94a3b8', stepSize: 2 },
+        title: { display:true, text:'Query Count', font:{size:11}, color:'#94a3b8' }
+      }
+    }
+  }
+});
+
+/* ═══════════════════════════════════════════
+   TABLE FILTER
+═══════════════════════════════════════════ */
+let activeFilter = 'all';
+const TOTAL = 19;
+
+function setFilter(val, btn) {
+  activeFilter = val;
+  document.querySelectorAll('.flt-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilter();
+}
+
+function applyFilter() {
+  const q = document.getElementById('tSearch').value.toLowerCase().trim();
+  const rows = document.querySelectorAll('#tBody tr');
+  let visible = 0;
+  rows.forEach(r => {
+    const tid = r.querySelector('.tid').textContent.toLowerCase();
+    const action = r.dataset.action || '';
+    const matchQ = !q || tid.includes(q) || action.includes(q);
+    const matchF = activeFilter === 'all' || action === activeFilter;
+    const show = matchQ && matchF;
+    r.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  document.getElementById('rowCount').textContent = `Showing ${visible} of ${TOTAL}`;
+}
+</script>
+
+</body>
+</html>

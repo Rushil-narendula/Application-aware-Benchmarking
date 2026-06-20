@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SQLBarber Workload Generation — Profiling Stage Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blue-900: #0f2a5a;
+    --blue-700: #1a4599;
+    --blue-500: #2563eb;
+    --blue-400: #3b82f6;
+    --blue-100: #dbeafe;
+    --blue-50:  #eff6ff;
+    --slate-700: #334155;
+    --slate-500: #64748b;
+    --slate-300: #cbd5e1;
+    --slate-100: #f1f5f9;
+    --white: #ffffff;
+    --warn: #b45309;
+    --warn-bg: #fffbeb;
+    --warn-border: #fcd34d;
+    --green: #15803d;
+    --green-bg: #f0fdf4;
+    --red: #b91c1c;
+    --red-bg: #fef2f2;
+    --shadow-sm: 0 1px 3px rgba(15,42,90,.07), 0 1px 2px rgba(15,42,90,.06);
+    --shadow-md: 0 4px 12px rgba(15,42,90,.10), 0 2px 4px rgba(15,42,90,.06);
+    --radius: 10px;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #f8fafd;
+    color: var(--slate-700);
+    line-height: 1.65;
+    font-size: 15px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, var(--blue-900) 0%, var(--blue-700) 60%, var(--blue-500) 100%);
+    color: var(--white);
+    padding: 64px 32px 52px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--blue-100);
+    margin-bottom: 14px;
+    position: relative;
+  }
+  .hero h1 {
+    font-size: clamp(24px, 4vw, 38px);
+    font-weight: 700;
+    letter-spacing: -.02em;
+    margin-bottom: 10px;
+    position: relative;
+  }
+  .hero-sub {
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(255,255,255,.75);
+    margin-bottom: 32px;
+    position: relative;
+  }
+  .hero-badges {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    position: relative;
+  }
+  .badge {
+    background: rgba(255,255,255,.15);
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .03em;
+    backdrop-filter: blur(4px);
+  }
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .section {
+    padding: 52px 0 8px;
+  }
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--blue-500);
+    margin-bottom: 6px;
+  }
+  .section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--blue-900);
+    margin-bottom: 14px;
+    letter-spacing: -.01em;
+  }
+  .section-body {
+    color: var(--slate-500);
+    font-size: 14.5px;
+    line-height: 1.75;
+    margin-bottom: 24px;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--slate-300);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .card:hover {
+    box-shadow: var(--shadow-md);
+    transition: box-shadow .2s ease;
+  }
+
+  /* ── METRICS ── */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  .metric {
+    background: var(--white);
+    border: 1px solid var(--slate-300);
+    border-radius: var(--radius);
+    padding: 20px 16px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+  }
+  .metric-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--blue-700);
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+  .metric-label {
+    font-size: 12px;
+    color: var(--slate-500);
+    font-weight: 500;
+    line-height: 1.3;
+  }
+  .metric.warn .metric-value { color: var(--warn); }
+  .metric.good .metric-value { color: var(--green); }
+  .metric.neutral .metric-value { color: var(--slate-700); }
+
+  /* ── CHART CARD ── */
+  .chart-card {
+    background: var(--white);
+    border: 1px solid var(--slate-300);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: 28px 24px 20px;
+    margin-bottom: 16px;
+  }
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .chart-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--blue-900);
+  }
+  .chart-subtitle {
+    font-size: 12px;
+    color: var(--slate-500);
+    margin-top: 2px;
+  }
+  .legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--slate-500);
+    font-weight: 500;
+  }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+  .chart-wrap {
+    position: relative;
+    height: 280px;
+  }
+
+  /* ── INSIGHT PILLS ── */
+  .insight-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  .insight {
+    background: var(--white);
+    border: 1px solid var(--slate-300);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    box-shadow: var(--shadow-sm);
+  }
+  .insight-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .insight-icon {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .insight-icon.over  { background: #fee2e2; }
+  .insight-icon.under { background: #dbeafe; }
+  .insight-icon.miss  { background: var(--warn-bg); }
+  .insight-icon.note  { background: #f3e8ff; }
+  .insight-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--blue-900);
+    letter-spacing: .02em;
+    text-transform: uppercase;
+  }
+  .insight p { font-size: 13.5px; color: var(--slate-500); line-height: 1.6; }
+  .mono { font-family: 'JetBrains Mono', monospace; font-size: .92em; color: var(--blue-700); }
+
+  /* ── TEMPLATE WARNING CARDS ── */
+  .tmpl-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  .tmpl-card {
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+  }
+  .tmpl-card.low  { background: var(--red-bg);  border: 1px solid #fca5a5; }
+  .tmpl-card.high { background: var(--warn-bg); border: 1px solid var(--warn-border); }
+  .tmpl-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .tmpl-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 5px;
+  }
+  .tmpl-card.low  .tmpl-badge { background: #fca5a5; color: var(--red); }
+  .tmpl-card.high .tmpl-badge { background: var(--warn-border); color: var(--warn); }
+  .tmpl-name { font-weight: 600; font-size: 14px; color: var(--blue-900); }
+  .tmpl-reason {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    margin-bottom: 6px;
+  }
+  .tmpl-card.low  .tmpl-reason { color: var(--red); }
+  .tmpl-card.high .tmpl-reason { color: var(--warn); }
+  .tmpl-desc { font-size: 13px; color: var(--slate-500); line-height: 1.6; }
+
+  /* ── FINDINGS LIST ── */
+  .findings {
+    list-style: none;
+    margin-bottom: 16px;
+  }
+  .findings li {
+    display: flex;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--slate-100);
+    font-size: 14px;
+    color: var(--slate-700);
+    line-height: 1.55;
+  }
+  .findings li:last-child { border-bottom: none; }
+  .findings-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--blue-400);
+    padding-top: 2px;
+    min-width: 22px;
+  }
+
+  /* ── NEXT STAGE ── */
+  .next-card {
+    background: linear-gradient(135deg, var(--blue-50) 0%, #e0e7ff 100%);
+    border: 1px solid var(--blue-100);
+    border-radius: var(--radius);
+    padding: 28px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-sm);
+  }
+  .next-card h3 { font-size: 16px; font-weight: 700; color: var(--blue-900); margin-bottom: 12px; }
+  .step-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .step-list li {
+    display: flex;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--slate-700);
+  }
+  .step-num {
+    width: 22px; height: 22px;
+    background: var(--blue-500);
+    color: white;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--slate-100);
+    margin: 40px 0 0;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 28px 16px 36px;
+    font-size: 12px;
+    color: var(--slate-300);
+    letter-spacing: .03em;
+  }
+
+  /* ── BIN TABLE ── */
+  .bin-table-wrap { overflow-x: auto; margin-bottom: 16px; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  th {
+    background: var(--slate-100);
+    color: var(--slate-700);
+    font-weight: 600;
+    padding: 9px 12px;
+    text-align: left;
+    border-bottom: 2px solid var(--slate-300);
+  }
+  td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--slate-100);
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--slate-700);
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--blue-50); }
+  .diff-pos { color: var(--green); }
+  .diff-neg { color: var(--red); }
+  .diff-zer { color: var(--slate-300); }
+
+  @media (max-width: 600px) {
+    .hero { padding: 44px 18px 36px; }
+    .container { padding: 0 14px; }
+    .section { padding: 36px 0 4px; }
+    .metrics-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════ HERO ════════════════ -->
+<div class="hero">
+  <div class="hero-eyebrow">Research Project Dashboard</div>
+  <h1>SQLBarber Workload Generation</h1>
+  <p class="hero-sub">Profiling Stage Analysis &nbsp;·&nbsp; Distribution Comparison Report</p>
+  <div class="hero-badges">
+    <span class="badge">Stage 1 — Profiling</span>
+    <span class="badge">10 Cost Bins · 0–10,000</span>
+    <span class="badge">33 Templates · 30 Valid</span>
+    <span class="badge">Ground Truth vs. Generated</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ════════════════ OVERVIEW ════════════════ -->
+  <div class="section">
+    <div class="section-label">Project Overview</div>
+    <div class="section-title">What This Project Does</div>
+    <p class="section-body">
+      This project implements ideas from the <strong>SQLBarber</strong> paper to generate SQL workloads whose
+      execution-cost distribution resembles a <em>target (ground-truth)</em> workload. The core idea: normalize
+      each query's execution cost into the range <span class="mono">[0, 10 000]</span>, bin queries into
+      10 equal intervals of width 1 000 (Bin 0 = 0–1 000, Bin 9 = 9 000–10 000), and compare the resulting
+      histograms. The <strong>Profiling Stage</strong> runs a set of SQL templates against the database to
+      understand how much cost each template can generate — forming the foundation for later refinement.
+    </p>
+  </div>
+
+  <!-- ════════════════ METRICS ════════════════ -->
+  <div class="metrics-grid">
+    <div class="metric good">
+      <div class="metric-value" id="gt-total">—</div>
+      <div class="metric-label">Ground-Truth Queries</div>
+    </div>
+    <div class="metric neutral">
+      <div class="metric-value" id="prof-total">—</div>
+      <div class="metric-label">Profiling Queries</div>
+    </div>
+    <div class="metric good">
+      <div class="metric-value" id="valid-tmpl">—</div>
+      <div class="metric-label">Valid Templates</div>
+    </div>
+    <div class="metric warn">
+      <div class="metric-value" id="disc-tmpl">3</div>
+      <div class="metric-label">Discarded Templates</div>
+    </div>
+    <div class="metric neutral">
+      <div class="metric-value" id="bins-covered">—</div>
+      <div class="metric-label">Bins Covered (both)</div>
+    </div>
+    <div class="metric warn">
+      <div class="metric-value" id="bins-missing">—</div>
+      <div class="metric-label">Bins Missing in Profiling</div>
+    </div>
+  </div>
+
+  <!-- ════════════════ CHART ════════════════ -->
+  <div class="section">
+    <div class="section-label">Distribution Comparison</div>
+    <div class="section-title">Ground Truth vs. Profiling</div>
+  </div>
+  <div class="chart-card">
+    <div class="chart-header">
+      <div>
+        <div class="chart-title">Histogram of Normalized Execution Costs</div>
+        <div class="chart-subtitle">10 bins of width 1 000 each, cost range 0–10 000</div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#2563eb;"></div>Ground Truth</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#f59e0b;"></div>Profiling</div>
+      </div>
+    </div>
+    <div class="chart-wrap">
+      <canvas id="distChart"></canvas>
+    </div>
+  </div>
+
+  <!-- ════════════════ BIN TABLE ════════════════ -->
+  <div class="bin-table-wrap">
+    <div class="card" style="padding:0;overflow:hidden;">
+      <table id="binTable">
+        <thead>
+          <tr>
+            <th>Bin</th>
+            <th>Cost Range</th>
+            <th>Ground Truth</th>
+            <th>Profiling</th>
+            <th>Difference</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ════════════════ ANALYSIS ════════════════ -->
+  <div class="section">
+    <div class="section-label">Profiling Analysis</div>
+    <div class="section-title">Distribution Insights</div>
+  </div>
+  <div class="insight-grid">
+    <div class="insight">
+      <div class="insight-head">
+        <div class="insight-icon over">🔺</div>
+        <div class="insight-label">Overrepresented</div>
+      </div>
+      <p>Bins <span class="mono">0</span> (0–1 k) and <span class="mono">5</span> (5–6 k) are heavily overrepresented in the profiling output. Profiling generates <strong>36</strong> queries in Bin 0 vs. 20 in ground truth, and <strong>42</strong> vs. 29 in Bin 5.</p>
+    </div>
+    <div class="insight">
+      <div class="insight-head">
+        <div class="insight-icon under">🔻</div>
+        <div class="insight-label">Underrepresented</div>
+      </div>
+      <p>Bins <span class="mono">3</span> and <span class="mono">8</span> are notably underrepresented — profiling contributes only <strong>11</strong> and <strong>5</strong> queries vs. ground-truth counts of 27 and 10 respectively.</p>
+    </div>
+    <div class="insight">
+      <div class="insight-head">
+        <div class="insight-icon miss">🚫</div>
+        <div class="insight-label">Missing Intervals</div>
+      </div>
+      <p>Bins <span class="mono">1</span> (1–2 k), <span class="mono">2</span> (2–3 k), and <span class="mono">9</span> (9–10 k) have <strong>zero</strong> profiling coverage. Bin 1 and 2 are also empty in ground truth, but Bin 9 has 10 ground-truth queries with no profiling match.</p>
+    </div>
+    <div class="insight">
+      <div class="insight-head">
+        <div class="insight-icon note">📝</div>
+        <div class="insight-label">Stage Limitation</div>
+      </div>
+      <p>Profiling only identifies <em>what costs templates can produce</em> — it does not yet control <em>how many</em> queries land in each bin. That balancing act is the responsibility of the refinement stage.</p>
+    </div>
+  </div>
+
+  <!-- ════════════════ TEMPLATE CARDS ════════════════ -->
+  <div class="section">
+    <div class="section-label">Template Contribution Analysis</div>
+    <div class="section-title">Discarded Templates</div>
+    <p class="section-body">
+      Three templates generated costs that fell outside the valid normalized range
+      <span class="mono">[0, 10 000]</span>. Their queries were excluded from the profiling histogram.
+    </p>
+  </div>
+  <div class="tmpl-grid">
+    <div class="tmpl-card low">
+      <div class="tmpl-top">
+        <span class="tmpl-badge">Template 3</span>
+        <span class="tmpl-name">Below Minimum</span>
+      </div>
+      <div class="tmpl-reason">⬇ Cost Underflow</div>
+      <p class="tmpl-desc">Generated execution costs fell <strong>below</strong> the minimum cost observed in the original workload. After normalization, queries mapped below Bin 0, placing them outside the <span class="mono">[0, 10 000]</span> valid range and making them incomparable to the ground-truth histogram.</p>
+    </div>
+    <div class="tmpl-card high">
+      <div class="tmpl-top">
+        <span class="tmpl-badge">Template 10</span>
+        <span class="tmpl-name">Above Maximum</span>
+      </div>
+      <div class="tmpl-reason">⬆ Cost Overflow</div>
+      <p class="tmpl-desc">Generated costs exceeded the <strong>maximum</strong> cost in the original workload. Post-normalization, these values surpassed 10 000, placing them beyond the histogram ceiling. Including them would distort the distribution comparison.</p>
+    </div>
+    <div class="tmpl-card high">
+      <div class="tmpl-top">
+        <span class="tmpl-badge">Template 29</span>
+        <span class="tmpl-name">Above Maximum</span>
+      </div>
+      <div class="tmpl-reason">⬆ Cost Overflow</div>
+      <p class="tmpl-desc">Same overflow condition as Template 10 — normalized costs exceeded 10 000. This template also produced queries beyond the valid ceiling and was excluded from the profiling histogram to maintain distribution integrity.</p>
+    </div>
+  </div>
+
+  <!-- ════════════════ KEY FINDINGS ════════════════ -->
+  <div class="section">
+    <div class="section-label">Key Findings</div>
+    <div class="section-title">Profiling Stage Summary</div>
+  </div>
+  <div class="card">
+    <ul class="findings" id="findingsList">
+      <li><span class="findings-num">01</span><span>Bins 0 and 5 are overrepresented in profiling, suggesting these cost ranges are disproportionately easy for the current template set to cover.</span></li>
+      <li><span class="findings-num">02</span><span>Bin 9 (9 000–10 000) exists in the ground truth with 10 queries but is completely absent in profiling — a critical gap that the refinement stage must address.</span></li>
+      <li><span class="findings-num">03</span><span>Three templates (3, 10, 29) produced out-of-range costs and were discarded, reducing the effective template pool and contributing to some of the uncovered bins.</span></li>
+      <li><span class="findings-num">04</span><span>The profiling distribution covers 7 out of 10 bins, but with uneven density — the shape does not yet resemble the ground-truth distribution.</span></li>
+      <li><span class="findings-num">05</span><span>Bins 3 and 8 are significantly underrepresented, meaning templates capable of producing mid-to-high cost queries need to be identified or refined.</span></li>
+      <li><span class="findings-num">06</span><span>Despite mismatches, the profiling stage successfully establishes a baseline coverage map — confirming which cost intervals the current template pool can reach.</span></li>
+    </ul>
+  </div>
+
+  <!-- ════════════════ NEXT STAGE ════════════════ -->
+  <div class="section">
+    <div class="section-label">Next Stage</div>
+    <div class="section-title">Template Refinement</div>
+  </div>
+  <div class="next-card">
+    <h3>What Refinement Will Do</h3>
+    <ul class="step-list">
+      <li><span class="step-num">1</span><span><strong>Close coverage gaps</strong> — Identify or modify templates to produce queries in Bin 9 and other missing intervals, ensuring every ground-truth bin has at least some profiling representation.</span></li>
+      <li><span class="step-num">2</span><span><strong>Rebalance overrepresented bins</strong> — Reduce the proportion of queries falling in Bins 0 and 5 by adjusting template parameters or sampling weights.</span></li>
+      <li><span class="step-num">3</span><span><strong>Address discarded templates</strong> — Investigate Templates 3, 10, and 29 to understand whether parameter tuning can bring their costs within the valid normalization range.</span></li>
+      <li><span class="step-num">4</span><span><strong>Minimize histogram divergence</strong> — Iteratively adjust the generated workload composition until its distribution closely approximates the ground-truth histogram, using a distance metric (e.g., KL divergence or histogram intersection).</span></li>
+    </ul>
+  </div>
+
+  <hr class="divider"/>
+</div>
+
+<footer>
+  SQLBarber Workload Generation Project &nbsp;·&nbsp; Profiling Stage Report &nbsp;·&nbsp; Generated 2025
+</footer>
+
+<script>
+  /* ── DATA ── */
+  const gt   = [20, 0, 9, 27, 0, 29, 7, 1, 10, 10];
+  const prof = [36, 0, 0, 11, 6, 42, 3, 1,  5,  0];
+  const bins = [
+    '0–1k','1–2k','2–3k','3–4k','4–5k',
+    '5–6k','6–7k','7–8k','8–9k','9–10k'
+  ];
+
+  /* ── METRICS ── */
+  const gtTotal   = gt.reduce((a,b)=>a+b,0);
+  const profTotal = prof.reduce((a,b)=>a+b,0);
+  const bothCov   = gt.filter((_,i)=> gt[i]>0 && prof[i]>0).length;
+  const missingP  = gt.filter((_,i)=> gt[i]>0 && prof[i]===0).length;
+
+  document.getElementById('gt-total').textContent    = gtTotal;
+  document.getElementById('prof-total').textContent  = profTotal;
+  document.getElementById('valid-tmpl').textContent  = '30'; // 33 total - 3 discarded
+  document.getElementById('bins-covered').textContent= bothCov;
+  document.getElementById('bins-missing').textContent= missingP;
+
+  /* ── CHART ── */
+  const ctx = document.getElementById('distChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: bins,
+      datasets: [
+        {
+          label: 'Ground Truth',
+          data: gt,
+          backgroundColor: 'rgba(37,99,235,.75)',
+          borderColor: 'rgba(37,99,235,1)',
+          borderWidth: 1.5,
+          borderRadius: 4,
+          categoryPercentage: .85,
+          barPercentage: .48,
+        },
+        {
+          label: 'Profiling',
+          data: prof,
+          backgroundColor: 'rgba(245,158,11,.75)',
+          borderColor: 'rgba(217,119,6,1)',
+          borderWidth: 1.5,
+          borderRadius: 4,
+          categoryPercentage: .85,
+          barPercentage: .48,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            title: ctx => `Bin ${ctx[0].dataIndex}: ${bins[ctx[0].dataIndex]}`,
+            label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y} queries`
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: { font: { family: 'JetBrains Mono', size: 11 }, color: '#64748b' }
+        },
+        y: {
+          beginAtZero: true,
+          grid: { color: '#f1f5f9' },
+          ticks: { font: { family: 'JetBrains Mono', size: 11 }, color: '#64748b', stepSize: 5 },
+          title: { display: true, text: 'Query Count', font: { size: 12 }, color: '#64748b' }
+        }
+      }
+    }
+  });
+
+  /* ── BIN TABLE ── */
+  const tbody = document.querySelector('#binTable tbody');
+  bins.forEach((b,i)=>{
+    const diff = prof[i] - gt[i];
+    const diffCls = diff > 0 ? 'diff-pos' : diff < 0 ? 'diff-neg' : 'diff-zer';
+    const diffStr = diff > 0 ? `+${diff}` : `${diff}`;
+    let status = '—';
+    if (gt[i]===0 && prof[i]===0) status = 'Both empty';
+    else if (gt[i]===0) status = 'GT empty';
+    else if (prof[i]===0) status = '⚠ Missing in profiling';
+    else if (Math.abs(diff) <= 2) status = '✓ Close match';
+    else if (diff > 0) status = '↑ Overrepresented';
+    else status = '↓ Underrepresented';
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>Bin ${i}</td>
+      <td>${b}</td>
+      <td>${gt[i]}</td>
+      <td>${prof[i]}</td>
+      <td class="${diffCls}">${diff === 0 ? '0' : diffStr}</td>
+      <td style="font-size:12px;color:var(--slate-500)">${status}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+</script>
+</body>
+</html>

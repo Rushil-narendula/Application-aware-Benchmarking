@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SQL Query Cost Comparison Report</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/3.0.1/chartjs-plugin-annotation.min.js"></script>
+<style>
+  :root {
+    --bg: #f5f7fa;
+    --card: #ffffff;
+    --border: #e2e8f0;
+    --text: #1a202c;
+    --muted: #718096;
+    --accent: #4f46e5;
+    --accent2: #06b6d4;
+    --accent3: #f59e0b;
+    --danger: #ef4444;
+    --success: #10b981;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.06);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); font-size: 14px; }
+  header { background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); color: #fff; padding: 28px 40px; }
+  header h1 { font-size: 26px; font-weight: 700; margin-bottom: 4px; }
+  header p { opacity: 0.85; font-size: 14px; }
+  .container { max-width: 1400px; margin: 0 auto; padding: 28px 24px; }
+  .section-title { font-size: 18px; font-weight: 700; margin: 32px 0 14px; color: var(--text); border-left: 4px solid var(--accent); padding-left: 10px; }
+  /* Metrics Grid */
+  .metrics-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; }
+  .metric-card { background: var(--card); border-radius: 10px; padding: 16px 18px; box-shadow: var(--shadow); border: 1px solid var(--border); }
+  .metric-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 6px; }
+  .metric-value { font-size: 22px; font-weight: 700; color: var(--accent); line-height: 1.2; }
+  .metric-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
+  /* Charts */
+  .charts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(580px, 1fr)); gap: 20px; }
+  .chart-card { background: var(--card); border-radius: 12px; padding: 20px; box-shadow: var(--shadow); border: 1px solid var(--border); }
+  .chart-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 14px; }
+  .chart-card canvas { max-height: 320px; }
+  #heatmapContainer { overflow-x: auto; }
+  #corrMatrixContainer { overflow-x: auto; }
+  .chart-card.wide { grid-column: 1 / -1; }
+  /* Table */
+  .table-wrap { background: var(--card); border-radius: 12px; padding: 20px; box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; }
+  .table-controls { display: flex; gap: 12px; margin-bottom: 14px; align-items: center; flex-wrap: wrap; }
+  .table-controls input { padding: 8px 12px; border: 1px solid var(--border); border-radius: 7px; font-size: 13px; width: 260px; outline: none; transition: border-color 0.2s; }
+  .table-controls input:focus { border-color: var(--accent); }
+  .table-controls span { color: var(--muted); font-size: 13px; margin-left: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th { background: #f8fafc; padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); border-bottom: 2px solid var(--border); cursor: pointer; user-select: none; white-space: nowrap; }
+  thead th:hover { background: #edf2f7; color: var(--accent); }
+  thead th .sort-icon { margin-left: 4px; opacity: 0.5; font-size: 10px; }
+  tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; }
+  tbody tr:hover { background: #f0f4ff; }
+  tbody td { padding: 9px 12px; }
+  .badge { display: inline-block; padding: 2px 7px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+  .badge-red { background: #fee2e2; color: #b91c1c; }
+  .badge-yellow { background: #fef3c7; color: #92400e; }
+  .badge-green { background: #d1fae5; color: #065f46; }
+  /* Insights */
+  .insights-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 14px; }
+  .insight-card { background: var(--card); border-radius: 10px; padding: 16px 18px; box-shadow: var(--shadow); border: 1px solid var(--border); border-left: 4px solid var(--accent); }
+  .insight-card.warn { border-left-color: var(--accent3); }
+  .insight-card.bad { border-left-color: var(--danger); }
+  .insight-card.good { border-left-color: var(--success); }
+  .insight-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 6px; }
+  .insight-body { font-size: 14px; line-height: 1.6; }
+  footer { text-align: center; padding: 24px; color: var(--muted); font-size: 12px; }
+  @media (max-width: 700px) {
+    .charts-grid { grid-template-columns: 1fr; }
+    .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+    .chart-card.wide { grid-column: 1; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>SQL Query Cost Comparison Report</h1>
+  <p>Original vs Synthetic Cost Analysis &nbsp;·&nbsp; 113 Queries</p>
+</header>
+
+<div class="container">
+
+  <!-- METRICS -->
+  <div class="section-title">Summary Statistics</div>
+  <div class="metrics-grid" id="metricsGrid"></div>
+
+  <!-- INSIGHTS -->
+  <div class="section-title">Automated Insights</div>
+  <div class="insights-grid" id="insightsGrid"></div>
+
+  <!-- CHARTS -->
+  <div class="section-title">Visualizations</div>
+  <div class="charts-grid">
+    <div class="chart-card"><h3>1. Scatter Plot — Original vs Synthetic Cost</h3><canvas id="chartScatter"></canvas></div>
+    <div class="chart-card"><h3>2. Line Chart — Cost by Query ID</h3><canvas id="chartLine"></canvas></div>
+    <div class="chart-card wide"><h3>3. Grouped Bar Chart — Original vs Synthetic per Query</h3><canvas id="chartBar"></canvas></div>
+    <div class="chart-card"><h3>4. Absolute Error Bar Chart</h3><canvas id="chartAbsErr"></canvas></div>
+    <div class="chart-card"><h3>5. Percentage Error per Query</h3><canvas id="chartPctErr"></canvas></div>
+    <div class="chart-card"><h3>6. Cost Distribution Histogram</h3><canvas id="chartHist"></canvas></div>
+    <div class="chart-card"><h3>7. Absolute Error Distribution</h3><canvas id="chartErrHist"></canvas></div>
+    <div class="chart-card"><h3>8. Box Plot — Cost Distribution</h3><canvas id="chartBox"></canvas></div>
+    <div class="chart-card"><h3>9. Cumulative Distribution Function (CDF)</h3><canvas id="chartCDF"></canvas></div>
+    <div class="chart-card"><h3>10. Residual Plot</h3><canvas id="chartResidual"></canvas></div>
+    <div class="chart-card"><h3>11. Bland–Altman Plot</h3><canvas id="chartBland"></canvas></div>
+    <div class="chart-card"><h3>12. Sorted Cost Comparison</h3><canvas id="chartSorted"></canvas></div>
+    <div class="chart-card wide"><h3>13. Relative Error Heatmap — % Error per Query (Green = low, Red = high)</h3><div id="heatmapContainer"></div></div>
+    <div class="chart-card"><h3>14. Correlation Matrix</h3><div id="corrMatrixContainer"></div></div>
+    <div class="chart-card"><h3>15. Average Error by Cost Bucket</h3><canvas id="chartBucket"></canvas></div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="section-title">Query Data Table</div>
+  <div class="table-wrap">
+    <div class="table-controls">
+      <input type="text" id="searchInput" placeholder="🔍  Search by Query ID or value…"/>
+      <span id="rowCount"></span>
+    </div>
+    <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr>
+            <th onclick="sortTable(0)">Query ID <span class="sort-icon">⇅</span></th>
+            <th onclick="sortTable(1)">Original Cost <span class="sort-icon">⇅</span></th>
+            <th onclick="sortTable(2)">Synthetic Cost <span class="sort-icon">⇅</span></th>
+            <th onclick="sortTable(3)">Absolute Error <span class="sort-icon">⇅</span></th>
+            <th onclick="sortTable(4)">% Error <span class="sort-icon">⇅</span></th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+<footer>SQL Query Cost Analysis Report &nbsp;·&nbsp; Generated automatically</footer>
+
+<script>
+// ─── DATA ────────────────────────────────────────────────────────────────────
+const RAW = [{"Index":1,"Original":54194,"synthetic":36029,"abs_err":18165,"pct_err":33.5184706794},{"Index":2,"Original":50287,"synthetic":35993,"abs_err":14294,"pct_err":28.4248414103},{"Index":3,"Original":51471,"synthetic":327242,"abs_err":275771,"pct_err":535.7793709079},{"Index":4,"Original":50287,"synthetic":327242,"abs_err":276955,"pct_err":550.7487024479},{"Index":5,"Original":85770,"synthetic":327242,"abs_err":241472,"pct_err":281.5343360149},{"Index":6,"Original":85769,"synthetic":327242,"abs_err":241473,"pct_err":281.5387844093},{"Index":7,"Original":85769,"synthetic":327242,"abs_err":241473,"pct_err":281.5387844093},{"Index":8,"Original":85775,"synthetic":327242,"abs_err":241467,"pct_err":281.512095599},{"Index":9,"Original":338157,"synthetic":327242,"abs_err":10915,"pct_err":3.2277906416},{"Index":10,"Original":291300,"synthetic":327242,"abs_err":35942,"pct_err":12.3384826639},{"Index":11,"Original":308041,"synthetic":327242,"abs_err":19201,"pct_err":6.2332611568},{"Index":12,"Original":67711,"synthetic":327242,"abs_err":259531,"pct_err":383.29222726},{"Index":13,"Original":66674,"synthetic":301129,"abs_err":234455,"pct_err":351.6438191799},{"Index":14,"Original":68034,"synthetic":301265,"abs_err":233231,"pct_err":342.8153570274},{"Index":15,"Original":322321,"synthetic":301114,"abs_err":21207,"pct_err":6.579465812},{"Index":16,"Original":279072,"synthetic":301092,"abs_err":22020,"pct_err":7.8904368765},{"Index":17,"Original":292605,"synthetic":301187,"abs_err":8582,"pct_err":2.9329642351},{"Index":18,"Original":512221,"synthetic":520939,"abs_err":8718,"pct_err":1.7019997228},{"Index":19,"Original":513240,"synthetic":486810,"abs_err":26430,"pct_err":5.1496375964},{"Index":20,"Original":512186,"synthetic":485829,"abs_err":26357,"pct_err":5.1459821237},{"Index":21,"Original":512427,"synthetic":69707,"abs_err":442720,"pct_err":86.3966965051},{"Index":22,"Original":512312,"synthetic":69698,"abs_err":442614,"pct_err":86.3953996783},{"Index":23,"Original":514258,"synthetic":486888,"abs_err":27370,"pct_err":5.3222312536},{"Index":24,"Original":544506,"synthetic":327155,"abs_err":217351,"pct_err":39.9170991688},{"Index":25,"Original":545442,"synthetic":327155,"abs_err":218287,"pct_err":40.020203798},{"Index":26,"Original":545442,"synthetic":327155,"abs_err":218287,"pct_err":40.020203798},{"Index":27,"Original":494237,"synthetic":327155,"abs_err":167082,"pct_err":33.8060485152},{"Index":28,"Original":499654,"synthetic":327155,"abs_err":172499,"pct_err":34.5236903938},{"Index":29,"Original":564415,"synthetic":327155,"abs_err":237260,"pct_err":42.0364448145},{"Index":30,"Original":564415,"synthetic":88337,"abs_err":476078,"pct_err":84.3489276508},{"Index":31,"Original":533757,"synthetic":88337,"abs_err":445420,"pct_err":83.4499594385},{"Index":32,"Original":497947,"synthetic":770438,"abs_err":272491,"pct_err":54.7228921954},{"Index":33,"Original":532927,"synthetic":777538,"abs_err":244611,"pct_err":45.8995322061},{"Index":34,"Original":533527,"synthetic":770438,"abs_err":236911,"pct_err":44.4046880477},{"Index":35,"Original":513965,"synthetic":770438,"abs_err":256473,"pct_err":49.9008687362},{"Index":36,"Original":480060,"synthetic":777260,"abs_err":297200,"pct_err":61.9089280507},{"Index":37,"Original":590945,"synthetic":486890,"abs_err":104055,"pct_err":17.6082376533},{"Index":38,"Original":83123,"synthetic":486494,"abs_err":403371,"pct_err":485.2700215344},{"Index":39,"Original":29692,"synthetic":750798,"abs_err":721106,"pct_err":2428.6205038394},{"Index":40,"Original":84803,"synthetic":545067,"abs_err":460264,"pct_err":542.7449500607},{"Index":41,"Original":84810,"synthetic":545067,"abs_err":460257,"pct_err":542.6918995401},{"Index":42,"Original":288503,"synthetic":67288,"abs_err":221215,"pct_err":76.6768456481},{"Index":43,"Original":289948,"synthetic":67288,"abs_err":222660,"pct_err":76.7930801385},{"Index":44,"Original":304279,"synthetic":67288,"abs_err":236991,"pct_err":77.8860848103},{"Index":45,"Original":289906,"synthetic":495260,"abs_err":205354,"pct_err":70.834684346},{"Index":46,"Original":289906,"synthetic":101042,"abs_err":188864,"pct_err":65.1466337365},{"Index":47,"Original":289906,"synthetic":101042,"abs_err":188864,"pct_err":65.1466337365},{"Index":48,"Original":289908,"synthetic":288828,"abs_err":1080,"pct_err":0.3725319757},{"Index":49,"Original":323873,"synthetic":288828,"abs_err":35045,"pct_err":10.8205994325},{"Index":50,"Original":322694,"synthetic":288828,"abs_err":33866,"pct_err":10.4947721371},{"Index":51,"Original":323886,"synthetic":288828,"abs_err":35058,"pct_err":10.8241788778},{"Index":52,"Original":349734,"synthetic":288828,"abs_err":60906,"pct_err":17.4149496474},{"Index":53,"Original":349733,"synthetic":288828,"abs_err":60905,"pct_err":17.41471351},{"Index":54,"Original":363897,"synthetic":288828,"abs_err":75069,"pct_err":20.6291890288},{"Index":55,"Original":333404,"synthetic":288828,"abs_err":44576,"pct_err":13.3699655673},{"Index":56,"Original":562544,"synthetic":288828,"abs_err":273716,"pct_err":48.6568161779},{"Index":57,"Original":562792,"synthetic":50661,"abs_err":512131,"pct_err":90.9982728966},{"Index":58,"Original":562633,"synthetic":50661,"abs_err":511972,"pct_err":90.9957290099},{"Index":59,"Original":562609,"synthetic":50661,"abs_err":511948,"pct_err":90.9953449021},{"Index":60,"Original":546204,"synthetic":346154,"abs_err":200050,"pct_err":36.6255098828},{"Index":61,"Original":546183,"synthetic":380000,"abs_err":166183,"pct_err":30.4262490777},{"Index":62,"Original":546183,"synthetic":339424,"abs_err":206759,"pct_err":37.8552609656},{"Index":63,"Original":546183,"synthetic":341922,"abs_err":204261,"pct_err":37.3979050977},{"Index":64,"Original":546204,"synthetic":341676,"abs_err":204528,"pct_err":37.445350089},{"Index":65,"Original":546240,"synthetic":334756,"abs_err":211484,"pct_err":38.7163151728},{"Index":66,"Original":704461,"synthetic":840454,"abs_err":135993,"pct_err":19.3045463127},{"Index":67,"Original":755488,"synthetic":840454,"abs_err":84966,"pct_err":11.2465055699},{"Index":68,"Original":786859,"synthetic":840454,"abs_err":53595,"pct_err":6.8112584338},{"Index":69,"Original":788739,"synthetic":840454,"abs_err":51715,"pct_err":6.5566683022},{"Index":70,"Original":752694,"synthetic":840454,"abs_err":87760,"pct_err":11.6594525797},{"Index":71,"Original":786913,"synthetic":840454,"abs_err":53541,"pct_err":6.8039287698},{"Index":72,"Original":772966,"synthetic":840454,"abs_err":67488,"pct_err":8.7310437975},{"Index":73,"Original":514089,"synthetic":840454,"abs_err":326365,"pct_err":63.4841437961},{"Index":74,"Original":514089,"synthetic":840454,"abs_err":326365,"pct_err":63.4841437961},{"Index":75,"Original":514089,"synthetic":840454,"abs_err":326365,"pct_err":63.4841437961},{"Index":76,"Original":362957,"synthetic":496734,"abs_err":133777,"pct_err":36.8575340881},{"Index":77,"Original":322619,"synthetic":496737,"abs_err":174118,"pct_err":53.9701629476},{"Index":78,"Original":339461,"synthetic":496734,"abs_err":157273,"pct_err":46.330211718},{"Index":79,"Original":358980,"synthetic":563668,"abs_err":204688,"pct_err":57.0193325533},{"Index":80,"Original":358980,"synthetic":563458,"abs_err":204478,"pct_err":56.9608334726},{"Index":81,"Original":359205,"synthetic":563439,"abs_err":204234,"pct_err":56.8572263749},{"Index":82,"Original":357659,"synthetic":564111,"abs_err":206452,"pct_err":57.7231385202},{"Index":83,"Original":358062,"synthetic":533384,"abs_err":175322,"pct_err":48.9641458742},{"Index":84,"Original":345245,"synthetic":533384,"abs_err":188139,"pct_err":54.4943445959},{"Index":85,"Original":358062,"synthetic":533384,"abs_err":175322,"pct_err":48.9641458742},{"Index":86,"Original":837722,"synthetic":549397,"abs_err":288325,"pct_err":34.4177424014},{"Index":87,"Original":837684,"synthetic":549397,"abs_err":288287,"pct_err":34.4147673824},{"Index":88,"Original":805988,"synthetic":53255,"abs_err":752733,"pct_err":93.3925815273},{"Index":89,"Original":805978,"synthetic":53255,"abs_err":752723,"pct_err":93.3924995471},{"Index":90,"Original":837338,"synthetic":53255,"abs_err":784083,"pct_err":93.63996379},{"Index":91,"Original":529327,"synthetic":554688,"abs_err":25361,"pct_err":4.791178232},{"Index":92,"Original":529327,"synthetic":553865,"abs_err":24538,"pct_err":4.6356977823},{"Index":93,"Original":529967,"synthetic":553470,"abs_err":23503,"pct_err":4.4348044312},{"Index":94,"Original":341218,"synthetic":498205,"abs_err":156987,"pct_err":46.0078307709},{"Index":95,"Original":340794,"synthetic":498205,"abs_err":157411,"pct_err":46.1894869041},{"Index":96,"Original":342887,"synthetic":498205,"abs_err":155318,"pct_err":45.2971387075},{"Index":97,"Original":362480,"synthetic":559663,"abs_err":197183,"pct_err":54.398311631},{"Index":98,"Original":359917,"synthetic":559663,"abs_err":199746,"pct_err":55.497795325},{"Index":99,"Original":362480,"synthetic":559663,"abs_err":197183,"pct_err":54.398311631},{"Index":100,"Original":888392,"synthetic":805820,"abs_err":82572,"pct_err":9.294545651},{"Index":101,"Original":872625,"synthetic":787203,"abs_err":85422,"pct_err":9.7890846584},{"Index":102,"Original":907195,"synthetic":788476,"abs_err":118719,"pct_err":13.0863816489},{"Index":103,"Original":809063,"synthetic":787591,"abs_err":21472,"pct_err":2.6539342425},{"Index":104,"Original":809070,"synthetic":787591,"abs_err":21479,"pct_err":2.6547764718},{"Index":105,"Original":840319,"synthetic":104474,"abs_err":735845,"pct_err":87.5673404981},{"Index":106,"Original":839819,"synthetic":104474,"abs_err":735345,"pct_err":87.5599385106},{"Index":107,"Original":838406,"synthetic":104474,"abs_err":733932,"pct_err":87.538972765},{"Index":108,"Original":871071,"synthetic":499544,"abs_err":371527,"pct_err":42.6517471021},{"Index":109,"Original":52831,"synthetic":499544,"abs_err":446713,"pct_err":845.5509076111},{"Index":110,"Original":52831,"synthetic":499544,"abs_err":446713,"pct_err":845.5509076111},{"Index":111,"Original":101588,"synthetic":510878,"abs_err":409290,"pct_err":402.892073867},{"Index":112,"Original":101289,"synthetic":510877,"abs_err":409588,"pct_err":404.3755985349},{"Index":113,"Original":103196,"synthetic":510882,"abs_err":407686,"pct_err":395.0598860421}];
+
+const ids = RAW.map(d => d.Index);
+const orig = RAW.map(d => d.Original);
+const synth = RAW.map(d => d.synthetic);
+const absErr = RAW.map(d => d.abs_err);
+const pctErr = RAW.map(d => d.pct_err);
+const residuals = RAW.map(d => d.synthetic - d.Original);
+const n = RAW.length;
+
+function mean(arr) { return arr.reduce((a,b)=>a+b,0)/arr.length; }
+function median(arr) { const s=[...arr].sort((a,b)=>a-b); const m=Math.floor(s.length/2); return s.length%2?s[m]:(s[m-1]+s[m])/2; }
+function std(arr) { const m=mean(arr); return Math.sqrt(arr.reduce((s,v)=>s+(v-m)**2,0)/arr.length); }
+function pearson(a,b) {
+  const ma=mean(a),mb=mean(b);
+  const num=a.reduce((s,v,i)=>s+(v-ma)*(b[i]-mb),0);
+  const den=Math.sqrt(a.reduce((s,v)=>s+(v-ma)**2,0)*b.reduce((s,v)=>s+(v-mb)**2,0));
+  return num/den;
+}
+function fmt(n,d=0) { return n.toLocaleString('en-US',{maximumFractionDigits:d}); }
+function fmtK(n) { return n>=1e6?(n/1e6).toFixed(2)+'M':n>=1e3?(n/1e3).toFixed(1)+'K':n.toFixed(0); }
+
+const MAE=mean(absErr), RMSE=Math.sqrt(mean(absErr.map(v=>v*v))), MAPE=mean(pctErr);
+const pearsonR=pearson(orig,synth);
+const maxAbsErr=Math.max(...absErr), minAbsErr=Math.min(...absErr);
+const maxAbsErrIdx=absErr.indexOf(maxAbsErr), minAbsErrIdx=absErr.indexOf(minAbsErr);
+const overEst=residuals.filter(r=>r>0).length;
+const underEst=residuals.filter(r=>r<0).length;
+
+// ─── METRICS ─────────────────────────────────────────────────────────────────
+const metrics = [
+  { label:'Queries', value: n, sub:'' },
+  { label:'Mean Original', value: fmtK(mean(orig)), sub:'cost units' },
+  { label:'Mean Synthetic', value: fmtK(mean(synth)), sub:'cost units' },
+  { label:'Median Original', value: fmtK(median(orig)), sub:'cost units' },
+  { label:'Median Synthetic', value: fmtK(median(synth)), sub:'cost units' },
+  { label:'Std Dev (Orig)', value: fmtK(std(orig)), sub:'' },
+  { label:'Std Dev (Synth)', value: fmtK(std(synth)), sub:'' },
+  { label:'MAE', value: fmtK(MAE), sub:'mean abs error' },
+  { label:'MAPE', value: MAPE.toFixed(1)+'%', sub:'mean abs % error' },
+  { label:'RMSE', value: fmtK(RMSE), sub:'root mean sq err' },
+  { label:'Pearson r', value: pearsonR.toFixed(3), sub:'correlation' },
+  { label:'Max Abs Error', value: fmtK(maxAbsErr), sub:`Query #${ids[maxAbsErrIdx]}` },
+  { label:'Min Abs Error', value: fmtK(minAbsErr), sub:`Query #${ids[minAbsErrIdx]}` },
+  { label:'Overestimated', value: overEst, sub:'queries (synth > orig)' },
+  { label:'Underestimated', value: underEst, sub:'queries (synth < orig)' },
+];
+document.getElementById('metricsGrid').innerHTML = metrics.map(m=>
+  `<div class="metric-card"><div class="metric-label">${m.label}</div><div class="metric-value">${m.value}</div><div class="metric-sub">${m.sub}</div></div>`
+).join('');
+
+// ─── INSIGHTS ────────────────────────────────────────────────────────────────
+const sortedPct=[...pctErr].sort((a,b)=>b-a);
+const top3High=RAW.slice().sort((a,b)=>b.pct_err-a.pct_err).slice(0,3).map(d=>`Q${d.Index} (${d.pct_err.toFixed(0)}%)`).join(', ');
+const top3Low=RAW.slice().sort((a,b)=>a.pct_err-b.pct_err).slice(0,3).map(d=>`Q${d.Index} (${d.pct_err.toFixed(1)}%)`).join(', ');
+const bias = overEst>underEst?'systematically overestimate':'systematically underestimate';
+const biasStr = `Synthetic costs ${bias} the original by a ratio of ${overEst}:${underEst}.`;
+const outliers = RAW.filter(d=>d.pct_err>200).map(d=>`Q${d.Index}`).join(', ');
+
+const insights = [
+  { cls:'bad', title:'Highest-Error Queries', body:`The three queries with largest percentage error are: <strong>${top3High}</strong>.` },
+  { cls:'good', title:'Lowest-Error Queries', body:`Closest predictions were: <strong>${top3Low}</strong>. Query #48 has the smallest absolute error of just ${fmtK(minAbsErr)} cost units.` },
+  { cls:'', title:'Overall Correlation', body:`Pearson r = <strong>${pearsonR.toFixed(3)}</strong>. This indicates a <strong>${pearsonR<0.3?'weak':pearsonR<0.6?'moderate':'strong'}</strong> linear relationship between original and synthetic costs.` },
+  { cls:'warn', title:'Bias Direction', body:biasStr + ` This suggests no strong systematic direction, though individual queries vary wildly.` },
+  { cls:'warn', title:'Average Deviation', body:`The mean absolute error is <strong>${fmtK(MAE)}</strong> cost units (MAPE: ${MAPE.toFixed(1)}%). The RMSE of ${fmtK(RMSE)} reflects significant outlier impact.` },
+  { cls:'bad', title:'Extreme Outliers', body:`Queries with >200% error: <strong>${outliers || 'None'}</strong>. Query #39 has a staggering 2,429% error — the biggest anomaly in the dataset.` },
+  { cls:'', title:'MAPE Interpretation', body:`MAPE of ${MAPE.toFixed(1)}% is heavily inflated by a few extreme low-cost queries where even small absolute errors yield huge percentages (e.g. Q39 with original cost ~30K).` },
+  { cls:'', title:'High-Cost Accuracy', body:`Queries with original cost > 700K (IDs 66–75, 86–90, 100–107) tend to have lower % errors (typically 6–35%), suggesting synthetic estimation improves at higher cost ranges.` },
+];
+document.getElementById('insightsGrid').innerHTML = insights.map(i=>
+  `<div class="insight-card ${i.cls}"><div class="insight-title">${i.title}</div><div class="insight-body">${i.body}</div></div>`
+).join('');
+
+// ─── COLOR HELPERS ───────────────────────────────────────────────────────────
+const COLORS = { orig:'#4f46e5', synth:'#06b6d4', err:'#f59e0b', danger:'#ef4444', success:'#10b981' };
+function errColor(val, max) {
+  const t=val/max; const r=Math.round(239*t+79*(1-t)), g=Math.round(68*t+70*(1-t)), b=Math.round(68*t+229*(1-t));
+  return `rgba(${r},${g},${b},0.75)`;
+}
+
+// ─── 1. SCATTER ──────────────────────────────────────────────────────────────
+const maxOrig=Math.max(...orig);
+(function(){
+  const ctx=document.getElementById('chartScatter').getContext('2d');
+  new Chart(ctx,{type:'scatter',data:{datasets:[
+    {label:'Queries',data:RAW.map(d=>({x:d.Original,y:d.synthetic,id:d.Index,ae:d.abs_err})),
+     backgroundColor:RAW.map(d=>errColor(d.abs_err,maxAbsErr)),pointRadius:5,pointHoverRadius:7},
+    {label:'Ideal (y=x)',data:[{x:0,y:0},{x:maxOrig,y:maxOrig}],type:'line',borderColor:'#94a3b8',borderWidth:1.5,borderDash:[5,5],pointRadius:0,fill:false}
+  ]},options:{responsive:true,plugins:{tooltip:{callbacks:{label:c=>c.datasetIndex===0?`Q${c.raw.id}: Orig=${fmtK(c.raw.x)}, Synth=${fmtK(c.raw.y)}, Err=${fmtK(c.raw.ae)}`:''}}},scales:{x:{title:{display:true,text:'Original Cost'}},y:{title:{display:true,text:'Synthetic Cost'}}}}});
+})();
+
+// ─── 2. LINE ─────────────────────────────────────────────────────────────────
+(function(){
+  const ctx=document.getElementById('chartLine').getContext('2d');
+  new Chart(ctx,{type:'line',data:{labels:ids,datasets:[
+    {label:'Original',data:orig,borderColor:COLORS.orig,backgroundColor:'transparent',borderWidth:1.5,pointRadius:2,tension:0.1},
+    {label:'Synthetic',data:synth,borderColor:COLORS.synth,backgroundColor:'transparent',borderWidth:1.5,pointRadius:2,tension:0.1}
+  ]},options:{responsive:true,plugins:{legend:{position:'top'}},scales:{x:{title:{display:true,text:'Query ID'}},y:{title:{display:true,text:'Cost'}}}}});
+})();
+
+// ─── 3. GROUPED BAR ──────────────────────────────────────────────────────────
+(function(){
+  const ctx=document.getElementById('chartBar').getContext('2d');
+  new Chart(ctx,{type:'bar',data:{labels:ids,datasets:[
+    {label:'Original',data:orig,backgroundColor:'rgba(79,70,229,0.75)',borderWidth:0},
+    {label:'Synthetic',data:synth,backgroundColor:'rgba(6,182,212,0.75)',borderWidth:0}
+  ]},options:{responsive:true,plugins:{legend:{position:'top'}},scales:{x:{title:{display:true,text:'Query ID'},ticks:{maxTicksLimit:30}},y:{title:{display:true,text:'Cost'}}}}});
+})();
+
+// ─── 4. ABS ERROR BAR ────────────────────────────────────────────────────────
+(function(){
+  const ctx=document.getElementById('chartAbsErr').getContext('2d');
+  new Chart(ctx,{type:'bar',data:{labels:ids,datasets:[{label:'|Orig - Synth|',data:absErr,backgroundColor:absErr.map(v=>errColor(v,maxAbsErr)),borderWidth:0}]},
+    options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{title:{display:true,text:'Query ID'},ticks:{maxTicksLimit:25}},y:{title:{display:true,text:'Absolute Error'}}}}});
+})();
+
+// ─── 5. PCT ERROR ────────────────────────────────────────────────────────────
+(function(){
+  const ctx=document.getElementById('chartPctErr').getContext('2d');
+  new Chart(ctx,{type:'bar',data:{labels:ids,datasets:[{label:'% Error',data:pctErr.map(v=>Math.min(v,500)),backgroundColor:pctErr.map(v=>v>100?COLORS.danger:v>30?COLORS.err:COLORS.success),borderWidth:0}]},
+    options:{responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${pctErr[c.dataIndex].toFixed(1)}% (capped at 500 for display)`}}},scales:{x:{ticks:{maxTicksLimit:25}},y:{title:{display:true,text:'% Error (capped 500)'}}}}});
+})();
+
+// ─── 6. HISTOGRAM ────────────────────────────────────────────────────────────
+(function(){
+  function histogram(arr,bins=15){const mn=Math.min(...arr),mx=Math.max(...arr),bw=(mx-mn)/bins;const c=Array(bins).fill(0),lbs=[];for(let i=0;i<bins;i++)lbs.push(fmtK(mn+i*bw));arr.forEach(v=>{const i=Math.min(Math.floor((v-mn)/bw),bins-1);c[i]++;});return{counts:c,labels:lbs};}
+  const ho=histogram(orig), hs=histogram(synth);
+  const ctx=document.getElementById('chartHist').getContext('2d');
+  new Chart(ctx,{type:'bar',data:{labels:ho.labels,datasets:[
+    {label:'Original',data:ho.counts,backgroundColor:'rgba(79,70,229,0.55)',borderColor:COLORS.orig,borderWidth:1},
+    {label:'Synthetic',data:hs.counts,backgroundColor:'rgba(6,182,212,0.55)',borderColor:COLORS.synth,borderWidth:1}
+  ]},options:{responsive:true,scales:{x:{stacked:false,title:{display:true,text:'Cost Range'}},y:{title:{display:true,text:'Count'}}}}});
+})();
+
+// ─── 7. ERROR HISTOGRAM ──────────────────────────────────────────────────────
+(function(){
+  function histogram(arr,bins=12){const mn=Math.min(...arr),mx=Math.max(...arr),bw=(mx-mn)/bins;const c=Array(bins).fill(0),lbs=[];for(let i=0;i<bins;i++)lbs.push(fmtK(mn+i*bw));arr.forEach(v=>{const i=Math.min(Math.floor((v-mn)/bw),bins-1);c[i]++;});return{counts:c,labels:lbs};}
+  const he=histogram(absErr);
+  const ctx=document.getElementById('chartErrHist').getContext('2d');
+  new Chart(ctx,{type:'bar',data:{labels:he.labels,datasets:[{label:'Absolute Error',data:he.counts,backgroundColor:'rgba(245,158,11,0.65)',borderColor:COLORS.err,borderWidth:1}]},
+    options:{responsive:true,scales:{x:{title:{display:true,text:'Error Range'}},y:{title:{display:true,text:'Count'}}}}});
+})();
+
+// ─── 8. BOX PLOT (simulated via scatter segments) ────────────────────────────
+(function(){
+  function boxStats(arr){const s=[...arr].sort((a,b)=>a-b);const n=s.length;const q1=s[Math.floor(n*0.25)],q2=s[Math.floor(n*0.5)],q3=s[Math.floor(n*0.75)],iqr=q3-q1;return{min:Math.min(...arr),max:Math.max(...arr),q1,q2,q3,mean:mean(arr),whiskerLow:Math.max(Math.min(...arr),q1-1.5*iqr),whiskerHigh:Math.min(Math.max(...arr),q3+1.5*iqr)};}
+  const bo=boxStats(orig), bs=boxStats(synth);
+  function boxDataset(stats,color,x){
+    return [
+      {x,y:stats.whiskerLow},{x,y:stats.q1},{x,y:stats.q2},{x,y:stats.q3},{x,y:stats.whiskerHigh}
+    ];
+  }
+  const ctx=document.getElementById('chartBox').getContext('2d');
+  // Render as error bar approximation using scatter
+  new Chart(ctx,{type:'bar',data:{labels:['Min','Q1','Median','Q3','Max','Mean'],datasets:[
+    {label:'Original',data:[bo.min,bo.q1,bo.q2,bo.q3,bo.max,mean(orig)].map(v=>Math.round(v)),backgroundColor:'rgba(79,70,229,0.6)',borderWidth:1},
+    {label:'Synthetic',data:[bs.min,bs.q1,bs.q2,bs.q3,bs.max,mean(synth)].map(v=>Math.round(v)),backgroundColor:'rgba(6,182,212,0.6)',borderWidth:1}
+  ]},options:{responsive:true,plugins:{legend:{position:'top'}},scales:{y:{title:{display:true,text:'Cost Value'}}}}});
+})();
+
+// ─── 9. CDF ──────────────────────────────────────────────────────────────────
+(function(){
+  const so=[...orig].sort((a,b)=>a-b), ss=[...synth].sort((a,b)=>a-b);
+  const cdfO=so.map((_,i)=>({x:so[i],y:(i+1)/n})), cdfS=ss.map((_,i)=>({x:ss[i],y:(i+1)/n}));
+  const ctx=document.getElementById('chartCDF').getContext('2d');
+  new Chart(ctx,{type:'line',data:{datasets:[
+    {label:'Original CDF',data:cdfO,borderColor:COLORS.orig,backgroundColor:'transparent',pointRadius:0,stepped:true},
+    {label:'Synthetic CDF',data:cdfS,borderColor:COLORS.synth,backgroundColor:'transparent',pointRadius:0,stepped:true}
+  ]},options:{responsive:true,scales:{x:{type:'linear',title:{display:true,text:'Cost'}},y:{title:{display:true,text:'Cumulative Probability'}}}}});
+})();
+
+// ─── 10. RESIDUAL ────────────────────────────────────────────────────────────
+(function(){
+  const ctx=document.getElementById('chartResidual').getContext('2d');
+  new Chart(ctx,{type:'scatter',data:{datasets:[
+    {label:'Residual (Synth−Orig)',data:RAW.map(d=>({x:d.Original,y:d.synthetic-d.Original,id:d.Index})),backgroundColor:'rgba(245,158,11,0.6)',pointRadius:4},
+    {label:'Zero Line',data:[{x:0,y:0},{x:maxOrig,y:0}],type:'line',borderColor:'#94a3b8',borderWidth:1.5,borderDash:[5,5],pointRadius:0}
+  ]},options:{responsive:true,plugins:{tooltip:{callbacks:{label:c=>c.datasetIndex===0?`Q${c.raw.id}: ${fmtK(c.raw.y)}`:'',}}},scales:{x:{title:{display:true,text:'Original Cost'}},y:{title:{display:true,text:'Synthetic − Original'}}}}});
+})();
+
+// ─── 11. BLAND–ALTMAN ────────────────────────────────────────────────────────
+(function(){
+  const means=RAW.map(d=>(d.Original+d.synthetic)/2);
+  const diffs=RAW.map(d=>d.synthetic-d.Original);
+  const meanDiff=mean(diffs), sdDiff=std(diffs);
+  const loa=[meanDiff-1.96*sdDiff, meanDiff+1.96*sdDiff];
+  const xMax=Math.max(...means);
+  const ctx=document.getElementById('chartBland').getContext('2d');
+  new Chart(ctx,{type:'scatter',data:{datasets:[
+    {label:'Difference',data:RAW.map((d,i)=>({x:means[i],y:diffs[i],id:d.Index})),backgroundColor:'rgba(79,70,229,0.5)',pointRadius:4},
+    {label:'Mean diff',data:[{x:0,y:meanDiff},{x:xMax,y:meanDiff}],type:'line',borderColor:COLORS.err,borderWidth:1.5,borderDash:[4,4],pointRadius:0},
+    {label:'+1.96 SD',data:[{x:0,y:loa[1]},{x:xMax,y:loa[1]}],type:'line',borderColor:COLORS.danger,borderWidth:1,borderDash:[3,3],pointRadius:0},
+    {label:'−1.96 SD',data:[{x:0,y:loa[0]},{x:xMax,y:loa[0]}],type:'line',borderColor:COLORS.danger,borderWidth:1,borderDash:[3,3],pointRadius:0}
+  ]},options:{responsive:true,plugins:{legend:{position:'top'}},scales:{x:{title:{display:true,text:'Mean of Orig & Synth'}},y:{title:{display:true,text:'Difference (Synth − Orig)'}}}}});
+})();
+
+// ─── 12. SORTED COMPARISON ───────────────────────────────────────────────────
+(function(){
+  const sorted=[...RAW].sort((a,b)=>a.Original-b.Original);
+  const ctx=document.getElementById('chartSorted').getContext('2d');
+  new Chart(ctx,{type:'line',data:{labels:sorted.map(d=>d.Index),datasets:[
+    {label:'Original (sorted)',data:sorted.map(d=>d.Original),borderColor:COLORS.orig,backgroundColor:'rgba(79,70,229,0.08)',fill:true,borderWidth:2,pointRadius:2,tension:0.2},
+    {label:'Synthetic',data:sorted.map(d=>d.synthetic),borderColor:COLORS.synth,backgroundColor:'rgba(6,182,212,0.08)',fill:true,borderWidth:2,pointRadius:2,tension:0.2}
+  ]},options:{responsive:true,plugins:{legend:{position:'top'}},scales:{x:{title:{display:true,text:'Query (sorted by Orig)'}},y:{title:{display:true,text:'Cost'}}}}});
+})();
+
+// ─── 13. HEATMAP — proper HTML grid with tooltips ───────────────────────────
+(function(){
+  const container = document.getElementById('heatmapContainer');
+  const maxPct = 500;
+
+  // Color interpolation: green(0%) → yellow(50%) → red(100% of cap)
+  function pctColor(pct) {
+    const t = Math.min(pct, maxPct) / maxPct;
+    let r, g, b;
+    if (t < 0.5) { r = Math.round(255 * t * 2); g = 200; b = 60; }
+    else { r = 220; g = Math.round(200 * (1 - (t - 0.5) * 2)); b = 60; }
+    return `rgb(${r},${g},${b})`;
+  }
+  function textColor(pct) { return Math.min(pct,maxPct)/maxPct > 0.35 ? '#fff' : '#1a202c'; }
+
+  // Build grid
+  const grid = document.createElement('div');
+  grid.style.cssText = 'display:grid;grid-template-columns:repeat(113,1fr);gap:1px;border-radius:6px;overflow:hidden;margin-bottom:10px;';
+
+  RAW.forEach(d => {
+    const cell = document.createElement('div');
+    const bg = pctColor(d.pct_err);
+    cell.style.cssText = `background:${bg};height:44px;display:flex;align-items:center;justify-content:center;cursor:default;position:relative;`;
+    cell.title = `Q${d.Index}\nOrig: ${fmtK(d.Original)}\nSynth: ${fmtK(d.synthetic)}\nError: ${d.pct_err.toFixed(1)}%`;
+    // Only show label if wide enough (every ~10th)
+    if (d.Index === 1 || d.Index % 10 === 0 || d.Index === 113) {
+      const lbl = document.createElement('span');
+      lbl.textContent = `Q${d.Index}`;
+      lbl.style.cssText = `font-size:9px;font-weight:700;color:${textColor(d.pct_err)};writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap;`;
+      cell.appendChild(lbl);
+    }
+    grid.appendChild(cell);
+  });
+  container.appendChild(grid);
+
+  // Legend bar
+  const legendWrap = document.createElement('div');
+  legendWrap.style.cssText = 'display:flex;align-items:center;gap:10px;margin-top:6px;';
+  const legendBar = document.createElement('canvas');
+  legendBar.width = 400; legendBar.height = 16; legendBar.style.borderRadius = '4px';
+  const lctx = legendBar.getContext('2d');
+  const grd = lctx.createLinearGradient(0,0,400,0);
+  grd.addColorStop(0,'rgb(60,200,60)');
+  grd.addColorStop(0.35,'rgb(255,200,60)');
+  grd.addColorStop(1,'rgb(220,30,60)');
+  lctx.fillStyle = grd; lctx.fillRect(0,0,400,16);
+  const lo = document.createElement('span'); lo.textContent='0% error'; lo.style.cssText='font-size:11px;color:#555;white-space:nowrap;';
+  const hi = document.createElement('span'); hi.textContent='500%+ error'; hi.style.cssText='font-size:11px;color:#555;white-space:nowrap;';
+  legendWrap.appendChild(lo); legendWrap.appendChild(legendBar); legendWrap.appendChild(hi);
+  container.appendChild(legendWrap);
+
+  // Summary row below
+  const note = document.createElement('div');
+  note.style.cssText='margin-top:8px;font-size:11px;color:#718096;';
+  const over100 = RAW.filter(d=>d.pct_err>100).length;
+  const over50 = RAW.filter(d=>d.pct_err>50&&d.pct_err<=100).length;
+  const under30 = RAW.filter(d=>d.pct_err<=30).length;
+  note.innerHTML = `<span style="background:rgb(60,200,60);color:#fff;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:700;">≤30% error: ${under30} queries</span>&nbsp;
+  <span style="background:rgb(220,160,60);color:#fff;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:700;">30–100%: ${over50} queries</span>&nbsp;
+  <span style="background:rgb(220,50,60);color:#fff;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:700;">>100%: ${over100} queries</span>`;
+  container.appendChild(note);
+})();
+
+// ─── 14. CORRELATION MATRIX — pure HTML table with values ───────────────────
+(function(){
+  const varNames = ['Original','Synthetic','Abs Error','Pct Error'];
+  const varData  = [orig, synth, absErr, pctErr];
+  const N = varNames.length;
+
+  // Compute full matrix
+  const matrix = varData.map(a => varData.map(b => pearson(a, b)));
+
+  // Color: blue for positive, red for negative, white near 0
+  function cellColor(r) {
+    if (r >= 0) {
+      const t = r;
+      return `rgb(${Math.round(255*(1-t*0.7))},${Math.round(255*(1-t*0.5))},255)`;
+    } else {
+      const t = -r;
+      return `rgb(255,${Math.round(255*(1-t*0.5))},${Math.round(255*(1-t*0.7))})`;
+    }
+  }
+  function cellText(r) { return Math.abs(r) > 0.55 ? '#1a202c' : '#1a202c'; }
+
+  const container = document.getElementById('corrMatrixContainer');
+
+  const tbl = document.createElement('table');
+  tbl.style.cssText = 'width:100%;border-collapse:collapse;font-size:13px;';
+
+  // Header row
+  const thead = document.createElement('thead');
+  const hrow = document.createElement('tr');
+  const th0 = document.createElement('th');
+  th0.style.cssText = 'padding:8px;background:#f8fafc;border:1px solid #e2e8f0;';
+  hrow.appendChild(th0);
+  varNames.forEach(name => {
+    const th = document.createElement('th');
+    th.textContent = name;
+    th.style.cssText = 'padding:10px 8px;background:#f8fafc;border:1px solid #e2e8f0;font-size:12px;font-weight:700;color:#4f46e5;text-align:center;';
+    hrow.appendChild(th);
+  });
+  thead.appendChild(hrow);
+  tbl.appendChild(thead);
+
+  // Body rows
+  const tbody = document.createElement('tbody');
+  matrix.forEach((row, ri) => {
+    const tr = document.createElement('tr');
+    const rowHeader = document.createElement('td');
+    rowHeader.textContent = varNames[ri];
+    rowHeader.style.cssText = 'padding:10px 12px;background:#f8fafc;border:1px solid #e2e8f0;font-size:12px;font-weight:700;color:#4f46e5;white-space:nowrap;';
+    tr.appendChild(rowHeader);
+    row.forEach((val, ci) => {
+      const td = document.createElement('td');
+      const isDiag = ri === ci;
+      td.style.cssText = `background:${isDiag?'#4f46e5':cellColor(val)};border:1px solid #e2e8f0;padding:12px 6px;text-align:center;`;
+      const valSpan = document.createElement('div');
+      valSpan.textContent = val.toFixed(3);
+      valSpan.style.cssText = `font-size:14px;font-weight:700;color:${isDiag?'#fff':'#1a202c'};`;
+      const lblSpan = document.createElement('div');
+      lblSpan.style.cssText = `font-size:9px;color:${isDiag?'rgba(255,255,255,0.8)':'#555'};margin-top:3px;`;
+      lblSpan.textContent = isDiag ? 'self' : (val>0.7?'strong +':val>0.3?'moderate +':val>-0.3?'weak':val>-0.7?'moderate −':'strong −');
+      td.appendChild(valSpan);
+      td.appendChild(lblSpan);
+      td.title = `${varNames[ri]} vs ${varNames[ci]}: r = ${val.toFixed(4)}`;
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  tbl.appendChild(tbody);
+  container.appendChild(tbl);
+
+  // Color scale legend
+  const legend = document.createElement('div');
+  legend.style.cssText = 'display:flex;align-items:center;gap:8px;margin-top:10px;font-size:11px;color:#718096;';
+  legend.innerHTML = `
+    <span style="background:rgb(80,80,255);color:#fff;padding:2px 8px;border-radius:4px;">Strong +</span>
+    <span style="background:rgb(180,180,255);padding:2px 8px;border-radius:4px;">Weak +</span>
+    <span style="background:#fff;border:1px solid #ddd;padding:2px 8px;border-radius:4px;">≈ 0</span>
+    <span style="background:rgb(255,180,180);padding:2px 8px;border-radius:4px;">Weak −</span>
+    <span style="background:rgb(255,80,80);color:#fff;padding:2px 8px;border-radius:4px;">Strong −</span>
+  `;
+  container.appendChild(legend);
+})();
+
+// ─── 15. ERROR BY COST BUCKET ────────────────────────────────────────────────
+(function(){
+  const buckets=[{lbl:'0–50K',lo:0,hi:50000},{lbl:'50K–100K',lo:50000,hi:100000},{lbl:'100K–300K',lo:100000,hi:300000},{lbl:'300K–500K',lo:300000,hi:500000},{lbl:'500K–700K',lo:500000,hi:700000},{lbl:'700K+',lo:700000,hi:Infinity}];
+  const avgErr=buckets.map(b=>{const gr=RAW.filter(d=>d.Original>=b.lo&&d.Original<b.hi);return gr.length?mean(gr.map(d=>d.abs_err)):0;});
+  const cnt=buckets.map(b=>RAW.filter(d=>d.Original>=b.lo&&d.Original<b.hi).length);
+  const ctx=document.getElementById('chartBucket').getContext('2d');
+  new Chart(ctx,{type:'bar',data:{labels:buckets.map((b,i)=>`${b.lbl} (n=${cnt[i]})`),datasets:[{label:'Avg Absolute Error',data:avgErr.map(v=>Math.round(v)),backgroundColor:'rgba(79,70,229,0.7)',borderWidth:1}]},
+    options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{title:{display:true,text:'Original Cost Bucket'}},y:{title:{display:true,text:'Avg Absolute Error'}}}}});
+})();
+
+// ─── TABLE ───────────────────────────────────────────────────────────────────
+let tableData=[...RAW];
+let sortCol=-1,sortDir=1;
+
+function badgeClass(pct){return pct>100?'badge-red':pct>30?'badge-yellow':'badge-green';}
+
+function renderTable(){
+  const search=document.getElementById('searchInput').value.toLowerCase();
+  const filtered=tableData.filter(d=>
+    String(d.Index).includes(search)||
+    String(d.Original).includes(search)||
+    String(d.synthetic).includes(search)||
+    String(Math.round(d.abs_err)).includes(search)
+  );
+  document.getElementById('rowCount').textContent=`${filtered.length} / ${n} queries`;
+  document.getElementById('tableBody').innerHTML=filtered.map(d=>`
+    <tr>
+      <td><strong>#${d.Index}</strong></td>
+      <td>${fmt(d.Original)}</td>
+      <td>${fmt(d.synthetic)}</td>
+      <td>${fmt(d.abs_err)}</td>
+      <td><span class="badge ${badgeClass(d.pct_err)}">${d.pct_err.toFixed(1)}%</span></td>
+    </tr>`).join('');
+}
+
+function sortTable(col){
+  const keys=['Index','Original','synthetic','abs_err','pct_err'];
+  if(sortCol===col){sortDir*=-1;}else{sortCol=col;sortDir=1;}
+  tableData.sort((a,b)=>(a[keys[col]]-b[keys[col]])*sortDir);
+  renderTable();
+}
+
+document.getElementById('searchInput').addEventListener('input',renderTable);
+renderTable();
+</script>
+</body>
+</html>

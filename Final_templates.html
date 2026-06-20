@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>JOB Schema — SQL Templates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* paper + surfaces */
+  --bg:#eef2ef;
+  --surface:#ffffff;
+  --surface-tint:#f8faf8;
+  --ink:#161b19;
+  --muted:#5b645e;
+  --faint:#94a09a;
+  --line:#dfe6e0;
+  --line-strong:#cbd4cc;
+
+  /* relationship-coded accents (entity / relationship / lookup) */
+  --blue:#2a6c8f;       --blue-soft:#e5eff4;
+  --green:#3f7a52;      --green-soft:#e7f1ea;
+  --amber:#9c6a08;      --amber-soft:#f8efd9;
+  --rust:#b5552f;       --rust-soft:#f7e9e2;
+
+  --kw:#2a6c8f;
+  --param:#9c6a08;
+
+  --header-h:68px;
+  --radius-lg:16px;
+  --radius-md:12px;
+  --radius-sm:8px;
+  --shadow-card:0 1px 2px rgba(22,27,25,0.04), 0 1px 1px rgba(22,27,25,0.03);
+  --shadow-hover:0 8px 24px rgba(22,27,25,0.08), 0 2px 6px rgba(22,27,25,0.05);
+
+  --display:'Space Grotesk','Segoe UI',sans-serif;
+  --sans:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;
+  --mono:'JetBrains Mono','SFMono-Regular','Menlo','Consolas',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.55;font-size:14px;-webkit-font-smoothing:antialiased;}
+
+/* ---------- Header ---------- */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(255,255,255,0.92);backdrop-filter:saturate(180%) blur(10px);
+  border-bottom:1px solid var(--line-strong);
+  height:var(--header-h);
+}
+.header-inner{
+  height:100%;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;
+}
+.brand{display:flex;align-items:center;gap:11px;min-width:0;}
+.brand-mark{flex-shrink:0;}
+.brand-text h1{font-family:var(--display);font-size:1.05rem;font-weight:700;letter-spacing:-0.01em;white-space:nowrap;}
+.brand-text h1 .dim{color:var(--faint);font-weight:500;}
+.brand-text .sub{font-size:0.72rem;color:var(--muted);font-family:var(--mono);margin-top:1px;}
+
+.search-wrap{flex-shrink:0;position:relative;}
+.search-wrap svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);pointer-events:none;}
+.search-wrap input{
+  width:240px;padding:8px 12px 8px 34px;
+  border:1.5px solid var(--line-strong);border-radius:999px;
+  background:var(--surface-tint);color:var(--ink);
+  font-size:0.8rem;font-family:var(--mono);outline:none;
+  transition:border-color .15s,background .15s,box-shadow .15s;
+}
+.search-wrap input::placeholder{color:var(--faint);}
+.search-wrap input:focus{border-color:var(--blue);background:var(--surface);box-shadow:0 0 0 4px var(--blue-soft);}
+.search-count{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:0.68rem;color:var(--faint);font-family:var(--mono);pointer-events:none;}
+
+/* ---------- Layout ---------- */
+.layout{display:flex;margin-top:var(--header-h);min-height:calc(100vh - var(--header-h));}
+
+/* ---------- Sidebar ---------- */
+nav{
+  width:196px;flex-shrink:0;background:transparent;
+  position:fixed;top:var(--header-h);left:0;
+  height:calc(100vh - var(--header-h));overflow-y:auto;padding:18px 12px 24px;
+}
+nav h2{
+  font-size:0.64rem;font-weight:700;text-transform:uppercase;letter-spacing:0.09em;
+  color:var(--faint);padding:0 10px 7px;margin-bottom:1px;
+}
+.nav-link,.nav-schema-btn{
+  display:flex;align-items:center;gap:9px;
+  padding:5px 10px;font-size:0.78rem;color:var(--muted);
+  text-decoration:none;border-radius:8px;cursor:pointer;
+  transition:background .12s,color .12s;margin-bottom:1px;
+}
+.nav-link:hover,.nav-link.active,.nav-schema-btn:hover{
+  background:var(--surface);color:var(--blue);box-shadow:var(--shadow-card);
+}
+.nav-schema-btn{color:var(--ink);font-weight:600;}
+.nav-link.removed-link{color:var(--faint);}
+.nav-link .num,.nav-schema-btn .num{
+  font-family:var(--mono);font-size:0.68rem;color:var(--faint);min-width:28px;
+}
+.nav-link.hidden-nav{display:none;}
+.nav-divider{height:1px;background:var(--line);margin:12px 10px;}
+.nav-section-label{
+  font-size:0.64rem;font-weight:700;text-transform:uppercase;letter-spacing:0.09em;
+  color:var(--faint);padding:4px 10px;
+}
+
+/* ---------- Main ---------- */
+main{flex:1;margin-left:196px;padding:26px 28px 70px;max-width:1180px;}
+#no-results{display:none;text-align:center;padding:60px 20px;color:var(--faint);font-family:var(--mono);font-size:0.85rem;}
+
+.section-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:10px 20px;margin:38px 0 14px;}
+.section-head:first-of-type{margin-top:0;}
+.section-head-left{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+.eyebrow{font-family:var(--mono);font-size:0.66rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--faint);}
+.section-title{font-family:var(--display);font-size:1.2rem;font-weight:700;letter-spacing:-0.01em;}
+.section-note{font-size:0.76rem;color:var(--muted);}
+.legend{display:flex;gap:14px;align-items:center;flex-wrap:wrap;}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:0.7rem;color:var(--muted);font-family:var(--mono);}
+.legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+/* ---------- Hero bento ---------- */
+.hero-bento{
+  display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:minmax(86px,auto);
+  gap:12px;margin-bottom:6px;
+}
+.hero-tile{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);
+  padding:18px 20px;box-shadow:var(--shadow-card);
+  display:flex;flex-direction:column;justify-content:center;
+  transition:box-shadow .15s,transform .15s;
+}
+.hero-tile:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px);}
+.hero-intro{
+  grid-column:span 3;grid-row:span 2;justify-content:space-between;
+  background:linear-gradient(155deg,var(--surface) 60%,var(--blue-soft) 130%);
+}
+.hero-intro .eyebrow{margin-bottom:10px;}
+.hero-intro h2{font-family:var(--display);font-size:1.5rem;font-weight:700;letter-spacing:-0.015em;line-height:1.22;margin-bottom:10px;}
+.hero-intro p{font-size:0.83rem;color:var(--muted);max-width:46ch;}
+.hero-intro .join-mark{margin-top:14px;}
+.hero-stat{gap:2px;}
+.hero-stat .stat-num{font-family:var(--display);font-size:1.9rem;font-weight:700;letter-spacing:-0.02em;line-height:1;}
+.hero-stat .stat-lbl{font-size:0.74rem;color:var(--muted);font-weight:500;margin-top:5px;}
+.hero-stat .stat-sub{font-size:0.66rem;color:var(--faint);font-family:var(--mono);margin-top:5px;}
+.hero-stat.c-blue .stat-num{color:var(--blue);}
+.hero-stat.c-green .stat-num{color:var(--green);}
+.hero-stat.c-amber .stat-num{color:var(--amber);}
+.hero-stat.c-rust .stat-num{color:var(--rust);}
+
+/* ---------- Schema toggle ---------- */
+.schema-toggle{
+  font-size:0.72rem;color:var(--muted);background:var(--surface);
+  border:1px solid var(--line-strong);padding:5px 13px;border-radius:999px;
+  cursor:pointer;font-family:var(--mono);font-weight:500;transition:all .12s;
+}
+.schema-toggle:hover{border-color:var(--blue);color:var(--blue);}
+
+/* ---------- Bento masonry grids ---------- */
+.bento-grid{
+  display:grid;grid-auto-rows:4px;gap:16px;
+  transition:opacity .15s;
+}
+.bento-grid.collapsed{display:none;}
+#schemaGrid{grid-template-columns:repeat(auto-fill,minmax(258px,1fr));}
+#templatesGrid{grid-template-columns:repeat(auto-fit,minmax(440px,1fr));}
+
+/* ---------- Table cards ---------- */
+.table-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-md);
+  overflow:hidden;border-top:3px solid var(--cat-color,var(--blue));
+  box-shadow:var(--shadow-card);transition:box-shadow .15s,transform .15s;
+  align-self:start;
+}
+.table-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-2px);}
+.table-card-header{
+  padding:10px 13px 8px;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+}
+.table-card-header .tname{font-family:var(--mono);font-weight:700;font-size:0.8rem;color:var(--ink);}
+.table-card-header .col-count{font-size:0.64rem;font-weight:500;color:var(--faint);font-family:var(--sans);white-space:nowrap;}
+.cat-pill{
+  display:inline-block;font-size:0.6rem;font-weight:600;font-family:var(--sans);
+  padding:1.5px 7px;border-radius:999px;margin-top:3px;
+  background:var(--cat-soft,var(--blue-soft));color:var(--cat-color,var(--blue));
+  text-transform:uppercase;letter-spacing:0.04em;
+}
+.table-card table{width:100%;border-collapse:collapse;}
+.table-card td{
+  padding:4px 13px;border-bottom:1px solid var(--line);
+  font-family:var(--mono);font-size:0.71rem;vertical-align:top;
+}
+.table-card tr:last-child td{border-bottom:none;}
+.table-card td:first-child{color:var(--ink);}
+.table-card td:last-child{color:var(--faint);font-size:0.66rem;text-align:right;}
+.tag{font-size:0.58rem;font-family:var(--sans);font-weight:600;padding:0 5px;border-radius:4px;margin-left:5px;vertical-align:middle;}
+.tag-pk{background:var(--amber-soft);color:var(--amber);}
+.tag-fk{background:var(--blue-soft);color:var(--blue);}
+
+/* ---------- Template cards ---------- */
+.template-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-md);
+  overflow:hidden;box-shadow:var(--shadow-card);transition:box-shadow .15s,transform .15s;
+  align-self:start;
+}
+.template-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-2px);}
+.template-card.hidden-card{display:none;}
+.card-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 16px;border-bottom:1px solid var(--line);
+}
+.card-title{display:flex;align-items:baseline;gap:10px;}
+.card-num{
+  font-family:var(--mono);font-size:0.74rem;font-weight:700;color:var(--blue);
+  background:var(--blue-soft);padding:2px 8px;border-radius:999px;cursor:pointer;user-select:none;
+}
+.card-num:hover{filter:brightness(0.93);}
+.card-label{font-size:0.82rem;color:var(--muted);font-weight:500;}
+.card-label .explain{font-family:var(--mono);font-size:0.62rem;font-weight:700;color:var(--rust);background:var(--rust-soft);padding:1.5px 6px;border-radius:999px;margin-left:6px;text-transform:uppercase;letter-spacing:0.03em;}
+.copy-btn{
+  font-size:0.7rem;color:var(--muted);background:var(--surface-tint);
+  border:1px solid var(--line-strong);padding:4px 11px;border-radius:999px;
+  cursor:pointer;font-family:var(--mono);font-weight:500;transition:all .12s;
+}
+.copy-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-soft);}
+
+.template-card.removed{border-style:dashed;background:var(--surface-tint);}
+.template-card.removed .card-num{color:var(--faint);background:var(--bg);}
+.template-card.removed .card-label{color:var(--faint);}
+.removed-body{padding:14px 16px;}
+.removed-body p{font-size:0.8rem;color:var(--muted);line-height:1.5;}
+
+/* Stats row */
+.stats-row{display:flex;border-bottom:1px solid var(--line);background:var(--surface-tint);}
+.stat{flex:1;padding:7px 12px;border-right:1px solid var(--line);}
+.stat:last-child{border-right:none;}
+.stat-val{font-family:var(--mono);font-size:0.8rem;font-weight:700;color:var(--ink);}
+.stat-lbl{font-size:0.62rem;color:var(--faint);text-transform:uppercase;letter-spacing:0.05em;margin-top:1px;}
+
+/* Code */
+pre{
+  margin:0;padding:15px 16px;overflow-x:auto;
+  font-family:var(--mono);font-size:0.76rem;line-height:1.68;color:var(--ink);
+}
+.kw{color:var(--kw);font-weight:600;}
+.param{color:var(--param);font-weight:600;}
+
+nav::-webkit-scrollbar{width:5px;}
+nav::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:3px;}
+pre::-webkit-scrollbar{height:6px;}
+pre::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:3px;}
+
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
+
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto !important;transition:none !important;}}
+@media(max-width:1000px){
+  #templatesGrid{grid-template-columns:1fr;}
+}
+@media(max-width:768px){
+  nav{display:none;}
+  main{margin-left:0;padding:18px 16px 60px;max-width:100%;}
+  header{height:auto;}
+  .header-inner{flex-wrap:wrap;padding:12px 16px;}
+  .layout{margin-top:96px;}
+  .search-wrap input{width:100%;}
+  .search-wrap{width:100%;}
+  .hero-bento{grid-template-columns:repeat(2,1fr);}
+  .hero-intro{grid-column:span 2;grid-row:span 1;}
+  #schemaGrid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <svg class="brand-mark" width="30" height="30" viewBox="0 0 30 30" fill="none">
+        <circle cx="8" cy="8" r="4.2" fill="#3f7a52"/>
+        <circle cx="22" cy="8" r="4.2" fill="#9c6a08"/>
+        <circle cx="15" cy="22" r="4.2" fill="#2a6c8f"/>
+        <path d="M11 10L19 10M9.5 11.5L13.5 19M20.5 11.5L16.5 19" stroke="#cbd4cc" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <div class="brand-text">
+        <h1>JOB Schema <span class="dim">·</span> SQL Templates</h1>
+        <div class="sub" id="headerMeta"></div>
+      </div>
+    </div>
+    <div class="search-wrap">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a09a" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input type="text" id="searchInput" placeholder="search templates…" autocomplete="off"/>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <nav id="sidebar">
+    <h2>Reference</h2>
+    <div class="nav-schema-btn" onclick="scrollToSchema()">
+      <span class="num">db</span>Schema
+    </div>
+    <div class="nav-divider"></div>
+    <div class="nav-section-label">Templates</div>
+  </nav>
+  <main id="main">
+
+    <section class="hero-bento" id="heroBento"></section>
+
+    <div class="section-head" id="schemaSectionHead">
+      <div class="section-head-left">
+        <span class="eyebrow">Database Schema</span>
+        <span class="section-title">Tables &amp; relationships</span>
+      </div>
+      <div class="legend" id="schemaLegend"></div>
+      <button class="schema-toggle" id="schemaToggleBtn" onclick="toggleSchema()">Collapse</button>
+    </div>
+    <div class="bento-grid" id="schemaGrid"></div>
+
+    <div class="section-head">
+      <div class="section-head-left">
+        <span class="eyebrow">Query Library</span>
+        <span class="section-title">Parameterized templates</span>
+      </div>
+      <span class="section-note" id="templatesNote"></span>
+    </div>
+    <div id="no-results">No templates match that search.</div>
+    <div class="bento-grid" id="templatesGrid"></div>
+
+  </main>
+</div>
+
+<script>
+const SCHEMA = [
+  { name: 'aka_name', cols: [
+    { name: 'id', type: 'integer', pk: true },
+    { name: 'person_id', type: 'integer', fk: true },
+    { name: 'name', type: 'varchar' },
+    { name: 'imdb_index', type: 'varchar(3)' },
+    { name: 'name_pcode_cf', type: 'varchar(11)' },
+    { name: 'name_pcode_nf', type: 'varchar(11)' },
+    { name: 'surname_pcode', type: 'varchar(11)' },
+    { name: 'md5sum', type: 'varchar(65)' },
+  ]},
+  { name: 'aka_title', cols: [
+    { name: 'id', type: 'integer', pk: true },
+    { name: 'movie_id', type: 'integer', fk: true },
+    { name: 'title', type: 'varchar' },
+    { name: 'imdb_index', type: 'varchar(4)' },
+    { name: 'kind_id', type: 'integer', fk: true },
+    { name: 'production_year', type: 'integer' },
+    { name: 'phonetic_code', type: 'varchar(5)' },
+    { name: 'episode_of_id', type: 'integer' },
+    { name: 'season_nr', type: 'integer' },
+    { name: 'episode_nr', type: 'integer' },
+    { name: 'note', type: 'varchar(72)' },
+    { name: 'md5sum', type: 'varchar(32)' },
+  ]},
+  { name: 'cast_info', cols: [
+    { name: 'id', type: 'integer', pk: true },
+    { name: 'person_id', type: 'integer', fk: true },
+    { name: 'movie_id', type: 'integer', fk: true },
+    { name: 'person_role_id', type: 'integer', fk: true },
+    { name: 'note', type: 'varchar' },
+    { name: 'nr_order', type: 'integer' },
+    { name: 'role_id', type: 'integer', fk: true },
+  ]},
+  { name: 'char_name', cols: [
+    { name: 'id', type: 'integer', pk: true },
+    { name: 'name', type: 'varchar NOT NULL' },
+    { name: 'imdb_index', type: 'varchar(2)' },
+    { name: 'imdb_id', type: 'integer' },
+    { name: 'name_pcode_nf', type: 'varchar(5)' },
+    { name: 'surname_pcode', type: 'varchar(5)' },
+    { name: 'md5sum', type: 'varchar(32)' },
+  ]},
+  { name: 'comp_cast_type', cols: [
+    { name: 'id', type: 'integer', pk: true },
+    { name: 'kind', type: 'varchar(32) NOT NULL' },
+  ]},
+  { name: 'company_name', cols: [
+    { name: 'id', type: 'integer', pk: true },
+    { name: 'name', type: 'varchar NOT NULL' },
+    { name: 'country_code', type: 'varchar(6)' },
+    { name: 'imdb_id', type: 'integer' },
+    { name: 'name_pcode_nf', type: 'varchar(5)' },
+    { name: 'name_pcode_sf', type: 'varchar(5)' },
+    { name: 'md5sum', type: 'varchar(32)' },
+  ]},
+  { name: 'company_type', cols: [
+    { name: 'id', type: 'integer', pk: true },
+    { name: 'kind', type: 'varchar(32)' },
+  ]},
+  { name: 'complete_cast', cols: [
+    { name: 'id', type: 'integer', pk: true },
+    { name: 'movie_id', type: 'integer', fk: true },
+    { name: 'subject_id', type: 'integer', fk: true },
+    { name: 'status_id', type: 'integer', fk: true },
+  ]},
+  { name: 'info_type', cols: [
+    { name: 'id', type: 'integer', pk: true },
+    { name: 'info', type: 'varchar(32) NOT NULL' },
+  ]},
+  { name: 'keyword', cols: [
+    { name: 'id', type: 'integer', pk: true },
+    { name: 'keyword', type: 'varchar NOT NULL' },
+    { name: 'phonetic_code', type: 'varchar(5)' },
+  ]},
+  { name: 'kind_type', cols: [
+    { name: 'id', type: 'integer', pk: true },
+    { name: 'kind', type: 'varchar(15)' },
+  ]},
+  { name: 'link_type', cols: [
+    { name: 'id', type: 'integer', pk: true },
+    { name: 'link', type: 'varchar(32) NOT NULL' },
+  ]},
+  { name: 'movie_companies', cols: [
+    { name: 'id', type: 'integer', pk: true },
+    { name: 'movie_id', type: 'integer', fk: true },
+    { name: 'company_id', type: 'integer', fk: true },
+    { name: 'company_type_id', type: 'integer', fk: true },
+    { name: 'note', type: 'varchar' },
+  ]},
+  { name: 'movie_info', cols: [
+    { name: 'id', type: 'integer', pk: true },
+    { name: 'movie_id', type: 'integer', fk: true },
+    { name: 'info_type_id', type: 'integer', fk: true },
+    { name: 'info', type: 'varchar NOT NULL' },
+    { name: 'note', type: 'varchar' },
+  ]},
+  { name: 'movie_info_idx', cols: [
+    { name: 'id', type: 'integer', pk: true },
+    { name: 'movie_id', type: 'integer', fk: true },
+    { name: 'info_type_id', type: 'integer', fk: true },
+    { name: 'info', type: 'varchar NOT NULL' },
+    { name: 'note', type: 'varchar(1)' },
+  ]},
+  { name: 'movie_keyword', cols: [
+    { name: 'id', type: 'integer', pk: true },
+    { name: 'movie_id', type: 'integer', fk: true },
+    { name: 'keyword_id', type: 'integer', fk: true },
+  ]},
+  { name: 'movie_link', cols: [
+    { name: 'id', type: 'integer', pk: true },
+    { name: 'movie_id', type: 'integer', fk: true },
+    { name: 'linked_movie_id', type: 'integer', fk: true },
+    { name: 'link_type_id', type: 'integer', fk: true },
+  ]},
+  { name: 'name', cols: [
+    { name: 'id', type: 'integer', pk: true },
+    { name: 'name', type: 'varchar NOT NULL' },
+    { name: 'imdb_index', type: 'varchar(9)' },
+    { name: 'imdb_id', type: 'integer' },
+    { name: 'gender', type: 'varchar(1)' },
+    { name: 'name_pcode_cf', type: 'varchar(5)' },
+    { name: 'name_pcode_nf', type: 'varchar(5)' },
+    { name: 'surname_pcode', type: 'varchar(5)' },
+    { name: 'md5sum', type: 'varchar(32)' },
+  ]},
+  { name: 'person_info', cols: [
+    { name: 'id', type: 'integer', pk: true },
+    { name: 'person_id', type: 'integer', fk: true },
+    { name: 'info_type_id', type: 'integer', fk: true },
+    { name: 'info', type: 'varchar NOT NULL' },
+    { name: 'note', type: 'varchar' },
+  ]},
+  { name: 'role_type', cols: [
+    { name: 'id', type: 'integer', pk: true },
+    { name: 'role', type: 'varchar(32) NOT NULL' },
+  ]},
+  { name: 'title', cols: [
+    { name: 'id', type: 'integer', pk: true },
+    { name: 'title', type: 'varchar NOT NULL' },
+    { name: 'imdb_index', type: 'varchar(5)' },
+    { name: 'kind_id', type: 'integer', fk: true },
+    { name: 'production_year', type: 'integer' },
+    { name: 'imdb_id', type: 'integer' },
+    { name: 'phonetic_code', type: 'varchar(5)' },
+    { name: 'episode_of_id', type: 'integer' },
+    { name: 'season_nr', type: 'integer' },
+    { name: 'episode_nr', type: 'integer' },
+    { name: 'series_years', type: 'varchar(49)' },
+    { name: 'md5sum', type: 'varchar(32)' },
+  ]},
+];
+const REMOVED_MSG = "Completely removed from the pipeline — their presence created synthetic noise in a bin with zero ground-truth observations.";
+const templates = [
+  {id:1,removed:true},
+  {id:2,sql:`SELECT
+    cn.name AS production_company,
+    COUNT(DISTINCT t.id) AS movie_count
+FROM title t
+JOIN movie_companies mc ON t.id = mc.movie_id
+JOIN company_name cn ON mc.company_id = cn.id
+JOIN company_type ct ON mc.company_type_id = ct.id
+JOIN kind_type kt ON t.kind_id = kt.id
+WHERE ct.kind = '{{company_type.kind}}'
+  AND kt.kind = '{{kind_type.kind}}'
+  AND cn.country_code = '{{company_name.country_code}}'
+  AND t.production_year BETWEEN '{{title.production_year_start}}'
+      AND '{{title.production_year_end}}'
+GROUP BY cn.name
+ORDER BY movie_count DESC;`},
+  {id:3,sql:`EXPLAIN
+SELECT
+    lt.link AS relationship_type,
+    COUNT(DISTINCT t1.id) AS movie_count,
+    AVG(t1.production_year) AS avg_release_year
+FROM title t1
+JOIN movie_link ml ON t1.id = ml.movie_id
+JOIN link_type lt ON ml.link_type_id = lt.id
+JOIN title t2 ON ml.linked_movie_id = t2.id
+JOIN movie_info mi ON t1.id = mi.movie_id
+JOIN info_type it ON mi.info_type_id = it.id
+JOIN movie_keyword mk ON t1.id = mk.movie_id
+JOIN keyword k ON mk.keyword_id = k.id
+JOIN movie_companies mc ON t1.id = mc.movie_id
+WHERE t1.production_year BETWEEN '{{title.production_year_start}}'
+      AND '{{title.production_year_end}}'
+  AND lt.link = '{{link_type.link}}'
+  AND k.keyword = '{{keyword.keyword}}'
+  AND it.info = '{{info_type.info}}'
+GROUP BY lt.link
+ORDER BY movie_count DESC;`},
+  {id:4,sql:`SELECT
+    kt.kind AS movie_type,
+    COUNT(DISTINCT t.id) AS movie_count,
+    AVG(t.production_year) AS avg_release_year
+FROM title t
+JOIN movie_info mi ON t.id = mi.movie_id
+JOIN info_type it ON mi.info_type_id = it.id
+JOIN movie_companies mc ON t.id = mc.movie_id
+JOIN kind_type kt ON t.kind_id = kt.id
+WHERE it.info = '{{info_type.info}}'
+  AND kt.kind = '{{kind_type.kind}}'
+  AND t.production_year BETWEEN '{{title.production_year_start}}'
+      AND '{{title.production_year_end}}'
+GROUP BY kt.kind
+ORDER BY movie_count DESC;`},
+  {id:5,sql:`SELECT
+    cn.name AS company_name,
+    COUNT(DISTINCT t.id) AS movie_count
+FROM title t
+JOIN movie_companies mc ON t.id = mc.movie_id
+JOIN company_name cn ON mc.company_id = cn.id
+JOIN cast_info ci ON t.id = ci.movie_id
+JOIN role_type rt ON ci.role_id = rt.id
+WHERE rt.role = '{{role_type.role}}'
+  AND cn.country_code = '{{company_name.country_code}}'
+  AND t.production_year BETWEEN '{{title.production_year_start}}'
+      AND '{{title.production_year_end}}'
+GROUP BY cn.name
+ORDER BY movie_count DESC;`},
+  {id:6,sql:`SELECT
+    kt.kind AS movie_type,
+    COUNT(DISTINCT t.id) AS total_movies,
+    AVG(t.production_year) AS avg_release_year,
+    MAX(mi_idx.info) AS max_rank_info
+FROM title t
+JOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id
+JOIN info_type it ON mi_idx.info_type_id = it.id
+JOIN kind_type kt ON t.kind_id = kt.id
+JOIN movie_keyword mk ON t.id = mk.movie_id
+WHERE it.info = '{{info_type.info}}'
+  AND kt.kind = '{{kind_type.kind}}'
+  AND t.production_year BETWEEN '{{title.production_year_start}}'
+      AND '{{title.production_year_end}}'
+GROUP BY kt.kind
+ORDER BY total_movies DESC;`},
+  {id:7,sql:`SELECT
+    cn.country_code,
+    COUNT(DISTINCT t.id) AS movie_count,
+    AVG(t.production_year) AS avg_production_year
+FROM title t
+JOIN movie_companies mc ON t.id = mc.movie_id
+JOIN company_name cn ON mc.company_id = cn.id
+JOIN cast_info ci ON t.id = ci.movie_id
+JOIN role_type rt ON ci.role_id = rt.id
+JOIN complete_cast cc ON t.id = cc.movie_id
+JOIN comp_cast_type cct ON cc.subject_id = cct.id
+JOIN kind_type kt ON t.kind_id = kt.id
+WHERE rt.role = '{{role_type.role}}'
+  AND kt.kind = '{{kind_type.kind}}'
+  AND cn.country_code = '{{company_name.country_code}}'
+GROUP BY cn.country_code
+ORDER BY movie_count DESC;`},
+  {id:8,sql:`SELECT
+    k.keyword,
+    COUNT(DISTINCT t.id) AS movie_count,
+    AVG(t.production_year) AS avg_release_year
+FROM title t
+JOIN movie_keyword mk ON t.id = mk.movie_id
+JOIN keyword k ON mk.keyword_id = k.id
+JOIN movie_companies mc ON t.id = mc.movie_id
+JOIN company_name cn ON mc.company_id = cn.id
+WHERE cn.country_code = '{{company_name.country_code}}'
+  AND k.keyword = '{{keyword.keyword}}'
+  AND t.id IN (
+        SELECT mi.movie_id FROM movie_info mi
+        JOIN info_type it ON mi.info_type_id = it.id
+        WHERE it.info = '{{info_type.info}}'
+    )
+GROUP BY k.keyword
+ORDER BY movie_count DESC;`},
+  {id:9,sql:`SELECT
+    k.keyword,
+    COUNT(DISTINCT t.id) AS movie_count,
+    AVG(t.production_year) AS avg_release_year,
+    MAX(mc.id) AS latest_company_record
+FROM title t
+JOIN movie_keyword mk ON t.id = mk.movie_id
+JOIN keyword k ON mk.keyword_id = k.id
+JOIN movie_companies mc ON t.id = mc.movie_id
+JOIN company_name cn ON mc.company_id = cn.id
+JOIN complete_cast cc ON t.id = cc.movie_id
+JOIN comp_cast_type cct ON cc.subject_id = cct.id
+JOIN kind_type kt ON t.kind_id = kt.id
+WHERE k.keyword = '{{keyword.keyword}}'
+  AND cn.country_code = '{{company_name.country_code}}'
+  AND kt.kind = '{{kind_type.kind}}'
+GROUP BY k.keyword
+ORDER BY movie_count DESC;`},
+  {id:10,sql:`SELECT
+    cct.kind AS cast_category,
+    COUNT(DISTINCT t.id) AS movie_count,
+    AVG(t.production_year) AS avg_release_year
+FROM title t
+JOIN movie_companies mc ON t.id = mc.movie_id
+JOIN company_name cn ON mc.company_id = cn.id
+JOIN complete_cast cc ON t.id = cc.movie_id
+JOIN comp_cast_type cct ON cc.subject_id = cct.id
+JOIN keyword k ON k.id IN (
+        SELECT mk.keyword_id FROM movie_keyword mk
+        WHERE mk.movie_id = t.id
+    )
+WHERE cn.country_code = '{{company_name.country_code}}'
+  AND k.keyword = '{{keyword.keyword}}'
+GROUP BY cct.kind
+ORDER BY movie_count DESC;`},
+  {id:11,sql:`SELECT
+    rt.role,
+    COUNT(DISTINCT t.id) AS movie_count,
+    AVG(t.production_year) AS avg_release_year,
+    MIN(mc.id) AS earliest_company_record
+FROM title t
+JOIN cast_info ci ON t.id = ci.movie_id
+JOIN role_type rt ON ci.role_id = rt.id
+JOIN movie_companies mc ON t.id = mc.movie_id
+JOIN company_name cn ON mc.company_id = cn.id
+JOIN kind_type kt ON t.kind_id = kt.id
+JOIN complete_cast cc ON t.id = cc.movie_id
+JOIN comp_cast_type cct ON cc.subject_id = cct.id
+WHERE rt.role = '{{role_type.role}}'
+  AND kt.kind = '{{kind_type.kind}}'
+  AND cn.country_code = '{{company_name.country_code}}'
+GROUP BY rt.role
+ORDER BY movie_count DESC;`},
+  {id:12,sql:`SELECT
+    cn.name AS company_name,
+    COUNT(DISTINCT t.id) AS movie_count,
+    AVG(t.production_year) AS avg_release_year,
+    MAX(mi_idx.info) AS highest_rank_info
+FROM title t
+JOIN movie_companies mc ON t.id = mc.movie_id
+JOIN company_name cn ON mc.company_id = cn.id
+JOIN cast_info ci ON t.id = ci.movie_id
+JOIN role_type rt ON ci.role_id = rt.id
+JOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id
+JOIN info_type it ON mi_idx.info_type_id = it.id
+JOIN keyword k ON k.id IN (
+        SELECT mk.keyword_id FROM movie_keyword mk
+        WHERE mk.movie_id = t.id
+    )
+WHERE rt.role = '{{role_type.role}}'
+  AND it.info = '{{info_type.info}}'
+  AND cn.country_code = '{{company_name.country_code}}'
+GROUP BY cn.name
+ORDER BY movie_count DESC;`},
+  {id:13,sql:`SELECT
+    cn.name AS company_name,
+    rt.role AS role_type,
+    COUNT(DISTINCT t.id) AS movie_count,
+    AVG(t.production_year) AS avg_release_year,
+    MIN(mi_idx.info) AS lowest_rank_info
+FROM title t
+JOIN movie_companies mc ON t.id = mc.movie_id
+JOIN company_name cn ON mc.company_id = cn.id
+JOIN cast_info ci ON t.id = ci.movie_id
+JOIN role_type rt ON ci.role_id = rt.id
+JOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id
+JOIN info_type it ON mi_idx.info_type_id = it.id
+JOIN movie_keyword mk ON t.id = mk.movie_id
+JOIN keyword k ON mk.keyword_id = k.id
+WHERE rt.role = '{{role_type.role}}'
+  AND k.keyword = '{{keyword.keyword}}'
+  AND it.info = '{{info_type.info}}'
+GROUP BY cn.name, rt.role
+ORDER BY movie_count DESC;`},
+  {id:14,sql:`SELECT
+    kt.kind AS movie_type,
+    COUNT(DISTINCT t.id) AS movie_count,
+    AVG(t.production_year) AS avg_release_year
+FROM title t
+JOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id
+JOIN info_type it ON mi_idx.info_type_id = it.id
+JOIN movie_link ml ON t.id = ml.movie_id
+JOIN link_type lt ON ml.link_type_id = lt.id
+JOIN movie_keyword mk ON t.id = mk.movie_id
+JOIN keyword k ON mk.keyword_id = k.id
+JOIN kind_type kt ON t.kind_id = kt.id
+WHERE it.info = '{{info_type.info}}'
+  AND lt.link = '{{link_type.link}}'
+  AND k.keyword = '{{keyword.keyword}}'
+GROUP BY kt.kind
+ORDER BY movie_count DESC;`},
+  {id:15,sql:`SELECT
+    cn.name AS company_name,
+    kt.kind AS movie_type,
+    COUNT(DISTINCT t.id) AS movie_count,
+    AVG(t.production_year) AS avg_release_year
+FROM title t
+JOIN movie_companies mc ON t.id = mc.movie_id
+JOIN company_name cn ON mc.company_id = cn.id
+JOIN cast_info ci ON t.id = ci.movie_id
+JOIN role_type rt ON ci.role_id = rt.id
+JOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id
+JOIN info_type it ON mi_idx.info_type_id = it.id
+JOIN movie_link ml ON t.id = ml.movie_id
+JOIN kind_type kt ON t.kind_id = kt.id
+WHERE rt.role = '{{role_type.role}}'
+  AND it.info = '{{info_type.info}}'
+  AND kt.kind = '{{kind_type.kind}}'
+  AND cn.country_code = '{{company_name.country_code}}'
+GROUP BY cn.name, kt.kind
+ORDER BY movie_count DESC;`},
+  {id:16,sql:`SELECT
+    k.keyword,
+    COUNT(DISTINCT t.id) AS movie_count,
+    AVG(t.production_year) AS avg_release_year
+FROM title t
+JOIN movie_keyword mk ON t.id = mk.movie_id
+JOIN keyword k ON mk.keyword_id = k.id
+JOIN movie_companies mc ON t.id = mc.movie_id
+JOIN company_name cn ON mc.company_id = cn.id
+JOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id
+JOIN info_type it ON mi_idx.info_type_id = it.id
+JOIN kind_type kt ON t.kind_id = kt.id
+WHERE k.keyword = '{{keyword.keyword}}'
+  AND it.info = '{{info_type.info}}'
+  AND kt.kind = '{{kind_type.kind}}'
+  AND cn.country_code = '{{company_name.country_code}}'
+GROUP BY k.keyword
+ORDER BY movie_count DESC;`},
+  {id:17,sql:`SELECT ct.kind,
+       COUNT(DISTINCT t.id) AS movie_count,
+       AVG(CAST(mi_idx.info AS FLOAT)) AS avg_rating,
+       COUNT(mi.info) AS info_entries
+FROM title t
+JOIN movie_companies mc ON t.id = mc.movie_id
+JOIN company_type ct ON mc.company_type_id = ct.id
+JOIN movie_info mi ON t.id = mi.movie_id
+JOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id
+JOIN info_type it ON mi.info_type_id = it.id
+WHERE ct.kind = '{{company_type.kind}}'
+  AND it.info = '{{info_type.info}}'
+  AND mi.info LIKE '{{movie_info.info}}'
+GROUP BY ct.kind;`},
+  {id:18,sql:`SELECT
+    cn.name AS company_name,
+    COUNT(DISTINCT t.id) AS movie_count,
+    AVG(t.production_year) AS avg_release_year,
+    MAX(mi_idx.info) AS highest_rank_info
+FROM title t
+JOIN movie_companies mc ON t.id = mc.movie_id
+JOIN company_name cn ON mc.company_id = cn.id
+JOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id
+JOIN info_type it ON mi_idx.info_type_id = it.id
+JOIN movie_link ml ON t.id = ml.movie_id
+JOIN link_type lt ON ml.link_type_id = lt.id
+WHERE it.info = '{{info_type.info}}'
+  AND lt.link = '{{link_type.link}}'
+  AND cn.country_code = '{{company_name.country_code}}'
+GROUP BY cn.name
+ORDER BY movie_count DESC;`},
+  {id:19,sql:`SELECT
+    k.keyword,
+    COUNT(DISTINCT t.id) AS movie_count,
+    AVG(t.production_year) AS avg_release_year
+FROM title t
+JOIN movie_keyword mk ON t.id = mk.movie_id
+JOIN keyword k ON mk.keyword_id = k.id
+JOIN movie_companies mc ON t.id = mc.movie_id
+JOIN company_name cn ON mc.company_id = cn.id
+JOIN complete_cast cc ON t.id = cc.movie_id
+JOIN comp_cast_type cct ON cc.subject_id = cct.id
+JOIN kind_type kt ON t.kind_id = kt.id
+JOIN movie_link ml ON t.id = ml.movie_id
+WHERE kt.kind = '{{kind_type.kind}}'
+  AND cn.country_code = '{{company_name.country_code}}'
+  AND t.id IN (
+        SELECT mi.movie_id FROM movie_info mi
+        JOIN info_type it ON mi.info_type_id = it.id
+        WHERE it.info = '{{info_type.info}}'
+    )
+GROUP BY k.keyword
+ORDER BY movie_count DESC;`},
+  {id:20,sql:`SELECT
+    rt.role,
+    COUNT(DISTINCT t.id) AS movie_count,
+    AVG(t.production_year) AS avg_release_year,
+    MAX(mi_idx.info) AS highest_rank_info
+FROM title t
+JOIN cast_info ci ON t.id = ci.movie_id
+JOIN role_type rt ON ci.role_id = rt.id
+JOIN movie_link ml ON t.id = ml.movie_id
+JOIN link_type lt ON ml.link_type_id = lt.id
+JOIN movie_keyword mk ON t.id = mk.movie_id
+JOIN keyword k ON mk.keyword_id = k.id
+JOIN complete_cast cc ON t.id = cc.movie_id
+JOIN comp_cast_type cct ON cc.subject_id = cct.id
+JOIN movie_companies mc ON t.id = mc.movie_id
+JOIN company_name cn ON mc.company_id = cn.id
+JOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id
+JOIN kind_type kt ON t.kind_id = kt.id
+WHERE rt.role = '{{role_type.role}}'
+  AND lt.link = '{{link_type.link}}'
+  AND kt.kind = '{{kind_type.kind}}'
+  AND t.id IN (
+        SELECT at2.movie_id FROM aka_title at2
+        JOIN movie_info mi ON at2.movie_id = mi.movie_id
+        JOIN info_type it ON mi.info_type_id = it.id
+        WHERE it.info = '{{info_type.info}}'
+    )
+  AND t.id IN (
+        SELECT mc2.movie_id FROM movie_companies mc2
+        JOIN company_type ct2 ON mc2.company_type_id = ct2.id
+        WHERE ct2.kind = '{{company_type.kind}}'
+    )
+GROUP BY rt.role
+ORDER BY movie_count DESC;`},
+  {id:21,sql:`SELECT
+    rt.role AS role_type,
+    cn.name AS company_name,
+    COUNT(DISTINCT t.id) AS movie_count,
+    AVG(t.production_year) AS avg_release_year,
+    MAX(mi_idx.info) AS highest_rank_info
+FROM title t
+JOIN cast_info ci ON t.id = ci.movie_id
+JOIN role_type rt ON ci.role_id = rt.id
+JOIN movie_companies mc ON t.id = mc.movie_id
+JOIN company_name cn ON mc.company_id = cn.id
+JOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id
+JOIN info_type it ON mi_idx.info_type_id = it.id
+JOIN complete_cast cc ON t.id = cc.movie_id
+JOIN comp_cast_type cct ON cc.subject_id = cct.id
+WHERE rt.role = '{{role_type.role}}'
+  AND it.info = '{{info_type.info}}'
+  AND cn.country_code = '{{company_name.country_code}}'
+GROUP BY rt.role, cn.name
+ORDER BY movie_count DESC;`},
+  {id:22,sql:`SELECT
+    n.name,
+    COUNT(DISTINCT t.id) AS movie_count,
+    COUNT(DISTINCT k.id) AS keyword_count
+FROM title t
+JOIN cast_info ci ON t.id = ci.movie_id
+JOIN name n ON ci.person_id = n.id
+JOIN aka_name an ON n.id = an.person_id
+JOIN movie_keyword mk ON t.id = mk.movie_id
+JOIN keyword k ON mk.keyword_id = k.id
+JOIN movie_companies mc ON t.id = mc.movie_id
+JOIN company_name cn ON mc.company_id = cn.id
+WHERE k.keyword = '{{keyword.keyword}}'
+  AND cn.country_code = '{{company_name.country_code}}'
+  AND an.name LIKE '{{aka_name.name}}'
+GROUP BY n.name;`},
+  {id:23,sql:`SELECT
+    cn.name AS company_name,
+    rt.role AS role_type,
+    COUNT(DISTINCT t.id) AS movie_count,
+    AVG(t.production_year) AS avg_release_year
+FROM title t
+JOIN cast_info ci ON t.id = ci.movie_id
+JOIN role_type rt ON ci.role_id = rt.id
+JOIN movie_companies mc ON t.id = mc.movie_id
+JOIN company_name cn ON mc.company_id = cn.id
+JOIN movie_link ml ON t.id = ml.movie_id
+JOIN link_type lt ON ml.link_type_id = lt.id
+JOIN movie_keyword mk ON t.id = mk.movie_id
+JOIN keyword k ON mk.keyword_id = k.id
+JOIN complete_cast cc ON t.id = cc.movie_id
+JOIN comp_cast_type cct ON cc.subject_id = cct.id
+WHERE rt.role = '{{role_type.role}}'
+  AND lt.link = '{{link_type.link}}'
+  AND k.keyword = '{{keyword.keyword}}'
+  AND cn.country_code = '{{company_name.country_code}}'
+GROUP BY cn.name, rt.role
+ORDER BY movie_count DESC;`},
+  {id:24,sql:`SELECT
+    cn.name AS company_name,
+    rt.role AS role_type,
+    k.keyword,
+    COUNT(DISTINCT t.id) AS movie_count,
+    AVG(t.production_year) AS avg_release_year,
+    MAX(mi_idx.info) AS highest_rank_info
+FROM title t
+JOIN movie_companies mc ON t.id = mc.movie_id
+JOIN company_name cn ON mc.company_id = cn.id
+JOIN cast_info ci ON t.id = ci.movie_id
+JOIN role_type rt ON ci.role_id = rt.id
+JOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id
+JOIN info_type it ON mi_idx.info_type_id = it.id
+JOIN movie_keyword mk ON t.id = mk.movie_id
+JOIN keyword k ON mk.keyword_id = k.id
+JOIN complete_cast cc ON t.id = cc.movie_id
+JOIN comp_cast_type cct ON cc.subject_id = cct.id
+JOIN kind_type kt ON t.kind_id = kt.id
+JOIN movie_link ml ON t.id = ml.movie_id
+WHERE rt.role = '{{role_type.role}}'
+  AND k.keyword = '{{keyword.keyword}}'
+  AND kt.kind = '{{kind_type.kind}}'
+  AND it.info = '{{info_type.info}}'
+GROUP BY cn.name, rt.role, k.keyword
+ORDER BY movie_count DESC;`},
+  {id:25,sql:`SELECT
+    cn.name AS company_name,
+    COUNT(DISTINCT t.id) AS movie_count,
+    AVG(t.production_year) AS avg_release_year,
+    MIN(mi_idx.info) AS lowest_rank_info,
+    MAX(mi_idx.info) AS highest_rank_info
+FROM title t
+JOIN movie_companies mc ON t.id = mc.movie_id
+JOIN company_name cn ON mc.company_id = cn.id
+JOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id
+JOIN info_type it ON mi_idx.info_type_id = it.id
+JOIN movie_link ml ON t.id = ml.movie_id
+JOIN link_type lt ON ml.link_type_id = lt.id
+JOIN kind_type kt ON t.kind_id = kt.id
+JOIN complete_cast cc ON t.id = cc.movie_id
+WHERE it.info = '{{info_type.info}}'
+  AND lt.link = '{{link_type.link}}'
+  AND kt.kind = '{{kind_type.kind}}'
+GROUP BY cn.name
+ORDER BY movie_count DESC;`},
+  {id:26,sql:`SELECT
+    rt.role AS role_type,
+    COUNT(DISTINCT t.id) AS movie_count,
+    AVG(t.production_year) AS avg_release_year,
+    MIN(mi_idx.info) AS lowest_rank_info,
+    MAX(mi_idx.info) AS highest_rank_info
+FROM title t
+JOIN cast_info ci ON t.id = ci.movie_id
+JOIN role_type rt ON ci.role_id = rt.id
+JOIN movie_link ml ON t.id = ml.movie_id
+JOIN link_type lt ON ml.link_type_id = lt.id
+JOIN movie_keyword mk ON t.id = mk.movie_id
+JOIN keyword k ON mk.keyword_id = k.id
+JOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id
+JOIN info_type it ON mi_idx.info_type_id = it.id
+JOIN complete_cast cc ON t.id = cc.movie_id
+JOIN comp_cast_type cct ON cc.subject_id = cct.id
+WHERE rt.role = '{{role_type.role}}'
+  AND lt.link = '{{link_type.link}}'
+  AND t.id IN (
+        SELECT mc.movie_id FROM movie_companies mc
+        JOIN company_name cn ON mc.company_id = cn.id
+        WHERE cn.country_code = '{{company_name.country_code}}'
+    )
+GROUP BY rt.role
+ORDER BY movie_count DESC;`},
+  {id:27,sql:`SELECT
+    rt.role AS role_type,
+    cn.name AS company_name,
+    COUNT(DISTINCT t.id) AS movie_count,
+    AVG(t.production_year) AS avg_release_year,
+    MAX(mi_idx.info) AS highest_rank_info
+FROM title t
+JOIN cast_info ci ON t.id = ci.movie_id
+JOIN role_type rt ON ci.role_id = rt.id
+JOIN movie_companies mc ON t.id = mc.movie_id
+JOIN company_name cn ON mc.company_id = cn.id
+JOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id
+JOIN info_type it ON mi_idx.info_type_id = it.id
+JOIN complete_cast cc ON t.id = cc.movie_id
+JOIN comp_cast_type cct ON cc.subject_id = cct.id
+JOIN movie_link ml ON t.id = ml.movie_id
+JOIN link_type lt ON ml.link_type_id = lt.id
+JOIN kind_type kt ON t.kind_id = kt.id
+WHERE rt.role = '{{role_type.role}}'
+  AND it.info = '{{info_type.info}}'
+  AND lt.link = '{{link_type.link}}'
+  AND kt.kind = '{{kind_type.kind}}'
+GROUP BY rt.role, cn.name
+ORDER BY movie_count DESC;`},
+  {id:28,sql:`SELECT
+    cn.name AS company_name,
+    rt.role AS role_type,
+    COUNT(DISTINCT t.id) AS movie_count,
+    AVG(t.production_year) AS avg_release_year,
+    MIN(mi_idx.info) AS lowest_rank_info
+FROM title t
+JOIN cast_info ci ON t.id = ci.movie_id
+JOIN role_type rt ON ci.role_id = rt.id
+JOIN movie_companies mc ON t.id = mc.movie_id
+JOIN company_name cn ON mc.company_id = cn.id
+JOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id
+JOIN info_type it ON mi_idx.info_type_id = it.id
+JOIN movie_link ml ON t.id = ml.movie_id
+JOIN link_type lt ON ml.link_type_id = lt.id
+JOIN movie_keyword mk ON t.id = mk.movie_id
+JOIN keyword k ON mk.keyword_id = k.id
+JOIN kind_type kt ON t.kind_id = kt.id
+WHERE rt.role = '{{role_type.role}}'
+  AND k.keyword = '{{keyword.keyword}}'
+  AND lt.link = '{{link_type.link}}'
+  AND t.id IN (
+        SELECT cc.movie_id FROM complete_cast cc
+        JOIN comp_cast_type cct ON cc.subject_id = cct.id
+        WHERE cct.kind = '{{comp_cast_type.kind}}'
+    )
+GROUP BY cn.name, rt.role
+ORDER BY movie_count DESC;`},
+  {id:29,sql:`SELECT
+    cn.name AS company_name,
+    rt.role AS role_type,
+    k.keyword,
+    COUNT(DISTINCT t.id) AS movie_count,
+    AVG(t.production_year) AS avg_release_year,
+    MAX(mi_idx.info) AS highest_rank_info
+FROM title t
+JOIN cast_info ci ON t.id = ci.movie_id
+JOIN role_type rt ON ci.role_id = rt.id
+JOIN movie_companies mc ON t.id = mc.movie_id
+JOIN company_name cn ON mc.company_id = cn.id
+JOIN company_type ct ON mc.company_type_id = ct.id
+JOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id
+JOIN movie_keyword mk ON t.id = mk.movie_id
+JOIN keyword k ON mk.keyword_id = k.id
+JOIN movie_link ml ON t.id = ml.movie_id
+JOIN link_type lt ON ml.link_type_id = lt.id
+JOIN complete_cast cc ON t.id = cc.movie_id
+JOIN comp_cast_type cct ON cc.subject_id = cct.id
+JOIN kind_type kt ON t.kind_id = kt.id
+WHERE rt.role = '{{role_type.role}}'
+  AND k.keyword = '{{keyword.keyword}}'
+  AND lt.link = '{{link_type.link}}'
+  AND kt.kind = '{{kind_type.kind}}'
+  AND ct.kind = '{{company_type.kind}}'
+  AND cct.kind = '{{comp_cast_type.kind}}'
+  AND t.id IN (
+        SELECT mi.movie_id FROM movie_info mi
+        WHERE mi.info LIKE '{{movie_info.info}}'
+    )
+GROUP BY cn.name, rt.role, k.keyword
+ORDER BY movie_count DESC;`},
+  {id:30,sql:`SELECT
+    cn.name AS company_name,
+    k.keyword,
+    COUNT(DISTINCT t.id) AS movie_count,
+    AVG(t.production_year) AS avg_release_year,
+    MIN(mi_idx.info) AS lowest_rank_info,
+    MAX(mi_idx.info) AS highest_rank_info
+FROM title t
+JOIN movie_companies mc ON t.id = mc.movie_id
+JOIN company_name cn ON mc.company_id = cn.id
+JOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id
+JOIN info_type it ON mi_idx.info_type_id = it.id
+JOIN movie_keyword mk ON t.id = mk.movie_id
+JOIN keyword k ON mk.keyword_id = k.id
+JOIN movie_link ml ON t.id = ml.movie_id
+JOIN link_type lt ON ml.link_type_id = lt.id
+JOIN complete_cast cc ON t.id = cc.movie_id
+JOIN comp_cast_type cct ON cc.subject_id = cct.id
+JOIN kind_type kt ON t.kind_id = kt.id
+WHERE k.keyword = '{{keyword.keyword}}'
+  AND it.info = '{{info_type.info}}'
+  AND lt.link = '{{link_type.link}}'
+  AND kt.kind = '{{kind_type.kind}}'
+GROUP BY cn.name, k.keyword
+ORDER BY movie_count DESC;`},
+  {id:31,sql:`SELECT
+    cn.name AS company_name,
+    rt.role AS role_type,
+    COUNT(DISTINCT t.id) AS movie_count,
+    AVG(t.production_year) AS avg_release_year,
+    MIN(mi_idx.info) AS lowest_rank_info,
+    MAX(mi_idx.info) AS highest_rank_info
+FROM title t
+JOIN cast_info ci ON t.id = ci.movie_id
+JOIN role_type rt ON ci.role_id = rt.id
+JOIN movie_companies mc ON t.id = mc.movie_id
+JOIN company_name cn ON mc.company_id = cn.id
+JOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id
+JOIN info_type it ON mi_idx.info_type_id = it.id
+JOIN movie_link ml ON t.id = ml.movie_id
+JOIN link_type lt ON ml.link_type_id = lt.id
+JOIN complete_cast cc ON t.id = cc.movie_id
+JOIN comp_cast_type cct ON cc.subject_id = cct.id
+WHERE rt.role = '{{role_type.role}}'
+  AND it.info = '{{info_type.info}}'
+  AND lt.link = '{{link_type.link}}'
+GROUP BY cn.name, rt.role
+ORDER BY movie_count DESC;`},
+  {id:32,removed:true},
+  {id:33,sql:`SELECT
+    cn.name AS company_name,
+    COUNT(DISTINCT t.id) AS movie_count,
+    AVG(t.production_year) AS avg_release_year,
+    MIN(t.production_year) AS earliest_release_year,
+    MAX(t.production_year) AS latest_release_year,
+    SUM(ci.nr_order) AS total_cast_order,
+    MAX(mi_idx.info) AS highest_rank_info
+FROM title t
+JOIN movie_companies mc ON t.id = mc.movie_id
+JOIN company_name cn ON mc.company_id = cn.id
+JOIN cast_info ci ON t.id = ci.movie_id
+JOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id
+JOIN info_type it ON mi_idx.info_type_id = it.id
+JOIN movie_link ml ON t.id = ml.movie_id
+JOIN link_type lt ON ml.link_type_id = lt.id
+WHERE it.info = '{{info_type.info}}'
+  AND lt.link = '{{link_type.link}}'
+  AND cn.country_code = '{{company_name.country_code}}'
+GROUP BY cn.name
+ORDER BY movie_count DESC;`},
+];
+// ---------- semantic category map (encodes table role in the schema) ----------
+const CATEGORY = {
+  aka_name:'entity', aka_title:'entity', char_name:'entity', company_name:'entity',
+  keyword:'entity', name:'entity', title:'entity',
+  comp_cast_type:'lookup', company_type:'lookup', info_type:'lookup',
+  kind_type:'lookup', link_type:'lookup', role_type:'lookup',
+  cast_info:'relationship', complete_cast:'relationship', movie_companies:'relationship',
+  movie_info:'relationship', movie_info_idx:'relationship', movie_keyword:'relationship',
+  movie_link:'relationship', person_info:'relationship',
+};
+const CATEGORY_META = {
+  entity:       { label:'Entity',       color:'var(--green)', soft:'var(--green-soft)' },
+  lookup:       { label:'Lookup',       color:'var(--amber)', soft:'var(--amber-soft)' },
+  relationship: { label:'Relationship', color:'var(--blue)',  soft:'var(--blue-soft)'  },
+};
+
+const rawSQL = {};
+templates.forEach(t => { if (!t.removed) rawSQL[t.id] = t.sql; });
+
+function countJoins(sql){ return (sql.match(/\bJOIN\b/gi)||[]).length; }
+function countParams(sql){ return (sql.match(/\{\{[^}]+\}\}/g)||[]).length; }
+function hasSubquery(sql){ return /\bIN\s*\(/i.test(sql); }
+
+function highlightSQL(sql){
+  const KW = ['SELECT','FROM','JOIN','LEFT','RIGHT','INNER','OUTER','FULL',
+    'WHERE','GROUP BY','ORDER BY','HAVING','ON','AND','OR','NOT','IN',
+    'BETWEEN','LIKE','AS','DISTINCT','COUNT','AVG','MAX','MIN','SUM',
+    'CAST','EXPLAIN','EXISTS','NULL','IS','LIMIT','UNION','ALL','CASE',
+    'WHEN','THEN','ELSE','END','FLOAT','INT','BY','ASC','DESC'];
+  let out = sql.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  out = out.replace(/\{\{([^}]+)\}\}/g,'<span class="param">{{$1}}</span>');
+  const kwRx = new RegExp('\\b('+KW.join('|')+')\\b','gi');
+  const parts = out.split(/(<span[^>]*>.*?<\/span>)/);
+  out = parts.map((p,i)=> i%2===1 ? p : p.replace(kwRx,'<span class="kw">$1</span>')).join('');
+  return out;
+}
+
+// ---------- derived stats ----------
+const activeTemplates = templates.filter(t=>!t.removed);
+const removedCount = templates.length - activeTemplates.length;
+const totalCols = SCHEMA.reduce((s,t)=>s+t.cols.length,0);
+const fkCount = SCHEMA.reduce((s,t)=>s+t.cols.filter(c=>c.fk).length,0);
+const totalJoins = activeTemplates.reduce((s,t)=>s+countJoins(t.sql),0);
+const totalParams = activeTemplates.reduce((s,t)=>s+countParams(t.sql),0);
+const maxJoins = Math.max(...activeTemplates.map(t=>countJoins(t.sql)));
+
+document.getElementById('headerMeta').innerHTML =
+  `${templates.length} templates · ${SCHEMA.length} tables · ${totalCols} columns`;
+
+document.getElementById('templatesNote').textContent =
+  `${activeTemplates.length} active · ${removedCount} removed`;
+
+// ---------- hero bento ----------
+const heroBento = document.getElementById('heroBento');
+heroBento.innerHTML = `
+  <div class="hero-tile hero-intro">
+    <div>
+      <span class="eyebrow">Join Order Benchmark</span>
+      <h2>A query template library built on the IMDB schema</h2>
+      <p>${SCHEMA.length} tables modeling films, people and companies, queried through ${activeTemplates.length} parameterized templates spanning up to ${maxJoins} joins each.</p>
+    </div>
+    <svg class="join-mark" width="120" height="22" viewBox="0 0 120 22" fill="none">
+      <circle cx="11" cy="11" r="6" fill="var(--green)" opacity="0.85"/>
+      <circle cx="60" cy="11" r="6" fill="var(--amber)" opacity="0.85"/>
+      <circle cx="109" cy="11" r="6" fill="var(--blue)" opacity="0.85"/>
+      <path d="M17 11H54M66 11H103" stroke="var(--line-strong)" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <div class="hero-tile hero-stat c-blue">
+    <div class="stat-num">${templates.length}</div>
+    <div class="stat-lbl">templates</div>
+    <div class="stat-sub">${activeTemplates.length} active · ${removedCount} removed</div>
+  </div>
+  <div class="hero-tile hero-stat c-green">
+    <div class="stat-num">${SCHEMA.length}</div>
+    <div class="stat-lbl">schema tables</div>
+  </div>
+  <div class="hero-tile hero-stat c-amber">
+    <div class="stat-num">${totalCols}</div>
+    <div class="stat-lbl">columns</div>
+  </div>
+  <div class="hero-tile hero-stat c-blue">
+    <div class="stat-num">${fkCount}</div>
+    <div class="stat-lbl">foreign keys</div>
+  </div>
+  <div class="hero-tile hero-stat c-green">
+    <div class="stat-num">${totalJoins}</div>
+    <div class="stat-lbl">total joins</div>
+    <div class="stat-sub">max ${maxJoins} in one query</div>
+  </div>
+  <div class="hero-tile hero-stat c-amber">
+    <div class="stat-num">${totalParams}</div>
+    <div class="stat-lbl">parameters</div>
+    <div class="stat-sub">{{ }} placeholders</div>
+  </div>
+`;
+
+// ---------- schema legend ----------
+const schemaLegend = document.getElementById('schemaLegend');
+schemaLegend.innerHTML = Object.entries(CATEGORY_META).map(([key,m])=>`
+  <span class="legend-item"><span class="legend-dot" style="background:${m.color}"></span>${m.label}</span>
+`).join('');
+
+// ---------- schema grid ----------
+const schemaGrid = document.getElementById('schemaGrid');
+schemaGrid.innerHTML = SCHEMA.map(tbl => {
+  const cat = CATEGORY[tbl.name] || 'entity';
+  const meta = CATEGORY_META[cat];
+  return `
+    <div class="table-card" style="--cat-color:${meta.color};--cat-soft:${meta.soft}">
+      <div class="table-card-header">
+        <div>
+          <div class="tname">${tbl.name}</div>
+          <span class="cat-pill">${meta.label}</span>
+        </div>
+        <span class="col-count">${tbl.cols.length} cols</span>
+      </div>
+      <table>
+        ${tbl.cols.map(col => `
+          <tr>
+            <td>${col.name}${col.pk?'<span class="tag tag-pk">pk</span>':col.fk?'<span class="tag tag-fk">fk</span>':''}</td>
+            <td>${col.type}</td>
+          </tr>
+        `).join('')}
+      </table>
+    </div>
+  `;
+}).join('');
+
+let schemaCollapsed = false;
+function toggleSchema(){
+  schemaCollapsed = !schemaCollapsed;
+  schemaGrid.classList.toggle('collapsed', schemaCollapsed);
+  document.getElementById('schemaToggleBtn').textContent = schemaCollapsed ? 'Expand' : 'Collapse';
+  if (!schemaCollapsed) requestAnimationFrame(()=>layoutMasonry(schemaGrid));
+}
+function scrollToSchema(){
+  document.getElementById('schemaSectionHead').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+// ---------- sidebar nav ----------
+const sidebar = document.getElementById('sidebar');
+templates.forEach(t => {
+  const a = document.createElement('div');
+  a.className = 'nav-link' + (t.removed ? ' removed-link' : '');
+  a.dataset.id = t.id;
+  a.innerHTML = `<span class="num">T${String(t.id).padStart(2,'0')}</span>${t.removed ? 'removed' : 'Template '+t.id}`;
+  a.addEventListener('click', () => {
+    const card = document.getElementById('t'+t.id);
+    if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  sidebar.appendChild(a);
+});
+
+// ---------- template cards ----------
+const templatesGrid = document.getElementById('templatesGrid');
+const noResults = document.getElementById('no-results');
+
+templates.forEach(t => {
+  const card = document.createElement('div');
+  card.className = 'template-card' + (t.removed ? ' removed' : '');
+  card.id = 't'+t.id;
+  card.style.scrollMarginTop = 'calc(var(--header-h) + 14px)';
+
+  if (t.removed) {
+    card.innerHTML = `
+      <div class="card-header">
+        <div class="card-title">
+          <span class="card-num">T${String(t.id).padStart(2,'0')}</span>
+          <span class="card-label">Template ${t.id} — removed</span>
+        </div>
+      </div>
+      <div class="removed-body">
+        <p>${REMOVED_MSG}</p>
+      </div>`;
+  } else {
+    const joins = countJoins(t.sql);
+    const params = countParams(t.sql);
+    const subq = hasSubquery(t.sql);
+    const explain = /^\s*EXPLAIN/i.test(t.sql);
+    card.innerHTML = `
+      <div class="card-header">
+        <div class="card-title">
+          <span class="card-num" title="Scroll to this template">T${String(t.id).padStart(2,'0')}</span>
+          <span class="card-label">Template ${t.id}${explain?' <span class="explain">EXPLAIN</span>':''}</span>
+        </div>
+        <button class="copy-btn" onclick="copySQL(${t.id})">Copy</button>
+      </div>
+      <div class="stats-row">
+        <div class="stat"><div class="stat-val">${joins}</div><div class="stat-lbl">joins</div></div>
+        <div class="stat"><div class="stat-val">${params}</div><div class="stat-lbl">params</div></div>
+        <div class="stat"><div class="stat-val">${subq?'yes':'no'}</div><div class="stat-lbl">subquery</div></div>
+      </div>
+      <pre>${highlightSQL(t.sql)}</pre>`;
+  }
+  templatesGrid.appendChild(card);
+});
+
+function copySQL(id){
+  navigator.clipboard.writeText(rawSQL[id]).then(()=>{
+    const btn = document.querySelector(`#t${id} .copy-btn`);
+    const prev = btn.textContent;
+    btn.textContent='Copied';
+    btn.style.color='var(--blue)';
+    btn.style.borderColor='var(--blue)';
+    btn.style.background='var(--blue-soft)';
+    setTimeout(()=>{ btn.textContent=prev; btn.style.color=''; btn.style.borderColor=''; btn.style.background=''; },1500);
+  });
+}
+
+// ---------- masonry bento layout (height-aware, never clips content) ----------
+function layoutMasonry(grid){
+  if (!grid || grid.classList.contains('collapsed')) return;
+  const styles = getComputedStyle(grid);
+  const rowUnit = parseFloat(styles.getPropertyValue('grid-auto-rows')) || 4;
+  const rowGap = parseFloat(styles.getPropertyValue('row-gap') || styles.getPropertyValue('gap')) || 0;
+  Array.from(grid.children).forEach(item => {
+    if (item.classList.contains('hidden-card')) return;
+    const h = item.getBoundingClientRect().height;
+    const span = Math.ceil((h + rowGap) / (rowUnit + rowGap));
+    item.style.gridRowEnd = 'span ' + span;
+  });
+}
+function layoutAllGrids(){
+  layoutMasonry(schemaGrid);
+  layoutMasonry(templatesGrid);
+}
+
+window.addEventListener('load', layoutAllGrids);
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(layoutAllGrids);
+}
+requestAnimationFrame(()=>requestAnimationFrame(layoutAllGrids));
+
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(layoutAllGrids, 120);
+});
+
+// ---------- search ----------
+const searchInput = document.getElementById('searchInput');
+
+function doSearch(){
+  const q = searchInput.value.trim().toLowerCase();
+  let visible = 0;
+  templates.forEach(t => {
+    const card = document.getElementById('t'+t.id);
+    const navLink = document.querySelector(`.nav-link[data-id="${t.id}"]`);
+    if (!q) {
+      card.classList.remove('hidden-card');
+      navLink.classList.remove('hidden-nav');
+      visible++;
+      return;
+    }
+    const text = [
+      'template '+t.id,
+      't'+String(t.id).padStart(2,'0'),
+      t.removed ? 'removed '+REMOVED_MSG : t.sql
+    ].join(' ').toLowerCase();
+
+    const match = text.includes(q);
+    card.classList.toggle('hidden-card', !match);
+    navLink.classList.toggle('hidden-nav', !match);
+    if (match) visible++;
+  });
+
+  noResults.style.display = (q && visible === 0) ? 'block' : 'none';
+  requestAnimationFrame(()=>layoutMasonry(templatesGrid));
+}
+
+searchInput.addEventListener('input', doSearch);
+
+</script>
+</body>
+</html>

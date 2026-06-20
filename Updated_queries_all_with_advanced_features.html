@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SQL Workload Query Repository — JOB Benchmark</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+/* ─── TOKENS ─────────────────────────────────────────── */
+:root{
+  --white:#ffffff;
+  --off:#f7f7f5;
+  --bg:#f0eeea;
+  --bg2:#e8e5e0;
+  --border:#dedad4;
+  --border2:#ccc9c2;
+  --ink:#1a1814;
+  --ink2:#4a4740;
+  --ink3:#8a877f;
+  --ink4:#b5b2ab;
+
+  --accent:#2563eb;        /* anchor blue */
+  --accent-light:#eff4ff;
+  --accent-mid:#bfdbfe;
+  --accent2:#0ea5e9;       /* sky */
+  --accent3:#7c3aed;       /* violet – used sparingly */
+  --amber:#d97706;
+  --teal:#0d9488;
+
+  --r4:4px;--r8:8px;--r12:12px;--r16:16px;--r24:24px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.04);
+  --shadow:0 4px 16px rgba(0,0,0,.08),0 1px 4px rgba(0,0,0,.04);
+  --shadow-lg:0 12px 40px rgba(0,0,0,.12),0 2px 8px rgba(0,0,0,.06);
+
+  --font:'Inter',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:14px;line-height:1.6;min-height:100vh}
+
+/* ─── SCROLLBAR ─────────────────────────────────────── */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--ink4)}
+
+/* ─── PROGRESS BAR ──────────────────────────────────── */
+#prog{position:fixed;top:0;left:0;height:2px;width:0;background:var(--accent);z-index:9999;transition:width .1s}
+
+/* ─── LAYOUT: sidebar + content ─────────────────────── */
+#shell{display:flex;min-height:100vh}
+
+/* ─── SIDEBAR ───────────────────────────────────────── */
+#sidebar{
+  width:240px;flex-shrink:0;position:fixed;top:0;left:0;height:100vh;
+  background:var(--white);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;z-index:100;overflow:hidden;
+}
+.sb-head{padding:20px 16px 14px;border-bottom:1px solid var(--border)}
+.sb-brand{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.sb-name{font-size:13px;font-weight:700;color:var(--ink)}
+.sb-meta{font-size:11px;color:var(--ink3);margin-top:2px}
+.sb-search-wrap{padding:10px 12px;border-bottom:1px solid var(--border)}
+.sb-search{width:100%;background:var(--off);border:1px solid var(--border);border-radius:var(--r8);padding:6px 10px 6px 28px;font-size:12px;font-family:var(--font);color:var(--ink);outline:none}
+.sb-search:focus{border-color:var(--accent)}
+.sb-search-icon{position:absolute;left:20px;top:50%;transform:translateY(-50%);color:var(--ink3);font-size:12px;pointer-events:none}
+.sb-search-pos{position:relative}
+.sb-nav{flex:1;overflow-y:auto;padding:8px}
+.nav-q{display:flex;align-items:center;gap:6px;padding:5px 8px;border-radius:var(--r8);cursor:pointer;transition:all .12s;margin-bottom:1px}
+.nav-q:hover{background:var(--off)}
+.nav-q.active{background:var(--accent-light)}
+.nav-num{font-size:10px;font-weight:700;font-family:var(--mono);color:var(--accent);min-width:24px;padding:2px 5px;background:var(--accent-light);border-radius:var(--r4);text-align:center}
+.nav-label{font-size:11px;color:var(--ink2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nav-jbadge{font-size:10px;padding:1px 5px;border-radius:10px;background:var(--bg);color:var(--ink3);border:1px solid var(--border)}
+.nav-jbadge.big{background:var(--accent-light);color:var(--accent);border-color:var(--accent-mid)}
+
+/* ─── MAIN ───────────────────────────────────────────── */
+#main{margin-left:240px;flex:1;min-width:0}
+
+/* ─── TOP BAR ───────────────────────────────────────── */
+#topbar{
+  position:sticky;top:0;z-index:50;
+  background:rgba(247,247,245,.92);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+  padding:10px 24px;display:flex;align-items:center;gap:12px;
+}
+.search-wrap{position:relative;flex:1;max-width:480px}
+.search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--ink3);font-size:13px;pointer-events:none}
+#msearch{
+  width:100%;background:var(--white);border:1px solid var(--border);
+  border-radius:var(--r8);padding:7px 12px 7px 32px;
+  font-size:13px;font-family:var(--font);color:var(--ink);outline:none;
+}
+#msearch:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+#srcount{font-size:12px;color:var(--ink3);white-space:nowrap}
+.tb-btns{display:flex;gap:8px;margin-left:auto}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:6px 13px;border-radius:var(--r8);border:1px solid var(--border);background:var(--white);color:var(--ink2);font-size:12px;font-weight:500;cursor:pointer;font-family:var(--font);transition:all .13s}
+.btn:hover{background:var(--off);border-color:var(--border2)}
+.btn-accent{background:var(--accent);border-color:var(--accent);color:var(--white);font-weight:600}
+.btn-accent:hover{background:#1d4ed8;border-color:#1d4ed8;color:var(--white)}
+
+/* ─── HERO ───────────────────────────────────────────── */
+#hero{
+  padding:40px 28px 32px;
+  background:var(--white);border-bottom:1px solid var(--border);
+  position:relative;overflow:hidden;
+}
+#hero::after{
+  content:'';position:absolute;top:-80px;right:-80px;
+  width:360px;height:360px;border-radius:50%;
+  background:radial-gradient(circle,rgba(37,99,235,.06) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);background:var(--accent-light);border:1px solid var(--accent-mid);
+  padding:3px 10px;border-radius:20px;margin-bottom:14px;
+}
+.hero-h1{font-size:2rem;font-weight:800;letter-spacing:-.025em;line-height:1.15;color:var(--ink);margin-bottom:10px}
+.hero-h1 span{color:var(--accent)}
+.hero-sub{font-size:14px;color:var(--ink2);max-width:580px;line-height:1.7;margin-bottom:24px}
+.hero-pills{display:flex;flex-wrap:wrap;gap:10px}
+.pill{display:flex;align-items:center;gap:8px;background:var(--off);border:1px solid var(--border);border-radius:var(--r12);padding:10px 16px}
+.pill-num{font-size:1.4rem;font-weight:800;font-family:var(--mono);color:var(--ink);line-height:1}
+.pill-lbl{font-size:11px;color:var(--ink3);font-weight:500}
+.pill-icon{font-size:1.2rem}
+
+/* ─── FILTERS ───────────────────────────────────────── */
+#filters{
+  background:var(--white);border-bottom:1px solid var(--border);
+  padding:10px 28px;display:flex;flex-wrap:wrap;align-items:center;gap:8px;
+}
+.fl{font-size:11px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.07em;margin-right:2px}
+.chip{padding:4px 11px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--ink2);font-size:12px;font-weight:500;cursor:pointer;font-family:var(--font);transition:all .12s}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+.chip.on{background:var(--accent);border-color:var(--accent);color:var(--white);font-weight:600}
+.fsep{width:1px;height:18px;background:var(--border);margin:0 2px}
+
+/* ─── BENTO GRID ─────────────────────────────────────── */
+.bento-section{padding:24px 28px}
+.bento-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.bento-title-tag{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
+.bento-title::after{content:'';flex:1;height:1px;background:var(--border)}
+
+.bento-grid{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  grid-auto-rows:auto;
+  gap:12px;
+  margin-bottom:24px;
+}
+
+/* Stat tiles — each is a bento cell */
+.bento-cell{
+  background:var(--white);border:1px solid var(--border);border-radius:var(--r16);
+  padding:20px;overflow:hidden;position:relative;transition:box-shadow .15s;
+}
+.bento-cell:hover{box-shadow:var(--shadow)}
+.bc-full{grid-column:span 3}
+.bc-half{grid-column:span 2}
+.bc-chart-sm{grid-column:span 4}
+.bc-chart-lg{grid-column:span 6}
+.bc-chart-3{grid-column:span 3}
+.bc-wide{grid-column:span 8}
+.bc-6{grid-column:span 6}
+.bc-4{grid-column:span 4}
+.bc-3{grid-column:span 3}
+.bc-12{grid-column:span 12}
+@media(max-width:1100px){
+  .bc-full,.bc-half{grid-column:span 4}
+  .bc-chart-sm,.bc-chart-lg,.bc-chart-3,.bc-wide,.bc-6,.bc-4,.bc-3{grid-column:span 6}
+  .bc-12{grid-column:span 12}
+}
+@media(max-width:700px){
+  .bento-grid>*{grid-column:span 12!important}
+}
+
+.cell-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px}
+.cell-num{font-size:2.2rem;font-weight:800;font-family:var(--mono);color:var(--ink);line-height:1;margin-bottom:4px}
+.cell-num.accent{color:var(--accent)}
+.cell-sub{font-size:12px;color:var(--ink3)}
+.cell-icon{font-size:1.6rem;margin-bottom:10px;display:block}
+
+/* accent stripe top */
+.bento-cell.stripe::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent);border-radius:var(--r16) var(--r16) 0 0}
+.bento-cell.stripe-teal::before{background:var(--teal)}
+.bento-cell.stripe-violet::before{background:var(--accent3)}
+.bento-cell.stripe-amber::before{background:var(--amber)}
+
+/* Chart cells */
+.chart-canvas-wrap{height:180px;position:relative}
+.chart-canvas-wrap.tall{height:220px}
+
+/* ─── TABLE REF ──────────────────────────────────────── */
+.ref-table{width:100%;border-collapse:collapse}
+.ref-table th{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);padding:6px 10px;border-bottom:2px solid var(--border);text-align:left}
+.ref-table td{padding:6px 10px;border-bottom:1px solid var(--bg);font-size:12px;color:var(--ink2)}
+.ref-table tr:hover td{background:var(--off)}
+.ref-table tr:last-child td{border-bottom:none}
+.tname{font-family:var(--mono);font-size:11px;color:var(--ink);font-weight:600}
+.tbar-bg{height:6px;border-radius:3px;background:var(--bg);margin-top:2px}
+.tbar-fg{height:6px;border-radius:3px;background:var(--accent);transition:width .5s ease}
+.rn{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;font-size:10px;font-weight:700;background:var(--accent-light);color:var(--accent);font-family:var(--mono)}
+
+/* ─── INSIGHTS ───────────────────────────────────────── */
+.ins-list{}
+.ins-item{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bg);font-size:12px}
+.ins-item:last-child{border-bottom:none}
+.iqn{font-size:10px;font-weight:700;padding:2px 6px;background:var(--accent-light);color:var(--accent);border-radius:var(--r4);font-family:var(--mono);flex-shrink:0}
+.ins-label{color:var(--ink);flex:1}
+.ins-meta{color:var(--ink3);font-size:11px;flex-shrink:0}
+
+/* ─── QUERIES ────────────────────────────────────────── */
+#queries-section{padding:0 28px 32px}
+.qsec-header{display:flex;align-items:center;gap:10px;padding:8px 0 14px;flex-wrap:wrap}
+#qlabel{font-size:12px;color:var(--ink3)}
+.qlist{display:flex;flex-direction:column;gap:10px}
+
+/* ─── QUERY CARD ─────────────────────────────────────── */
+.qcard{
+  background:var(--white);border:1px solid var(--border);border-radius:var(--r16);
+  overflow:hidden;transition:box-shadow .15s;scroll-margin-top:80px;
+}
+.qcard:hover{box-shadow:var(--shadow)}
+.qcard.hidden{display:none}
+.qcard-head{
+  display:flex;align-items:center;gap:8px;padding:12px 16px;
+  cursor:pointer;user-select:none;flex-wrap:wrap;
+  border-bottom:1px solid transparent;transition:border-color .15s;
+}
+.qcard.open .qcard-head{border-bottom-color:var(--border)}
+.qcard-head:hover{background:var(--off)}
+
+.qn{font-size:11px;font-weight:800;font-family:var(--mono);padding:3px 8px;background:var(--accent);color:var(--white);border-radius:var(--r4);flex-shrink:0}
+.qbadge{font-size:11px;font-weight:500;padding:2px 8px;border-radius:20px;flex-shrink:0;border:1px solid var(--border);color:var(--ink2);background:var(--off)}
+.qbadge.joins{background:var(--accent-light);color:var(--accent);border-color:var(--accent-mid)}
+.qbadge.subq{background:#f3f0ff;color:var(--accent3);border-color:#ddd6fe}
+.qbadge.agg{background:#f0fdf4;color:var(--teal);border-color:#bbf7d0}
+.qbadge.cplx-Low{background:#f0fdf4;color:#16a34a;border-color:#bbf7d0}
+.qbadge.cplx-Medium{background:#fffbeb;color:var(--amber);border-color:#fde68a}
+.qbadge.cplx-High{background:#fff7ed;color:#ea580c;border-color:#fed7aa}
+.qbadge.cplx-VeryHigh{background:#fef2f2;color:#dc2626;border-color:#fecaca}
+
+.qtitle{flex:1;font-size:12px;color:var(--ink3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:60px}
+.card-acts{display:flex;gap:5px;flex-shrink:0;margin-left:auto}
+.cbtn{padding:4px 8px;border-radius:var(--r4);border:1px solid var(--border);background:transparent;color:var(--ink3);font-size:11px;cursor:pointer;font-family:var(--font);transition:all .12s}
+.cbtn:hover{background:var(--off);color:var(--ink);border-color:var(--border2)}
+.cbtn.ok{background:var(--accent-light);border-color:var(--accent-mid);color:var(--accent)}
+.toggle-arr{font-size:11px;color:var(--ink3);flex-shrink:0;transition:transform .2s;margin-left:2px}
+.qcard.open .toggle-arr{transform:rotate(180deg)}
+
+/* ─── SQL BODY ───────────────────────────────────────── */
+.qbody{display:none}
+.qcard.open .qbody{display:block}
+.sql-wrap{
+  overflow-x:auto;padding:20px 22px;
+  background:var(--off);
+  font-family:var(--mono);font-size:12.5px;line-height:1.75;
+  white-space:pre;color:var(--ink);
+}
+.sql-wrap.fs{position:fixed;inset:0;z-index:2000;border-radius:0;overflow:auto;padding:40px;max-height:100vh;background:var(--off)}
+.meta-bar{display:flex;flex-wrap:wrap;gap:12px;padding:10px 16px;background:var(--white);border-top:1px solid var(--border);font-size:11px}
+.meta-it{color:var(--ink3);display:flex;align-items:center;gap:4px}
+.meta-it b{color:var(--ink2)}
+
+/* ─── SQL HIGHLIGHT ──────────────────────────────────── */
+.kw{color:#1d4ed8;font-weight:700}
+.fn{color:#7c3aed;font-weight:600}
+.str{color:#0369a1}
+.num{color:#b45309}
+.cmt{color:var(--ink4);font-style:italic}
+mark.hl{background:rgba(37,99,235,.15);color:var(--accent);border-radius:2px;padding:0 1px}
+
+/* ─── FULLSCREEN ─────────────────────────────────────── */
+#fs-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:1999;backdrop-filter:blur(4px)}
+#fs-overlay.on{display:block}
+#fs-close{position:fixed;top:14px;right:18px;z-index:2001;background:var(--white);border:1px solid var(--border);color:var(--ink);padding:6px 14px;border-radius:var(--r8);cursor:pointer;font-size:12px;font-weight:600;font-family:var(--font);box-shadow:var(--shadow)}
+
+/* ─── TOAST ──────────────────────────────────────────── */
+#toast{position:fixed;bottom:28px;right:28px;background:var(--ink);color:var(--white);padding:8px 16px;border-radius:var(--r8);font-size:12px;font-weight:500;z-index:9999;opacity:0;transform:translateY(6px);transition:all .2s;pointer-events:none}
+#toast.on{opacity:1;transform:translateY(0)}
+
+/* ─── BACK TO TOP ────────────────────────────────────── */
+#btt{position:fixed;bottom:28px;right:80px;width:36px;height:36px;border-radius:50%;background:var(--white);border:1px solid var(--border);color:var(--ink2);cursor:pointer;display:none;align-items:center;justify-content:center;font-size:14px;box-shadow:var(--shadow);transition:all .15s;z-index:200}
+#btt:hover{background:var(--accent);color:var(--white);border-color:var(--accent)}
+#btt.on{display:flex}
+
+/* ─── EMPTY ──────────────────────────────────────────── */
+#empty{display:none;text-align:center;padding:60px;color:var(--ink3)}
+#empty.on{display:block}
+
+/* ─── RESPONSIVE ─────────────────────────────────────── */
+@media(max-width:900px){
+  #sidebar{width:0;transition:width .2s}
+  #sidebar.open{width:240px}
+  #main{margin-left:0}
+  #mob-btn{display:flex!important}
+  .bento-section{padding:16px}
+  #hero{padding:24px 16px}
+  .hero-h1{font-size:1.5rem}
+  #queries-section{padding:0 16px 24px}
+  #topbar{padding:8px 16px}
+}
+#mob-btn{display:none;position:fixed;top:10px;left:10px;z-index:300;background:var(--white);border:1px solid var(--border);border-radius:var(--r8);padding:6px 10px;cursor:pointer;font-size:14px;box-shadow:var(--shadow-sm)}
+
+/* ─── MISC ───────────────────────────────────────────── */
+code{font-family:var(--mono);font-size:11px;background:var(--off);padding:1px 5px;border-radius:var(--r4);color:var(--accent)}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+<div id="fs-overlay"><button id="fs-close" onclick="closeFS()">✕ Close</button></div>
+<div id="toast"></div>
+<button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<button id="mob-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+
+<div id="shell">
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sb-head">
+    <div class="sb-brand">JOB · SQLBarber</div>
+    <div class="sb-name">Query Repository</div>
+    <div class="sb-meta">113 benchmark SQL queries</div>
+  </div>
+  <div class="sb-search-wrap">
+    <div class="sb-search-pos">
+      <span class="sb-search-icon">⌕</span>
+      <input class="sb-search" type="text" placeholder="Jump to query…" oninput="navSearch(this.value)"/>
+    </div>
+  </div>
+  <div class="sb-nav" id="navlist"></div>
+</nav>
+
+<!-- MAIN -->
+<main id="main">
+  <!-- TOPBAR -->
+  <div id="topbar">
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input id="msearch" type="text" placeholder="Search tables, keywords, SQL text…" oninput="doSearch(this.value)"/>
+    </div>
+    <span id="srcount">113 queries</span>
+    <div class="tb-btns">
+      <button class="btn btn-accent" onclick="exportAll()">↓ Export All</button>
+      <button class="btn" onclick="window.print()">⎙ Print</button>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-eyebrow">📊 IMDb · Join Order Benchmark Schema</div>
+    <h1 class="hero-h1">SQL Workload<br/><span>Query Repository</span></h1>
+    <p class="hero-sub">113 analytically-rich benchmark queries generated by SQLBarber over the JOB schema — for workload analysis, optimizer evaluation, and structural fidelity research.</p>
+    <div class="hero-pills">
+      <div class="pill"><span class="pill-icon">📋</span><div><div class="pill-num">113</div><div class="pill-lbl">Total Queries</div></div></div>
+      <div class="pill"><span class="pill-icon">🔗</span><div><div class="pill-num" id="h-joins">—</div><div class="pill-lbl">Total JOINs</div></div></div>
+      <div class="pill"><span class="pill-icon">🗂</span><div><div class="pill-num" id="h-tables">—</div><div class="pill-lbl">Unique Tables</div></div></div>
+      <div class="pill"><span class="pill-icon">⊃</span><div><div class="pill-num" id="h-subq">—</div><div class="pill-lbl">With Subqueries</div></div></div>
+      <div class="pill"><span class="pill-icon">∑</span><div><div class="pill-num" id="h-agg">—</div><div class="pill-lbl">With Aggregations</div></div></div>
+    </div>
+  </section>
+
+  <!-- FILTERS -->
+  <div id="filters">
+    <span class="fl">Complexity</span>
+    <button class="chip on" onclick="setFilter('cx','all',this)">All</button>
+    <button class="chip" onclick="setFilter('cx','Low',this)">Low</button>
+    <button class="chip" onclick="setFilter('cx','Medium',this)">Medium</button>
+    <button class="chip" onclick="setFilter('cx','High',this)">High</button>
+    <button class="chip" onclick="setFilter('cx','Very High',this)">Very High</button>
+    <span class="fsep"></span>
+    <button class="chip" onclick="toggleFeat('groupby',this)">GROUP BY</button>
+    <button class="chip" onclick="toggleFeat('orderby',this)">ORDER BY</button>
+    <button class="chip" onclick="toggleFeat('subq',this)">Subquery</button>
+    <button class="chip" onclick="toggleFeat('agg',this)">Aggregation</button>
+    <button class="chip" onclick="toggleFeat('distinct',this)">DISTINCT</button>
+  </div>
+
+  <!-- BENTO ANALYTICS -->
+  <section class="bento-section">
+    <div class="bento-title"><span>Dashboard Analytics</span><span class="bento-title-tag">Auto-computed from SQL</span></div>
+    <div class="bento-grid" id="bento-stats">
+      <!-- stat tiles injected by JS -->
+    </div>
+
+    <!-- Charts row -->
+    <div class="bento-grid">
+      <div class="bento-cell bc-3 stripe">
+        <div class="cell-label">Complexity Split</div>
+        <div class="chart-canvas-wrap"><canvas id="c-complexity"></canvas></div>
+      </div>
+      <div class="bento-cell bc-3 stripe-teal">
+        <div class="cell-label">JOIN Count Distribution</div>
+        <div class="chart-canvas-wrap"><canvas id="c-joins"></canvas></div>
+      </div>
+      <div class="bento-cell bc-3 stripe-violet">
+        <div class="cell-label">Aggregate Functions</div>
+        <div class="chart-canvas-wrap"><canvas id="c-agg"></canvas></div>
+      </div>
+      <div class="bento-cell bc-3 stripe-amber">
+        <div class="cell-label">Feature Presence (% of queries)</div>
+        <div class="chart-canvas-wrap"><canvas id="c-features"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TABLE ANALYSIS -->
+  <section class="bento-section" style="padding-top:0">
+    <div class="bento-title"><span>Table Reference Analysis</span></div>
+    <div class="bento-grid">
+      <div class="bento-cell bc-6 stripe" style="overflow:auto">
+        <div class="cell-label" style="margin-bottom:10px">Most Referenced Tables</div>
+        <div class="chart-canvas-wrap tall"><canvas id="c-tables"></canvas></div>
+      </div>
+      <div class="bento-cell bc-6" style="overflow:auto;padding:0">
+        <table class="ref-table" id="ref-table">
+          <thead><tr><th>#</th><th>Table</th><th>Refs</th><th style="min-width:100px">Frequency</th></tr></thead>
+          <tbody id="ref-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSIGHTS -->
+  <section class="bento-section" style="padding-top:0">
+    <div class="bento-title"><span>Performance Insights</span></div>
+    <div class="bento-grid">
+      <div class="bento-cell bc-3"><div class="cell-label">⚡ Highest JOIN Count</div><div class="ins-list" id="ins-joins"></div></div>
+      <div class="bento-cell bc-3"><div class="cell-label">⊃ Subquery Queries</div><div class="ins-list" id="ins-subq"></div></div>
+      <div class="bento-cell bc-3"><div class="cell-label">∑ Heavy Aggregation</div><div class="ins-list" id="ins-agg"></div></div>
+      <div class="bento-cell bc-3"><div class="cell-label">🎯 Optimization Candidates</div><div class="ins-list" id="ins-opt"></div></div>
+    </div>
+  </section>
+
+  <!-- QUERIES -->
+  <section id="queries-section">
+    <div class="bento-title"><span>Query Repository</span></div>
+    <div class="qsec-header">
+      <span id="qlabel">Showing 113 of 113 queries</span>
+      <button class="btn" onclick="expandAll()">Expand All</button>
+      <button class="btn" onclick="collapseAll()">Collapse All</button>
+      <span style="font-size:11px;color:var(--ink3);margin-left:8px">/ to search · Esc to clear</span>
+    </div>
+    <div class="qlist" id="qlist"></div>
+    <div id="empty"><div style="font-size:2rem;margin-bottom:10px">🔍</div><b>No queries match.</b><br/>Try different search terms or clear filters.</div>
+  </section>
+</main>
+</div>
+
+<script>
+const RAW = {"1": "SELECT\n    cn.name AS production_company,\n    COUNT(DISTINCT t.id) AS movie_count\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN company_type ct\n    ON mc.company_type_id = ct.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE ct.kind = 'production companies'\n  AND kt.kind = 'movie'\n  AND cn.country_code = '[jp]'\n  AND t.production_year BETWEEN 1950 AND 1985\nGROUP BY\n    cn.name\nORDER BY\n    movie_count DESC;", "2": "SELECT\n    cn.name AS production_company,\n    COUNT(DISTINCT t.id) AS movie_count\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN company_type ct\n    ON mc.company_type_id = ct.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE ct.kind = 'distributors'\n  AND kt.kind = 'video movie'\n  AND cn.country_code = '[br]'\n  AND t.production_year BETWEEN 1888 AND 2012\nGROUP BY\n    cn.name\nORDER BY\n    movie_count DESC;", "3": "SELECT\n    lt.link AS relationship_type,\n    COUNT(DISTINCT t1.id) AS movie_count,\n    AVG(t1.production_year) AS avg_release_year\nFROM title t1\nJOIN movie_link ml\n    ON t1.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN title t2\n    ON ml.linked_movie_id = t2.id\nJOIN movie_info mi\n    ON t1.id = mi.movie_id\nJOIN info_type it\n    ON mi.info_type_id = it.id\nJOIN movie_keyword mk\n    ON t1.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN movie_companies mc\n    ON t1.id = mc.movie_id\nWHERE t1.production_year BETWEEN 1910 AND 1975\n  AND lt.link = 'references'\n  AND k.keyword = 'monkey'\n  AND it.info = 'genres'\nGROUP BY\n    lt.link\nORDER BY\n    movie_count DESC;", "4": "SELECT\n    lt.link AS relationship_type,\n    COUNT(DISTINCT t1.id) AS movie_count,\n    AVG(t1.production_year) AS avg_release_year\nFROM title t1\nJOIN movie_link ml\n    ON t1.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN title t2\n    ON ml.linked_movie_id = t2.id\nJOIN movie_info mi\n    ON t1.id = mi.movie_id\nJOIN info_type it\n    ON mi.info_type_id = it.id\nJOIN movie_keyword mk\n    ON t1.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN movie_companies mc\n    ON t1.id = mc.movie_id\nWHERE t1.production_year BETWEEN 1955 AND 2015\n  AND lt.link = 'spoofed in'\n  AND k.keyword = 'girl-scout'\n  AND it.info = 'rating'\nGROUP BY\n    lt.link\nORDER BY\n    movie_count DESC;", "5": "SELECT\n    lt.link AS relationship_type,\n    COUNT(DISTINCT t1.id) AS movie_count,\n    AVG(t1.production_year) AS avg_release_year\nFROM title t1\nJOIN movie_link ml\n    ON t1.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN title t2\n    ON ml.linked_movie_id = t2.id\nJOIN movie_info mi\n    ON t1.id = mi.movie_id\nJOIN info_type it\n    ON mi.info_type_id = it.id\nJOIN movie_keyword mk\n    ON t1.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN movie_companies mc\n    ON t1.id = mc.movie_id\nWHERE t1.production_year BETWEEN 1888 AND 1948\n  AND lt.link = 'remake of'\n  AND k.keyword = 'ivy-league'\n  AND it.info = 'trivia'\nGROUP BY\n    lt.link\nORDER BY\n    movie_count DESC;", "6": "SELECT\n    lt.link AS relationship_type,\n    COUNT(DISTINCT t1.id) AS movie_count,\n    AVG(t1.production_year) AS avg_release_year\nFROM title t1\nJOIN movie_link ml ON t1.id = ml.movie_id\nJOIN link_type lt ON ml.link_type_id = lt.id\nJOIN title t2 ON ml.linked_movie_id = t2.id\nJOIN movie_info mi ON t1.id = mi.movie_id\nJOIN info_type it ON mi.info_type_id = it.id\nJOIN movie_keyword mk ON t1.id = mk.movie_id\nJOIN keyword k ON mk.keyword_id = k.id\nJOIN movie_companies mc ON t1.id = mc.movie_id\nWHERE t1.production_year BETWEEN 1920 AND 1980\n  AND lt.link = 'followed by'\n  AND k.keyword = 'breakfast'\n  AND it.info = 'plot'\nGROUP BY lt.link\nORDER BY movie_count DESC;", "7": "SELECT\n    lt.link AS relationship_type,\n    COUNT(DISTINCT t1.id) AS movie_count,\n    AVG(t1.production_year) AS avg_release_year\nFROM title t1\nJOIN movie_link ml ON t1.id = ml.movie_id\nJOIN link_type lt ON ml.link_type_id = lt.id\nJOIN title t2 ON ml.linked_movie_id = t2.id\nJOIN movie_info mi ON t1.id = mi.movie_id\nJOIN info_type it ON mi.info_type_id = it.id\nJOIN movie_keyword mk ON t1.id = mk.movie_id\nJOIN keyword k ON mk.keyword_id = k.id\nJOIN movie_companies mc ON t1.id = mc.movie_id\nWHERE t1.production_year BETWEEN 1960 AND 2010\n  AND lt.link = 'features'\n  AND k.keyword = 'fleeing'\n  AND it.info = 'countries'\nGROUP BY lt.link\nORDER BY movie_count DESC;", "8": "SELECT\n    lt.link AS relationship_type,\n    COUNT(DISTINCT t1.id) AS movie_count,\n    AVG(t1.production_year) AS avg_release_year\nFROM title t1\nJOIN movie_link ml ON t1.id = ml.movie_id\nJOIN link_type lt ON ml.link_type_id = lt.id\nJOIN title t2 ON ml.linked_movie_id = t2.id\nJOIN movie_info mi ON t1.id = mi.movie_id\nJOIN info_type it ON mi.info_type_id = it.id\nJOIN movie_keyword mk ON t1.id = mk.movie_id\nJOIN keyword k ON mk.keyword_id = k.id\nJOIN movie_companies mc ON t1.id = mc.movie_id\nWHERE t1.production_year BETWEEN 1888 AND 1935\n  AND lt.link = 'version of'\n  AND k.keyword = 'alligator-gar'\n  AND it.info = 'goofs'\nGROUP BY lt.link\nORDER BY movie_count DESC;", "9": "SELECT\n    lt.link AS relationship_type,\n    COUNT(DISTINCT t1.id) AS movie_count,\n    AVG(t1.production_year) AS avg_release_year\nFROM title t1\nJOIN movie_link ml ON t1.id = ml.movie_id\nJOIN link_type lt ON ml.link_type_id = lt.id\nJOIN title t2 ON ml.linked_movie_id = t2.id\nJOIN movie_info mi ON t1.id = mi.movie_id\nJOIN info_type it ON mi.info_type_id = it.id\nJOIN movie_keyword mk ON t1.id = mk.movie_id\nJOIN keyword k ON mk.keyword_id = k.id\nJOIN movie_companies mc ON t1.id = mc.movie_id\nWHERE t1.production_year BETWEEN 1970 AND 2019\n  AND lt.link = 'similar to'\n  AND k.keyword = 'public-computer'\n  AND it.info = 'soundtrack'\nGROUP BY lt.link\nORDER BY movie_count DESC;", "10": "SELECT\n    lt.link AS relationship_type,\n    COUNT(DISTINCT t1.id) AS movie_count,\n    AVG(t1.production_year) AS avg_release_year\nFROM title t1\nJOIN movie_link ml ON t1.id = ml.movie_id\nJOIN link_type lt ON ml.link_type_id = lt.id\nJOIN title t2 ON ml.linked_movie_id = t2.id\nJOIN movie_info mi ON t1.id = mi.movie_id\nJOIN info_type it ON mi.info_type_id = it.id\nJOIN movie_keyword mk ON t1.id = mk.movie_id\nJOIN keyword k ON mk.keyword_id = k.id\nJOIN movie_companies mc ON t1.id = mc.movie_id\nWHERE t1.production_year BETWEEN 1945 AND 1995\n  AND lt.link = 'spin off from'\n  AND k.keyword = 'cocaine-addict'\n  AND it.info = 'locations'\nGROUP BY lt.link\nORDER BY movie_count DESC;", "11": "SELECT\n    lt.link AS relationship_type,\n    COUNT(DISTINCT t1.id) AS movie_count,\n    AVG(t1.production_year) AS avg_release_year\nFROM title t1\nJOIN movie_link ml ON t1.id = ml.movie_id\nJOIN link_type lt ON ml.link_type_id = lt.id\nJOIN title t2 ON ml.linked_movie_id = t2.id\nJOIN movie_info mi ON t1.id = mi.movie_id\nJOIN info_type it ON mi.info_type_id = it.id\nJOIN movie_keyword mk ON t1.id = mk.movie_id\nJOIN keyword k ON mk.keyword_id = k.id\nJOIN movie_companies mc ON t1.id = mc.movie_id\nWHERE t1.production_year BETWEEN 1980 AND 2019\n  AND lt.link = 'alternate language version of'\n  AND k.keyword = 'laser-sword'\n  AND it.info = 'quotes'\nGROUP BY lt.link\nORDER BY movie_count DESC;", "12": "SELECT\n    lt.link AS relationship_type,\n    COUNT(DISTINCT t1.id) AS movie_count,\n    AVG(t1.production_year) AS avg_release_year\nFROM title t1\nJOIN movie_link ml ON t1.id = ml.movie_id\nJOIN link_type lt ON ml.link_type_id = lt.id\nJOIN title t2 ON ml.linked_movie_id = t2.id\nJOIN movie_info mi ON t1.id = mi.movie_id\nJOIN info_type it ON mi.info_type_id = it.id\nJOIN movie_keyword mk ON t1.id = mk.movie_id\nJOIN keyword k ON mk.keyword_id = k.id\nJOIN movie_companies mc ON t1.id = mc.movie_id\nWHERE t1.production_year BETWEEN 1930 AND 1970\n  AND lt.link = 'follows'\n  AND k.keyword = 'food-van'\n  AND it.info = 'release dates'\nGROUP BY lt.link\nORDER BY movie_count DESC;", "13": "SELECT\n    kt.kind AS movie_type,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN movie_info mi\n    ON t.id = mi.movie_id\nJOIN info_type it\n    ON mi.info_type_id = it.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE it.info = 'genres'\n  AND kt.kind = 'movie'\n  AND t.production_year BETWEEN 1950 AND 1990\nGROUP BY\n    kt.kind\nORDER BY\n    movie_count DESC;", "14": "SELECT\n    kt.kind AS movie_type,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN movie_info mi\n    ON t.id = mi.movie_id\nJOIN info_type it\n    ON mi.info_type_id = it.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE it.info = 'rating'\n  AND kt.kind = 'tv series'\n  AND t.production_year BETWEEN 1980 AND 2019\nGROUP BY\n    kt.kind\nORDER BY\n    movie_count DESC;", "15": "SELECT\n    kt.kind AS movie_type,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN movie_info mi\n    ON t.id = mi.movie_id\nJOIN info_type it\n    ON mi.info_type_id = it.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE it.info = 'trivia'\n  AND kt.kind = 'video movie'\n  AND t.production_year BETWEEN 1900 AND 1970\nGROUP BY\n    kt.kind\nORDER BY\n    movie_count DESC;", "16": "SELECT\n    kt.kind AS movie_type,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN movie_info mi\n    ON t.id = mi.movie_id\nJOIN info_type it\n    ON mi.info_type_id = it.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE it.info = 'countries'\n  AND kt.kind = 'episode'\n  AND t.production_year BETWEEN 1888 AND 1945\nGROUP BY\n    kt.kind\nORDER BY\n    movie_count DESC;", "17": "SELECT\n    kt.kind AS movie_type,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN movie_info mi\n    ON t.id = mi.movie_id\nJOIN info_type it\n    ON mi.info_type_id = it.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE it.info = 'soundtrack'\n  AND kt.kind = 'tv mini series'\n  AND t.production_year BETWEEN 1965 AND 2005\nGROUP BY\n    kt.kind\nORDER BY\n    movie_count DESC;", "18": "SELECT\n    cn.name AS company_name,\n    COUNT(DISTINCT t.id) AS movie_count\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nWHERE rt.role = 'director'\n  AND cn.country_code = '[us]'\n  AND t.production_year BETWEEN 1950 AND 1995\nGROUP BY\n    cn.name\nORDER BY\n    movie_count DESC;", "19": "SELECT\n    cn.name AS company_name,\n    COUNT(DISTINCT t.id) AS movie_count\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nWHERE rt.role = 'producer'\n  AND cn.country_code = '[fr]'\n  AND t.production_year BETWEEN 1888 AND 1970\nGROUP BY\n    cn.name\nORDER BY\n    movie_count DESC;", "20": "SELECT\n    cn.name AS company_name,\n    COUNT(DISTINCT t.id) AS movie_count\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nWHERE rt.role = 'writer'\n  AND cn.country_code = '[jp]'\n  AND t.production_year BETWEEN 1980 AND 2019\nGROUP BY\n    cn.name\nORDER BY\n    movie_count DESC;", "21": "SELECT\n    kt.kind AS movie_type,\n    COUNT(DISTINCT t.id) AS total_movies,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mi_idx.info) AS max_rank_info\nFROM title t\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nWHERE it.info = 'top 250 rank'\n  AND kt.kind = 'movie'\n  AND t.production_year BETWEEN 1950 AND 2019\nGROUP BY\n    kt.kind\nORDER BY\n    total_movies DESC;", "22": "SELECT\n    kt.kind AS movie_type,\n    COUNT(DISTINCT t.id) AS total_movies,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mi_idx.info) AS max_rank_info\nFROM title t\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nWHERE it.info = 'bottom 10 rank'\n  AND kt.kind = 'tv series'\n  AND t.production_year BETWEEN 1888 AND 2005\nGROUP BY\n    kt.kind\nORDER BY\n    total_movies DESC;", "23": "SELECT\n    cn.country_code,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_production_year\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE rt.role = 'actor'\n  AND kt.kind = 'movie'\n  AND cn.country_code = '[gb]'\nGROUP BY\n    cn.country_code\nORDER BY\n    movie_count DESC;", "24": "SELECT\n    k.keyword,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nWHERE cn.country_code = '[us]'\n  AND k.keyword = 'monkey'\n  AND t.id IN (\n        SELECT mi.movie_id\n        FROM movie_info mi\n        JOIN info_type it\n            ON mi.info_type_id = it.id\n        WHERE it.info = 'genres'\n    )\nGROUP BY k.keyword\nORDER BY movie_count DESC;", "25": "SELECT\n    k.keyword,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nWHERE cn.country_code = '[jp]'\n  AND k.keyword = 'girl-scout'\n  AND t.id IN (\n        SELECT mi.movie_id\n        FROM movie_info mi\n        JOIN info_type it\n            ON mi.info_type_id = it.id\n        WHERE it.info = 'rating'\n    )\nGROUP BY k.keyword\nORDER BY movie_count DESC;", "26": "SELECT\n    k.keyword,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nWHERE cn.country_code = '[fr]'\n  AND k.keyword = 'breakfast'\n  AND t.id IN (\n        SELECT mi.movie_id\n        FROM movie_info mi\n        JOIN info_type it\n            ON mi.info_type_id = it.id\n        WHERE it.info = 'countries'\n    )\nGROUP BY k.keyword\nORDER BY movie_count DESC;", "27": "SELECT\n    k.keyword,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nWHERE cn.country_code = '[in]'\n  AND k.keyword = 'laser-sword'\n  AND t.id IN (\n        SELECT mi.movie_id\n        FROM movie_info mi\n        JOIN info_type it\n            ON mi.info_type_id = it.id\n        WHERE it.info = 'trivia'\n    )\nGROUP BY k.keyword\nORDER BY movie_count DESC;", "28": "SELECT\n    k.keyword,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nWHERE cn.country_code = '[de]'\n  AND k.keyword = 'public-computer'\n  AND t.id IN (\n        SELECT mi.movie_id\n        FROM movie_info mi\n        JOIN info_type it\n            ON mi.info_type_id = it.id\n        WHERE it.info = 'soundtrack'\n    )\nGROUP BY k.keyword\nORDER BY movie_count DESC;", "29": "SELECT\n    k.keyword,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nWHERE cn.country_code = '[br]'\n  AND k.keyword = 'cocaine-addict'\n  AND t.id IN (\n        SELECT mi.movie_id\n        FROM movie_info mi\n        JOIN info_type it\n            ON mi.info_type_id = it.id\n        WHERE it.info = 'plot'\n    )\nGROUP BY k.keyword\nORDER BY movie_count DESC;", "30": "SELECT\n    k.keyword,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mc.id) AS latest_company_record\nFROM title t\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE k.keyword = 'breakfast'\n  AND cn.country_code = '[us]'\n  AND kt.kind = 'movie'\nGROUP BY\n    k.keyword\nORDER BY\n    movie_count DESC;", "31": "SELECT\n    k.keyword,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mc.id) AS latest_company_record\nFROM title t\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE k.keyword = 'laser-sword'\n  AND cn.country_code = '[jp]'\n  AND kt.kind = 'tv series'\nGROUP BY\n    k.keyword\nORDER BY\n    movie_count DESC;", "32": "SELECT\n    cct.kind AS cast_category,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nJOIN keyword k\n    ON k.id IN (\n        SELECT mk.keyword_id\n        FROM movie_keyword mk\n        WHERE mk.movie_id = t.id\n    )\nWHERE cn.country_code = '[us]'\n  AND k.keyword = 'monkey'\nGROUP BY\n    cct.kind\nORDER BY\n    movie_count DESC;", "33": "SELECT\n    cct.kind AS cast_category,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nJOIN keyword k\n    ON k.id IN (\n        SELECT mk.keyword_id\n        FROM movie_keyword mk\n        WHERE mk.movie_id = t.id\n    )\nWHERE cn.country_code = '[jp]'\n  AND k.keyword = 'laser-sword'\nGROUP BY\n    cct.kind\nORDER BY\n    movie_count DESC;", "34": "SELECT\n    cct.kind AS cast_category,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nJOIN keyword k\n    ON k.id IN (\n        SELECT mk.keyword_id\n        FROM movie_keyword mk\n        WHERE mk.movie_id = t.id\n    )\nWHERE cn.country_code = '[fr]'\n  AND k.keyword = 'breakfast'\nGROUP BY\n    cct.kind\nORDER BY\n    movie_count DESC;", "35": "SELECT\n    cct.kind AS cast_category,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nJOIN keyword k\n    ON k.id IN (\n        SELECT mk.keyword_id\n        FROM movie_keyword mk\n        WHERE mk.movie_id = t.id\n    )\nWHERE cn.country_code = '[de]'\n  AND k.keyword = 'girl-scout'\nGROUP BY\n    cct.kind\nORDER BY\n    movie_count DESC;", "36": "SELECT\n    cct.kind AS cast_category,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nJOIN keyword k\n    ON k.id IN (\n        SELECT mk.keyword_id\n        FROM movie_keyword mk\n        WHERE mk.movie_id = t.id\n    )\nWHERE cn.country_code = '[in]'\n  AND k.keyword = 'public-computer'\nGROUP BY\n    cct.kind\nORDER BY\n    movie_count DESC;", "37": "SELECT\n    rt.role,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MIN(mc.id) AS earliest_company_record\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nWHERE rt.role = 'director'\n  AND kt.kind = 'movie'\n  AND cn.country_code = '[us]'\nGROUP BY\n    rt.role\nORDER BY\n    movie_count DESC;", "38": "SELECT\n    rt.role,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MIN(mc.id) AS earliest_company_record\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nWHERE rt.role = 'producer'\n  AND kt.kind = 'tv series'\n  AND cn.country_code = '[jp]'\nGROUP BY\n    rt.role\nORDER BY\n    movie_count DESC;", "39": "SELECT\n    cn.name AS company_name,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN keyword k\n    ON k.id IN (\n        SELECT mk.keyword_id\n        FROM movie_keyword mk\n        WHERE mk.movie_id = t.id\n    )\nWHERE rt.role = 'director'\n  AND it.info = 'top 250 rank'\n  AND cn.country_code = '[gb]'\nGROUP BY\n    cn.name\nORDER BY\n    movie_count DESC;", "40": "SELECT\n    cn.name AS company_name,\n    rt.role AS role_type,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MIN(mi_idx.info) AS lowest_rank_info\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nWHERE rt.role = 'director'\n  AND k.keyword = 'breakfast'\n  AND it.info = 'top 250 rank'\nGROUP BY\n    cn.name,\n    rt.role\nORDER BY\n    movie_count DESC;", "41": "SELECT\n    cn.name AS company_name,\n    rt.role AS role_type,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MIN(mi_idx.info) AS lowest_rank_info\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nWHERE rt.role = 'actor'\n  AND k.keyword = 'monkey'\n  AND it.info = 'rating'\nGROUP BY\n    cn.name,\n    rt.role\nORDER BY\n    movie_count DESC;", "42": "SELECT\n    kt.kind AS movie_type,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE it.info = 'top 250 rank'\n  AND lt.link = 'remake of'\n  AND k.keyword = 'breakfast'\nGROUP BY\n    kt.kind\nORDER BY\n    movie_count DESC;", "43": "SELECT\n    kt.kind AS movie_type,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE it.info = 'rating'\n  AND lt.link = 'references'\n  AND k.keyword = 'monkey'\nGROUP BY\n    kt.kind\nORDER BY\n    movie_count DESC;", "44": "SELECT\n    kt.kind AS movie_type,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE it.info = 'bottom 10 rank'\n  AND lt.link = 'spoofed in'\n  AND k.keyword = 'laser-sword'\nGROUP BY\n    kt.kind\nORDER BY\n    movie_count DESC;", "45": "SELECT\n    cn.name AS company_name,\n    kt.kind AS movie_type,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE rt.role = 'director'\n  AND it.info = 'top 250 rank'\n  AND kt.kind = 'movie'\n  AND cn.country_code = '[gb]'\nGROUP BY\n    cn.name,\n    kt.kind\nORDER BY\n    movie_count DESC;", "46": "SELECT\n    k.keyword,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE k.keyword = 'breakfast'\n  AND it.info = 'top 250 rank'\n  AND kt.kind = 'movie'\n  AND cn.country_code = '[gb]'\nGROUP BY\n    k.keyword\nORDER BY\n    movie_count DESC;", "47": "SELECT\n    k.keyword,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE k.keyword = 'monkey'\n  AND it.info = 'rating'\n  AND kt.kind = 'tv series'\n  AND cn.country_code = '[us]'\nGROUP BY\n    k.keyword\nORDER BY\n    movie_count DESC;", "48": "SELECT\n    ct.kind,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(CAST(mi_idx.info AS FLOAT)) AS avg_rating,\n    COUNT(mi.info) AS info_entries\nFROM title t\nJOIN movie_companies mc ON t.id = mc.movie_id\nJOIN company_type ct ON mc.company_type_id = ct.id\nJOIN movie_info mi ON t.id = mi.movie_id\nJOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id\nJOIN info_type it ON mi.info_type_id = it.id\nWHERE ct.kind = 'special effects companies'\n  AND it.info = 'goofs'\n  AND mi.info LIKE '%bathtub%'\nGROUP BY ct.kind;", "49": "SELECT\n    ct.kind,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(CAST(mi_idx.info AS FLOAT)) AS avg_rating,\n    COUNT(mi.info) AS info_entries\nFROM title t\nJOIN movie_companies mc ON t.id = mc.movie_id\nJOIN company_type ct ON mc.company_type_id = ct.id\nJOIN movie_info mi ON t.id = mi.movie_id\nJOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id\nJOIN info_type it ON mi.info_type_id = it.id\nWHERE ct.kind = 'special effects companies'\n  AND it.info = 'trivia'\n  AND mi.info LIKE '%hearing-impaired%'\nGROUP BY ct.kind;", "50": "SELECT\n    ct.kind,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(CAST(mi_idx.info AS FLOAT)) AS avg_rating,\n    COUNT(mi.info) AS info_entries\nFROM title t\nJOIN movie_companies mc ON t.id = mc.movie_id\nJOIN company_type ct ON mc.company_type_id = ct.id\nJOIN movie_info mi ON t.id = mi.movie_id\nJOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id\nJOIN info_type it ON mi.info_type_id = it.id\nWHERE ct.kind = 'miscellaneous companies'\n  AND it.info = 'mini biography'\n  AND mi.info LIKE '%Olympians%'\nGROUP BY ct.kind;", "51": "SELECT\n    ct.kind,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(CAST(mi_idx.info AS FLOAT)) AS avg_rating,\n    COUNT(mi.info) AS info_entries\nFROM title t\nJOIN movie_companies mc ON t.id = mc.movie_id\nJOIN company_type ct ON mc.company_type_id = ct.id\nJOIN movie_info mi ON t.id = mi.movie_id\nJOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id\nJOIN info_type it ON mi.info_type_id = it.id\nWHERE ct.kind = 'special effects companies'\n  AND it.info = 'quotes'\n  AND mi.info LIKE '%garage out back%'\nGROUP BY ct.kind;", "52": "SELECT\n    ct.kind,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(CAST(mi_idx.info AS FLOAT)) AS avg_rating,\n    COUNT(mi.info) AS info_entries\nFROM title t\nJOIN movie_companies mc ON t.id = mc.movie_id\nJOIN company_type ct ON mc.company_type_id = ct.id\nJOIN movie_info mi ON t.id = mi.movie_id\nJOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id\nJOIN info_type it ON mi.info_type_id = it.id\nWHERE ct.kind = 'miscellaneous companies'\n  AND it.info = 'quotes'\n  AND mi.info LIKE '%driver''s license%'\nGROUP BY ct.kind;", "53": "SELECT\n    ct.kind,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(CAST(mi_idx.info AS FLOAT)) AS avg_rating,\n    COUNT(mi.info) AS info_entries\nFROM title t\nJOIN movie_companies mc ON t.id = mc.movie_id\nJOIN company_type ct ON mc.company_type_id = ct.id\nJOIN movie_info mi ON t.id = mi.movie_id\nJOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id\nJOIN info_type it ON mi.info_type_id = it.id\nWHERE ct.kind = 'special effects companies'\n  AND it.info = 'trivia'\n  AND mi.info LIKE '%brain tumor%'\nGROUP BY ct.kind;", "54": "SELECT\n    ct.kind,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(CAST(mi_idx.info AS FLOAT)) AS avg_rating,\n    COUNT(mi.info) AS info_entries\nFROM title t\nJOIN movie_companies mc ON t.id = mc.movie_id\nJOIN company_type ct ON mc.company_type_id = ct.id\nJOIN movie_info mi ON t.id = mi.movie_id\nJOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id\nJOIN info_type it ON mi.info_type_id = it.id\nWHERE ct.kind = 'miscellaneous companies'\n  AND it.info = 'goofs'\n  AND mi.info LIKE '%sky-cycle%'\nGROUP BY ct.kind;", "55": "SELECT\n    ct.kind,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(CAST(mi_idx.info AS FLOAT)) AS avg_rating,\n    COUNT(mi.info) AS info_entries\nFROM title t\nJOIN movie_companies mc ON t.id = mc.movie_id\nJOIN company_type ct ON mc.company_type_id = ct.id\nJOIN movie_info mi ON t.id = mi.movie_id\nJOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id\nJOIN info_type it ON mi.info_type_id = it.id\nWHERE ct.kind = 'special effects companies'\n  AND it.info = 'plot'\n  AND mi.info LIKE '%wine tasting%'\nGROUP BY ct.kind;", "56": "SELECT\n    ct.kind,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(CAST(mi_idx.info AS FLOAT)) AS avg_rating,\n    COUNT(mi.info) AS info_entries\nFROM title t\nJOIN movie_companies mc ON t.id = mc.movie_id\nJOIN company_type ct ON mc.company_type_id = ct.id\nJOIN movie_info mi ON t.id = mi.movie_id\nJOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id\nJOIN info_type it ON mi.info_type_id = it.id\nWHERE ct.kind = 'miscellaneous companies'\n  AND it.info = 'quotes'\n  AND mi.info LIKE '%gorilla%'\nGROUP BY ct.kind;", "57": "SELECT\n    cn.name AS company_name,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nWHERE it.info = 'bottom 10 rank'\n  AND lt.link = 'spoofed in'\n  AND cn.country_code = '[ad]'\nGROUP BY\n    cn.name\nORDER BY\n    movie_count DESC;", "58": "SELECT\n    cn.name AS company_name,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nWHERE it.info = 'top 250 rank'\n  AND lt.link = 'remake of'\n  AND cn.country_code = '[gb]'\nGROUP BY\n    cn.name\nORDER BY\n    movie_count DESC;", "59": "SELECT\n    cn.name AS company_name,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nWHERE it.info = 'rating'\n  AND lt.link = 'references'\n  AND cn.country_code = '[us]'\nGROUP BY\n    cn.name\nORDER BY\n    movie_count DESC;", "60": "SELECT\n    k.keyword,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nWHERE kt.kind = 'movie'\n  AND cn.country_code = '[gb]'\n  AND t.id IN (\n        SELECT mi.movie_id\n        FROM movie_info mi\n        JOIN info_type it\n            ON mi.info_type_id = it.id\n        WHERE it.info = 'top 250 rank'\n    )\nGROUP BY k.keyword\nORDER BY movie_count DESC;", "61": "SELECT\n    k.keyword,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN movie_keyword mk ON t.id = mk.movie_id\nJOIN keyword k ON mk.keyword_id = k.id\nJOIN movie_companies mc ON t.id = mc.movie_id\nJOIN company_name cn ON mc.company_id = cn.id\nJOIN complete_cast cc ON t.id = cc.movie_id\nJOIN comp_cast_type cct ON cc.subject_id = cct.id\nJOIN kind_type kt ON t.kind_id = kt.id\nJOIN movie_link ml ON t.id = ml.movie_id\nWHERE kt.kind = 'tv series'\n  AND cn.country_code = '[us]'\n  AND t.id IN (\n        SELECT mi.movie_id\n        FROM movie_info mi\n        JOIN info_type it ON mi.info_type_id = it.id\n        WHERE it.info = 'rating'\n    )\nGROUP BY k.keyword\nORDER BY movie_count DESC;", "62": "SELECT\n    k.keyword,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN movie_keyword mk ON t.id = mk.movie_id\nJOIN keyword k ON mk.keyword_id = k.id\nJOIN movie_companies mc ON t.id = mc.movie_id\nJOIN company_name cn ON mc.company_id = cn.id\nJOIN complete_cast cc ON t.id = cc.movie_id\nJOIN comp_cast_type cct ON cc.subject_id = cct.id\nJOIN kind_type kt ON t.kind_id = kt.id\nJOIN movie_link ml ON t.id = ml.movie_id\nWHERE kt.kind = 'episode'\n  AND cn.country_code = '[jp]'\n  AND t.id IN (\n        SELECT mi.movie_id\n        FROM movie_info mi\n        JOIN info_type it ON mi.info_type_id = it.id\n        WHERE it.info = 'genres'\n    )\nGROUP BY k.keyword\nORDER BY movie_count DESC;", "63": "SELECT\n    k.keyword,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN movie_keyword mk ON t.id = mk.movie_id\nJOIN keyword k ON mk.keyword_id = k.id\nJOIN movie_companies mc ON t.id = mc.movie_id\nJOIN company_name cn ON mc.company_id = cn.id\nJOIN complete_cast cc ON t.id = cc.movie_id\nJOIN comp_cast_type cct ON cc.subject_id = cct.id\nJOIN kind_type kt ON t.kind_id = kt.id\nJOIN movie_link ml ON t.id = ml.movie_id\nWHERE kt.kind = 'movie'\n  AND cn.country_code = '[fr]'\n  AND t.id IN (\n        SELECT mi.movie_id\n        FROM movie_info mi\n        JOIN info_type it ON mi.info_type_id = it.id\n        WHERE it.info = 'votes'\n    )\nGROUP BY k.keyword\nORDER BY movie_count DESC;", "64": "SELECT\n    k.keyword,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN movie_keyword mk ON t.id = mk.movie_id\nJOIN keyword k ON mk.keyword_id = k.id\nJOIN movie_companies mc ON t.id = mc.movie_id\nJOIN company_name cn ON mc.company_id = cn.id\nJOIN complete_cast cc ON t.id = cc.movie_id\nJOIN comp_cast_type cct ON cc.subject_id = cct.id\nJOIN kind_type kt ON t.kind_id = kt.id\nJOIN movie_link ml ON t.id = ml.movie_id\nWHERE kt.kind = 'tv movie'\n  AND cn.country_code = '[de]'\n  AND t.id IN (\n        SELECT mi.movie_id\n        FROM movie_info mi\n        JOIN info_type it ON mi.info_type_id = it.id\n        WHERE it.info = 'bottom 10 rank'\n    )\nGROUP BY k.keyword\nORDER BY movie_count DESC;", "65": "SELECT\n    k.keyword,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN movie_keyword mk ON t.id = mk.movie_id\nJOIN keyword k ON mk.keyword_id = k.id\nJOIN movie_companies mc ON t.id = mc.movie_id\nJOIN company_name cn ON mc.company_id = cn.id\nJOIN complete_cast cc ON t.id = cc.movie_id\nJOIN comp_cast_type cct ON cc.subject_id = cct.id\nJOIN kind_type kt ON t.kind_id = kt.id\nJOIN movie_link ml ON t.id = ml.movie_id\nWHERE kt.kind = 'video movie'\n  AND cn.country_code = '[ad]'\n  AND t.id IN (\n        SELECT mi.movie_id\n        FROM movie_info mi\n        JOIN info_type it ON mi.info_type_id = it.id\n        WHERE it.info = 'trivia'\n    )\nGROUP BY k.keyword\nORDER BY movie_count DESC;", "66": "SELECT\n    rt.role,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE rt.role = 'director'\n  AND lt.link = 'remake of'\n  AND kt.kind = 'movie'\n  AND t.id IN (\n        SELECT at.movie_id\n        FROM aka_title at\n        JOIN movie_info mi\n            ON at.movie_id = mi.movie_id\n        JOIN info_type it\n            ON mi.info_type_id = it.id\n        WHERE it.info = 'top 250 rank'\n    )\n  AND t.id IN (\n        SELECT mc2.movie_id\n        FROM movie_companies mc2\n        JOIN company_type ct2\n            ON mc2.company_type_id = ct2.id\n        WHERE ct2.kind = 'production companies'\n    )\nGROUP BY\n    rt.role\nORDER BY\n    movie_count DESC;", "67": "SELECT\n    rt.role,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE rt.role = 'actor'\n  AND lt.link = 'references'\n  AND kt.kind = 'tv series'\n  AND t.id IN (\n        SELECT at.movie_id\n        FROM aka_title at\n        JOIN movie_info mi\n            ON at.movie_id = mi.movie_id\n        JOIN info_type it\n            ON mi.info_type_id = it.id\n        WHERE it.info = 'rating'\n    )\n  AND t.id IN (\n        SELECT mc2.movie_id\n        FROM movie_companies mc2\n        JOIN company_type ct2\n            ON mc2.company_type_id = ct2.id\n        WHERE ct2.kind = 'production companies'\n    )\nGROUP BY\n    rt.role\nORDER BY\n    movie_count DESC;", "68": "SELECT\n    rt.role,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE rt.role = 'writer'\n  AND lt.link = 'followed by'\n  AND kt.kind = 'movie'\n  AND t.id IN (\n        SELECT at.movie_id\n        FROM aka_title at\n        JOIN movie_info mi\n            ON at.movie_id = mi.movie_id\n        JOIN info_type it\n            ON mi.info_type_id = it.id\n        WHERE it.info = 'genres'\n    )\n  AND t.id IN (\n        SELECT mc2.movie_id\n        FROM movie_companies mc2\n        JOIN company_type ct2\n            ON mc2.company_type_id = ct2.id\n        WHERE ct2.kind = 'distributors'\n    )\nGROUP BY\n    rt.role\nORDER BY\n    movie_count DESC;", "69": "SELECT\n    rt.role,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE rt.role = 'producer'\n  AND lt.link = 'featured in'\n  AND kt.kind = 'tv movie'\n  AND t.id IN (\n        SELECT at.movie_id\n        FROM aka_title at\n        JOIN movie_info mi\n            ON at.movie_id = mi.movie_id\n        JOIN info_type it\n            ON mi.info_type_id = it.id\n        WHERE it.info = 'votes'\n    )\n  AND t.id IN (\n        SELECT mc2.movie_id\n        FROM movie_companies mc2\n        JOIN company_type ct2\n            ON mc2.company_type_id = ct2.id\n        WHERE ct2.kind = 'production companies'\n    )\nGROUP BY\n    rt.role\nORDER BY\n    movie_count DESC;", "70": "SELECT\n    rt.role,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE rt.role = 'editor'\n  AND lt.link = 'spoofed in'\n  AND kt.kind = 'video movie'\n  AND t.id IN (\n        SELECT at.movie_id\n        FROM aka_title at\n        JOIN movie_info mi\n            ON at.movie_id = mi.movie_id\n        JOIN info_type it\n            ON mi.info_type_id = it.id\n        WHERE it.info = 'trivia'\n    )\n  AND t.id IN (\n        SELECT mc2.movie_id\n        FROM movie_companies mc2\n        JOIN company_type ct2\n            ON mc2.company_type_id = ct2.id\n        WHERE ct2.kind = 'miscellaneous companies'\n    )\nGROUP BY\n    rt.role\nORDER BY\n    movie_count DESC;", "71": "SELECT\n    rt.role,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE rt.role = 'composer'\n  AND lt.link = 'spin off from'\n  AND kt.kind = 'tv mini series'\n  AND t.id IN (\n        SELECT at.movie_id\n        FROM aka_title at\n        JOIN movie_info mi\n            ON at.movie_id = mi.movie_id\n        JOIN info_type it\n            ON mi.info_type_id = it.id\n        WHERE it.info = 'quotes'\n    )\n  AND t.id IN (\n        SELECT mc2.movie_id\n        FROM movie_companies mc2\n        JOIN company_type ct2\n            ON mc2.company_type_id = ct2.id\n        WHERE ct2.kind = 'special effects companies'\n    )\nGROUP BY rt.role\nORDER BY movie_count DESC;", "72": "SELECT\n    rt.role,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE rt.role = 'production designer'\n  AND lt.link = 'version of'\n  AND kt.kind = 'episode'\n  AND t.id IN (\n        SELECT at.movie_id\n        FROM aka_title at\n        JOIN movie_info mi\n            ON at.movie_id = mi.movie_id\n        JOIN info_type it\n            ON mi.info_type_id = it.id\n        WHERE it.info = 'goofs'\n    )\n  AND t.id IN (\n        SELECT mc2.movie_id\n        FROM movie_companies mc2\n        JOIN company_type ct2\n            ON mc2.company_type_id = ct2.id\n        WHERE ct2.kind = 'special effects companies'\n    )\nGROUP BY rt.role\nORDER BY movie_count DESC;", "73": "SELECT\n    rt.role,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE rt.role = 'costume designer'\n  AND lt.link = 'edited from'\n  AND kt.kind = 'video game'\n  AND t.id IN (\n        SELECT at.movie_id\n        FROM aka_title at\n        JOIN movie_info mi\n            ON at.movie_id = mi.movie_id\n        JOIN info_type it\n            ON mi.info_type_id = it.id\n        WHERE it.info = 'mini biography'\n    )\n  AND t.id IN (\n        SELECT mc2.movie_id\n        FROM movie_companies mc2\n        JOIN company_type ct2\n            ON mc2.company_type_id = ct2.id\n        WHERE ct2.kind = 'miscellaneous companies'\n    )\nGROUP BY rt.role\nORDER BY movie_count DESC;", "74": "SELECT\n    rt.role,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE rt.role = 'cinematographer'\n  AND lt.link = 'similar to'\n  AND kt.kind = 'movie'\n  AND t.id IN (\n        SELECT at.movie_id\n        FROM aka_title at\n        JOIN movie_info mi\n            ON at.movie_id = mi.movie_id\n        JOIN info_type it\n            ON mi.info_type_id = it.id\n        WHERE it.info = 'filming dates'\n    )\n  AND t.id IN (\n        SELECT mc2.movie_id\n        FROM movie_companies mc2\n        JOIN company_type ct2\n            ON mc2.company_type_id = ct2.id\n        WHERE ct2.kind = 'distributors'\n    )\nGROUP BY rt.role\nORDER BY movie_count DESC;", "75": "SELECT\n    rt.role,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE rt.role = 'guest'\n  AND lt.link = 'alternate language version of'\n  AND kt.kind = 'episode'\n  AND t.id IN (\n        SELECT at.movie_id\n        FROM aka_title at\n        JOIN movie_info mi\n            ON at.movie_id = mi.movie_id\n        JOIN info_type it\n            ON mi.info_type_id = it.id\n        WHERE it.info = 'release dates'\n    )\n  AND t.id IN (\n        SELECT mc2.movie_id\n        FROM movie_companies mc2\n        JOIN company_type ct2\n            ON mc2.company_type_id = ct2.id\n        WHERE ct2.kind = 'special effects companies'\n    )\nGROUP BY rt.role\nORDER BY movie_count DESC;", "76": "SELECT\n    rt.role AS role_type,\n    cn.name AS company_name,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nWHERE rt.role = 'director'\n  AND it.info = 'top 250 rank'\n  AND cn.country_code = '[gb]'\nGROUP BY\n    rt.role,\n    cn.name\nORDER BY\n    movie_count DESC;", "77": "SELECT\n    rt.role AS role_type,\n    cn.name AS company_name,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nWHERE rt.role = 'actor'\n  AND it.info = 'rating'\n  AND cn.country_code = '[us]'\nGROUP BY\n    rt.role,\n    cn.name\nORDER BY\n    movie_count DESC;", "78": "SELECT\n    rt.role AS role_type,\n    cn.name AS company_name,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nWHERE rt.role = 'producer'\n  AND it.info = 'votes'\n  AND cn.country_code = '[fr]'\nGROUP BY\n    rt.role,\n    cn.name\nORDER BY\n    movie_count DESC;", "79": "SELECT\n    n.name,\n    COUNT(DISTINCT t.id) AS movie_count,\n    COUNT(DISTINCT k.id) AS keyword_count\nFROM title t\nJOIN cast_info ci ON t.id = ci.movie_id\nJOIN name n ON ci.person_id = n.id\nJOIN aka_name an ON n.id = an.person_id\nJOIN movie_keyword mk ON t.id = mk.movie_id\nJOIN keyword k ON mk.keyword_id = k.id\nJOIN movie_companies mc ON t.id = mc.movie_id\nJOIN company_name cn ON mc.company_id = cn.id\nWHERE k.keyword = 'monkey'\n  AND cn.country_code = '[us]'\n  AND an.name LIKE '%Big%'\nGROUP BY n.name;", "80": "SELECT\n    n.name,\n    COUNT(DISTINCT t.id) AS movie_count,\n    COUNT(DISTINCT k.id) AS keyword_count\nFROM title t\nJOIN cast_info ci ON t.id = ci.movie_id\nJOIN name n ON ci.person_id = n.id\nJOIN aka_name an ON n.id = an.person_id\nJOIN movie_keyword mk ON t.id = mk.movie_id\nJOIN keyword k ON mk.keyword_id = k.id\nJOIN movie_companies mc ON t.id = mc.movie_id\nJOIN company_name cn ON mc.company_id = cn.id\nWHERE k.keyword = 'breakfast'\n  AND cn.country_code = '[gb]'\n  AND an.name LIKE '%Baby%'\nGROUP BY n.name;", "81": "SELECT\n    n.name,\n    COUNT(DISTINCT t.id) AS movie_count,\n    COUNT(DISTINCT k.id) AS keyword_count\nFROM title t\nJOIN cast_info ci ON t.id = ci.movie_id\nJOIN name n ON ci.person_id = n.id\nJOIN aka_name an ON n.id = an.person_id\nJOIN movie_keyword mk ON t.id = mk.movie_id\nJOIN keyword k ON mk.keyword_id = k.id\nJOIN movie_companies mc ON t.id = mc.movie_id\nJOIN company_name cn ON mc.company_id = cn.id\nWHERE k.keyword = 'outbreak'\n  AND cn.country_code = '[fr]'\n  AND an.name LIKE '%Bird%'\nGROUP BY n.name;", "82": "SELECT\n    n.name,\n    COUNT(DISTINCT t.id) AS movie_count,\n    COUNT(DISTINCT k.id) AS keyword_count\nFROM title t\nJOIN cast_info ci ON t.id = ci.movie_id\nJOIN name n ON ci.person_id = n.id\nJOIN aka_name an ON n.id = an.person_id\nJOIN movie_keyword mk ON t.id = mk.movie_id\nJOIN keyword k ON mk.keyword_id = k.id\nJOIN movie_companies mc ON t.id = mc.movie_id\nJOIN company_name cn ON mc.company_id = cn.id\nWHERE k.keyword = 'girl-scout'\n  AND cn.country_code = '[jp]'\n  AND an.name LIKE '%Bill%'\nGROUP BY n.name;", "83": "SELECT\n    cn.name AS company_name,\n    rt.role AS role_type,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nWHERE rt.role = 'director'\n  AND lt.link = 'remake of'\n  AND k.keyword = 'monkey'\n  AND cn.country_code = '[us]'\nGROUP BY\n    cn.name,\n    rt.role\nORDER BY\n    movie_count DESC;", "84": "SELECT\n    cn.name AS company_name,\n    rt.role AS role_type,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nWHERE rt.role = 'actor'\n  AND lt.link = 'references'\n  AND k.keyword = 'breakfast'\n  AND cn.country_code = '[gb]'\nGROUP BY\n    cn.name,\n    rt.role\nORDER BY\n    movie_count DESC;", "85": "SELECT\n    cn.name AS company_name,\n    rt.role AS role_type,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nWHERE rt.role = 'producer'\n  AND lt.link = 'similar to'\n  AND k.keyword = 'outbreak'\n  AND cn.country_code = '[fr]'\nGROUP BY\n    cn.name,\n    rt.role\nORDER BY\n    movie_count DESC;", "86": "SELECT\n    cn.name AS company_name,\n    rt.role AS role_type,\n    k.keyword,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nWHERE rt.role = 'director'\n  AND k.keyword = 'monkey'\n  AND kt.kind = 'movie'\n  AND it.info = 'top 250 rank'\nGROUP BY\n    cn.name,\n    rt.role,\n    k.keyword\nORDER BY\n    movie_count DESC;", "87": "SELECT\n    cn.name AS company_name,\n    rt.role AS role_type,\n    k.keyword,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nWHERE rt.role = 'actor'\n  AND k.keyword = 'outbreak'\n  AND kt.kind = 'tv series'\n  AND it.info = 'rating'\nGROUP BY\n    cn.name,\n    rt.role,\n    k.keyword\nORDER BY\n    movie_count DESC;", "88": "SELECT\n    cn.name AS company_name,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MIN(mi_idx.info) AS lowest_rank_info,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nWHERE it.info = 'top 250 rank'\n  AND lt.link = 'remake of'\n  AND kt.kind = 'movie'\nGROUP BY\n    cn.name\nORDER BY\n    movie_count DESC;", "89": "SELECT\n    cn.name AS company_name,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MIN(mi_idx.info) AS lowest_rank_info,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nWHERE it.info = 'rating'\n  AND lt.link = 'references'\n  AND kt.kind = 'tv series'\nGROUP BY\n    cn.name\nORDER BY\n    movie_count DESC;", "90": "SELECT\n    cn.name AS company_name,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MIN(mi_idx.info) AS lowest_rank_info,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nWHERE it.info = 'votes'\n  AND lt.link = 'similar to'\n  AND kt.kind = 'episode'\nGROUP BY\n    cn.name\nORDER BY\n    movie_count DESC;", "91": "SELECT\n    rt.role AS role_type,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MIN(mi_idx.info) AS lowest_rank_info,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nWHERE rt.role = 'costume designer'\n  AND lt.link = 'edited from'\n  AND t.id IN (\n        SELECT\n            mc.movie_id\n        FROM movie_companies mc\n        JOIN company_name cn\n            ON mc.company_id = cn.id\n        WHERE cn.country_code = '[nz]'\n    )\nGROUP BY\n    rt.role\nORDER BY\n    movie_count DESC;", "92": "SELECT\n    rt.role AS role_type,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MIN(mi_idx.info) AS lowest_rank_info,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nWHERE rt.role = 'actor'\n  AND lt.link = 'references'\n  AND t.id IN (\n        SELECT\n            mc.movie_id\n        FROM movie_companies mc\n        JOIN company_name cn\n            ON mc.company_id = cn.id\n        WHERE cn.country_code = '[gb]'\n    )\nGROUP BY\n    rt.role\nORDER BY\n    movie_count DESC;", "93": "SELECT\n    rt.role AS role_type,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MIN(mi_idx.info) AS lowest_rank_info,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nWHERE rt.role = 'producer'\n  AND lt.link = 'similar to'\n  AND t.id IN (\n        SELECT\n            mc.movie_id\n        FROM movie_companies mc\n        JOIN company_name cn\n            ON mc.company_id = cn.id\n        WHERE cn.country_code = '[fr]'\n    )\nGROUP BY\n    rt.role\nORDER BY\n    movie_count DESC;", "94": "SELECT\n    rt.role AS role_type,\n    cn.name AS company_name,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE rt.role = 'director'\n  AND it.info = 'top 250 rank'\n  AND lt.link = 'remake of'\n  AND kt.kind = 'movie'\nGROUP BY\n    rt.role,\n    cn.name\nORDER BY\n    movie_count DESC;", "95": "SELECT\n    rt.role AS role_type,\n    cn.name AS company_name,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE rt.role = 'actor'\n  AND it.info = 'rating'\n  AND lt.link = 'references'\n  AND kt.kind = 'tv series'\nGROUP BY\n    rt.role,\n    cn.name\nORDER BY\n    movie_count DESC;", "96": "SELECT\n    rt.role AS role_type,\n    cn.name AS company_name,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE rt.role = 'producer'\n  AND it.info = 'votes'\n  AND lt.link = 'similar to'\n  AND kt.kind = 'episode'\nGROUP BY\n    rt.role,\n    cn.name\nORDER BY\n    movie_count DESC;", "97": "SELECT\n    cn.name AS company_name,\n    rt.role AS role_type,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MIN(mi_idx.info) AS lowest_rank_info\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE rt.role = 'costume designer'\n  AND k.keyword = 'breakfast'\n  AND lt.link = 'edited from'\n  AND t.id IN (\n        SELECT\n            cc.movie_id\n        FROM complete_cast cc\n        JOIN comp_cast_type cct\n            ON cc.subject_id = cct.id\n        WHERE cct.kind = 'crew'\n    )\nGROUP BY\n    cn.name,\n    rt.role\nORDER BY\n    movie_count DESC;", "98": "SELECT\n    cn.name AS company_name,\n    rt.role AS role_type,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MIN(mi_idx.info) AS lowest_rank_info\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE rt.role = 'director'\n  AND k.keyword = 'monkey'\n  AND lt.link = 'remake of'\n  AND t.id IN (\n        SELECT\n            cc.movie_id\n        FROM complete_cast cc\n        JOIN comp_cast_type cct\n            ON cc.subject_id = cct.id\n        WHERE cct.kind = 'complete'\n    )\nGROUP BY\n    cn.name,\n    rt.role\nORDER BY\n    movie_count DESC;", "99": "SELECT\n    cn.name AS company_name,\n    rt.role AS role_type,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MIN(mi_idx.info) AS lowest_rank_info\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE rt.role = 'actor'\n  AND k.keyword = 'outbreak'\n  AND lt.link = 'references'\n  AND t.id IN (\n        SELECT\n            cc.movie_id\n        FROM complete_cast cc\n        JOIN comp_cast_type cct\n            ON cc.subject_id = cct.id\n        WHERE cct.kind = 'cast'\n    )\nGROUP BY\n    cn.name,\n    rt.role\nORDER BY\n    movie_count DESC;", "100": "SELECT\n    cn.name AS company_name,\n    rt.role AS role_type,\n    k.keyword,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN cast_info ci ON t.id = ci.movie_id\nJOIN role_type rt ON ci.role_id = rt.id\nJOIN movie_companies mc ON t.id = mc.movie_id\nJOIN company_name cn ON mc.company_id = cn.id\nJOIN company_type ct ON mc.company_type_id = ct.id\nJOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id\nJOIN movie_keyword mk ON t.id = mk.movie_id\nJOIN keyword k ON mk.keyword_id = k.id\nJOIN movie_link ml ON t.id = ml.movie_id\nJOIN link_type lt ON ml.link_type_id = lt.id\nJOIN complete_cast cc ON t.id = cc.movie_id\nJOIN comp_cast_type cct ON cc.subject_id = cct.id\nJOIN kind_type kt ON t.kind_id = kt.id\nWHERE rt.role = 'director'\n  AND k.keyword = 'monkey'\n  AND lt.link = 'remake of'\n  AND kt.kind = 'movie'\n  AND ct.kind = 'production companies'\n  AND cct.kind = 'complete'\n  AND t.id IN (\n        SELECT mi.movie_id\n        FROM movie_info mi\n        WHERE mi.info LIKE '%USA%'\n    )\nGROUP BY cn.name, rt.role, k.keyword\nORDER BY movie_count DESC;", "101": "SELECT\n    cn.name AS company_name,\n    rt.role AS role_type,\n    k.keyword,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN cast_info ci ON t.id = ci.movie_id\nJOIN role_type rt ON ci.role_id = rt.id\nJOIN movie_companies mc ON t.id = mc.movie_id\nJOIN company_name cn ON mc.company_id = cn.id\nJOIN company_type ct ON mc.company_type_id = ct.id\nJOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id\nJOIN movie_keyword mk ON t.id = mk.movie_id\nJOIN keyword k ON mk.keyword_id = k.id\nJOIN movie_link ml ON t.id = ml.movie_id\nJOIN link_type lt ON ml.link_type_id = lt.id\nJOIN complete_cast cc ON t.id = cc.movie_id\nJOIN comp_cast_type cct ON cc.subject_id = cct.id\nJOIN kind_type kt ON t.kind_id = kt.id\nWHERE rt.role = 'actor'\n  AND k.keyword = 'breakfast'\n  AND lt.link = 'references'\n  AND kt.kind = 'tv series'\n  AND ct.kind = 'distributors'\n  AND cct.kind = 'cast'\n  AND t.id IN (\n        SELECT mi.movie_id\n        FROM movie_info mi\n        WHERE mi.info LIKE '%Canada%'\n    )\nGROUP BY cn.name, rt.role, k.keyword\nORDER BY movie_count DESC;", "102": "SELECT\n    cn.name AS company_name,\n    rt.role AS role_type,\n    k.keyword,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN cast_info ci ON t.id = ci.movie_id\nJOIN role_type rt ON ci.role_id = rt.id\nJOIN movie_companies mc ON t.id = mc.movie_id\nJOIN company_name cn ON mc.company_id = cn.id\nJOIN company_type ct ON mc.company_type_id = ct.id\nJOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id\nJOIN movie_keyword mk ON t.id = mk.movie_id\nJOIN keyword k ON mk.keyword_id = k.id\nJOIN movie_link ml ON t.id = ml.movie_id\nJOIN link_type lt ON ml.link_type_id = lt.id\nJOIN complete_cast cc ON t.id = cc.movie_id\nJOIN comp_cast_type cct ON cc.subject_id = cct.id\nJOIN kind_type kt ON t.kind_id = kt.id\nWHERE rt.role = 'producer'\n  AND k.keyword = 'outbreak'\n  AND lt.link = 'similar to'\n  AND kt.kind = 'episode'\n  AND ct.kind = 'production companies'\n  AND cct.kind = 'crew'\n  AND t.id IN (\n        SELECT mi.movie_id\n        FROM movie_info mi\n        WHERE mi.info LIKE '%Germany%'\n    )\nGROUP BY cn.name, rt.role, k.keyword\nORDER BY movie_count DESC;", "103": "SELECT\n    cn.name AS company_name,\n    rt.role AS role_type,\n    k.keyword,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN cast_info ci ON t.id = ci.movie_id\nJOIN role_type rt ON ci.role_id = rt.id\nJOIN movie_companies mc ON t.id = mc.movie_id\nJOIN company_name cn ON mc.company_id = cn.id\nJOIN company_type ct ON mc.company_type_id = ct.id\nJOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id\nJOIN movie_keyword mk ON t.id = mk.movie_id\nJOIN keyword k ON mk.keyword_id = k.id\nJOIN movie_link ml ON t.id = ml.movie_id\nJOIN link_type lt ON ml.link_type_id = lt.id\nJOIN complete_cast cc ON t.id = cc.movie_id\nJOIN comp_cast_type cct ON cc.subject_id = cct.id\nJOIN kind_type kt ON t.kind_id = kt.id\nWHERE rt.role = 'costume designer'\n  AND k.keyword = 'girl-scout'\n  AND lt.link = 'edited from'\n  AND kt.kind = 'video movie'\n  AND ct.kind = 'special effects companies'\n  AND cct.kind = 'crew'\n  AND t.id IN (\n        SELECT mi.movie_id\n        FROM movie_info mi\n        WHERE mi.info LIKE '%Iceland%'\n    )\nGROUP BY cn.name, rt.role, k.keyword\nORDER BY movie_count DESC;", "104": "SELECT\n    cn.name AS company_name,\n    rt.role AS role_type,\n    k.keyword,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN cast_info ci ON t.id = ci.movie_id\nJOIN role_type rt ON ci.role_id = rt.id\nJOIN movie_companies mc ON t.id = mc.movie_id\nJOIN company_name cn ON mc.company_id = cn.id\nJOIN company_type ct ON mc.company_type_id = ct.id\nJOIN movie_info_idx mi_idx ON t.id = mi_idx.movie_id\nJOIN movie_keyword mk ON t.id = mk.movie_id\nJOIN keyword k ON mk.keyword_id = k.id\nJOIN movie_link ml ON t.id = ml.movie_id\nJOIN link_type lt ON ml.link_type_id = lt.id\nJOIN complete_cast cc ON t.id = cc.movie_id\nJOIN comp_cast_type cct ON cc.subject_id = cct.id\nJOIN kind_type kt ON t.kind_id = kt.id\nWHERE rt.role = 'writer'\n  AND k.keyword = 'uruguay'\n  AND lt.link = 'featured in'\n  AND kt.kind = 'movie'\n  AND ct.kind = 'production companies'\n  AND cct.kind = 'complete+verified'\n  AND t.id IN (\n        SELECT mi.movie_id\n        FROM movie_info mi\n        WHERE mi.info LIKE '%Poland%'\n    )\nGROUP BY cn.name, rt.role, k.keyword\nORDER BY movie_count DESC;", "105": "SELECT\n    cn.name AS company_name,\n    k.keyword,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MIN(mi_idx.info) AS lowest_rank_info,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE k.keyword = 'monkey'\n  AND it.info = 'keywords'\n  AND lt.link = 'features'\n  AND kt.kind = 'movie'\nGROUP BY\n    cn.name,\n    k.keyword\nORDER BY\n    movie_count DESC;", "106": "SELECT\n    cn.name AS company_name,\n    k.keyword,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MIN(mi_idx.info) AS lowest_rank_info,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE k.keyword = 'breakfast'\n  AND it.info = 'genres'\n  AND lt.link = 'references in'\n  AND kt.kind = 'tv series'\nGROUP BY\n    cn.name,\n    k.keyword\nORDER BY\n    movie_count DESC;", "107": "SELECT\n    cn.name AS company_name,\n    k.keyword,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MIN(mi_idx.info) AS lowest_rank_info,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE k.keyword = 'monkey'\n  AND it.info = 'plot'\n  AND lt.link = 'featured in'\n  AND kt.kind = 'video movie'\nGROUP BY\n    cn.name,\n    k.keyword\nORDER BY\n    movie_count DESC;", "108": "SELECT\n    cn.name AS company_name,\n    rt.role AS role_type,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MIN(mi_idx.info) AS lowest_rank_info,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nWHERE rt.role = 'producer'\n  AND it.info = 'certificates'\n  AND lt.link = 'follows'\nGROUP BY\n    cn.name,\n    rt.role\nORDER BY\n    movie_count DESC;", "109": "SELECT\n    cn.name AS company_name,\n    rt.role AS role_type,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MIN(mi_idx.info) AS lowest_rank_info,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nWHERE rt.role = 'cinematographer'\n  AND it.info = 'runtimes'\n  AND lt.link = 'edited into'\nGROUP BY\n    cn.name,\n    rt.role\nORDER BY\n    movie_count DESC;", "110": "SELECT\n    cn.name AS company_name,\n    rt.role AS role_type,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MIN(mi_idx.info) AS lowest_rank_info,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN role_type rt\n    ON ci.role_id = rt.id\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nWHERE rt.role = 'writer'\n  AND it.info = 'goofs'\n  AND lt.link = 'remade as'\nGROUP BY\n    cn.name,\n    rt.role\nORDER BY\n    movie_count DESC;", "111": "SELECT\n    cn.name AS company_name,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MIN(t.production_year) AS earliest_release_year,\n    MAX(t.production_year) AS latest_release_year,\n    SUM(ci.nr_order) AS total_cast_order,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nWHERE it.info = 'budget'\n  AND lt.link = 'featured in'\n  AND cn.country_code = '[us]'\nGROUP BY cn.name\nORDER BY movie_count DESC;", "112": "SELECT\n    cn.name AS company_name,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MIN(t.production_year) AS earliest_release_year,\n    MAX(t.production_year) AS latest_release_year,\n    SUM(ci.nr_order) AS total_cast_order,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nWHERE it.info = 'gross'\n  AND lt.link = 'edited from'\n  AND cn.country_code = '[gb]'\nGROUP BY cn.name\nORDER BY movie_count DESC;", "113": "SELECT\n    cn.name AS company_name,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MIN(t.production_year) AS earliest_release_year,\n    MAX(t.production_year) AS latest_release_year,\n    SUM(ci.nr_order) AS total_cast_order,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nWHERE it.info = 'rating'\n  AND lt.link = 'featured in'\n  AND cn.country_code = '[in]'\nGROUP BY cn.name\nORDER BY movie_count DESC;"};
+
+function analyze(sql){
+  const joins = (sql.match(/\bJOIN\b/gi)||[]).length;
+  const tables=[];
+  for(const m of sql.matchAll(/\bFROM\s+(\w+)/gi)) tables.push(m[1].toLowerCase());
+  for(const m of sql.matchAll(/\bJOIN\s+(\w+)/gi)) tables.push(m[1].toLowerCase());
+  const ut=[...new Set(tables)];
+  const hasGroupBy=/\bGROUP\s+BY\b/i.test(sql);
+  const hasOrderBy=/\bORDER\s+BY\b/i.test(sql);
+  const hasSubq=/SELECT[\s\S]*SELECT/i.test(sql);
+  const agg=[];
+  ['COUNT','SUM','AVG','MIN','MAX'].forEach(f=>{if(new RegExp('\\b'+f+'\\b','i').test(sql))agg.push(f);});
+  const hasDistinct=/\bDISTINCT\b/i.test(sql);
+  const score=joins+(hasSubq?3:0)+agg.length+(hasGroupBy?1:0);
+  let cx='Low';
+  if(score>=12)cx='Very High';
+  else if(score>=8)cx='High';
+  else if(score>=4)cx='Medium';
+  return{joins,tables:ut,hasGroupBy,hasOrderBy,hasSubq,agg,hasDistinct,cx,score};
+}
+
+const QS=[];
+for(let i=1;i<=113;i++){
+  const sql=RAW[String(i)]||'';
+  QS.push({num:i,sql,...analyze(sql)});
+}
+
+// Global stats
+const tmap={};
+QS.forEach(q=>q.tables.forEach(t=>{tmap[t]=(tmap[t]||0)+1;}));
+const stables=Object.entries(tmap).sort((a,b)=>b[1]-a[1]);
+const totalJ=QS.reduce((s,q)=>s+q.joins,0);
+const subqC=QS.filter(q=>q.hasSubq).length;
+const aggC=QS.filter(q=>q.agg.length>0).length;
+
+document.getElementById('h-joins').textContent=totalJ;
+document.getElementById('h-tables').textContent=Object.keys(tmap).length;
+document.getElementById('h-subq').textContent=subqC;
+document.getElementById('h-agg').textContent=aggC;
+
+// Stat tiles (bento)
+const statsData=[
+  {label:'Total Queries',num:113,icon:'📋',cls:'stripe'},
+  {label:'Total JOINs',num:totalJ,icon:'🔗',cls:'stripe-teal'},
+  {label:'Unique Tables',num:Object.keys(tmap).length,icon:'🗂',cls:''},
+  {label:'With GROUP BY',num:QS.filter(q=>q.hasGroupBy).length,icon:'⊞',cls:''},
+  {label:'With ORDER BY',num:QS.filter(q=>q.hasOrderBy).length,icon:'↕',cls:''},
+  {label:'With Subqueries',num:subqC,icon:'⊃',cls:'stripe-violet'},
+  {label:'With Aggregations',num:aggC,icon:'∑',cls:''},
+  {label:'With DISTINCT',num:QS.filter(q=>q.hasDistinct).length,icon:'✦',cls:''},
+];
+const bentoStats=document.getElementById('bento-stats');
+statsData.forEach(s=>{
+  const cols=s.cls?3:3;
+  bentoStats.innerHTML+=`<div class="bento-cell bc-3 ${s.cls}"><span class="cell-icon">${s.icon}</span><div class="cell-num accent">${s.num}</div><div class="cell-label">${s.label}</div></div>`;
+});
+
+// Chart defaults
+Chart.defaults.font.family="'Inter',sans-serif";
+Chart.defaults.color='#8a877f';
+
+const accents=['#2563eb','#0ea5e9','#7c3aed','#d97706','#0d9488','#1d4ed8','#6d28d9','#b45309'];
+const axStyle={grid:{color:'#e8e5e0'},ticks:{color:'#8a877f',font:{size:11}}};
+
+// Complexity doughnut
+const cxMap={Low:0,Medium:0,High:0,'Very High':0};
+QS.forEach(q=>cxMap[q.cx]++);
+new Chart(document.getElementById('c-complexity'),{
+  type:'doughnut',
+  data:{labels:Object.keys(cxMap),datasets:[{data:Object.values(cxMap),backgroundColor:['#16a34a','#d97706','#ea580c','#dc2626'],borderColor:'#f7f7f5',borderWidth:3}]},
+  options:{cutout:'62%',responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:11}}}}}
+});
+
+// JOIN bar
+const jbucks={};
+QS.forEach(q=>{jbucks[q.joins]=(jbucks[q.joins]||0)+1;});
+const jkeys=Object.keys(jbucks).sort((a,b)=>+a-+b);
+new Chart(document.getElementById('c-joins'),{
+  type:'bar',
+  data:{labels:jkeys.map(k=>k+'J'),datasets:[{data:jkeys.map(k=>jbucks[k]),backgroundColor:'#0ea5e9',borderRadius:4,label:'Queries'}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:axStyle,y:axStyle}}
+});
+
+// Agg polar
+const amap={COUNT:0,SUM:0,AVG:0,MIN:0,MAX:0};
+QS.forEach(q=>q.agg.forEach(f=>amap[f]++));
+new Chart(document.getElementById('c-agg'),{
+  type:'doughnut',
+  data:{labels:Object.keys(amap),datasets:[{data:Object.values(amap),backgroundColor:['#2563eb88','#7c3aed88','#0ea5e988','#d9780688','#0d948888'],borderColor:'#f7f7f5',borderWidth:2}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:11}}}}}
+});
+
+// Feature radar
+const n=113;
+const feats=['GROUP BY','ORDER BY','Subquery','Aggregation','DISTINCT'];
+const fvals=[QS.filter(q=>q.hasGroupBy).length,QS.filter(q=>q.hasOrderBy).length,subqC,aggC,QS.filter(q=>q.hasDistinct).length].map(v=>Math.round(v/n*100));
+new Chart(document.getElementById('c-features'),{
+  type:'bar',
+  data:{labels:feats,datasets:[{data:fvals,backgroundColor:accents.slice(0,5),borderRadius:5,label:'% of Queries'}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:axStyle,y:{...axStyle,max:100}},indexAxis:'y'}
+});
+
+// Tables chart
+const top12=stables.slice(0,12);
+new Chart(document.getElementById('c-tables'),{
+  type:'bar',
+  data:{labels:top12.map(t=>t[0]),datasets:[{data:top12.map(t=>t[1]),backgroundColor:'#2563eb',borderRadius:4,label:'References'}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},indexAxis:'y',scales:{x:axStyle,y:{...axStyle,ticks:{font:{size:10,family:"'JetBrains Mono',monospace"}}}}}
+});
+
+// Table reference table
+const tbody=document.getElementById('ref-tbody');
+const maxR=stables[0]?.[1]||1;
+stables.slice(0,20).forEach((t,i)=>{
+  const pct=Math.round(t[1]/maxR*100);
+  tbody.innerHTML+=`<tr><td><span class="rn">${i+1}</span></td><td><span class="tname">${t[0]}</span></td><td><b>${t[1]}</b></td><td><div class="tbar-bg"><div class="tbar-fg" style="width:${pct}%"></div></div></td></tr>`;
+});
+
+// Insights
+function insItems(arr,el){el.innerHTML=arr.map(i=>`<div class="ins-item"><span class="iqn">Q${i.num}</span><span class="ins-label">${i.lbl}</span><span class="ins-meta">${i.meta}</span></div>`).join('');}
+insItems([...QS].sort((a,b)=>b.joins-a.joins).slice(0,6).map(q=>({num:q.num,lbl:`${q.joins} JOINs`,meta:q.cx})),document.getElementById('ins-joins'));
+insItems(QS.filter(q=>q.hasSubq).slice(0,6).map(q=>({num:q.num,lbl:'Has subquery',meta:q.joins+'J'})),document.getElementById('ins-subq'));
+insItems([...QS].sort((a,b)=>b.agg.length-a.agg.length).filter(q=>q.agg.length).slice(0,6).map(q=>({num:q.num,lbl:q.agg.join(' · '),meta:q.agg.length+' fns'})),document.getElementById('ins-agg'));
+insItems(QS.filter(q=>q.joins>=8||q.hasSubq).slice(0,6).map(q=>({num:q.num,lbl:q.cx+' complexity',meta:`${q.joins}J`})),document.getElementById('ins-opt'));
+
+// SQL highlight
+function hlSQL(sql,srch=''){
+  const kws=['SELECT','FROM','JOIN','LEFT JOIN','RIGHT JOIN','INNER JOIN','WHERE','AND','OR','NOT','IN','EXISTS','GROUP BY','ORDER BY','HAVING','DISTINCT','AS','BETWEEN','LIKE','LIMIT','CASE','WHEN','THEN','ELSE','END','NULL','IS','DESC','ASC','CAST','ON','WITH','BY','UNION'];
+  const fns=['COUNT','SUM','AVG','MIN','MAX','COALESCE','ROUND','UPPER','LOWER','TRIM','LENGTH','CAST'];
+  let s=sql.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  s=s.replace(/'([^']*)'/g,"<span class='str'>'$1'</span>");
+  [...kws].sort((a,b)=>b.length-a.length).forEach(kw=>{
+    s=s.replace(new RegExp('\\b'+kw.replace(/ /g,'\\s+')+'\\b','gi'),m=>`<span class='kw'>${m}</span>`);
+  });
+  fns.forEach(fn=>{s=s.replace(new RegExp('\\b'+fn+'\\b(?=\\s*\\()','gi'),m=>`<span class='fn'>${m}</span>`);});
+  s=s.replace(/\b(\d{4})\b/g,"<span class='num'>$1</span>");
+  s=s.replace(/--(.*)/g,"<span class='cmt'>--$1</span>");
+  if(srch&&srch.length>1){
+    const re=new RegExp('('+srch.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');
+    s=s.replace(re,"<mark class='hl'>$1</mark>");
+  }
+  return s;
+}
+
+// Build nav + cards
+const navEl=document.getElementById('navlist');
+const qlistEl=document.getElementById('qlist');
+QS.forEach(q=>{
+  // Nav
+  const n=document.createElement('div');
+  n.className='nav-q';
+  n.id='nav-'+q.num;
+  n.innerHTML=`<span class="nav-num">${q.num}</span><span class="nav-label">${q.tables.slice(0,3).join(', ')}</span><span class="nav-jbadge${q.joins>=8?' big':''}">${q.joins}J</span>`;
+  n.onclick=()=>document.getElementById('qc-'+q.num).scrollIntoView({behavior:'smooth',block:'start'});
+  navEl.appendChild(n);
+
+  // Card
+  const card=document.createElement('div');
+  card.className='qcard';
+  card.id='qc-'+q.num;
+  card.dataset.cx=q.cx;
+  card.dataset.groupby=q.hasGroupBy?1:0;
+  card.dataset.orderby=q.hasOrderBy?1:0;
+  card.dataset.subq=q.hasSubq?1:0;
+  card.dataset.agg=q.agg.length?1:0;
+  card.dataset.distinct=q.hasDistinct?1:0;
+  card.dataset.sql=q.sql.toLowerCase();
+  card.dataset.tables=q.tables.join(' ');
+  card.dataset.num=q.num;
+
+  const cxClass=q.cx.replace(' ','');
+  card.innerHTML=`
+  <div class="qcard-head" onclick="if(!event.target.closest('.cbtn'))toggleCard(${q.num})">
+    <span class="qn">Q${q.num}</span>
+    <span class="qbadge cplx-${cxClass}">${q.cx}</span>
+    <span class="qbadge joins">⇌ ${q.joins} JOINs</span>
+    <span class="qbadge">${q.tables.length} tables</span>
+    ${q.hasSubq?`<span class="qbadge subq">Subquery</span>`:''}
+    ${q.agg.length?`<span class="qbadge agg">${q.agg.join(' ')}</span>`:''}
+    <span class="qtitle">${q.tables.slice(0,5).join(' · ')}</span>
+    <div class="card-acts">
+      <button class="cbtn" onclick="copyQ(${q.num},this)">⎘ Copy</button>
+      <button class="cbtn" onclick="exportQ(${q.num})">↓</button>
+      <button class="cbtn" onclick="openFS(${q.num})">⛶</button>
+    </div>
+    <span class="toggle-arr">▾</span>
+  </div>
+  <div class="qbody">
+    <div class="sql-wrap" id="sb-${q.num}">${hlSQL(q.sql)}</div>
+    <div class="meta-bar">
+      <span class="meta-it">🗂 <b>Tables:</b>&nbsp;${q.tables.join(', ')}</span>
+      <span class="meta-it">🔗 <b>JOINs:</b>&nbsp;${q.joins}</span>
+      ${q.agg.length?`<span class="meta-it">∑ <b>Agg:</b>&nbsp;${q.agg.join(', ')}</span>`:''}
+      <span class="meta-it">📋 <b>GROUP BY:</b>&nbsp;${q.hasGroupBy?'Yes':'No'}</span>
+      <span class="meta-it">↕ <b>ORDER BY:</b>&nbsp;${q.hasOrderBy?'Yes':'No'}</span>
+      <span class="meta-it">⊃ <b>Subquery:</b>&nbsp;${q.hasSubq?'Yes':'No'}</span>
+      <span class="meta-it">✦ <b>DISTINCT:</b>&nbsp;${q.hasDistinct?'Yes':'No'}</span>
+    </div>
+  </div>`;
+  qlistEl.appendChild(card);
+});
+
+function toggleCard(num){
+  const c=document.getElementById('qc-'+num);
+  c.classList.toggle('open');
+}
+function expandAll(){QS.forEach(q=>document.getElementById('qc-'+q.num).classList.add('open'));}
+function collapseAll(){QS.forEach(q=>document.getElementById('qc-'+q.num).classList.remove('open'));}
+
+function copyQ(num,btn){
+  navigator.clipboard.writeText(RAW[String(num)]).then(()=>{
+    btn.textContent='✓';btn.classList.add('ok');
+    toast('Query '+num+' copied!');
+    setTimeout(()=>{btn.textContent='⎘ Copy';btn.classList.remove('ok');},1800);
+  });
+}
+function exportQ(num){
+  const b=new Blob([RAW[String(num)]],{type:'text/plain'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='query_'+num+'.sql';a.click();
+}
+function exportAll(){
+  let s='';for(let i=1;i<=113;i++) s+=`-- Query ${i}\n${RAW[String(i)]}\n\n`;
+  const b=new Blob([s],{type:'text/plain'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='job_benchmark_all.sql';a.click();
+  toast('Exported all 113 queries!');
+}
+
+let fsNum=null;
+function openFS(num){
+  fsNum=num;
+  const block=document.getElementById('sb-'+num);
+  block.classList.add('fs');
+  block.innerHTML=hlSQL(RAW[String(num)],curSearch);
+  document.getElementById('fs-overlay').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+function closeFS(){
+  if(fsNum===null)return;
+  const block=document.getElementById('sb-'+fsNum);
+  block.classList.remove('fs');
+  block.innerHTML=hlSQL(RAW[String(fsNum)],curSearch);
+  document.getElementById('fs-overlay').classList.remove('on');
+  document.body.style.overflow='';
+  fsNum=null;
+}
+document.getElementById('fs-overlay').onclick=function(e){if(e.target===this)closeFS();};
+
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent='✓ '+msg;t.classList.add('on');
+  setTimeout(()=>t.classList.remove('on'),2200);
+}
+
+// Search & filter
+let curSearch='',curCX='all',curFeat=null;
+
+function doSearch(v){
+  curSearch=v.toLowerCase().trim();
+  refresh();
+  QS.forEach(q=>{
+    const b=document.getElementById('sb-'+q.num);
+    if(b)b.innerHTML=hlSQL(RAW[String(q.num)],curSearch);
+  });
+}
+function navSearch(v){
+  const u=v.toLowerCase();
+  document.querySelectorAll('.nav-q').forEach((el,i)=>{
+    const q=QS[i];
+    el.style.display=(String(q.num).includes(u)||q.tables.join(' ').includes(u)||q.sql.toLowerCase().includes(u))?'':'none';
+  });
+}
+function setFilter(type,val,el){
+  curCX=val;
+  document.querySelectorAll('#filters .chip').forEach(c=>{
+    if(['all','Low','Medium','High','Very High'].includes(c.getAttribute('onclick')?.match(/'([^']+)'/)?.[1]))
+      c.classList.remove('on');
+  });
+  el.classList.add('on');
+  refresh();
+}
+function toggleFeat(feat,el){
+  if(curFeat===feat){curFeat=null;el.classList.remove('on');}
+  else{
+    curFeat=feat;
+    document.querySelectorAll('#filters .chip').forEach(c=>{
+      const t=c.getAttribute('onclick')?.match(/toggleFeat\('([^']+)'/)?.[1];
+      if(t)c.classList.remove('on');
+    });
+    el.classList.add('on');
+  }
+  refresh();
+}
+function refresh(){
+  let shown=0;
+  QS.forEach(q=>{
+    const c=document.getElementById('qc-'+q.num);
+    let ok=true;
+    if(curCX!=='all'&&q.cx!==curCX)ok=false;
+    if(curFeat){
+      const map={groupby:q.hasGroupBy,orderby:q.hasOrderBy,subq:q.hasSubq,agg:q.agg.length>0,distinct:q.hasDistinct};
+      if(!map[curFeat])ok=false;
+    }
+    if(curSearch){
+      if(!(`query ${q.num} ${q.sql.toLowerCase()} ${q.tables.join(' ')}`).includes(curSearch))ok=false;
+    }
+    c.classList.toggle('hidden',!ok);
+    if(ok)shown++;
+  });
+  document.getElementById('qlabel').textContent=`Showing ${shown} of 113 queries`;
+  document.getElementById('srcount').textContent=`${shown} queries`;
+  document.getElementById('empty').classList.toggle('on',shown===0);
+}
+
+// Scroll
+window.addEventListener('scroll',()=>{
+  const sc=window.scrollY,tot=document.documentElement.scrollHeight-window.innerHeight;
+  document.getElementById('prog').style.width=(sc/tot*100)+'%';
+  document.getElementById('btt').classList.toggle('on',sc>300);
+  let active=null;
+  QS.forEach(q=>{const el=document.getElementById('qc-'+q.num);if(el&&el.getBoundingClientRect().top<=140)active=q.num;});
+  document.querySelectorAll('.nav-q').forEach((el,i)=>el.classList.toggle('active',QS[i]&&QS[i].num===active));
+});
+
+// Keyboard
+document.addEventListener('keydown',e=>{
+  if(e.key==='/'&&document.activeElement.tagName!=='INPUT'){e.preventDefault();document.getElementById('msearch').focus();}
+  if(e.key==='Escape'){
+    if(fsNum!==null){closeFS();return;}
+    const ms=document.getElementById('msearch');ms.value='';doSearch('');ms.blur();
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SQLBarber Replication Analysis</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #f8fafd;
+    color: #1e2535;
+    min-height: 100vh;
+  }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+
+  /* Header */
+  .page-header {
+    background: #fff;
+    border-bottom: 1.5px solid #e3e8f0;
+    padding: 28px 48px 24px;
+  }
+  .track-pill {
+    display: inline-block;
+    background: #eef2fb;
+    color: #3b5bdb;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  .page-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #111827;
+    line-height: 1.3;
+  }
+  .page-title span { color: #3b5bdb; }
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 10px;
+    font-size: 12.5px;
+    color: #6b7280;
+  }
+  .meta-row strong { color: #374151; font-weight: 500; }
+
+  /* Layout */
+  .page-body { max-width: 1180px; margin: 0 auto; padding: 32px 32px 48px; }
+
+  /* Cards */
+  .card {
+    background: #fff;
+    border: 1px solid #e3e8f0;
+    border-radius: 10px;
+    padding: 24px;
+  }
+  .card-sm { padding: 18px 20px; }
+
+  /* Section label */
+  .section-label {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #3b5bdb;
+    margin-bottom: 14px;
+  }
+
+  /* Stat cards */
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 28px; }
+  .stat-card {
+    background: #fff;
+    border: 1px solid #e3e8f0;
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+  .stat-label { font-size: 11px; color: #6b7280; font-weight: 500; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 8px; }
+  .stat-value { font-size: 30px; font-weight: 700; font-family: 'JetBrains Mono', monospace; line-height: 1; }
+  .stat-sub { font-size: 11.5px; color: #9ca3af; margin-top: 6px; }
+  .blue-val { color: #3b5bdb; }
+  .green-val { color: #16a34a; }
+  .amber-val { color: #b45309; }
+  .red-val { color: #dc2626; }
+
+  /* Alignment summary bar */
+  .align-bar-wrap { display: flex; height: 8px; border-radius: 20px; overflow: hidden; margin: 10px 0 6px; }
+  .align-bar-green { background: #22c55e; }
+  .align-bar-amber { background: #f59e0b; }
+  .align-bar-red { background: #ef4444; }
+
+  /* Summary prose */
+  .prose p { font-size: 13.5px; color: #374151; line-height: 1.75; margin-bottom: 12px; }
+  .prose p:last-child { margin-bottom: 0; }
+  .prose strong { color: #111827; font-weight: 600; }
+  .prose em { color: #3b5bdb; font-style: normal; font-weight: 500; }
+
+  /* Charts */
+  .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 28px; }
+  .chart-title { font-size: 13px; font-weight: 600; color: #111827; margin-bottom: 2px; }
+  .chart-sub { font-size: 11.5px; color: #9ca3af; margin-bottom: 14px; }
+  .legend-row { display: flex; gap: 18px; margin-bottom: 14px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: #6b7280; }
+  .legend-swatch { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+  /* Bin bars */
+  .bin-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 28px; }
+  .bin-card {
+    background: #fff;
+    border: 1px solid #e3e8f0;
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .bin-name { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #6b7280; margin-bottom: 10px; font-weight: 500; }
+  .bin-row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #9ca3af; margin-bottom: 4px; }
+  .bin-row span:last-child { font-weight: 600; color: #374151; }
+  .bar-track { background: #f1f5f9; border-radius: 4px; height: 5px; overflow: hidden; margin-bottom: 8px; }
+  .bar-fill-blue { background: #3b5bdb; height: 100%; border-radius: 4px; }
+  .bar-fill-slate { background: #94a3b8; height: 100%; border-radius: 4px; }
+
+  /* Table */
+  .table-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    border-bottom: 1px solid #e3e8f0;
+    background: #f8fafd;
+    border-radius: 10px 10px 0 0;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .table-wrap {
+    background: #fff;
+    border: 1px solid #e3e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+  .search-box {
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 12.5px;
+    font-family: 'Inter', sans-serif;
+    color: #374151;
+    background: #fff;
+    outline: none;
+    width: 200px;
+  }
+  .search-box:focus { border-color: #3b5bdb; box-shadow: 0 0 0 2px rgba(59,91,219,0.1); }
+  .flt-btn {
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 11.5px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    background: #fff;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .flt-btn:hover { background: #f1f5f9; border-color: #9ca3af; }
+  .flt-btn.active { background: #3b5bdb; border-color: #3b5bdb; color: #fff; }
+  .data-table { width: 100%; border-collapse: collapse; }
+  .data-table th {
+    text-align: left;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #9ca3af;
+    padding: 10px 16px;
+    border-bottom: 1px solid #e3e8f0;
+    background: #fafbfc;
+    white-space: nowrap;
+  }
+  .data-table td { padding: 9px 16px; font-size: 12.5px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tbody tr:hover td { background: #f8fafd; }
+  .tid { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; color: #374151; }
+  .badge { display: inline-block; font-size: 10.5px; font-weight: 600; padding: 2px 9px; border-radius: 20px; white-space: nowrap; }
+  .badge-green  { background: #dcfce7; color: #166534; }
+  .badge-amber  { background: #fef3c7; color: #92400e; }
+  .badge-red    { background: #fee2e2; color: #991b1b; }
+  .bin-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    padding: 1px 6px;
+    margin: 1px 2px;
+  }
+  .bin-tag-blue { background: #eef2fb; color: #3b5bdb; border-color: #c7d2fe; }
+  .bin-tag-red  { background: #fee2e2; color: #b91c1c; border-color: #fca5a5; }
+  .delta { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+  .delta-up { color: #dc2626; }
+  .delta-dn { color: #2563eb; }
+  .delta-zero { color: #6b7280; }
+
+  /* Observation cards */
+  .obs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .obs-card { background: #fff; border: 1px solid #e3e8f0; border-radius: 10px; padding: 20px; }
+  .obs-card-title { font-size: 13px; font-weight: 600; color: #111827; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .obs-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .obs-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .obs-list li { font-size: 12.5px; color: #4b5563; line-height: 1.65; padding-left: 14px; position: relative; }
+  .obs-list li::before { content: '▸'; position: absolute; left: 0; color: #9ca3af; font-size: 10px; top: 2px; }
+  .obs-list li strong { color: #111827; font-weight: 600; }
+
+  /* Anomaly card */
+  .anomaly-card {
+    background: #fff9f9;
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+  }
+  .anomaly-title { font-size: 13px; font-weight: 600; color: #991b1b; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .anomaly-icon { font-size: 15px; }
+  .anomaly-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .anomaly-item { background: #fff; border: 1px solid #fecaca; border-radius: 8px; padding: 14px 16px; }
+  .anomaly-tid { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; font-weight: 700; color: #dc2626; margin-bottom: 4px; }
+  .anomaly-desc { font-size: 12px; color: #4b5563; line-height: 1.6; }
+  .anomaly-item.orange-card { border-color: #fed7aa; background: #fffbf7; }
+  .anomaly-item.orange-card .anomaly-tid { color: #c2410c; }
+
+  /* Recommendations */
+  .rec-section { background: #f0f4ff; border: 1px solid #c7d2fe; border-radius: 10px; padding: 22px 24px; }
+  .rec-title { font-size: 13px; font-weight: 600; color: #1e40af; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+  .verdict-box { background: #fff3f3; border: 1px solid #fca5a5; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; font-size: 12.5px; color: #374151; line-height: 1.6; }
+  .verdict-box strong { color: #dc2626; }
+  .rec-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .rec-item { background: #fff; border: 1px solid #c7d2fe; border-radius: 8px; padding: 14px; }
+  .rec-num { font-size: 10px; font-weight: 700; color: #3b5bdb; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+  .rec-head { font-size: 12px; font-weight: 600; color: #1e40af; margin-bottom: 6px; }
+  .rec-body { font-size: 11.5px; color: #4b5563; line-height: 1.6; }
+
+  /* Footer */
+  .page-footer { text-align: center; font-size: 11.5px; color: #9ca3af; padding-bottom: 40px; margin-top: 16px; }
+
+  /* Divider */
+  .divider { border: none; border-top: 1px solid #e3e8f0; margin: 0; }
+
+  @media (max-width: 900px) {
+    .stat-grid { grid-template-columns: 1fr 1fr; }
+    .charts-grid { grid-template-columns: 1fr; }
+    .bin-grid { grid-template-columns: 1fr 1fr; }
+    .obs-grid { grid-template-columns: 1fr; }
+    .anomaly-grid { grid-template-columns: 1fr; }
+    .rec-grid { grid-template-columns: 1fr 1fr; }
+    .page-header { padding: 22px 24px 18px; }
+    .page-body { padding: 20px 16px 40px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header class="page-header">
+  <div style="max-width:1180px;margin:0 auto;">
+    <div class="track-pill">Research Report · Database Systems · Benchmark Replication</div>
+    <div class="page-title">SQLBarber Replication Analysis: <span>Profiling &amp; Synthetic Template Evaluation</span></div>
+    <div class="meta-row">
+      <span><strong>Authors:</strong> A. Rahman &amp; J. Xu</span>
+      <span><strong>Institution:</strong> DB Systems Lab, University of Waterloo</span>
+      <span><strong>Date:</strong> June 2025</span>
+      <span><strong>Run ID:</strong> 2025-06-01</span>
+    </div>
+  </div>
+</header>
+
+<div class="page-body">
+
+  <!-- ─── STAT CARDS ─── -->
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-label">Total Templates</div>
+      <div class="stat-value blue-val">33</div>
+      <div class="stat-sub">Analyzed across all cost bins</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Perfect Match</div>
+      <div class="stat-value green-val">9.1%</div>
+      <div class="stat-sub">3 of 33 templates aligned</div>
+      <div class="align-bar-wrap" style="margin-top:10px"><div class="align-bar-green" style="width:9.1%"></div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Shifted</div>
+      <div class="stat-value amber-val">81.8%</div>
+      <div class="stat-sub">27 templates bin-shifted</div>
+      <div class="align-bar-wrap" style="margin-top:10px"><div class="align-bar-amber" style="width:81.8%"></div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Out of Bounds</div>
+      <div class="stat-value red-val">9.1%</div>
+      <div class="stat-sub">T3, T10, T29 unassignable</div>
+      <div class="align-bar-wrap" style="margin-top:10px"><div class="align-bar-red" style="width:9.1%"></div></div>
+    </div>
+  </div>
+
+  <!-- ─── EXECUTIVE SUMMARY ─── -->
+  <div class="card" style="margin-bottom:28px;">
+    <div class="section-label">Executive Summary &amp; Theoretical Context</div>
+    <div class="prose">
+      <p>SQLBarber is a query workload replication framework designed to synthesize SQL query templates that statistically approximate the cost distribution of an observed, ground-truth database workload. Its core pipeline operates in three stages: (1) <strong>profiling</strong>, where an instrumented DBMS captures the query optimizer's estimated cost for every executed query and bins those costs into discrete cost ranges; (2) <strong>template extraction</strong>, where representative structural patterns — parameterized SQL skeletons — are identified for each cost bin; and (3) <strong>synthetic workload generation</strong>, where the framework instantiates concrete queries from those templates with the goal of reproducing the original cost-bin histogram. The fidelity of this reproduction determines whether the synthetic workload can stand as a valid proxy for the original in DBMS performance studies, regression testing, and hardware provisioning experiments.</p>
+      <p>Matching the cost-bin distribution of original query workloads is not merely a statistical nicety — it is the foundation of synthetic benchmark validity. Database management systems exhibit highly non-linear performance characteristics: operator pipeline selection, buffer pool pressure, index selectivity, and join order sensitivity all vary discontinuously across cost tiers. If a synthetic workload over-concentrates queries in a mid-to-high cost range while failing to represent low-cost fast-path queries in proportion, the resulting benchmark will systematically overestimate CPU and I/O pressure. This phenomenon — <em>distribution drift</em> — invalidates comparative benchmarking and can lead to incorrect conclusions about query optimizer tuning and memory allocation.</p>
+      <p>This report analyzes a 33-template replication run against a 10-bin cost spectrum (0–10k optimizer cost units). The original workload exhibits a bi-modal character, with peaks at 3k–4k (27 observations) and 5k–6k (29 observations). The synthetic output reveals significant distributional drift: over-concentration of 13 templates in the 5k–6k bin, the complete elimination of 2k–3k coverage, and three templates (T3, T10, T29) yielding costs entirely outside the defined measurement window — pointing to systematic calibration gaps in the template instantiation engine's parameter sampling strategy.</p>
+    </div>
+  </div>
+
+  <!-- ─── CHARTS ─── -->
+  <div class="section-label">Interactive Data Visualizations</div>
+  <div class="charts-grid">
+    <div class="card card-sm">
+      <div class="chart-title">Distribution Comparison</div>
+      <div class="chart-sub">Original observations vs. synthetic template counts per cost bin</div>
+      <div class="legend-row">
+        <span class="legend-item"><span class="legend-swatch" style="background:#3b5bdb"></span>Synthetic templates</span>
+        <span class="legend-item"><span class="legend-swatch" style="background:#94a3b8"></span>Original observations</span>
+      </div>
+      <div style="position:relative;width:100%;height:240px;">
+        <canvas id="chart1" role="img" aria-label="Grouped bar chart comparing original observation counts and synthetic template counts across 10 cost bins from 0k to 10k">Original: 0-1k:20, 1-2k:0, 2-3k:9, 3-4k:27, 4-5k:0, 5-6k:29, 6-7k:7, 7-8k:1, 8-9k:10, 9-10k:10. Synthetic: 9, 0, 0, 3, 2, 13, 1, 2, 2, 1.</canvas>
+      </div>
+    </div>
+    <div class="card card-sm">
+      <div class="chart-title">Proportional Coverage Spectrum</div>
+      <div class="chart-sub">Share of each bin as a percentage of total observations</div>
+      <div class="legend-row">
+        <span class="legend-item"><span class="legend-swatch" style="background:#3b5bdb"></span>Synthetic %</span>
+        <span class="legend-item"><span class="legend-swatch" style="background:#cbd5e1"></span>Original %</span>
+      </div>
+      <div style="position:relative;width:100%;height:240px;">
+        <canvas id="chart2" role="img" aria-label="Grouped bar chart comparing percentage share of each cost bin between original and synthetic distributions">Highlighting the synthetic over-concentration at 5-6k at 39.4% versus the original 25.7%.</canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── BIN BREAKDOWN ─── -->
+  <div class="section-label" style="margin-top:4px;">Per-Bin Observation Detail</div>
+  <div class="bin-grid">
+    <div class="bin-card">
+      <div class="bin-name">0k – 1k</div>
+      <div class="bin-row"><span>Original</span><span>20</span></div>
+      <div class="bar-track"><div class="bar-fill-slate" style="width:69%"></div></div>
+      <div class="bin-row"><span>Synthetic</span><span>9</span></div>
+      <div class="bar-track"><div class="bar-fill-blue" style="width:69%"></div></div>
+    </div>
+    <div class="bin-card">
+      <div class="bin-name">1k – 2k</div>
+      <div class="bin-row"><span>Original</span><span>0</span></div>
+      <div class="bar-track"><div class="bar-fill-slate" style="width:0%"></div></div>
+      <div class="bin-row"><span>Synthetic</span><span>0</span></div>
+      <div class="bar-track"><div class="bar-fill-blue" style="width:0%"></div></div>
+    </div>
+    <div class="bin-card">
+      <div class="bin-name">2k – 3k</div>
+      <div class="bin-row"><span>Original</span><span>9</span></div>
+      <div class="bar-track"><div class="bar-fill-slate" style="width:31%"></div></div>
+      <div class="bin-row"><span>Synthetic</span><span>0</span></div>
+      <div class="bar-track"><div class="bar-fill-blue" style="width:0%"></div></div>
+    </div>
+    <div class="bin-card">
+      <div class="bin-name">3k – 4k</div>
+      <div class="bin-row"><span>Original</span><span>27</span></div>
+      <div class="bar-track"><div class="bar-fill-slate" style="width:93%"></div></div>
+      <div class="bin-row"><span>Synthetic</span><span>3</span></div>
+      <div class="bar-track"><div class="bar-fill-blue" style="width:23%"></div></div>
+    </div>
+    <div class="bin-card">
+      <div class="bin-name">4k – 5k</div>
+      <div class="bin-row"><span>Original</span><span>0</span></div>
+      <div class="bar-track"><div class="bar-fill-slate" style="width:0%"></div></div>
+      <div class="bin-row"><span>Synthetic</span><span>2</span></div>
+      <div class="bar-track"><div class="bar-fill-blue" style="width:15%"></div></div>
+    </div>
+    <div class="bin-card" style="border-color:#c7d2fe;background:#f8faff;">
+      <div class="bin-name" style="color:#3b5bdb;">5k – 6k ★</div>
+      <div class="bin-row"><span>Original</span><span>29</span></div>
+      <div class="bar-track"><div class="bar-fill-slate" style="width:100%"></div></div>
+      <div class="bin-row"><span>Synthetic</span><span style="color:#3b5bdb;font-weight:700;">13</span></div>
+      <div class="bar-track"><div class="bar-fill-blue" style="width:100%"></div></div>
+    </div>
+    <div class="bin-card">
+      <div class="bin-name">6k – 7k</div>
+      <div class="bin-row"><span>Original</span><span>7</span></div>
+      <div class="bar-track"><div class="bar-fill-slate" style="width:24%"></div></div>
+      <div class="bin-row"><span>Synthetic</span><span>1</span></div>
+      <div class="bar-track"><div class="bar-fill-blue" style="width:8%"></div></div>
+    </div>
+    <div class="bin-card">
+      <div class="bin-name">7k – 8k</div>
+      <div class="bin-row"><span>Original</span><span>1</span></div>
+      <div class="bar-track"><div class="bar-fill-slate" style="width:4%"></div></div>
+      <div class="bin-row"><span>Synthetic</span><span>2</span></div>
+      <div class="bar-track"><div class="bar-fill-blue" style="width:15%"></div></div>
+    </div>
+    <div class="bin-card">
+      <div class="bin-name">8k – 9k</div>
+      <div class="bin-row"><span>Original</span><span>10</span></div>
+      <div class="bar-track"><div class="bar-fill-slate" style="width:35%"></div></div>
+      <div class="bin-row"><span>Synthetic</span><span>2</span></div>
+      <div class="bar-track"><div class="bar-fill-blue" style="width:15%"></div></div>
+    </div>
+    <div class="bin-card">
+      <div class="bin-name">9k – 10k</div>
+      <div class="bin-row"><span>Original</span><span>10</span></div>
+      <div class="bar-track"><div class="bar-fill-slate" style="width:35%"></div></div>
+      <div class="bin-row"><span>Synthetic</span><span>1</span></div>
+      <div class="bar-track"><div class="bar-fill-blue" style="width:8%"></div></div>
+    </div>
+  </div>
+  <div style="font-size:11px;color:#9ca3af;margin-top:-16px;margin-bottom:28px;">★ Peak concentration in synthetic run &nbsp;·&nbsp; Out-of-bounds templates T3, T10, T29 excluded from bin totals</div>
+
+  <!-- ─── TABLE ─── -->
+  <div class="section-label">Template-by-Template Comparative Breakdown</div>
+  <div class="table-wrap">
+    <div class="table-toolbar">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+        <input id="tSearch" class="search-box" placeholder="Search T1, T2 …" oninput="applyFilters()" />
+        <button class="flt-btn active" onclick="setFilter('all',this)">All 33</button>
+        <button class="flt-btn" onclick="setFilter('Perfect Match',this)">✓ Perfect Match</button>
+        <button class="flt-btn" onclick="setFilter('Shifted',this)">⇄ Shifted</button>
+        <button class="flt-btn" onclick="setFilter('Out of Bounds',this)">✕ Out of Bounds</button>
+      </div>
+      <div id="rowCount" style="font-size:11.5px;color:#9ca3af;">Showing 33 of 33</div>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Template</th>
+            <th>Original cost bin(s)</th>
+            <th>Synthetic cost bin(s)</th>
+            <th>Alignment</th>
+            <th>Bin delta</th>
+          </tr>
+        </thead>
+        <tbody id="tBody">
+          <tr data-status="Shifted">
+            <td class="tid">T1</td>
+            <td><span class="bin-tag">0–1k</span></td>
+            <td><span class="bin-tag bin-tag-blue">4–5k</span></td>
+            <td><span class="badge badge-amber">Shifted</span></td>
+            <td class="delta delta-up">+4k</td>
+          </tr>
+          <tr data-status="Perfect Match">
+            <td class="tid">T2</td>
+            <td><span class="bin-tag">0–1k</span></td>
+            <td><span class="bin-tag bin-tag-blue">0–1k</span></td>
+            <td><span class="badge badge-green">Perfect Match</span></td>
+            <td class="delta delta-zero">0</td>
+          </tr>
+          <tr data-status="Out of Bounds">
+            <td class="tid">T3</td>
+            <td><span class="bin-tag">2–3k</span><span class="bin-tag">3–4k</span></td>
+            <td><span class="bin-tag bin-tag-red">Out of Bounds</span></td>
+            <td><span class="badge badge-red">Out of Bounds</span></td>
+            <td class="delta delta-up">∞</td>
+          </tr>
+          <tr data-status="Shifted">
+            <td class="tid">T4</td>
+            <td><span class="bin-tag">0–1k</span></td>
+            <td><span class="bin-tag bin-tag-blue">3–4k</span></td>
+            <td><span class="badge badge-amber">Shifted</span></td>
+            <td class="delta delta-up">+3k</td>
+          </tr>
+          <tr data-status="Shifted">
+            <td class="tid">T5</td>
+            <td><span class="bin-tag">2–3k</span><span class="bin-tag">3–4k</span></td>
+            <td><span class="bin-tag bin-tag-blue">5–6k</span></td>
+            <td><span class="badge badge-amber">Shifted</span></td>
+            <td class="delta delta-up">+2–3k</td>
+          </tr>
+          <tr data-status="Shifted">
+            <td class="tid">T6</td>
+            <td><span class="bin-tag">5–6k</span></td>
+            <td><span class="bin-tag bin-tag-blue">0–1k</span></td>
+            <td><span class="badge badge-amber">Shifted</span></td>
+            <td class="delta delta-dn">−5k</td>
+          </tr>
+          <tr data-status="Perfect Match">
+            <td class="tid">T7</td>
+            <td><span class="bin-tag">5–6k</span></td>
+            <td><span class="bin-tag bin-tag-blue">5–6k</span></td>
+            <td><span class="badge badge-green">Perfect Match</span></td>
+            <td class="delta delta-zero">0</td>
+          </tr>
+          <tr data-status="Shifted">
+            <td class="tid">T8</td>
+            <td><span class="bin-tag">5–6k</span><span class="bin-tag">6–7k</span></td>
+            <td><span class="bin-tag bin-tag-blue">3–4k</span></td>
+            <td><span class="badge badge-amber">Shifted</span></td>
+            <td class="delta delta-dn">−2–3k</td>
+          </tr>
+          <tr data-status="Shifted">
+            <td class="tid">T9</td>
+            <td><span class="bin-tag">5–6k</span></td>
+            <td><span class="bin-tag bin-tag-blue">0–1k</span></td>
+            <td><span class="badge badge-amber">Shifted</span></td>
+            <td class="delta delta-dn">−5k</td>
+          </tr>
+          <tr data-status="Out of Bounds">
+            <td class="tid">T10</td>
+            <td><span class="bin-tag">5–6k</span><span class="bin-tag">6–7k</span></td>
+            <td><span class="bin-tag bin-tag-red">Out of Bounds</span></td>
+            <td><span class="badge badge-red">Out of Bounds</span></td>
+            <td class="delta delta-up">∞</td>
+          </tr>
+          <tr data-status="Shifted">
+            <td class="tid">T11</td>
+            <td><span class="bin-tag">0–1k</span></td>
+            <td><span class="bin-tag bin-tag-blue">5–6k</span></td>
+            <td><span class="badge badge-amber">Shifted</span></td>
+            <td class="delta delta-up">+5k</td>
+          </tr>
+          <tr data-status="Shifted">
+            <td class="tid">T12</td>
+            <td><span class="bin-tag">2–3k</span><span class="bin-tag">3–4k</span></td>
+            <td><span class="bin-tag bin-tag-blue">7–8k</span><span class="bin-tag bin-tag-blue">8–9k</span><span class="bin-tag bin-tag-blue">9–10k</span></td>
+            <td><span class="badge badge-amber">Shifted</span></td>
+            <td class="delta delta-up">+5–7k</td>
+          </tr>
+          <tr data-status="Shifted">
+            <td class="tid">T13</td>
+            <td><span class="bin-tag">2–3k</span></td>
+            <td><span class="bin-tag bin-tag-blue">5–6k</span></td>
+            <td><span class="badge badge-amber">Shifted</span></td>
+            <td class="delta delta-up">+3k</td>
+          </tr>
+          <tr data-status="Shifted">
+            <td class="tid">T14</td>
+            <td><span class="bin-tag">3–4k</span></td>
+            <td><span class="bin-tag bin-tag-blue">0–1k</span></td>
+            <td><span class="badge badge-amber">Shifted</span></td>
+            <td class="delta delta-dn">−3k</td>
+          </tr>
+          <tr data-status="Shifted">
+            <td class="tid">T15</td>
+            <td><span class="bin-tag">3–4k</span></td>
+            <td><span class="bin-tag bin-tag-blue">5–6k</span></td>
+            <td><span class="badge badge-amber">Shifted</span></td>
+            <td class="delta delta-up">+2k</td>
+          </tr>
+          <tr data-status="Shifted">
+            <td class="tid">T16</td>
+            <td><span class="bin-tag">6–7k</span></td>
+            <td><span class="bin-tag bin-tag-blue">0–1k</span></td>
+            <td><span class="badge badge-amber">Shifted</span></td>
+            <td class="delta delta-dn">−6k</td>
+          </tr>
+          <tr data-status="Shifted">
+            <td class="tid">T17</td>
+            <td><span class="bin-tag">5–6k</span></td>
+            <td><span class="bin-tag bin-tag-blue">0–1k</span></td>
+            <td><span class="badge badge-amber">Shifted</span></td>
+            <td class="delta delta-dn">−5k</td>
+          </tr>
+          <tr data-status="Shifted">
+            <td class="tid">T18</td>
+            <td><span class="bin-tag">7–8k</span><span class="bin-tag">8–9k</span></td>
+            <td><span class="bin-tag bin-tag-blue">0–1k</span></td>
+            <td><span class="badge badge-amber">Shifted</span></td>
+            <td class="delta delta-dn">−7–8k</td>
+          </tr>
+          <tr data-status="Shifted">
+            <td class="tid">T19</td>
+            <td><span class="bin-tag">8–9k</span></td>
+            <td><span class="bin-tag bin-tag-blue">3–4k</span></td>
+            <td><span class="badge badge-amber">Shifted</span></td>
+            <td class="delta delta-dn">−5k</td>
+          </tr>
+          <tr data-status="Shifted">
+            <td class="tid">T20</td>
+            <td><span class="bin-tag">5–6k</span></td>
+            <td><span class="bin-tag bin-tag-blue">7–8k</span><span class="bin-tag bin-tag-blue">8–9k</span></td>
+            <td><span class="badge badge-amber">Shifted</span></td>
+            <td class="delta delta-up">+2–3k</td>
+          </tr>
+          <tr data-status="Shifted">
+            <td class="tid">T21</td>
+            <td><span class="bin-tag">3–4k</span></td>
+            <td><span class="bin-tag bin-tag-blue">5–6k</span></td>
+            <td><span class="badge badge-amber">Shifted</span></td>
+            <td class="delta delta-up">+2k</td>
+          </tr>
+          <tr data-status="Shifted">
+            <td class="tid">T22</td>
+            <td><span class="bin-tag">3–4k</span></td>
+            <td><span class="bin-tag bin-tag-blue">5–6k</span></td>
+            <td><span class="badge badge-amber">Shifted</span></td>
+            <td class="delta delta-up">+2k</td>
+          </tr>
+          <tr data-status="Shifted">
+            <td class="tid">T23</td>
+            <td><span class="bin-tag">3–4k</span></td>
+            <td><span class="bin-tag bin-tag-blue">5–6k</span></td>
+            <td><span class="badge badge-amber">Shifted</span></td>
+            <td class="delta delta-up">+2k</td>
+          </tr>
+          <tr data-status="Shifted">
+            <td class="tid">T24</td>
+            <td><span class="bin-tag">9–10k</span></td>
+            <td><span class="bin-tag bin-tag-blue">5–6k</span></td>
+            <td><span class="badge badge-amber">Shifted</span></td>
+            <td class="delta delta-dn">−4k</td>
+          </tr>
+          <tr data-status="Shifted">
+            <td class="tid">T25</td>
+            <td><span class="bin-tag">8–9k</span><span class="bin-tag">9–10k</span></td>
+            <td><span class="bin-tag bin-tag-blue">0–1k</span></td>
+            <td><span class="badge badge-amber">Shifted</span></td>
+            <td class="delta delta-dn">−8–9k</td>
+          </tr>
+          <tr data-status="Perfect Match">
+            <td class="tid">T26</td>
+            <td><span class="bin-tag">5–6k</span></td>
+            <td><span class="bin-tag bin-tag-blue">5–6k</span></td>
+            <td><span class="badge badge-green">Perfect Match</span></td>
+            <td class="delta delta-zero">0</td>
+          </tr>
+          <tr data-status="Shifted">
+            <td class="tid">T27</td>
+            <td><span class="bin-tag">3–4k</span></td>
+            <td><span class="bin-tag bin-tag-blue">5–6k</span></td>
+            <td><span class="badge badge-amber">Shifted</span></td>
+            <td class="delta delta-up">+2k</td>
+          </tr>
+          <tr data-status="Shifted">
+            <td class="tid">T28</td>
+            <td><span class="bin-tag">3–4k</span></td>
+            <td><span class="bin-tag bin-tag-blue">6–7k</span></td>
+            <td><span class="badge badge-amber">Shifted</span></td>
+            <td class="delta delta-up">+3k</td>
+          </tr>
+          <tr data-status="Out of Bounds">
+            <td class="tid">T29</td>
+            <td><span class="bin-tag">9–10k</span></td>
+            <td><span class="bin-tag bin-tag-red">Out of Bounds</span></td>
+            <td><span class="badge badge-red">Out of Bounds</span></td>
+            <td class="delta delta-up">∞</td>
+          </tr>
+          <tr data-status="Shifted">
+            <td class="tid">T30</td>
+            <td><span class="bin-tag">8–9k</span><span class="bin-tag">9–10k</span></td>
+            <td><span class="bin-tag bin-tag-blue">0–1k</span></td>
+            <td><span class="badge badge-amber">Shifted</span></td>
+            <td class="delta delta-dn">−8–9k</td>
+          </tr>
+          <tr data-status="Shifted">
+            <td class="tid">T31</td>
+            <td><span class="bin-tag">9–10k</span></td>
+            <td><span class="bin-tag bin-tag-blue">5–6k</span></td>
+            <td><span class="badge badge-amber">Shifted</span></td>
+            <td class="delta delta-dn">−4k</td>
+          </tr>
+          <tr data-status="Shifted">
+            <td class="tid">T32</td>
+            <td><span class="bin-tag">0–1k</span></td>
+            <td><span class="bin-tag bin-tag-blue">4–5k</span></td>
+            <td><span class="badge badge-amber">Shifted</span></td>
+            <td class="delta delta-up">+4k</td>
+          </tr>
+          <tr data-status="Shifted">
+            <td class="tid">T33</td>
+            <td><span class="bin-tag">0–1k</span></td>
+            <td><span class="bin-tag bin-tag-blue">5–6k</span></td>
+            <td><span class="badge badge-amber">Shifted</span></td>
+            <td class="delta delta-up">+5k</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ─── ANALYTICAL OBSERVATIONS ─── -->
+  <div class="section-label">Deep-Dive Analytical Observations</div>
+  <div class="obs-grid">
+    <div class="obs-card">
+      <div class="obs-card-title">
+        <div class="obs-dot" style="background:#94a3b8;"></div>
+        Original workload characteristics
+      </div>
+      <ul class="obs-list">
+        <li><strong>Bi-modal distribution</strong> with dominant peaks at 3k–4k (27 obs.) and 5k–6k (29 obs.), representing 61.5% of total workload volume.</li>
+        <li><strong>Empty gaps</strong> at both 1k–2k and 4k–5k — the optimizer rarely produces plans in those cost ranges for this schema and data distribution.</li>
+        <li><strong>Low-cost presence:</strong> 20 observations in 0–1k reflect fast, index-scan or trivial aggregation queries that any valid synthetic benchmark must preserve.</li>
+        <li><strong>High-cost tail:</strong> 21 observations in the 8k–10k range indicate heavy analytic queries with multi-join or large sort operations.</li>
+      </ul>
+    </div>
+    <div class="obs-card">
+      <div class="obs-card-title">
+        <div class="obs-dot" style="background:#3b5bdb;"></div>
+        Synthetic workload characteristics
+      </div>
+      <ul class="obs-list">
+        <li><strong>Massive over-concentration</strong> in the 5k–6k bin with 13 templates (39.4%). This single bin absorbs queries originally from 0–1k, 2–3k, 3–4k, 8–9k, and 9–10k.</li>
+        <li><strong>Unexpected 4k–5k coverage:</strong> 2 templates appear in a bin with zero original observations, creating synthetic noise with no real-workload counterpart.</li>
+        <li><strong>Complete absence</strong> of synthetic templates in 2k–3k — a bin that had 9 original observations entirely lost in the synthetic run.</li>
+        <li><strong>High-cost collapse:</strong> Only 3 templates in 8k–10k versus 21 original observations — a reduction of 85.7% for heavy analytical query coverage.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ─── ANOMALIES ─── -->
+  <div class="anomaly-card">
+    <div class="anomaly-title">
+      <span class="anomaly-icon">⚠</span>
+      Critical anomalies — requires immediate attention
+    </div>
+    <div class="anomaly-grid">
+      <div class="anomaly-item">
+        <div class="anomaly-tid">T3 — Out of Bounds</div>
+        <div class="anomaly-desc">Originally spanning 2k–3k / 3k–4k. Synthesized instances produced optimizer cost estimates entirely outside the 0–10k window. Likely a predicate explosion or unbounded Cartesian join introduced during parameter substitution.</div>
+      </div>
+      <div class="anomaly-item">
+        <div class="anomaly-tid">T10 — Out of Bounds</div>
+        <div class="anomaly-desc">Originally in 5k–6k / 6k–7k. Out-of-bounds cost generation suggests the template contains a subquery or windowed aggregate whose cardinality estimate explodes when realistic parameter values are substituted.</div>
+      </div>
+      <div class="anomaly-item">
+        <div class="anomaly-tid">T29 — Out of Bounds</div>
+        <div class="anomaly-desc">Originally at 9k–10k — already at the ceiling. Any upward cost perturbation during parameter sampling pushes it beyond the 10k boundary. High sensitivity to value selectivity; cap parameters near minimum selectivity.</div>
+      </div>
+      <div class="anomaly-item orange-card">
+        <div class="anomaly-tid">T12 — Extreme Upward Shift (+5k to +7k)</div>
+        <div class="anomaly-desc">Original bins: 2k–3k / 3k–4k. Synthetic landing: 7k–8k, 8k–9k, AND 9k–10k simultaneously — spanning three of the highest bins. Likely a join with dramatically underestimated cardinality. Decompose into narrower sub-templates, each targeting a specific cost tier, and cap selectivity parameters.</div>
+      </div>
+    </div>
+    <div style="margin-top:14px;padding:12px 14px;background:#fff8f1;border:1px solid #fed7aa;border-radius:8px;font-size:12px;color:#4b5563;line-height:1.65;">
+      <strong style="color:#92400e;">Bidirectional instability noted.</strong> Shifts are not systematic in one direction: T6, T9, T17, T18, T25, T30 shift downward (high-cost originals → 0–1k), while T11, T33, T15, T21–T23, T27 shift upward (low/mid-cost → 5–6k). This rules out a single directional calibration bias — parameter sampling variance is the root cause.
+    </div>
+  </div>
+
+  <!-- ─── RECOMMENDATIONS ─── -->
+  <div class="rec-section">
+    <div class="rec-title">
+      📋 Replication fidelity verdict &amp; calibration recommendations
+    </div>
+    <div class="verdict-box">
+      <strong>Overall verdict: Low fidelity.</strong> With only 3 perfect matches (9.1%) and 81.8% of templates bin-shifted, this synthetic run does not constitute a valid workload proxy for the original. Do not use this output as a benchmark substitute without remediation.
+    </div>
+    <div class="rec-grid">
+      <div class="rec-item">
+        <div class="rec-num">Rec 01</div>
+        <div class="rec-head">Constrain parameter sampling</div>
+        <div class="rec-body">Replace uniform random sampling with histogram-aware sampling drawn from column statistics. Ensure synthetic values preserve the selectivity profile observed during profiling. Use ANALYZE output to bound value ranges.</div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-num">Rec 02</div>
+        <div class="rec-head">Add cost feedback loop</div>
+        <div class="rec-body">After each template instantiation, use EXPLAIN to verify optimizer cost falls within the target bin. If cost falls outside, resample and retry (max N attempts). This rejection-sampling approach will eliminate OOB cases.</div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-num">Rec 03</div>
+        <div class="rec-head">Stratify templates by bin</div>
+        <div class="rec-body">Enforce per-bin template quotas matching the original distribution's proportional shares. Cap 5k–6k assignments and force allocation to 2k–3k, which currently has zero synthetic coverage despite 9 original observations.</div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-num">Rec 04</div>
+        <div class="rec-head">Decompose unstable templates</div>
+        <div class="rec-body">T3, T10, T12, T29 exhibit extreme cost variance. Split each into narrower structural variants with tighter parameter constraints. T12 spans 5+ bins and should be split into 3+ sub-templates each targeting one cost tier.</div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-num">Rec 05</div>
+        <div class="rec-head">Validate on held-out slice</div>
+        <div class="rec-body">Partition the original workload 80/20. Extract templates from 80%, validate the synthetic distribution against the 20% hold-out. Use Earth Mover's Distance (EMD) as the primary fidelity score. Target EMD &lt; 0.15.</div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-num">Rec 06</div>
+        <div class="rec-head">Preserve structural gaps</div>
+        <div class="rec-body">The absence of observations at 1k–2k and 4k–5k is semantically meaningful. Enforce hard exclusion zones in the synthetic generator to prevent population of empty bins, especially the 4k–5k region.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer" style="margin-top:28px;">
+    SQLBarber Replication Analysis · DB Systems Lab, University of Waterloo · June 2025 · Profiling run #2025-06-01
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+<script>
+const bins = ['0–1k','1–2k','2–3k','3–4k','4–5k','5–6k','6–7k','7–8k','8–9k','9–10k'];
+const origData = [20,0,9,27,0,29,7,1,10,10];
+const synthData = [9,0,0,3,2,13,1,2,2,1];
+
+const gridColor = 'rgba(0,0,0,0.05)';
+const tickColor = '#9ca3af';
+
+Chart.defaults.font.family = "'Inter', sans-serif";
+Chart.defaults.color = tickColor;
+
+new Chart(document.getElementById('chart1'), {
+  type: 'bar',
+  data: {
+    labels: bins,
+    datasets: [
+      { label: 'Synthetic', data: synthData, backgroundColor: '#3b5bdb', borderRadius: 4, borderSkipped: false, borderWidth: 0 },
+      { label: 'Original', data: origData, backgroundColor: '#cbd5e1', borderRadius: 4, borderSkipped: false, borderWidth: 0 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: '#1e2535', titleColor: '#f1f5f9', bodyColor: '#94a3b8',
+        padding: 10, cornerRadius: 6, borderColor: '#e3e8f0', borderWidth: 1,
+        callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y}` }
+      }
+    },
+    scales: {
+      x: { grid: { color: gridColor, drawBorder: false }, ticks: { font: { size: 10 } } },
+      y: { grid: { color: gridColor, drawBorder: false }, ticks: { font: { size: 10 }, stepSize: 5 }, beginAtZero: true }
+    }
+  }
+});
+
+const origTotal = 113, synthTotal = 33;
+const origPct = origData.map(v => parseFloat((v/origTotal*100).toFixed(1)));
+const synthPct = synthData.map(v => parseFloat((v/synthTotal*100).toFixed(1)));
+
+new Chart(document.getElementById('chart2'), {
+  type: 'bar',
+  data: {
+    labels: bins,
+    datasets: [
+      { label: 'Synthetic %', data: synthPct, backgroundColor: '#3b5bdb', borderRadius: 4, borderSkipped: false, borderWidth: 0 },
+      { label: 'Original %', data: origPct, backgroundColor: '#cbd5e1', borderRadius: 4, borderSkipped: false, borderWidth: 0 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: '#1e2535', titleColor: '#f1f5f9', bodyColor: '#94a3b8',
+        padding: 10, cornerRadius: 6, borderColor: '#e3e8f0', borderWidth: 1,
+        callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}%` }
+      }
+    },
+    scales: {
+      x: { grid: { color: gridColor, drawBorder: false }, ticks: { font: { size: 10 } } },
+      y: { grid: { color: gridColor, drawBorder: false }, ticks: { font: { size: 10 }, callback: v => v + '%' }, beginAtZero: true }
+    }
+  }
+});
+
+let currentFilter = 'all';
+function setFilter(s, btn) {
+  currentFilter = s;
+  document.querySelectorAll('.flt-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+function applyFilters() {
+  const q = document.getElementById('tSearch').value.toLowerCase().trim();
+  const rows = document.querySelectorAll('#tBody tr');
+  let vis = 0;
+  rows.forEach(r => {
+    const tid = r.querySelector('td').textContent.toLowerCase();
+    const status = r.dataset.status;
+    const okSearch = !q || tid.includes(q);
+    const okFilter = currentFilter === 'all' || status === currentFilter;
+    r.style.display = (okSearch && okFilter) ? '' : 'none';
+    if (okSearch && okFilter) vis++;
+  });
+  document.getElementById('rowCount').textContent = `Showing ${vis} of 33`;
+}
+</script>
+</body>
+</html>
