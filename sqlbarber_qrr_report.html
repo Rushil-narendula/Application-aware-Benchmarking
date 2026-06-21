@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SQLBarber – QRR Fidelity Analysis</title>
+<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+<style>
+  /* ── Reset & base ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #f4f6f9;
+    color: #1a1d23;
+    line-height: 1.6;
+    font-size: 15px;
+  }
+  a { color: #3b6fd4; }
+
+  /* ── Layout ── */
+  .page { max-width: 1180px; margin: 0 auto; padding: 0 24px 60px; }
+
+  /* ── Header ── */
+  header {
+    background: #ffffff;
+    border-bottom: 1px solid #e2e6ef;
+    padding: 48px 24px 40px;
+    text-align: center;
+  }
+  header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #12152a;
+    letter-spacing: -0.5px;
+  }
+  header .subtitle {
+    font-size: 1.05rem;
+    color: #5a6175;
+    margin-top: 8px;
+    font-weight: 400;
+  }
+  header .definition {
+    max-width: 680px;
+    margin: 20px auto 0;
+    background: #f0f3fa;
+    border-left: 4px solid #3b6fd4;
+    border-radius: 6px;
+    padding: 14px 18px;
+    font-size: 0.93rem;
+    color: #3a4156;
+    text-align: left;
+  }
+
+  /* ── Section titles ── */
+  .section { margin-top: 48px; }
+  .section-title {
+    font-size: 1.18rem;
+    font-weight: 700;
+    color: #12152a;
+    border-bottom: 2px solid #e2e6ef;
+    padding-bottom: 8px;
+    margin-bottom: 24px;
+    letter-spacing: 0.1px;
+  }
+
+  /* ── Summary cards ── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+  }
+  .stat-card {
+    background: #ffffff;
+    border: 1px solid #e2e6ef;
+    border-radius: 10px;
+    padding: 20px 16px;
+    text-align: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  }
+  .stat-card .label {
+    font-size: 0.78rem;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    font-weight: 600;
+  }
+  .stat-card .value {
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: #12152a;
+    margin-top: 6px;
+  }
+
+  /* ── Chart cards ── */
+  .chart-card {
+    background: #ffffff;
+    border: 1px solid #e2e6ef;
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    margin-bottom: 24px;
+  }
+  .chart-card h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #3a4156;
+    margin-bottom: 14px;
+  }
+  .chart-wrap { width: 100%; }
+
+  /* ── Threshold cards ── */
+  .threshold-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+  }
+  .thresh-card {
+    background: #ffffff;
+    border: 1px solid #e2e6ef;
+    border-radius: 10px;
+    padding: 18px 14px;
+    text-align: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  }
+  .thresh-card .t-label {
+    font-size: 0.8rem;
+    color: #6b7280;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .thresh-card .t-pct {
+    font-size: 1.9rem;
+    font-weight: 700;
+    margin-top: 6px;
+  }
+  .thresh-card .t-bar {
+    height: 5px;
+    border-radius: 3px;
+    background: #e2e6ef;
+    margin-top: 10px;
+    overflow: hidden;
+  }
+  .thresh-card .t-bar-fill { height: 100%; border-radius: 3px; background: #3b6fd4; }
+
+  /* ── Tables ── */
+  .table-wrap { overflow-x: auto; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+  thead th {
+    background: #f0f3fa;
+    color: #3a4156;
+    font-weight: 700;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 2px solid #d5dae8;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+  }
+  thead th:hover { background: #e4e9f5; }
+  tbody tr { border-bottom: 1px solid #edf0f7; }
+  tbody tr:hover { background: #f7f9fd; }
+  tbody td { padding: 9px 14px; color: #2a2f3d; }
+  .qrr-high { color: #b5192f; font-weight: 700; }
+  .qrr-med  { color: #b87000; font-weight: 600; }
+  .qrr-ok   { color: #1a6b3c; }
+
+  /* ── Insights ── */
+  .insight-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .insight-card {
+    background: #ffffff;
+    border: 1px solid #e2e6ef;
+    border-radius: 10px;
+    padding: 18px 20px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    font-size: 0.9rem;
+    color: #3a4156;
+  }
+  .insight-card strong { color: #12152a; }
+
+  /* ── Search box ── */
+  .search-row { display: flex; gap: 12px; margin-bottom: 14px; align-items: center; flex-wrap: wrap; }
+  .search-row input {
+    padding: 8px 14px;
+    border: 1px solid #d5dae8;
+    border-radius: 7px;
+    font-size: 0.875rem;
+    outline: none;
+    width: 240px;
+    background: #fff;
+  }
+  .search-row input:focus { border-color: #3b6fd4; box-shadow: 0 0 0 2px #d0daf7; }
+  .search-row span { font-size: 0.82rem; color: #6b7280; }
+
+  /* ── Two-col charts ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media(max-width:780px){ .two-col { grid-template-columns: 1fr; } }
+
+  /* ── Footer ── */
+  footer {
+    margin-top: 60px;
+    border-top: 1px solid #e2e6ef;
+    padding-top: 20px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #9aa0b1;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     HEADER
+══════════════════════════════════════════ -->
+<header>
+  <h1>SQLBarber &mdash; Query Cost Fidelity Analysis</h1>
+  <p class="subtitle">Query Relative Ratio (QRR) Evaluation Across 113 Queries</p>
+  <p class="definition">
+    <strong>QRR</strong> measures the relative difference between original and synthetic query costs.
+    For each query, <em>QRR = max(original / synthetic, synthetic / original)</em>, ensuring QRR ≥ 1.
+    A value of&nbsp;1 indicates perfect agreement; larger values indicate greater deviation.
+  </p>
+</header>
+
+<div class="page">
+
+  <!-- ══════════════════════════════════════════
+       SUMMARY STATISTICS
+  ══════════════════════════════════════════ -->
+  <div class="section">
+    <h2 class="section-title">Summary Statistics</h2>
+    <div class="stats-grid" id="statsGrid"></div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       VISUALIZATION 1 – Sorted QRR Line Plot
+  ══════════════════════════════════════════ -->
+  <div class="section">
+    <h2 class="section-title">Sorted QRR Profile</h2>
+    <div class="chart-card">
+      <h3>QRR values sorted ascending — each point is a query ranked by fidelity</h3>
+      <div class="chart-wrap" id="chart1"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       VIZ 2 & 3 – Histogram + CDF side by side
+  ══════════════════════════════════════════ -->
+  <div class="section">
+    <h2 class="section-title">Distribution Analysis</h2>
+    <div class="two-col">
+      <div class="chart-card">
+        <h3>Histogram of QRR Values</h3>
+        <div class="chart-wrap" id="chart2"></div>
+      </div>
+      <div class="chart-card">
+        <h3>Cumulative Distribution Function (CDF)</h3>
+        <div class="chart-wrap" id="chart3"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       VIZ 4 – Scatter: Original vs Synthetic
+  ══════════════════════════════════════════ -->
+  <div class="section">
+    <h2 class="section-title">Cost Agreement: Original vs Synthetic</h2>
+    <div class="chart-card">
+      <h3>Original Cost vs Synthetic Cost — dashed line represents perfect agreement (y = x)</h3>
+      <div class="chart-wrap" id="chart4"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       VIZ 5 – Box Plot
+  ══════════════════════════════════════════ -->
+  <div class="section">
+    <h2 class="section-title">QRR Distribution — Box Plot</h2>
+    <div class="chart-card">
+      <h3>Spread, quartiles, and outliers of QRR across all 113 queries</h3>
+      <div class="chart-wrap" id="chart5"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       THRESHOLD ANALYSIS
+  ══════════════════════════════════════════ -->
+  <div class="section">
+    <h2 class="section-title">Threshold Analysis</h2>
+    <div class="threshold-grid" id="threshGrid"></div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       TOP / BOTTOM QUERY TABLES
+  ══════════════════════════════════════════ -->
+  <div class="section">
+    <h2 class="section-title">Best &amp; Worst Queries</h2>
+    <div class="two-col">
+      <div class="chart-card">
+        <h3>Top 10 Best Queries (lowest QRR)</h3>
+        <div class="table-wrap" id="bestTable"></div>
+      </div>
+      <div class="chart-card">
+        <h3>Top 10 Worst Queries (highest QRR)</h3>
+        <div class="table-wrap" id="worstTable"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       FULL SORTABLE / SEARCHABLE TABLE
+  ══════════════════════════════════════════ -->
+  <div class="section">
+    <h2 class="section-title">Full Query Table</h2>
+    <div class="chart-card">
+      <div class="search-row">
+        <input type="text" id="searchBox" placeholder="Search by Query ID…" oninput="filterTable()"/>
+        <span id="rowCount"></span>
+      </div>
+      <div class="table-wrap">
+        <table id="fullTable">
+          <thead>
+            <tr>
+              <th onclick="sortTable(0)">Query ID ⇅</th>
+              <th onclick="sortTable(1)">Original Cost ⇅</th>
+              <th onclick="sortTable(2)">Synthetic Cost ⇅</th>
+              <th onclick="sortTable(3)">QRR ⇅</th>
+            </tr>
+          </thead>
+          <tbody id="fullTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       AUTOMATED INSIGHTS
+  ══════════════════════════════════════════ -->
+  <div class="section">
+    <h2 class="section-title">Automated Insights</h2>
+    <div class="insight-grid" id="insightGrid"></div>
+  </div>
+
+  <footer>
+    SQLBarber QRR Fidelity Report &nbsp;·&nbsp; Generated automatically &nbsp;·&nbsp; Powered by Plotly.js
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     EMBEDDED CSV DATA
+══════════════════════════════════════════ -->
+<script>
+// Raw CSV embedded as a JS string
+const RAW_CSV = `Index,Original,synthetic
+1,54194,36029
+2,50287,35993
+3,51471,327242
+4,50287,327242
+5,85770,327242
+6,85769,327242
+7,85769,327242
+8,85775,327242
+9,338157,327242
+10,291300,327242
+11,308041,327242
+12,67711,327242
+13,66674,301129
+14,68034,301265
+15,322321,301114
+16,279072,301092
+17,292605,301187
+18,512221,520939
+19,513240,486810
+20,512186,485829
+21,512427,69707
+22,512312,69698
+23,514258,486888
+24,544506,327155
+25,545442,327155
+26,545442,327155
+27,494237,327155
+28,499654,327155
+29,564415,327155
+30,564415,88337
+31,533757,88337
+32,497947,770438
+33,532927,777538
+34,533527,770438
+35,513965,770438
+36,480060,777260
+37,590945,486890
+38,83123,486494
+39,29692,750798
+40,84803,545067
+41,84810,545067
+42,288503,67288
+43,289948,67288
+44,304279,67288
+45,289906,495260
+46,289906,101042
+47,289906,101042
+48,289908,288828
+49,323873,288828
+50,322694,288828
+51,323886,288828
+52,349734,288828
+53,349733,288828
+54,363897,288828
+55,333404,288828
+56,562544,288828
+57,562792,50661
+58,562633,50661
+59,562609,50661
+60,546204,346154
+61,546183,380000
+62,546183,339424
+63,546183,341922
+64,546204,341676
+65,546240,334756
+66,704461,840454
+67,755488,840454
+68,786859,840454
+69,788739,840454
+70,752694,840454
+71,786913,840454
+72,772966,840454
+73,514089,840454
+74,514089,840454
+75,514089,840454
+76,362957,496734
+77,322619,496737
+78,339461,496734
+79,358980,563668
+80,358980,563458
+81,359205,563439
+82,357659,564111
+83,358062,533384
+84,345245,533384
+85,358062,533384
+86,837722,549397
+87,837684,549397
+88,805988,53255
+89,805978,53255
+90,837338,53255
+91,529327,554688
+92,529327,553865
+93,529967,553470
+94,341218,498205
+95,340794,498205
+96,342887,498205
+97,362480,559663
+98,359917,559663
+99,362480,559663
+100,888392,805820
+101,872625,787203
+102,907195,788476
+103,809063,787591
+104,809070,787591
+105,840319,104474
+106,839819,104474
+107,838406,104474
+108,871071,499544
+109,52831,499544
+110,52831,499544
+111,101588,510878
+112,101289,510877
+113,103196,510882`;
+
+// ══════════════════════════════════════════
+// PARSE CSV
+// ══════════════════════════════════════════
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  // skip header
+  return lines.slice(1).map(line => {
+    const parts = line.trim().split(',');
+    const id   = parseInt(parts[0]);
+    const orig = parseFloat(parts[1]);
+    const syn  = parseFloat(parts[2]);
+    const qrr  = Math.max(orig / syn, syn / orig);
+    return { id, orig, syn, qrr };
+  });
+}
+
+// ══════════════════════════════════════════
+// STATISTICS HELPERS
+// ══════════════════════════════════════════
+function mean(arr)   { return arr.reduce((a,b) => a+b, 0) / arr.length; }
+function median(arr) {
+  const s = [...arr].sort((a,b)=>a-b);
+  const m = Math.floor(s.length/2);
+  return s.length % 2 ? s[m] : (s[m-1]+s[m])/2;
+}
+function std(arr) {
+  const m = mean(arr);
+  return Math.sqrt(arr.reduce((a,b) => a + (b-m)**2, 0) / arr.length);
+}
+function fmt(n, d=3) { return n.toFixed(d); }
+function fmtK(n) {
+  if (n >= 1e6) return (n/1e6).toFixed(2)+'M';
+  if (n >= 1e3) return (n/1e3).toFixed(1)+'K';
+  return n.toFixed(0);
+}
+
+// ══════════════════════════════════════════
+// GLOBAL DATA
+// ══════════════════════════════════════════
+const DATA = parseCSV(RAW_CSV);
+const QRRS = DATA.map(d => d.qrr);
+const SORTED_DATA = [...DATA].sort((a,b) => a.qrr - b.qrr);
+
+// ── Stats ──
+const STATS = {
+  n:      DATA.length,
+  mean:   mean(QRRS),
+  median: median(QRRS),
+  min:    Math.min(...QRRS),
+  max:    Math.max(...QRRS),
+  std:    std(QRRS),
+};
+
+// ══════════════════════════════════════════
+// RENDER SUMMARY STATS
+// ══════════════════════════════════════════
+(function renderStats() {
+  const items = [
+    { label: 'Total Queries',    value: STATS.n },
+    { label: 'Mean QRR',         value: fmt(STATS.mean) },
+    { label: 'Median QRR',       value: fmt(STATS.median) },
+    { label: 'Minimum QRR',      value: fmt(STATS.min) },
+    { label: 'Maximum QRR',      value: fmt(STATS.max) },
+    { label: 'Std Deviation',    value: fmt(STATS.std) },
+  ];
+  const el = document.getElementById('statsGrid');
+  el.innerHTML = items.map(i => `
+    <div class="stat-card">
+      <div class="label">${i.label}</div>
+      <div class="value">${i.value}</div>
+    </div>`).join('');
+})();
+
+// ══════════════════════════════════════════
+// CHART CONFIG SHARED LAYOUT
+// ══════════════════════════════════════════
+const BASE_LAYOUT = {
+  font:   { family: "'Segoe UI', system-ui, sans-serif", size: 12, color: '#3a4156' },
+  paper_bgcolor: 'rgba(0,0,0,0)',
+  plot_bgcolor:  '#f9fafd',
+  margin: { t: 20, r: 20, b: 50, l: 60 },
+  hoverlabel: { bgcolor: '#fff', bordercolor: '#d5dae8', font: { family: 'inherit', size: 12 } },
+};
+const PLOTLY_CONFIG = { responsive: true, displayModeBar: true, modeBarButtonsToRemove: ['lasso2d','select2d'] };
+const BLUE = '#3b6fd4';
+const LIGHT_BLUE = 'rgba(59,111,212,0.15)';
+
+// ══════════════════════════════════════════
+// CHART 1 – Sorted QRR Line Plot
+// ══════════════════════════════════════════
+(function chart1() {
+  const x = SORTED_DATA.map((_, i) => i + 1);
+  const y = SORTED_DATA.map(d => d.qrr);
+  const ids = SORTED_DATA.map(d => `Query ${d.id}`);
+
+  Plotly.newPlot('chart1', [{
+    x, y,
+    type: 'scatter', mode: 'lines+markers',
+    line:   { color: BLUE, width: 2 },
+    marker: { color: BLUE, size: 5 },
+    text: ids,
+    hovertemplate: '<b>%{text}</b><br>Rank: %{x}<br>QRR: %{y:.4f}<extra></extra>',
+    fill: 'tozeroy', fillcolor: LIGHT_BLUE,
+  }], {
+    ...BASE_LAYOUT,
+    xaxis: { title: { text: 'Query Rank (sorted by QRR)' }, gridcolor: '#e8ecf4' },
+    yaxis: { title: { text: 'QRR' }, gridcolor: '#e8ecf4' },
+    shapes: [{
+      type: 'line', x0: 0, x1: DATA.length, y0: 1, y1: 1,
+      line: { color: '#e45c5c', width: 1.5, dash: 'dot' },
+    }],
+    annotations: [{
+      x: DATA.length * 0.05, y: 1.05,
+      text: 'QRR = 1 (perfect)', showarrow: false,
+      font: { color: '#e45c5c', size: 11 },
+    }],
+  }, PLOTLY_CONFIG);
+})();
+
+// ══════════════════════════════════════════
+// CHART 2 – Histogram
+// ══════════════════════════════════════════
+(function chart2() {
+  Plotly.newPlot('chart2', [{
+    x: QRRS,
+    type: 'histogram',
+    nbinsx: 20,
+    marker: { color: BLUE, opacity: 0.8, line: { color: '#fff', width: 1 } },
+    hovertemplate: 'QRR: %{x:.2f}<br>Count: %{y}<extra></extra>',
+  }], {
+    ...BASE_LAYOUT,
+    xaxis: { title: { text: 'QRR' }, gridcolor: '#e8ecf4' },
+    yaxis: { title: { text: 'Frequency' }, gridcolor: '#e8ecf4' },
+  }, PLOTLY_CONFIG);
+})();
+
+// ══════════════════════════════════════════
+// CHART 3 – CDF
+// ══════════════════════════════════════════
+(function chart3() {
+  const sorted = [...QRRS].sort((a,b) => a-b);
+  const n = sorted.length;
+  const cumPct = sorted.map((_, i) => ((i+1)/n)*100);
+
+  Plotly.newPlot('chart3', [{
+    x: sorted, y: cumPct,
+    type: 'scatter', mode: 'lines',
+    line: { color: BLUE, width: 2.5 },
+    fill: 'tozeroy', fillcolor: LIGHT_BLUE,
+    hovertemplate: 'QRR ≤ %{x:.3f}<br>Cumulative: %{y:.1f}%<extra></extra>',
+  }], {
+    ...BASE_LAYOUT,
+    xaxis: { title: { text: 'QRR' }, gridcolor: '#e8ecf4' },
+    yaxis: { title: { text: '% of Queries' }, range:[0,105], gridcolor: '#e8ecf4' },
+  }, PLOTLY_CONFIG);
+})();
+
+// ══════════════════════════════════════════
+// CHART 4 – Scatter: Original vs Synthetic
+// ══════════════════════════════════════════
+(function chart4() {
+  const origs = DATA.map(d => d.orig);
+  const syns  = DATA.map(d => d.syn);
+  const mx    = Math.max(...origs, ...syns);
+
+  Plotly.newPlot('chart4', [
+    {
+      x: origs, y: syns,
+      mode: 'markers', type: 'scatter',
+      marker: { color: BLUE, size: 7, opacity: 0.75, line: { color: '#fff', width: 1 } },
+      text: DATA.map(d => `Query ${d.id}`),
+      hovertemplate: '<b>%{text}</b><br>Original: %{x:,.0f}<br>Synthetic: %{y:,.0f}<extra></extra>',
+    },
+    {
+      x: [0, mx], y: [0, mx],
+      mode: 'lines', type: 'scatter',
+      line: { color: '#e45c5c', dash: 'dash', width: 2 },
+      hoverinfo: 'none',
+      name: 'y = x (ideal)',
+      showlegend: true,
+    }
+  ], {
+    ...BASE_LAYOUT,
+    margin: { t: 20, r: 20, b: 60, l: 80 },
+    xaxis: { title: { text: 'Original Cost' }, gridcolor: '#e8ecf4', tickformat: ',.0f' },
+    yaxis: { title: { text: 'Synthetic Cost' }, gridcolor: '#e8ecf4', tickformat: ',.0f' },
+    legend: { x: 0.02, y: 0.98, bgcolor: 'rgba(255,255,255,0.8)', bordercolor: '#d5dae8', borderwidth: 1 },
+  }, PLOTLY_CONFIG);
+})();
+
+// ══════════════════════════════════════════
+// CHART 5 – Box Plot
+// ══════════════════════════════════════════
+(function chart5() {
+  Plotly.newPlot('chart5', [{
+    y: QRRS,
+    type: 'box',
+    name: 'QRR',
+    boxpoints: 'outliers',
+    marker:  { color: BLUE, outliercolor: '#e45c5c', size: 7 },
+    line:    { color: BLUE },
+    fillcolor: LIGHT_BLUE,
+    hovertemplate: 'QRR: %{y:.4f}<extra></extra>',
+  }], {
+    ...BASE_LAYOUT,
+    margin: { t: 20, r: 40, b: 40, l: 60 },
+    yaxis: { title: { text: 'QRR' }, gridcolor: '#e8ecf4' },
+    xaxis: { showticklabels: false },
+  }, PLOTLY_CONFIG);
+})();
+
+// ══════════════════════════════════════════
+// THRESHOLD ANALYSIS
+// ══════════════════════════════════════════
+(function renderThresholds() {
+  const thresholds = [1.05, 1.10, 1.25, 1.50, 2.00];
+  const n = QRRS.length;
+  const el = document.getElementById('threshGrid');
+  el.innerHTML = thresholds.map(t => {
+    const cnt = QRRS.filter(q => q <= t).length;
+    const pct = (cnt/n*100).toFixed(1);
+    return `
+      <div class="thresh-card">
+        <div class="t-label">QRR ≤ ${t.toFixed(2)}</div>
+        <div class="t-pct" style="color:${t<=1.10?'#1a6b3c':t<=1.50?'#b87000':'#3b6fd4'}">${pct}%</div>
+        <div style="font-size:0.78rem;color:#6b7280;margin-top:2px">${cnt} / ${n} queries</div>
+        <div class="t-bar"><div class="t-bar-fill" style="width:${pct}%"></div></div>
+      </div>`;
+  }).join('');
+})();
+
+// ══════════════════════════════════════════
+// QUERY TABLE HELPERS
+// ══════════════════════════════════════════
+function qrrClass(qrr) {
+  if (qrr > 5)    return 'qrr-high';
+  if (qrr > 2)    return 'qrr-med';
+  return 'qrr-ok';
+}
+function tableRow(d) {
+  const cls = qrrClass(d.qrr);
+  return `<tr>
+    <td>${d.id}</td>
+    <td>${d.orig.toLocaleString()}</td>
+    <td>${d.syn.toLocaleString()}</td>
+    <td class="${cls}">${d.qrr.toFixed(4)}</td>
+  </tr>`;
+}
+function buildTable(rows, el) {
+  el.innerHTML = `<table>
+    <thead><tr><th>Query ID</th><th>Original Cost</th><th>Synthetic Cost</th><th>QRR</th></tr></thead>
+    <tbody>${rows.map(tableRow).join('')}</tbody>
+  </table>`;
+}
+
+// Best 10 (lowest QRR)
+buildTable(SORTED_DATA.slice(0, 10), document.getElementById('bestTable'));
+// Worst 10 (highest QRR)
+buildTable([...SORTED_DATA].reverse().slice(0, 10), document.getElementById('worstTable'));
+
+// ══════════════════════════════════════════
+// FULL SORTABLE / SEARCHABLE TABLE
+// ══════════════════════════════════════════
+let fullData = [...DATA];
+let sortCol  = -1;
+let sortAsc  = true;
+
+function renderFullTable() {
+  const q = document.getElementById('searchBox').value.trim().toLowerCase();
+  const rows = fullData.filter(d => q === '' || String(d.id).includes(q));
+  document.getElementById('rowCount').textContent = `Showing ${rows.length} of ${DATA.length} queries`;
+  document.getElementById('fullTableBody').innerHTML = rows.map(tableRow).join('');
+}
+
+function filterTable() { renderFullTable(); }
+
+function sortTable(col) {
+  if (sortCol === col) sortAsc = !sortAsc; else { sortCol = col; sortAsc = true; }
+  const keys = ['id','orig','syn','qrr'];
+  fullData.sort((a,b) => {
+    const va = a[keys[col]], vb = b[keys[col]];
+    return sortAsc ? va - vb : vb - va;
+  });
+  renderFullTable();
+}
+
+renderFullTable();
+
+// ══════════════════════════════════════════
+// AUTOMATED INSIGHTS
+// ══════════════════════════════════════════
+(function renderInsights() {
+  const n    = QRRS.length;
+  const pct  = t => (QRRS.filter(q => q <= t).length / n * 100).toFixed(1);
+  const bestQ = SORTED_DATA[0];
+  const worstQ = SORTED_DATA[n-1];
+  const p10  = parseFloat(pct(1.10));
+  const p25  = parseFloat(pct(1.25));
+  const p50  = parseFloat(pct(1.50));
+  const fidelity = p10 >= 70 ? 'strong' : p10 >= 40 ? 'moderate' : 'weak';
+  const fidelityColor = fidelity === 'strong' ? '#1a6b3c' : fidelity === 'moderate' ? '#b87000' : '#b5192f';
+
+  const insights = [
+    { text: `The <strong>best</strong> observed QRR is <strong>${fmt(bestQ.qrr)}</strong> (Query ${bestQ.id}), representing near-perfect cost agreement between original and synthetic plans.` },
+    { text: `The <strong>worst</strong> observed QRR is <strong>${fmt(worstQ.qrr)}</strong> (Query ${worstQ.id}), indicating a significant cost discrepancy for this query.` },
+    { text: `The <strong>mean QRR</strong> across all 113 queries is <strong>${fmt(STATS.mean)}</strong>, with a median of <strong>${fmt(STATS.median)}</strong> and standard deviation of <strong>${fmt(STATS.std)}</strong>.` },
+    { text: `<strong>${pct(1.10)}%</strong> of queries fall within a 10% deviation (QRR ≤ 1.10), and <strong>${pct(1.25)}%</strong> within a 25% deviation (QRR ≤ 1.25).` },
+    { text: `<strong>${pct(1.50)}%</strong> of queries are within 50% deviation (QRR ≤ 1.50), and <strong>${pct(2.00)}%</strong> within a 2× factor (QRR ≤ 2.00).` },
+    { text: `Overall cost fidelity is assessed as <strong style="color:${fidelityColor}">${fidelity.toUpperCase()}</strong> based on the proportion of queries within a 10% tolerance threshold (${p10}%).` },
+  ];
+
+  document.getElementById('insightGrid').innerHTML = insights.map(i =>
+    `<div class="insight-card">${i.text}</div>`
+  ).join('');
+})();
+</script>
+</body>
+</html>

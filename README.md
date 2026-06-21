@@ -120,6 +120,13 @@ The pipeline successfully output a repository of 113 executable, synthetically g
 - The queries successfully execute against the IMDB schema.
 - They span varied complexity tiers (Low, Medium, High, Very High) and include advanced structural features like deep JOINs, subqueries, `GROUP BY` aggregations, and `ORDER BY` clauses.
 
+### 6. Query Relative Ratio (QRR) Fidelity Analysis (`sqlbarber_qrr_report.html`)
+To systematically quantify the per-query deviation between original and synthetic costs, I developed a **Query Relative Ratio (QRR)** fidelity dashboard.
+- **The QRR Metric:** Defined as `max(original / synthetic, synthetic / original)`, ensuring the value is always ≥ 1. A QRR of 1.0 represents a perfect match.
+- **Fidelity Spread:** Visualizations like the Cumulative Distribution Function (CDF) and Box Plots show the spread of cost agreement. While some queries achieve near-perfect fidelity (QRR ≈ 1.0), others experience wild deviations.
+- **Worst Offenders:** The dashboard automatically isolates the worst-performing queries, specifically highlighting massive outliers like Query #39, which has a QRR exceeding 25 (a ~2,429% error).
+- **Core Insight:** The QRR analysis visually proves that macroscopic success (matching a histogram) hides microscopic failure (high QRR variance on a per-query basis).
+
 ### Final Conclusion on the SQLBarber Hypothesis
 Reproducing a target execution-cost distribution is highly valuable for stress-testing DBMS engines (evaluating memory pressure, caching, and execution time under load). However, my analysis strongly proves that **it is not, by itself, evidence that the generated queries are realistic in structure or intent**. 
 
