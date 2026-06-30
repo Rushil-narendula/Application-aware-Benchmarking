@@ -1,0 +1,33 @@
+{
+  "query_number": 16,
+  "status": "success",
+  "timestamp": "2026-06-24T10:14:37.203215+00:00",
+  "original_query": "SELECT MIN(t.title) AS american_vhs_movie\nFROM company_type AS ct,\n     info_type AS it,\n     movie_companies AS mc,\n     movie_info AS mi,\n     title AS t\nWHERE ct.kind = 'production companies'\n  AND mc.note LIKE '%(VHS)%'\n  AND mc.note LIKE '%(USA)%'\n  AND mc.note LIKE '%(1994)%'\n  AND mi.info IN ('USA',\n                  'America')\n  AND t.production_year > 2010\n  AND t.id = mi.movie_id\n  AND t.id = mc.movie_id\n  AND mc.movie_id = mi.movie_id\n  AND ct.id = mc.company_type_id\n  AND it.id = mi.info_type_id",
+  "executed_query": "EXPLAIN SELECT MIN(t.title) AS american_vhs_movie\nFROM company_type AS ct,\n     info_type AS it,\n     movie_companies AS mc,\n     movie_info AS mi,\n     title AS t\nWHERE ct.kind = 'production companies'\n  AND mc.note LIKE '%(VHS)%'\n  AND mc.note LIKE '%(USA)%'\n  AND mc.note LIKE '%(1994)%'\n  AND mi.info IN ('USA',\n                  'America')\n  AND t.production_year > 2010\n  AND t.id = mi.movie_id\n  AND t.id = mc.movie_id\n  AND mc.movie_id = mi.movie_id\n  AND ct.id = mc.company_type_id\n  AND it.id = mi.info_type_id",
+  "execution_plan": [
+    "Aggregate  (cost=279092.79..279092.80 rows=1 width=32)",
+    "  ->  Nested Loop  (cost=38855.25..279092.78 rows=1 width=17)",
+    "        ->  Nested Loop  (cost=38854.82..279092.02 rows=1 width=8)",
+    "              ->  Gather  (cost=38854.68..279091.86 rows=1 width=12)",
+    "                    Workers Planned: 2",
+    "                    ->  Parallel Hash Join  (cost=37854.68..278091.76 rows=1 width=12)",
+    "                          Hash Cond: (mi.movie_id = mc.movie_id)",
+    "                          ->  Parallel Seq Scan on movie_info mi  (cost=0.00..239333.76 rows=240885 width=8)",
+    "                                Filter: ((info)::text = ANY ('{USA,America}'::text[]))",
+    "                          ->  Parallel Hash  (cost=37854.67..37854.67 rows=1 width=4)",
+    "                                ->  Nested Loop  (cost=0.16..37854.67 rows=1 width=4)",
+    "                                      ->  Parallel Seq Scan on movie_companies mc  (cost=0.00..37848.90 rows=11 width=8)",
+    "                                            Filter: (((note)::text ~~ '%(VHS)%'::text) AND ((note)::text ~~ '%(USA)%'::text) AND ((note)::text ~~ '%(1994)%'::text))",
+    "                                      ->  Memoize  (cost=0.16..1.96 rows=1 width=4)",
+    "                                            Cache Key: mc.company_type_id",
+    "                                            Cache Mode: logical",
+    "                                            ->  Index Scan using company_type_pkey on company_type ct  (cost=0.15..1.95 rows=1 width=4)",
+    "                                                  Index Cond: (id = mc.company_type_id)",
+    "                                                  Filter: ((kind)::text = 'production companies'::text)",
+    "              ->  Index Only Scan using info_type_pkey on info_type it  (cost=0.14..0.16 rows=1 width=4)",
+    "                    Index Cond: (id = mi.info_type_id)",
+    "        ->  Index Scan using title_pkey on title t  (cost=0.43..0.76 rows=1 width=21)",
+    "              Index Cond: (id = mi.movie_id)",
+    "              Filter: (production_year > 2010)"
+  ]
+}

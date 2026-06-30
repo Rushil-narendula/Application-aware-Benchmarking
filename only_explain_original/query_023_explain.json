@@ -1,0 +1,30 @@
+{
+  "query_number": 23,
+  "status": "success",
+  "timestamp": "2026-06-24T10:14:37.215634+00:00",
+  "original_query": "SELECT MIN(k.keyword) AS movie_keyword,\n       MIN(n.name) AS actor_name,\n       MIN(t.title) AS hero_movie\nFROM cast_info AS ci,\n     keyword AS k,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE k.keyword IN ('superhero',\n                    'sequel',\n                    'second-part',\n                    'marvel-comics',\n                    'based-on-comic',\n                    'tv-special',\n                    'fight',\n                    'violence')\n  AND t.production_year > 2000\n  AND k.id = mk.keyword_id\n  AND t.id = mk.movie_id\n  AND t.id = ci.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND n.id = ci.person_id",
+  "executed_query": "EXPLAIN SELECT MIN(k.keyword) AS movie_keyword,\n       MIN(n.name) AS actor_name,\n       MIN(t.title) AS hero_movie\nFROM cast_info AS ci,\n     keyword AS k,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE k.keyword IN ('superhero',\n                    'sequel',\n                    'second-part',\n                    'marvel-comics',\n                    'based-on-comic',\n                    'tv-special',\n                    'fight',\n                    'violence')\n  AND t.production_year > 2000\n  AND k.id = mk.keyword_id\n  AND t.id = mk.movie_id\n  AND t.id = ci.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND n.id = ci.person_id",
+  "execution_plan": [
+    "Finalize Aggregate  (cost=514258.12..514258.13 rows=1 width=96)",
+    "  ->  Gather  (cost=514257.89..514258.10 rows=2 width=96)",
+    "        Workers Planned: 2",
+    "        ->  Partial Aggregate  (cost=513257.89..513257.90 rows=1 width=96)",
+    "              ->  Nested Loop  (cost=52025.48..513241.48 rows=2189 width=48)",
+    "                    ->  Parallel Hash Join  (cost=52025.05..512244.81 rows=2189 width=37)",
+    "                          Hash Cond: (ci.movie_id = t.id)",
+    "                          ->  Parallel Seq Scan on cast_info ci  (cost=0.00..403626.23 rows=15090623 width=8)",
+    "                          ->  Parallel Hash  (cost=52024.27..52024.27 rows=62 width=41)",
+    "                                ->  Nested Loop  (cost=3691.93..52024.27 rows=62 width=41)",
+    "                                      ->  Hash Join  (cost=3691.50..51969.41 rows=112 width=20)",
+    "                                            Hash Cond: (mk.keyword_id = k.id)",
+    "                                            ->  Parallel Seq Scan on movie_keyword mk  (cost=0.00..43329.71 rows=1884971 width=8)",
+    "                                            ->  Hash  (cost=3691.40..3691.40 rows=8 width=20)",
+    "                                                  ->  Seq Scan on keyword k  (cost=0.00..3691.40 rows=8 width=20)",
+    "                                                        Filter: ((keyword)::text = ANY ('{superhero,sequel,second-part,marvel-comics,based-on-comic,tv-special,fight,violence}'::text[]))",
+    "                                      ->  Index Scan using title_pkey on title t  (cost=0.43..0.49 rows=1 width=21)",
+    "                                            Index Cond: (id = mk.movie_id)",
+    "                                            Filter: (production_year > 2000)",
+    "                    ->  Index Scan using name_pkey on name n  (cost=0.43..0.46 rows=1 width=19)",
+    "                          Index Cond: (id = ci.person_id)"
+  ]
+}

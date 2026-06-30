@@ -1,0 +1,32 @@
+{
+  "query_number": 110,
+  "status": "success",
+  "timestamp": "2026-06-24T10:14:38.316349+00:00",
+  "original_query": "SELECT MIN(lt.link) AS link_type,\n       MIN(t1.title) AS first_movie,\n       MIN(t2.title) AS second_movie\nFROM keyword AS k,\n     link_type AS lt,\n     movie_keyword AS mk,\n     movie_link AS ml,\n     title AS t1,\n     title AS t2\nWHERE k.keyword ='character-name-in-title'\n  AND mk.keyword_id = k.id\n  AND t1.id = mk.movie_id\n  AND ml.movie_id = t1.id\n  AND ml.linked_movie_id = t2.id\n  AND lt.id = ml.link_type_id\n  AND mk.movie_id = t1.id",
+  "executed_query": "EXPLAIN SELECT MIN(lt.link) AS link_type,\n       MIN(t1.title) AS first_movie,\n       MIN(t2.title) AS second_movie\nFROM keyword AS k,\n     link_type AS lt,\n     movie_keyword AS mk,\n     movie_link AS ml,\n     title AS t1,\n     title AS t2\nWHERE k.keyword ='character-name-in-title'\n  AND mk.keyword_id = k.id\n  AND t1.id = mk.movie_id\n  AND ml.movie_id = t1.id\n  AND ml.linked_movie_id = t2.id\n  AND lt.id = ml.link_type_id\n  AND mk.movie_id = t1.id",
+  "execution_plan": [
+    "Finalize Aggregate  (cost=52831.79..52831.80 rows=1 width=96)",
+    "  ->  Gather  (cost=52831.57..52831.78 rows=2 width=96)",
+    "        Workers Planned: 2",
+    "        ->  Partial Aggregate  (cost=51831.57..51831.58 rows=1 width=96)",
+    "              ->  Nested Loop  (cost=3524.08..51831.54 rows=4 width=68)",
+    "                    ->  Nested Loop  (cost=3523.65..51813.65 rows=4 width=55)",
+    "                          ->  Nested Loop  (cost=3523.22..51811.70 rows=4 width=46)",
+    "                                ->  Hash Join  (cost=3523.07..51811.02 rows=4 width=16)",
+    "                                      Hash Cond: (mk.movie_id = ml.movie_id)",
+    "                                      ->  Hash Join  (cost=2685.14..50963.05 rows=14 width=4)",
+    "                                            Hash Cond: (mk.keyword_id = k.id)",
+    "                                            ->  Parallel Seq Scan on movie_keyword mk  (cost=0.00..43329.71 rows=1884971 width=8)",
+    "                                            ->  Hash  (cost=2685.12..2685.12 rows=1 width=4)",
+    "                                                  ->  Seq Scan on keyword k  (cost=0.00..2685.12 rows=1 width=4)",
+    "                                                        Filter: ((keyword)::text = 'character-name-in-title'::text)",
+    "                                      ->  Hash  (cost=462.97..462.97 rows=29997 width=12)",
+    "                                            ->  Seq Scan on movie_link ml  (cost=0.00..462.97 rows=29997 width=12)",
+    "                                ->  Index Scan using link_type_pkey on link_type lt  (cost=0.15..0.17 rows=1 width=38)",
+    "                                      Index Cond: (id = ml.link_type_id)",
+    "                          ->  Index Scan using title_pkey on title t1  (cost=0.43..0.49 rows=1 width=21)",
+    "                                Index Cond: (id = mk.movie_id)",
+    "                    ->  Index Scan using title_pkey on title t2  (cost=0.43..4.47 rows=1 width=21)",
+    "                          Index Cond: (id = ml.linked_movie_id)"
+  ]
+}

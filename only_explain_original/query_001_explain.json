@@ -1,0 +1,33 @@
+{
+  "query_number": 1,
+  "status": "success",
+  "timestamp": "2026-06-24T10:14:37.167200+00:00",
+  "original_query": "SELECT MIN(mc.note) AS production_note,\n       MIN(t.title) AS movie_title,\n       MIN(t.production_year) AS movie_year\nFROM company_type AS ct,\n     info_type AS it,\n     movie_companies AS mc,\n     movie_info_idx AS mi_idx,\n     title AS t\nWHERE ct.kind = 'production companies'\n  AND it.info = 'top 250 rank'\n  AND mc.note NOT LIKE '%(as Metro-Goldwyn-Mayer Pictures)%'\n  AND (mc.note LIKE '%(co-production)%'\n       OR mc.note LIKE '%(presents)%')\n  AND ct.id = mc.company_type_id\n  AND t.id = mc.movie_id\n  AND t.id = mi_idx.movie_id\n  AND mc.movie_id = mi_idx.movie_id\n  AND it.id = mi_idx.info_type_id",
+  "executed_query": "EXPLAIN SELECT MIN(mc.note) AS production_note,\n       MIN(t.title) AS movie_title,\n       MIN(t.production_year) AS movie_year\nFROM company_type AS ct,\n     info_type AS it,\n     movie_companies AS mc,\n     movie_info_idx AS mi_idx,\n     title AS t\nWHERE ct.kind = 'production companies'\n  AND it.info = 'top 250 rank'\n  AND mc.note NOT LIKE '%(as Metro-Goldwyn-Mayer Pictures)%'\n  AND (mc.note LIKE '%(co-production)%'\n       OR mc.note LIKE '%(presents)%')\n  AND ct.id = mc.company_type_id\n  AND t.id = mc.movie_id\n  AND t.id = mi_idx.movie_id\n  AND mc.movie_id = mi_idx.movie_id\n  AND it.id = mi_idx.info_type_id",
+  "execution_plan": [
+    "Finalize Aggregate  (cost=54194.13..54194.14 rows=1 width=68)",
+    "  ->  Gather  (cost=54193.90..54194.11 rows=2 width=68)",
+    "        Workers Planned: 2",
+    "        ->  Partial Aggregate  (cost=53193.90..53193.91 rows=1 width=68)",
+    "              ->  Nested Loop  (cost=37890.47..53193.90 rows=1 width=45)",
+    "                    Join Filter: (t.id = mc.movie_id)",
+    "                    ->  Parallel Hash Join  (cost=37890.04..53193.31 rows=1 width=32)",
+    "                          Hash Cond: (mi_idx.movie_id = mc.movie_id)",
+    "                          ->  Hash Join  (cost=2.43..15286.60 rows=5089 width=4)",
+    "                                Hash Cond: (mi_idx.info_type_id = it.id)",
+    "                                ->  Parallel Seq Scan on movie_info_idx mi_idx  (cost=0.00..13718.15 rows=575015 width=8)",
+    "                                ->  Hash  (cost=2.41..2.41 rows=1 width=4)",
+    "                                      ->  Seq Scan on info_type it  (cost=0.00..2.41 rows=1 width=4)",
+    "                                            Filter: ((info)::text = 'top 250 rank'::text)",
+    "                          ->  Parallel Hash  (cost=37887.31..37887.31 rows=24 width=28)",
+    "                                ->  Hash Join  (cost=25.45..37887.31 rows=24 width=28)",
+    "                                      Hash Cond: (mc.company_type_id = ct.id)",
+    "                                      ->  Parallel Seq Scan on movie_companies mc  (cost=0.00..37848.90 rows=4921 width=32)",
+    "                                            Filter: (((note)::text !~~ '%(as Metro-Goldwyn-Mayer Pictures)%'::text) AND (((note)::text ~~ '%(co-production)%'::text) OR ((note)::text ~~ '%(presents)%'::text)))",
+    "                                      ->  Hash  (cost=25.38..25.38 rows=6 width=4)",
+    "                                            ->  Seq Scan on company_type ct  (cost=0.00..25.38 rows=6 width=4)",
+    "                                                  Filter: ((kind)::text = 'production companies'::text)",
+    "                    ->  Index Scan using title_pkey on title t  (cost=0.43..0.58 rows=1 width=25)",
+    "                          Index Cond: (id = mi_idx.movie_id)"
+  ]
+}

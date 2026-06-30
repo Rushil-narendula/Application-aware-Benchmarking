@@ -1,0 +1,33 @@
+{
+  "query_number": 17,
+  "status": "success",
+  "timestamp": "2026-06-24T10:14:37.204754+00:00",
+  "original_query": "SELECT MIN(t.title) AS american_movie\nFROM company_type AS ct,\n     info_type AS it,\n     movie_companies AS mc,\n     movie_info AS mi,\n     title AS t\nWHERE ct.kind = 'production companies'\n  AND mc.note NOT LIKE '%(TV)%'\n  AND mc.note LIKE '%(USA)%'\n  AND mi.info IN ('Sweden',\n                  'Norway',\n                  'Germany',\n                  'Denmark',\n                  'Swedish',\n                  'Denish',\n                  'Norwegian',\n                  'German',\n                  'USA',\n                  'American')\n  AND t.production_year > 1990\n  AND t.id = mi.movie_id\n  AND t.id = mc.movie_id\n  AND mc.movie_id = mi.movie_id\n  AND ct.id = mc.company_type_id\n  AND it.id = mi.info_type_id",
+  "executed_query": "EXPLAIN SELECT MIN(t.title) AS american_movie\nFROM company_type AS ct,\n     info_type AS it,\n     movie_companies AS mc,\n     movie_info AS mi,\n     title AS t\nWHERE ct.kind = 'production companies'\n  AND mc.note NOT LIKE '%(TV)%'\n  AND mc.note LIKE '%(USA)%'\n  AND mi.info IN ('Sweden',\n                  'Norway',\n                  'Germany',\n                  'Denmark',\n                  'Swedish',\n                  'Denish',\n                  'Norwegian',\n                  'German',\n                  'USA',\n                  'American')\n  AND t.production_year > 1990\n  AND t.id = mi.movie_id\n  AND t.id = mc.movie_id\n  AND mc.movie_id = mi.movie_id\n  AND ct.id = mc.company_type_id\n  AND it.id = mi.info_type_id",
+  "execution_plan": [
+    "Finalize Aggregate  (cost=292695.03..292695.04 rows=1 width=32)",
+    "  ->  Gather  (cost=292694.82..292695.03 rows=2 width=32)",
+    "        Workers Planned: 2",
+    "        ->  Partial Aggregate  (cost=291694.82..291694.83 rows=1 width=32)",
+    "              ->  Hash Join  (cost=35352.59..291693.95 rows=348 width=17)",
+    "                    Hash Cond: (mi.info_type_id = it.id)",
+    "                    ->  Nested Loop  (cost=35349.04..291689.46 rows=348 width=21)",
+    "                          ->  Parallel Hash Join  (cost=35348.61..291336.94 rows=502 width=12)",
+    "                                Hash Cond: (mi.movie_id = mc.movie_id)",
+    "                                ->  Parallel Seq Scan on movie_info mi  (cost=0.03..254870.93 rows=297422 width=8)",
+    "                                      Filter: ((info)::text = ANY ('{Sweden,Norway,Germany,Denmark,Swedish,Denish,Norwegian,German,USA,American}'::text[]))",
+    "                                ->  Parallel Hash  (cost=35344.24..35344.24 rows=348 width=4)",
+    "                                      ->  Hash Join  (cost=25.45..35344.24 rows=348 width=4)",
+    "                                            Hash Cond: (mc.company_type_id = ct.id)",
+    "                                            ->  Parallel Seq Scan on movie_companies mc  (cost=0.00..35131.06 rows=71271 width=8)",
+    "                                                  Filter: (((note)::text !~~ '%(TV)%'::text) AND ((note)::text ~~ '%(USA)%'::text))",
+    "                                            ->  Hash  (cost=25.38..25.38 rows=6 width=4)",
+    "                                                  ->  Seq Scan on company_type ct  (cost=0.00..25.38 rows=6 width=4)",
+    "                                                        Filter: ((kind)::text = 'production companies'::text)",
+    "                          ->  Index Scan using title_pkey on title t  (cost=0.43..0.70 rows=1 width=21)",
+    "                                Index Cond: (id = mi.movie_id)",
+    "                                Filter: (production_year > 1990)",
+    "                    ->  Hash  (cost=2.13..2.13 rows=113 width=4)",
+    "                          ->  Seq Scan on info_type it  (cost=0.00..2.13 rows=113 width=4)"
+  ]
+}

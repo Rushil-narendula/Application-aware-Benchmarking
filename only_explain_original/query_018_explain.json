@@ -1,0 +1,30 @@
+{
+  "query_number": 18,
+  "status": "success",
+  "timestamp": "2026-06-24T10:14:37.207674+00:00",
+  "original_query": "SELECT MIN(k.keyword) AS movie_keyword,\n       MIN(n.name) AS actor_name,\n       MIN(t.title) AS marvel_movie\nFROM cast_info AS ci,\n     keyword AS k,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE k.keyword = 'marvel-cinematic-universe'\n  AND n.name LIKE '%Downey%Robert%'\n  AND t.production_year > 2010\n  AND k.id = mk.keyword_id\n  AND t.id = mk.movie_id\n  AND t.id = ci.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND n.id = ci.person_id",
+  "executed_query": "EXPLAIN SELECT MIN(k.keyword) AS movie_keyword,\n       MIN(n.name) AS actor_name,\n       MIN(t.title) AS marvel_movie\nFROM cast_info AS ci,\n     keyword AS k,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE k.keyword = 'marvel-cinematic-universe'\n  AND n.name LIKE '%Downey%Robert%'\n  AND t.production_year > 2010\n  AND k.id = mk.keyword_id\n  AND t.id = mk.movie_id\n  AND t.id = ci.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND n.id = ci.person_id",
+  "execution_plan": [
+    "Aggregate  (cost=512221.48..512221.49 rows=1 width=96)",
+    "  ->  Gather  (cost=51970.36..512221.47 rows=1 width=48)",
+    "        Workers Planned: 2",
+    "        ->  Nested Loop  (cost=50970.36..511221.37 rows=1 width=48)",
+    "              ->  Parallel Hash Join  (cost=50969.93..511186.12 rows=77 width=37)",
+    "                    Hash Cond: (ci.movie_id = t.id)",
+    "                    ->  Parallel Seq Scan on cast_info ci  (cost=0.00..403626.23 rows=15090623 width=8)",
+    "                    ->  Parallel Hash  (cost=50969.91..50969.91 rows=2 width=41)",
+    "                          ->  Nested Loop  (cost=2685.57..50969.91 rows=2 width=41)",
+    "                                ->  Hash Join  (cost=2685.14..50963.05 rows=14 width=20)",
+    "                                      Hash Cond: (mk.keyword_id = k.id)",
+    "                                      ->  Parallel Seq Scan on movie_keyword mk  (cost=0.00..43329.71 rows=1884971 width=8)",
+    "                                      ->  Hash  (cost=2685.12..2685.12 rows=1 width=20)",
+    "                                            ->  Seq Scan on keyword k  (cost=0.00..2685.12 rows=1 width=20)",
+    "                                                  Filter: ((keyword)::text = 'marvel-cinematic-universe'::text)",
+    "                                ->  Index Scan using title_pkey on title t  (cost=0.43..0.49 rows=1 width=21)",
+    "                                      Index Cond: (id = mk.movie_id)",
+    "                                      Filter: (production_year > 2010)",
+    "              ->  Index Scan using name_pkey on name n  (cost=0.43..0.46 rows=1 width=19)",
+    "                    Index Cond: (id = ci.person_id)",
+    "                    Filter: ((name)::text ~~ '%Downey%Robert%'::text)"
+  ]
+}

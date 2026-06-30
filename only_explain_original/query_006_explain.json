@@ -1,0 +1,30 @@
+{
+  "query_number": 6,
+  "status": "success",
+  "timestamp": "2026-06-24T10:14:37.184616+00:00",
+  "original_query": "SELECT MIN(t.title) AS movie_title\nFROM company_name AS cn,\n     keyword AS k,\n     movie_companies AS mc,\n     movie_keyword AS mk,\n     title AS t\nWHERE cn.country_code ='[nl]'\n  AND k.keyword ='character-name-in-title'\n  AND cn.id = mc.company_id\n  AND mc.movie_id = t.id\n  AND t.id = mk.movie_id\n  AND mk.keyword_id = k.id\n  AND mc.movie_id = mk.movie_id",
+  "executed_query": "EXPLAIN SELECT MIN(t.title) AS movie_title\nFROM company_name AS cn,\n     keyword AS k,\n     movie_companies AS mc,\n     movie_keyword AS mk,\n     title AS t\nWHERE cn.country_code ='[nl]'\n  AND k.keyword ='character-name-in-title'\n  AND cn.id = mc.company_id\n  AND mc.movie_id = t.id\n  AND t.id = mk.movie_id\n  AND mk.keyword_id = k.id\n  AND mc.movie_id = mk.movie_id",
+  "execution_plan": [
+    "Aggregate  (cost=85769.83..85769.84 rows=1 width=32)",
+    "  ->  Gather  (cost=51964.08..85769.82 rows=2 width=17)",
+    "        Workers Planned: 2",
+    "        ->  Nested Loop  (cost=50964.08..84769.62 rows=1 width=17)",
+    "              Join Filter: (t.id = mc.movie_id)",
+    "              ->  Nested Loop  (cost=50963.65..84769.12 rows=1 width=8)",
+    "                    ->  Parallel Hash Join  (cost=50963.23..84735.67 rows=75 width=12)",
+    "                          Hash Cond: (mc.movie_id = mk.movie_id)",
+    "                          ->  Parallel Seq Scan on movie_companies mc  (cost=0.00..29695.37 rows=1087137 width=8)",
+    "                          ->  Parallel Hash  (cost=50963.05..50963.05 rows=14 width=4)",
+    "                                ->  Hash Join  (cost=2685.14..50963.05 rows=14 width=4)",
+    "                                      Hash Cond: (mk.keyword_id = k.id)",
+    "                                      ->  Parallel Seq Scan on movie_keyword mk  (cost=0.00..43329.71 rows=1884971 width=8)",
+    "                                      ->  Hash  (cost=2685.12..2685.12 rows=1 width=4)",
+    "                                            ->  Seq Scan on keyword k  (cost=0.00..2685.12 rows=1 width=4)",
+    "                                                  Filter: ((keyword)::text = 'character-name-in-title'::text)",
+    "                    ->  Index Scan using company_name_pkey on company_name cn  (cost=0.42..0.45 rows=1 width=4)",
+    "                          Index Cond: (id = mc.company_id)",
+    "                          Filter: ((country_code)::text = '[nl]'::text)",
+    "              ->  Index Scan using title_pkey on title t  (cost=0.43..0.49 rows=1 width=21)",
+    "                    Index Cond: (id = mk.movie_id)"
+  ]
+}

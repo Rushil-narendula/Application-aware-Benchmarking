@@ -1,0 +1,29 @@
+{
+  "query_number": 10,
+  "status": "success",
+  "timestamp": "2026-06-24T10:14:37.192377+00:00",
+  "original_query": "SELECT MIN(t.title) AS movie_title\nFROM keyword AS k,\n     movie_info AS mi,\n     movie_keyword AS mk,\n     title AS t\nWHERE k.keyword LIKE '%sequel%'\n  AND mi.info IN ('Bulgaria')\n  AND t.production_year > 2010\n  AND t.id = mi.movie_id\n  AND t.id = mk.movie_id\n  AND mk.movie_id = mi.movie_id\n  AND k.id = mk.keyword_id",
+  "executed_query": "EXPLAIN SELECT MIN(t.title) AS movie_title\nFROM keyword AS k,\n     movie_info AS mi,\n     movie_keyword AS mk,\n     title AS t\nWHERE k.keyword LIKE '%sequel%'\n  AND mi.info IN ('Bulgaria')\n  AND t.production_year > 2010\n  AND t.id = mi.movie_id\n  AND t.id = mk.movie_id\n  AND mk.movie_id = mi.movie_id\n  AND k.id = mk.keyword_id",
+  "execution_plan": [
+    "Finalize Aggregate  (cost=291300.57..291300.58 rows=1 width=32)",
+    "  ->  Gather  (cost=291300.35..291300.56 rows=2 width=32)",
+    "        Workers Planned: 2",
+    "        ->  Partial Aggregate  (cost=290300.35..290300.36 rows=1 width=32)",
+    "              ->  Nested Loop  (cost=50965.91..290300.35 rows=1 width=17)",
+    "                    Join Filter: (t.id = mi.movie_id)",
+    "                    ->  Parallel Hash Join  (cost=50965.48..290299.85 rows=1 width=8)",
+    "                          Hash Cond: (mi.movie_id = mk.movie_id)",
+    "                          ->  Parallel Seq Scan on movie_info mi  (cost=0.00..239333.76 rows=162 width=4)",
+    "                                Filter: ((info)::text = 'Bulgaria'::text)",
+    "                          ->  Parallel Hash  (cost=50963.20..50963.20 rows=182 width=4)",
+    "                                ->  Hash Join  (cost=2685.29..50963.20 rows=182 width=4)",
+    "                                      Hash Cond: (mk.keyword_id = k.id)",
+    "                                      ->  Parallel Seq Scan on movie_keyword mk  (cost=0.00..43329.71 rows=1884971 width=8)",
+    "                                      ->  Hash  (cost=2685.12..2685.12 rows=13 width=4)",
+    "                                            ->  Seq Scan on keyword k  (cost=0.00..2685.12 rows=13 width=4)",
+    "                                                  Filter: ((keyword)::text ~~ '%sequel%'::text)",
+    "                    ->  Index Scan using title_pkey on title t  (cost=0.43..0.49 rows=1 width=21)",
+    "                          Index Cond: (id = mk.movie_id)",
+    "                          Filter: (production_year > 2010)"
+  ]
+}
