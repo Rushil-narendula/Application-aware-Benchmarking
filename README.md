@@ -131,6 +131,7 @@ To systematically quantify the per-query deviation between original and syntheti
 To enable granular inspection of query execution behavior, the repository now tracks the detailed PostgreSQL `EXPLAIN` and `EXPLAIN ANALYZE` logs for both workloads. 
 - Located in `explain_analyze_original/`, `explain_analyze_synthetic/`, `only_explain_original/`, and `only_explain_synthetic/`.
 - This permits side-by-side verification of how the query planner interpreted the original versus synthetic structures.
+- The Python scripts used to automate and generate these logs are included: `explain_job_queries.py`, `run_original_explains.py`, `synthetic_explain_only.py`, and `synthetic_explains_analyze.py`.
 - The final set of generated synthetic SQL query scripts are systematically organized in the `synthetic_total/` directory.
 
 ### 8. Advanced Statistical Analysis & CDF Visualization
