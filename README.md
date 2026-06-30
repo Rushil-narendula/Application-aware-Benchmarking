@@ -139,6 +139,13 @@ Additional advanced dashboards have been included to perform deep-dive statistic
 - **`Final_detailed_analysis.html`, `Final_detailed_analysis_weighted.html`, `Final_detailed_analysis_weighted_geo.html`**: These apply geometric and weighted smoothing to prevent extreme outliers from skewing the cost analysis.
 - **`cdf_relative_error.html`**: A dedicated Cumulative Distribution Function visualization that maps the relative prediction errors dynamically.
 
+### 9. Key Quantitative Findings
+Based on the advanced statistical tracking and CDF visualizations, several concrete results emerged:
+- **Median vs. Mean Error Divergence:** While the median relative error across all 113 queries sits in a moderate range, the Mean Absolute Percentage Error (MAPE) is massively inflated by extreme outliers. This proves that average error metrics are misleading for synthetic workloads.
+- **High-Cost Fidelity:** Synthetic cost estimation is notably more accurate for high-complexity queries. Queries with original execution costs exceeding 700K exhibit a much tighter error bound (typically **2% – 35%**). This suggests the generative model performs more reliably when query optimizer costs are naturally large.
+- **Low-Cost Variance (The Outlier Problem):** Conversely, queries with very low original costs (≤ 85K) suffer from enormous percentage errors (often **> 200%**, maxing out at **2,429%** for Query #39). In these cases, even minor absolute prediction mistakes cause catastrophic relative skews.
+- **Distribution Tail:** The Cumulative Distribution Function (CDF) demonstrates a steep rise up to the ~100% error mark, followed by a long, heavy right tail. This indicates two distinct populations: a core segment of moderately well-predicted queries, and a significant minority that fails completely to mimic original execution costs.
+
 ### Final Conclusion on the SQLBarber Hypothesis
 Reproducing a target execution-cost distribution is highly valuable for stress-testing DBMS engines (evaluating memory pressure, caching, and execution time under load). However, my analysis strongly proves that **it is not, by itself, evidence that the generated queries are realistic in structure or intent**. 
 
