@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CDF — Relative Error %</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700&display=swap');
+
+  :root {
+    --bg:      #f4f6fb;
+    --white:   #ffffff;
+    --border:  #e8ecf4;
+    --border2: #dde3ef;
+    --txt1:    #18202f;
+    --txt2:    #5b6580;
+    --txt3:    #9aa1b8;
+    --blue:    #4361ee;
+    --blue-l:  #eef1fd;
+    --teal:    #2ec4a9;
+    --teal-l:  #e8faf6;
+    --amber:   #f59e0b;
+    --amber-l: #fef6e7;
+    --red:     #e8445a;
+    --red-l:   #fef0f3;
+    --r:       12px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--txt1);
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HEADER ────────────────────────────────── */
+  header {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 30px 52px;
+  }
+  .hdr {
+    max-width: 1160px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .hdr-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 8px;
+  }
+  .hdr h1 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -.025em;
+    color: var(--txt1);
+    line-height: 1.2;
+  }
+  .hdr-sub {
+    font-size: 13px;
+    color: var(--txt2);
+    margin-top: 5px;
+    font-weight: 400;
+  }
+  .hdr-pills {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-end;
+  }
+  .pill {
+    background: var(--bg);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    padding: 5px 14px;
+    font-size: 12px;
+    color: var(--txt2);
+    white-space: nowrap;
+  }
+  .pill b { color: var(--txt1); font-weight: 600; }
+
+  /* ── PAGE WRAPPER ──────────────────────────── */
+  .page {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 36px 52px 52px;
+  }
+
+  /* ── SECTION DIVIDER ───────────────────────── */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 32px 0 18px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--txt3);
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .divider::before { flex: 0 0 0px; display:none; }
+
+  /* ── CARD ──────────────────────────────────── */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 22px 24px;
+  }
+
+  /* ── STAT CARDS ────────────────────────────── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  .stat-card { display: flex; flex-direction: column; gap: 4px; }
+  .stat-eyebrow {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--txt3);
+  }
+  .stat-num {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -.03em;
+    line-height: 1;
+    margin-top: 2px;
+  }
+  .stat-desc { font-size: 12px; color: var(--txt2); }
+  .stat-track {
+    height: 3px;
+    background: var(--border);
+    border-radius: 3px;
+    margin-top: 12px;
+    overflow: hidden;
+  }
+  .stat-fill { height: 100%; border-radius: 3px; }
+  .c-blue  { color: var(--blue); }
+  .c-teal  { color: var(--teal); }
+  .c-amber { color: var(--amber); }
+  .c-red   { color: var(--red); }
+  .f-blue  { background: var(--blue); }
+  .f-teal  { background: var(--teal); }
+  .f-amber { background: var(--amber); }
+  .f-red   { background: var(--red); }
+
+  /* ── CHART CARD ────────────────────────────── */
+  .chart-card { padding: 28px 32px; }
+  .chart-title { font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
+  .chart-meta {
+    font-size: 12.5px;
+    color: var(--txt2);
+    margin-top: 4px;
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+  .chart-wrap { position: relative; height: 400px; }
+
+  /* ── BREAKDOWNS ────────────────────────────── */
+  .breakdowns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .bd-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--txt2);
+    margin-bottom: 16px;
+  }
+  .bd-rows { display: flex; flex-direction: column; gap: 9px; }
+  .bd-row { display: flex; align-items: center; gap: 9px; }
+  .bd-lbl {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--txt2);
+    width: 42px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .bd-lbl-wide {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--txt2);
+    width: 130px;
+    text-align: right;
+    flex-shrink: 0;
+    line-height: 1.3;
+  }
+  .bd-track {
+    flex: 1;
+    height: 7px;
+    background: var(--bg);
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .bd-fill { height: 100%; border-radius: 4px; }
+  .bd-val {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--txt1);
+    width: 76px;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .bd-val span { color: var(--txt3); font-weight: 400; }
+
+  /* ── INSIGHTS ──────────────────────────────── */
+  .insights-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .ins-card { display: flex; flex-direction: column; gap: 7px; }
+  .ins-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 5px;
+    width: fit-content;
+  }
+  .tag-blue  { background: var(--blue-l);  color: var(--blue); }
+  .tag-teal  { background: var(--teal-l);  color: #1a9b84; }
+  .tag-amber { background: var(--amber-l); color: #b57a08; }
+  .tag-red   { background: var(--red-l);   color: var(--red); }
+  .ins-title { font-size: 13.5px; font-weight: 600; color: var(--txt1); line-height: 1.3; }
+  .ins-body  { font-size: 12.5px; color: var(--txt2); line-height: 1.65; }
+
+  /* ── TABLE ─────────────────────────────────── */
+  .tbl-hdr {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .tbl-title { font-size: 14px; font-weight: 600; }
+  .tbl-right { display: flex; align-items: center; gap: 12px; }
+  .tbl-count { font-size: 12px; color: var(--txt3); }
+  .tbl-search {
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    padding: 7px 13px;
+    font-size: 12.5px;
+    font-family: inherit;
+    color: var(--txt1);
+    background: var(--bg);
+    outline: none;
+    width: 210px;
+    transition: border-color .15s;
+  }
+  .tbl-search:focus { border-color: var(--blue); background: var(--white); }
+  .tbl-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th {
+    background: var(--bg);
+    padding: 9px 14px;
+    text-align: left;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--txt3);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    white-space: nowrap;
+    user-select: none;
+    transition: color .12s;
+  }
+  thead th:hover { color: var(--blue); }
+  tbody tr { border-bottom: 1px solid var(--border); transition: background .1s; }
+  tbody tr:hover { background: #f7f9ff; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody td { padding: 9px 14px; }
+  .qid { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .num { font-variant-numeric: tabular-nums; color: var(--txt2); }
+  .badge {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: 20px;
+    font-size: 11.5px;
+    font-weight: 600;
+  }
+  .bg-teal  { background: var(--teal-l);  color: #1a9b84; }
+  .bg-amber { background: var(--amber-l); color: #b57a08; }
+  .bg-red   { background: var(--red-l);   color: var(--red); }
+  .cdf-rank { font-size: 12px; color: var(--txt3); font-variant-numeric: tabular-nums; }
+
+  /* ── FOOTER ────────────────────────────────── */
+  footer {
+    text-align: center;
+    padding: 28px 0 36px;
+    font-size: 12px;
+    color: var(--txt3);
+    border-top: 1px solid var(--border);
+    margin-top: 8px;
+  }
+
+  /* ── RESPONSIVE ────────────────────────────── */
+  @media (max-width: 900px) {
+    header { padding: 22px 20px; }
+    .page  { padding: 24px 16px 40px; }
+    .stats-row    { grid-template-columns: repeat(2,1fr); }
+    .breakdowns   { grid-template-columns: 1fr; }
+    .insights-grid{ grid-template-columns: 1fr; }
+    .hdr-pills    { align-items: flex-start; }
+    .chart-wrap   { height: 300px; }
+  }
+  @media (max-width: 560px) {
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .hdr h1    { font-size: 19px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ─────────────────────────────────────────────── -->
+<header>
+  <div class="hdr">
+    <div>
+      <div class="hdr-eyebrow">Distribution Analysis</div>
+      <h1>Cumulative Distribution of Relative Error %</h1>
+      <div class="hdr-sub">SQL Query Cost — Original vs Synthetic &nbsp;·&nbsp; What share of queries fall within a given error threshold</div>
+    </div>
+    <div class="hdr-pills">
+      <div class="pill"><b>113</b> queries analysed</div>
+      <div class="pill">Original vs Synthetic Cost</div>
+    </div>
+  </div>
+</header>
+
+<!-- ── PAGE ───────────────────────────────────────────────── -->
+<div class="page">
+
+  <!-- STATS -->
+  <div class="divider">Summary</div>
+  <div class="stats-row" id="statsRow"></div>
+
+  <!-- CDF CHART -->
+  <div class="divider">CDF Chart</div>
+  <div class="card chart-card">
+    <div class="chart-title">Cumulative Distribution of Relative Error Percentage</div>
+    <div class="chart-meta">X-axis: Relative Error % &nbsp;·&nbsp; Y-axis: % of queries at or below that error &nbsp;·&nbsp; Hover the curve for exact values</div>
+    <div class="chart-wrap"><canvas id="chartCDF"></canvas></div>
+  </div>
+
+  <!-- BREAKDOWNS -->
+  <div class="divider">Percentile Breakdown</div>
+  <div class="breakdowns" id="breakdowns"></div>
+
+  <!-- INSIGHTS -->
+  <div class="divider">Observations</div>
+  <div class="insights-grid" id="insightsGrid"></div>
+
+  <!-- TABLE -->
+  <div class="divider">Query Detail</div>
+  <div class="card">
+    <div class="tbl-hdr">
+      <div class="tbl-title">All Queries — sorted by % error</div>
+      <div class="tbl-right">
+        <span class="tbl-count" id="rowCount"></span>
+        <input class="tbl-search" id="searchInput" type="text" placeholder="Search query ID or value…"/>
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th onclick="sortTable(0)">Query ⇅</th>
+            <th onclick="sortTable(1)">Original Cost ⇅</th>
+            <th onclick="sortTable(2)">Synthetic Cost ⇅</th>
+            <th onclick="sortTable(3)">Absolute Error ⇅</th>
+            <th onclick="sortTable(4)">Relative Error % ⇅</th>
+            <th>CDF Rank</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+<footer>SQL Query Cost Analysis — Cumulative Distribution of Relative Error &nbsp;·&nbsp; Generated automatically</footer>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────────
+const RAW = [{"Index":1,"Original":54194,"synthetic":36029,"abs_err":18165,"pct_err":33.5184706794},{"Index":2,"Original":50287,"synthetic":35993,"abs_err":14294,"pct_err":28.4248414103},{"Index":3,"Original":51471,"synthetic":327242,"abs_err":275771,"pct_err":535.7793709079},{"Index":4,"Original":50287,"synthetic":327242,"abs_err":276955,"pct_err":550.7487024479},{"Index":5,"Original":85770,"synthetic":327242,"abs_err":241472,"pct_err":281.5343360149},{"Index":6,"Original":85769,"synthetic":327242,"abs_err":241473,"pct_err":281.5387844093},{"Index":7,"Original":85769,"synthetic":327242,"abs_err":241473,"pct_err":281.5387844093},{"Index":8,"Original":85775,"synthetic":327242,"abs_err":241467,"pct_err":281.512095599},{"Index":9,"Original":338157,"synthetic":327242,"abs_err":10915,"pct_err":3.2277906416},{"Index":10,"Original":291300,"synthetic":327242,"abs_err":35942,"pct_err":12.3384826639},{"Index":11,"Original":308041,"synthetic":327242,"abs_err":19201,"pct_err":6.2332611568},{"Index":12,"Original":67711,"synthetic":327242,"abs_err":259531,"pct_err":383.29222726},{"Index":13,"Original":66674,"synthetic":301129,"abs_err":234455,"pct_err":351.6438191799},{"Index":14,"Original":68034,"synthetic":301265,"abs_err":233231,"pct_err":342.8153570274},{"Index":15,"Original":322321,"synthetic":301114,"abs_err":21207,"pct_err":6.579465812},{"Index":16,"Original":279072,"synthetic":301092,"abs_err":22020,"pct_err":7.8904368765},{"Index":17,"Original":292605,"synthetic":301187,"abs_err":8582,"pct_err":2.9329642351},{"Index":18,"Original":512221,"synthetic":520939,"abs_err":8718,"pct_err":1.7019997228},{"Index":19,"Original":513240,"synthetic":486810,"abs_err":26430,"pct_err":5.1496375964},{"Index":20,"Original":512186,"synthetic":485829,"abs_err":26357,"pct_err":5.1459821237},{"Index":21,"Original":512427,"synthetic":69707,"abs_err":442720,"pct_err":86.3966965051},{"Index":22,"Original":512312,"synthetic":69698,"abs_err":442614,"pct_err":86.3953996783},{"Index":23,"Original":514258,"synthetic":486888,"abs_err":27370,"pct_err":5.3222312536},{"Index":24,"Original":544506,"synthetic":327155,"abs_err":217351,"pct_err":39.9170991688},{"Index":25,"Original":545442,"synthetic":327155,"abs_err":218287,"pct_err":40.020203798},{"Index":26,"Original":545442,"synthetic":327155,"abs_err":218287,"pct_err":40.020203798},{"Index":27,"Original":494237,"synthetic":327155,"abs_err":167082,"pct_err":33.8060485152},{"Index":28,"Original":499654,"synthetic":327155,"abs_err":172499,"pct_err":34.5236903938},{"Index":29,"Original":564415,"synthetic":327155,"abs_err":237260,"pct_err":42.0364448145},{"Index":30,"Original":564415,"synthetic":88337,"abs_err":476078,"pct_err":84.3489276508},{"Index":31,"Original":533757,"synthetic":88337,"abs_err":445420,"pct_err":83.4499594385},{"Index":32,"Original":497947,"synthetic":770438,"abs_err":272491,"pct_err":54.7228921954},{"Index":33,"Original":532927,"synthetic":777538,"abs_err":244611,"pct_err":45.8995322061},{"Index":34,"Original":533527,"synthetic":770438,"abs_err":236911,"pct_err":44.4046880477},{"Index":35,"Original":513965,"synthetic":770438,"abs_err":256473,"pct_err":49.9008687362},{"Index":36,"Original":480060,"synthetic":777260,"abs_err":297200,"pct_err":61.9089280507},{"Index":37,"Original":590945,"synthetic":486890,"abs_err":104055,"pct_err":17.6082376533},{"Index":38,"Original":83123,"synthetic":486494,"abs_err":403371,"pct_err":485.2700215344},{"Index":39,"Original":29692,"synthetic":750798,"abs_err":721106,"pct_err":2428.6205038394},{"Index":40,"Original":84803,"synthetic":545067,"abs_err":460264,"pct_err":542.7449500607},{"Index":41,"Original":84810,"synthetic":545067,"abs_err":460257,"pct_err":542.6918995401},{"Index":42,"Original":288503,"synthetic":67288,"abs_err":221215,"pct_err":76.6768456481},{"Index":43,"Original":289948,"synthetic":67288,"abs_err":222660,"pct_err":76.7930801385},{"Index":44,"Original":304279,"synthetic":67288,"abs_err":236991,"pct_err":77.8860848103},{"Index":45,"Original":289906,"synthetic":495260,"abs_err":205354,"pct_err":70.834684346},{"Index":46,"Original":289906,"synthetic":101042,"abs_err":188864,"pct_err":65.1466337365},{"Index":47,"Original":289906,"synthetic":101042,"abs_err":188864,"pct_err":65.1466337365},{"Index":48,"Original":289908,"synthetic":288828,"abs_err":1080,"pct_err":0.3725319757},{"Index":49,"Original":323873,"synthetic":288828,"abs_err":35045,"pct_err":10.8205994325},{"Index":50,"Original":322694,"synthetic":288828,"abs_err":33866,"pct_err":10.4947721371},{"Index":51,"Original":323886,"synthetic":288828,"abs_err":35058,"pct_err":10.8241788778},{"Index":52,"Original":349734,"synthetic":288828,"abs_err":60906,"pct_err":17.4149496474},{"Index":53,"Original":349733,"synthetic":288828,"abs_err":60905,"pct_err":17.41471351},{"Index":54,"Original":363897,"synthetic":288828,"abs_err":75069,"pct_err":20.6291890288},{"Index":55,"Original":333404,"synthetic":288828,"abs_err":44576,"pct_err":13.3699655673},{"Index":56,"Original":562544,"synthetic":288828,"abs_err":273716,"pct_err":48.6568161779},{"Index":57,"Original":562792,"synthetic":50661,"abs_err":512131,"pct_err":90.9982728966},{"Index":58,"Original":562633,"synthetic":50661,"abs_err":511972,"pct_err":90.9957290099},{"Index":59,"Original":562609,"synthetic":50661,"abs_err":511948,"pct_err":90.9953449021},{"Index":60,"Original":546204,"synthetic":346154,"abs_err":200050,"pct_err":36.6255098828},{"Index":61,"Original":546183,"synthetic":380000,"abs_err":166183,"pct_err":30.4262490777},{"Index":62,"Original":546183,"synthetic":339424,"abs_err":206759,"pct_err":37.8552609656},{"Index":63,"Original":546183,"synthetic":341922,"abs_err":204261,"pct_err":37.3979050977},{"Index":64,"Original":546204,"synthetic":341676,"abs_err":204528,"pct_err":37.445350089},{"Index":65,"Original":546240,"synthetic":334756,"abs_err":211484,"pct_err":38.7163151728},{"Index":66,"Original":704461,"synthetic":840454,"abs_err":135993,"pct_err":19.3045463127},{"Index":67,"Original":755488,"synthetic":840454,"abs_err":84966,"pct_err":11.2465055699},{"Index":68,"Original":786859,"synthetic":840454,"abs_err":53595,"pct_err":6.8112584338},{"Index":69,"Original":788739,"synthetic":840454,"abs_err":51715,"pct_err":6.5566683022},{"Index":70,"Original":752694,"synthetic":840454,"abs_err":87760,"pct_err":11.6594525797},{"Index":71,"Original":786913,"synthetic":840454,"abs_err":53541,"pct_err":6.8039287698},{"Index":72,"Original":772966,"synthetic":840454,"abs_err":67488,"pct_err":8.7310437975},{"Index":73,"Original":514089,"synthetic":840454,"abs_err":326365,"pct_err":63.4841437961},{"Index":74,"Original":514089,"synthetic":840454,"abs_err":326365,"pct_err":63.4841437961},{"Index":75,"Original":514089,"synthetic":840454,"abs_err":326365,"pct_err":63.4841437961},{"Index":76,"Original":362957,"synthetic":496734,"abs_err":133777,"pct_err":36.8575340881},{"Index":77,"Original":322619,"synthetic":496737,"abs_err":174118,"pct_err":53.9701629476},{"Index":78,"Original":339461,"synthetic":496734,"abs_err":157273,"pct_err":46.330211718},{"Index":79,"Original":358980,"synthetic":563668,"abs_err":204688,"pct_err":57.0193325533},{"Index":80,"Original":358980,"synthetic":563458,"abs_err":204478,"pct_err":56.9608334726},{"Index":81,"Original":359205,"synthetic":563439,"abs_err":204234,"pct_err":56.8572263749},{"Index":82,"Original":357659,"synthetic":564111,"abs_err":206452,"pct_err":57.7231385202},{"Index":83,"Original":358062,"synthetic":533384,"abs_err":175322,"pct_err":48.9641458742},{"Index":84,"Original":345245,"synthetic":533384,"abs_err":188139,"pct_err":54.4943445959},{"Index":85,"Original":358062,"synthetic":533384,"abs_err":175322,"pct_err":48.9641458742},{"Index":86,"Original":837722,"synthetic":549397,"abs_err":288325,"pct_err":34.4177424014},{"Index":87,"Original":837684,"synthetic":549397,"abs_err":288287,"pct_err":34.4147673824},{"Index":88,"Original":805988,"synthetic":53255,"abs_err":752733,"pct_err":93.3925815273},{"Index":89,"Original":805978,"synthetic":53255,"abs_err":752723,"pct_err":93.3924995471},{"Index":90,"Original":837338,"synthetic":53255,"abs_err":784083,"pct_err":93.63996379},{"Index":91,"Original":529327,"synthetic":554688,"abs_err":25361,"pct_err":4.791178232},{"Index":92,"Original":529327,"synthetic":553865,"abs_err":24538,"pct_err":4.6356977823},{"Index":93,"Original":529967,"synthetic":553470,"abs_err":23503,"pct_err":4.4348044312},{"Index":94,"Original":341218,"synthetic":498205,"abs_err":156987,"pct_err":46.0078307709},{"Index":95,"Original":340794,"synthetic":498205,"abs_err":157411,"pct_err":46.1894869041},{"Index":96,"Original":342887,"synthetic":498205,"abs_err":155318,"pct_err":45.2971387075},{"Index":97,"Original":362480,"synthetic":559663,"abs_err":197183,"pct_err":54.398311631},{"Index":98,"Original":359917,"synthetic":559663,"abs_err":199746,"pct_err":55.497795325},{"Index":99,"Original":362480,"synthetic":559663,"abs_err":197183,"pct_err":54.398311631},{"Index":100,"Original":888392,"synthetic":805820,"abs_err":82572,"pct_err":9.294545651},{"Index":101,"Original":872625,"synthetic":787203,"abs_err":85422,"pct_err":9.7890846584},{"Index":102,"Original":907195,"synthetic":788476,"abs_err":118719,"pct_err":13.0863816489},{"Index":103,"Original":809063,"synthetic":787591,"abs_err":21472,"pct_err":2.6539342425},{"Index":104,"Original":809070,"synthetic":787591,"abs_err":21479,"pct_err":2.6547764718},{"Index":105,"Original":840319,"synthetic":104474,"abs_err":735845,"pct_err":87.5673404981},{"Index":106,"Original":839819,"synthetic":104474,"abs_err":735345,"pct_err":87.5599385106},{"Index":107,"Original":838406,"synthetic":104474,"abs_err":733932,"pct_err":87.538972765},{"Index":108,"Original":871071,"synthetic":499544,"abs_err":371527,"pct_err":42.6517471021},{"Index":109,"Original":52831,"synthetic":499544,"abs_err":446713,"pct_err":845.5509076111},{"Index":110,"Original":52831,"synthetic":499544,"abs_err":446713,"pct_err":845.5509076111},{"Index":111,"Original":101588,"synthetic":510878,"abs_err":409290,"pct_err":402.892073867},{"Index":112,"Original":101289,"synthetic":510877,"abs_err":409588,"pct_err":404.3755985349},{"Index":113,"Original":103196,"synthetic":510882,"abs_err":407686,"pct_err":395.0598860421}];
+
+const n = RAW.length;
+const pctErr = RAW.map(d => d.pct_err);
+const sorted = [...pctErr].sort((a,b) => a - b);
+
+function mean(a)  { return a.reduce((s,v)=>s+v,0)/a.length; }
+function median(a){ const s=[...a].sort((x,y)=>x-y),m=Math.floor(s.length/2); return s.length%2?s[m]:(s[m-1]+s[m])/2; }
+function pct(s,p) { const i=(p/100)*(s.length-1),lo=Math.floor(i),hi=Math.ceil(i); return lo===hi?s[lo]:s[lo]+(i-lo)*(s[hi]-s[lo]); }
+function fmt(v)   { return Number(v).toLocaleString('en-US',{maximumFractionDigits:0}); }
+function within(t){ return (sorted.filter(v=>v<=t).length/n*100); }
+
+// ── DERIVED ─────────────────────────────────────────────────────────────────
+const MAPE   = mean(pctErr);
+const MedErr = median(pctErr);
+const p50val = pct(sorted,50);
+const p90val = pct(sorted,90);
+
+// ── STAT CARDS ────────────────────────────────────────────────────────────────
+const stats = [
+  { ey:'Median Error',      num: MedErr.toFixed(1)+'%', desc:'50th percentile of all queries', cls:'c-blue',  fcls:'f-blue',  bar: Math.min(MedErr/500,1)*100 },
+  { ey:'Mean Error (MAPE)', num: MAPE.toFixed(1)+'%',   desc:'Inflated by a few extreme outliers', cls:'c-amber', fcls:'f-amber', bar: Math.min(MAPE/500,1)*100 },
+  { ey:'Queries ≤ 30%',     num: within(30).toFixed(1)+'%', desc:'of all 113 queries',         cls:'c-teal',  fcls:'f-teal',  bar: within(30) },
+  { ey:'Queries ≤ 100%',    num: within(100).toFixed(1)+'%', desc:'of all 113 queries',        cls:'c-blue',  fcls:'f-blue',  bar: within(100) },
+];
+
+document.getElementById('statsRow').innerHTML = stats.map(s=>`
+  <div class="card stat-card">
+    <div class="stat-eyebrow">${s.ey}</div>
+    <div class="stat-num ${s.cls}">${s.num}</div>
+    <div class="stat-desc">${s.desc}</div>
+    <div class="stat-track"><div class="stat-fill ${s.fcls}" style="width:${s.bar.toFixed(1)}%"></div></div>
+  </div>
+`).join('');
+
+// ── CDF CHART ─────────────────────────────────────────────────────────────────
+const cdfPoints = sorted.map((v,i) => ({ x:v, y:(i+1)/n*100 }));
+
+new Chart(document.getElementById('chartCDF').getContext('2d'), {
+  type: 'line',
+  data: {
+    datasets: [
+      {
+        label: '% Queries within Error',
+        data: cdfPoints,
+        borderColor: '#4361ee',
+        backgroundColor: 'rgba(67,97,238,0.06)',
+        fill: true,
+        borderWidth: 2.5,
+        pointRadius: 0,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: '#4361ee',
+        pointHoverBorderColor: '#fff',
+        pointHoverBorderWidth: 2,
+        tension: 0.12,
+      },
+      {
+        label: 'P50 reference',
+        data: [{x:0,y:50},{x:p50val,y:50}],
+        borderColor: '#2ec4a9',
+        borderWidth: 1.5,
+        borderDash: [5,4],
+        pointRadius: 0,
+        fill: false,
+      },
+      {
+        label: 'P90 reference',
+        data: [{x:0,y:90},{x:p90val,y:90}],
+        borderColor: '#f59e0b',
+        borderWidth: 1.5,
+        borderDash: [5,4],
+        pointRadius: 0,
+        fill: false,
+      },
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: { mode:'index', intersect:false },
+    plugins: {
+      legend: {
+        position: 'top',
+        labels: {
+          font: { family:'Inter', size:12 },
+          color: '#5b6580',
+          boxWidth: 14,
+          padding: 20,
+          usePointStyle: true,
+          pointStyleWidth: 10,
+        }
+      },
+      tooltip: {
+        backgroundColor: '#fff',
+        borderColor: '#e8ecf4',
+        borderWidth: 1,
+        titleColor: '#18202f',
+        bodyColor: '#5b6580',
+        padding: 12,
+        cornerRadius: 8,
+        callbacks: {
+          title: items => items[0].datasetIndex!==0 ? '' : `Error: ${Number(items[0].raw.x).toFixed(1)}%`,
+          label: item  => item.datasetIndex!==0 ? null :
+            `  ${Number(item.raw.y).toFixed(1)}% of queries  (${Math.round(item.raw.y/100*n)} / ${n})`
+        }
+      }
+    },
+    scales: {
+      x: {
+        type:'linear', min:0, max:600,
+        title:{ display:true, text:'Relative Error Percentage (%)', font:{family:'Inter',size:12,weight:'600'}, color:'#5b6580', padding:{top:10} },
+        ticks:{ font:{family:'Inter',size:11}, color:'#9aa1b8', callback:v=>v+'%', stepSize:50 },
+        grid:{ color:'#f0f3fa' },
+        border:{ display:false }
+      },
+      y: {
+        min:0, max:100,
+        title:{ display:true, text:'% Queries within Given Error', font:{family:'Inter',size:12,weight:'600'}, color:'#5b6580', padding:{bottom:10} },
+        ticks:{ font:{family:'Inter',size:11}, color:'#9aa1b8', callback:v=>v+'%', stepSize:10 },
+        grid:{ color:'#f0f3fa' },
+        border:{ display:false }
+      }
+    }
+  }
+});
+
+// ── BREAKDOWNS ───────────────────────────────────────────────────────────────
+const pctiles = [
+  {lbl:'P10',  v:pct(sorted,10),  c:'#2ec4a9'},
+  {lbl:'P25',  v:pct(sorted,25),  c:'#2ec4a9'},
+  {lbl:'P50',  v:pct(sorted,50),  c:'#4361ee'},
+  {lbl:'P75',  v:pct(sorted,75),  c:'#f59e0b'},
+  {lbl:'P90',  v:pct(sorted,90),  c:'#e8445a'},
+  {lbl:'P95',  v:pct(sorted,95),  c:'#e8445a'},
+  {lbl:'P99',  v:pct(sorted,99),  c:'#b8334a'},
+];
+
+const thresholds = [10,20,30,50,75,100,200].map(t => {
+  const cnt = sorted.filter(v=>v<=t).length;
+  const pv  = cnt/n*100;
+  const c   = t<=20?'#2ec4a9':t<=50?'#4361ee':t<=100?'#f59e0b':'#e8445a';
+  return {lbl:`≤ ${t}%`, cnt, pv, c};
+});
+
+const cats = [
+  {lbl:'Excellent  ≤ 10%',  cnt:sorted.filter(v=>v<=10).length,              c:'#2ec4a9'},
+  {lbl:'Good  10–30%',      cnt:sorted.filter(v=>v>10&&v<=30).length,         c:'#4361ee'},
+  {lbl:'Moderate  30–50%',  cnt:sorted.filter(v=>v>30&&v<=50).length,         c:'#f59e0b'},
+  {lbl:'High  50–100%',     cnt:sorted.filter(v=>v>50&&v<=100).length,        c:'#e08030'},
+  {lbl:'Very High  > 100%', cnt:sorted.filter(v=>v>100).length,               c:'#e8445a'},
+];
+
+function bdRow(lbl,fillW,c,rightHtml,wide=false) {
+  return `<div class="bd-row">
+    <div class="${wide?'bd-lbl-wide':'bd-lbl'}">${lbl}</div>
+    <div class="bd-track"><div class="bd-fill" style="width:${fillW.toFixed(1)}%;background:${c}"></div></div>
+    <div class="bd-val">${rightHtml}</div>
+  </div>`;
+}
+
+document.getElementById('breakdowns').innerHTML = `
+  <div class="card">
+    <div class="bd-title">Percentile thresholds — where does each percentile land?</div>
+    <div class="bd-rows">
+      ${pctiles.map(p => bdRow(p.lbl, Math.min(p.v,600)/600*100, p.c, p.v.toFixed(1)+'%')).join('')}
+    </div>
+  </div>
+  <div class="card">
+    <div class="bd-title">How many queries fall within each error cap?</div>
+    <div class="bd-rows">
+      ${thresholds.map(t => bdRow(t.lbl, t.pv, t.c, `${t.cnt} <span>/ ${n} (${t.pv.toFixed(1)}%)</span>`)).join('')}
+    </div>
+  </div>
+  <div class="card">
+    <div class="bd-title">Error category distribution</div>
+    <div class="bd-rows">
+      ${cats.map(c => bdRow(c.lbl, c.cnt/n*100, c.c, `${c.cnt} <span>(${(c.cnt/n*100).toFixed(1)}%)</span>`, true)).join('')}
+    </div>
+  </div>
+`;
+
+// ── INSIGHTS ─────────────────────────────────────────────────────────────────
+const within30n = sorted.filter(v=>v<=30).length;
+const within10n = sorted.filter(v=>v<=10).length;
+const over100n  = sorted.filter(v=>v>100).length;
+const over200n  = sorted.filter(v=>v>200).length;
+const top3High  = [...RAW].sort((a,b)=>b.pct_err-a.pct_err).slice(0,3).map(d=>`Q${d.Index} (${d.pct_err.toFixed(0)}%)`).join(', ');
+const top3Low   = [...RAW].sort((a,b)=>a.pct_err-b.pct_err).slice(0,3).map(d=>`Q${d.Index} (${d.pct_err.toFixed(2)}%)`).join(', ');
+
+const ins = [
+  {tag:'Good',   tc:'tag-teal',  title:'Majority within a moderate range',
+   body:`${within30n} of ${n} queries (${(within30n/n*100).toFixed(1)}%) have a relative error ≤ 30%. The CDF rises steeply up to ~100% error, then flattens into a long right tail driven by a handful of outliers.`},
+  {tag:'Info',   tc:'tag-blue',  title:'Median and mean diverge sharply',
+   body:`Median error is <b>${MedErr.toFixed(1)}%</b> while MAPE is <b>${MAPE.toFixed(1)}%</b>. The gap is caused by extreme outliers — notably Q39 at 2,429% — pulling the mean far above the typical query's experience.`},
+  {tag:'Warn',   tc:'tag-amber', title:'Significant high-error tail',
+   body:`${over100n} queries (${(over100n/n*100).toFixed(1)}%) exceed 100% error. The CDF curve flattens noticeably around that point, indicating two populations: well-predicted queries and badly-predicted ones.`},
+  {tag:'Best',   tc:'tag-teal',  title:'Low-error standouts',
+   body:`Closest predictions: <b>${top3Low}</b>. These queries achieve near-perfect estimation, confirming the synthetic method works well for certain high-cost query types.`},
+  {tag:'Alert',  tc:'tag-red',   title:'Worst-case outliers',
+   body:`Highest relative errors: <b>${top3High}</b>. These involve very low original costs (≤ 85K), where even moderate absolute errors translate into enormous percentages, skewing the upper tail.`},
+  {tag:'Info',   tc:'tag-blue',  title:'High-cost queries predict better',
+   body:`Queries with original costs above 700K consistently cluster in the 2–35% error range. Synthetic cost estimation improves noticeably at higher cost tiers.`},
+];
+
+document.getElementById('insightsGrid').innerHTML = ins.map(i=>`
+  <div class="card ins-card">
+    <div class="ins-tag ${i.tc}">${i.tag}</div>
+    <div class="ins-title">${i.title}</div>
+    <div class="ins-body">${i.body}</div>
+  </div>
+`).join('');
+
+// ── TABLE ─────────────────────────────────────────────────────────────────────
+const rankMap = {};
+[...RAW].sort((a,b)=>a.pct_err-b.pct_err).forEach((d,i) => rankMap[d.Index]=i+1);
+
+let tableData = [...RAW].sort((a,b)=>a.pct_err-b.pct_err);
+let sortCol=-1, sortDir=1;
+
+function badgeCls(p){ return p<=30?'bg-teal':p<=100?'bg-amber':'bg-red'; }
+
+function renderTable(){
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  const filtered = tableData.filter(d =>
+    !q ||
+    String(d.Index).includes(q) ||
+    d.pct_err.toFixed(1).includes(q) ||
+    String(d.Original).includes(q)
+  );
+  document.getElementById('rowCount').textContent = `${filtered.length} of ${n}`;
+  document.getElementById('tableBody').innerHTML = filtered.map(d=>`
+    <tr>
+      <td class="qid">#${d.Index}</td>
+      <td class="num">${fmt(d.Original)}</td>
+      <td class="num">${fmt(d.synthetic)}</td>
+      <td class="num">${fmt(d.abs_err)}</td>
+      <td><span class="badge ${badgeCls(d.pct_err)}">${d.pct_err.toFixed(2)}%</span></td>
+      <td class="cdf-rank">${(rankMap[d.Index]/n*100).toFixed(1)}th pct</td>
+    </tr>`).join('');
+}
+
+function sortTable(col){
+  const keys=['Index','Original','synthetic','abs_err','pct_err'];
+  sortDir = sortCol===col ? -sortDir : 1;
+  sortCol = col;
+  tableData.sort((a,b)=>(a[keys[col]]-b[keys[col]])*sortDir);
+  renderTable();
+}
+
+document.getElementById('searchInput').addEventListener('input', renderTable);
+renderTable();
+</script>
+</body>
+</html>
