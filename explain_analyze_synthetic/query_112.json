@@ -1,0 +1,7 @@
+{
+  "query_id": "112",
+  "status": "error",
+  "error": "cursor already closed",
+  "sql": "SELECT\n    cn.name AS company_name,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MIN(t.production_year) AS earliest_release_year,\n    MAX(t.production_year) AS latest_release_year,\n    SUM(ci.nr_order) AS total_cast_order,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN cast_info ci\n    ON t.id = ci.movie_id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nWHERE it.info = 'gross'\n  AND lt.link = 'edited from'\n  AND cn.country_code = '[gb]'\nGROUP BY cn.name\nORDER BY movie_count DESC;",
+  "elapsed_seconds": 0.0001
+}

@@ -1,0 +1,7 @@
+{
+  "query_id": "107",
+  "status": "error",
+  "error": "cursor already closed",
+  "sql": "SELECT\n    cn.name AS company_name,\n    k.keyword,\n    COUNT(DISTINCT t.id) AS movie_count,\n    AVG(t.production_year) AS avg_release_year,\n    MIN(mi_idx.info) AS lowest_rank_info,\n    MAX(mi_idx.info) AS highest_rank_info\nFROM title t\nJOIN movie_companies mc\n    ON t.id = mc.movie_id\nJOIN company_name cn\n    ON mc.company_id = cn.id\nJOIN movie_info_idx mi_idx\n    ON t.id = mi_idx.movie_id\nJOIN info_type it\n    ON mi_idx.info_type_id = it.id\nJOIN movie_keyword mk\n    ON t.id = mk.movie_id\nJOIN keyword k\n    ON mk.keyword_id = k.id\nJOIN movie_link ml\n    ON t.id = ml.movie_id\nJOIN link_type lt\n    ON ml.link_type_id = lt.id\nJOIN complete_cast cc\n    ON t.id = cc.movie_id\nJOIN comp_cast_type cct\n    ON cc.subject_id = cct.id\nJOIN kind_type kt\n    ON t.kind_id = kt.id\nWHERE k.keyword = 'monkey'\n  AND it.info = 'plot'\n  AND lt.link = 'featured in'\n  AND kt.kind = 'video movie'\nGROUP BY\n    cn.name,\n    k.keyword\nORDER BY\n    movie_count DESC;",
+  "elapsed_seconds": 0.0
+}
