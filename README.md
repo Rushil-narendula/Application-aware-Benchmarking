@@ -127,6 +127,17 @@ To systematically quantify the per-query deviation between original and syntheti
 - **Worst Offenders:** The dashboard automatically isolates the worst-performing queries, specifically highlighting massive outliers like Query #39, which has a QRR exceeding 25 (a ~2,429% error).
 - **Core Insight:** The QRR analysis visually proves that macroscopic success (matching a histogram) hides microscopic failure (high QRR variance on a per-query basis).
 
+### 7. Execution Plan Logging & Comparison
+To enable granular inspection of query execution behavior, the repository now tracks the detailed PostgreSQL `EXPLAIN` and `EXPLAIN ANALYZE` logs for both workloads. 
+- Located in `explain_analyze_original/`, `explain_analyze_synthetic/`, `only_explain_original/`, and `only_explain_synthetic/`.
+- This permits side-by-side verification of how the query planner interpreted the original versus synthetic structures.
+- The final set of generated synthetic SQL query scripts are systematically organized in the `synthetic_total/` directory.
+
+### 8. Advanced Statistical Analysis & CDF Visualization
+Additional advanced dashboards have been included to perform deep-dive statistical adjustments:
+- **`Final_detailed_analysis.html`, `Final_detailed_analysis_weighted.html`, `Final_detailed_analysis_weighted_geo.html`**: These apply geometric and weighted smoothing to prevent extreme outliers from skewing the cost analysis.
+- **`cdf_relative_error.html`**: A dedicated Cumulative Distribution Function visualization that maps the relative prediction errors dynamically.
+
 ### Final Conclusion on the SQLBarber Hypothesis
 Reproducing a target execution-cost distribution is highly valuable for stress-testing DBMS engines (evaluating memory pressure, caching, and execution time under load). However, my analysis strongly proves that **it is not, by itself, evidence that the generated queries are realistic in structure or intent**. 
 
