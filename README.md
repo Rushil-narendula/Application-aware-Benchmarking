@@ -134,10 +134,12 @@ To enable granular inspection of query execution behavior, the repository now tr
 - The Python scripts used to automate and generate these logs are included: `explain_job_queries.py`, `run_original_explains.py`, `synthetic_explain_only.py`, and `synthetic_explains_analyze.py`.
 - The final set of generated synthetic SQL query scripts are systematically organized in the `synthetic_total/` directory.
 
-### 8. Advanced Statistical Analysis & CDF Visualization
-Additional advanced dashboards have been included to perform deep-dive statistical adjustments:
-- **`Final_detailed_analysis.html`, `Final_detailed_analysis_weighted.html`, `Final_detailed_analysis_weighted_geo.html`**: These apply geometric and weighted smoothing to prevent extreme outliers from skewing the cost analysis.
+### 8. Advanced Statistical Analysis & Additional Dashboards
+Additional advanced dashboards have been included to perform deep-dive statistical adjustments and comparisons across the workloads:
+- **`Final_detailed_analysis.html`**: A comprehensive PostgreSQL execution plan comparison report covering all 113 original vs. synthetic query pairs.
+- **`Final_detailed_analysis_weighted.html` & `Final_detailed_analysis_weighted_geo.html`**: These apply geometric and weighted smoothing to the execution plan metrics to prevent extreme outliers from skewing the cost analysis.
 - **`cdf_relative_error.html`**: A dedicated Cumulative Distribution Function visualization that maps the relative prediction errors dynamically.
+- **`Final_templates.html`**: A dashboard detailing the JOB schema SQL templates, table relationships, and parameterized structures used as the baseline for generation.
 
 ### 9. Key Quantitative Findings
 Based on the advanced statistical tracking and CDF visualizations, several concrete results emerged:
