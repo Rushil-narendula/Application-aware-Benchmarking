@@ -1,0 +1,869 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns:st1="urn:schemas-microsoft-com:office:smarttags"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 12">
+<meta name=Originator content="Microsoft Word 12">
+<link rel=File-List href="troubleshooting_files/filelist.xml">
+<title>Trouble-shooting Picasso</title>
+<o:SmartTagType namespaceuri="urn:schemas-microsoft-com:office:smarttags"
+ name="place"/>
+<o:SmartTagType namespaceuri="urn:schemas-microsoft-com:office:smarttags"
+ name="country-region"/>
+<o:SmartTagType namespaceuri="urn:schemas-microsoft-com:office:smarttags"
+ name="City"/>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>Administrator</o:Author>
+  <o:Template>Normal</o:Template>
+  <o:LastAuthor>DSLADMIN</o:LastAuthor>
+  <o:Revision>65</o:Revision>
+  <o:TotalTime>292</o:TotalTime>
+  <o:LastPrinted>2006-10-22T05:50:00Z</o:LastPrinted>
+  <o:Created>2006-07-29T21:11:00Z</o:Created>
+  <o:LastSaved>2009-02-03T06:01:00Z</o:LastSaved>
+  <o:Pages>1</o:Pages>
+  <o:Words>724</o:Words>
+  <o:Characters>4130</o:Characters>
+  <o:Company>Residence</o:Company>
+  <o:Lines>34</o:Lines>
+  <o:Paragraphs>9</o:Paragraphs>
+  <o:CharactersWithSpaces>4845</o:CharactersWithSpaces>
+  <o:Version>12.00</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]-->
+<link rel=themeData href="troubleshooting_files/themedata.thmx">
+<link rel=colorSchemeMapping href="troubleshooting_files/colorschememapping.xml">
+<!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:Zoom>90</w:Zoom>
+  <w:SpellingState>Clean</w:SpellingState>
+  <w:GrammarState>Clean</w:GrammarState>
+  <w:TrackMoves>false</w:TrackMoves>
+  <w:TrackFormatting/>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:DoNotPromoteQF/>
+  <w:LidThemeOther>EN-IN</w:LidThemeOther>
+  <w:LidThemeAsian>X-NONE</w:LidThemeAsian>
+  <w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript>
+  <w:Compatibility>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+   <w:SplitPgBreakAndParaMark/>
+   <w:DontVertAlignCellWithSp/>
+   <w:DontBreakConstrainedForcedTables/>
+   <w:DontVertAlignInTxbx/>
+   <w:Word11KerningPairs/>
+   <w:CachedColBalance/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+  <m:mathPr>
+   <m:mathFont m:val="Cambria Math"/>
+   <m:brkBin m:val="before"/>
+   <m:brkBinSub m:val="&#45;-"/>
+   <m:smallFrac m:val="off"/>
+   <m:dispDef/>
+   <m:lMargin m:val="0"/>
+   <m:rMargin m:val="0"/>
+   <m:defJc m:val="centerGroup"/>
+   <m:wrapIndent m:val="1440"/>
+   <m:intLim m:val="subSup"/>
+   <m:naryLim m:val="undOvr"/>
+  </m:mathPr></w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" DefUnhideWhenUsed="true"
+  DefSemiHidden="true" DefQFormat="false" DefPriority="99"
+  LatentStyleCount="267">
+  <w:LsdException Locked="false" Priority="0" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Normal"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="heading 1"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 2"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 3"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 4"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 5"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 6"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 7"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 8"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 9"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 1"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 2"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 3"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 4"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 5"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 6"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 7"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 8"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 9"/>
+  <w:LsdException Locked="false" Priority="35" QFormat="true" Name="caption"/>
+  <w:LsdException Locked="false" Priority="10" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Title"/>
+  <w:LsdException Locked="false" Priority="1" Name="Default Paragraph Font"/>
+  <w:LsdException Locked="false" Priority="11" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Subtitle"/>
+  <w:LsdException Locked="false" Priority="22" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Strong"/>
+  <w:LsdException Locked="false" Priority="20" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Emphasis"/>
+  <w:LsdException Locked="false" Priority="59" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Table Grid"/>
+  <w:LsdException Locked="false" UnhideWhenUsed="false" Name="Placeholder Text"/>
+  <w:LsdException Locked="false" Priority="1" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="No Spacing"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 1"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 1"/>
+  <w:LsdException Locked="false" UnhideWhenUsed="false" Name="Revision"/>
+  <w:LsdException Locked="false" Priority="34" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="List Paragraph"/>
+  <w:LsdException Locked="false" Priority="29" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Quote"/>
+  <w:LsdException Locked="false" Priority="30" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Intense Quote"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 1"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 1"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 2"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 2"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 2"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 3"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 3"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 3"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 4"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 4"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 4"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 5"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 5"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 5"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 6"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 6"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 6"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="19" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Subtle Emphasis"/>
+  <w:LsdException Locked="false" Priority="21" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Intense Emphasis"/>
+  <w:LsdException Locked="false" Priority="31" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Subtle Reference"/>
+  <w:LsdException Locked="false" Priority="32" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Intense Reference"/>
+  <w:LsdException Locked="false" Priority="33" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Book Title"/>
+  <w:LsdException Locked="false" Priority="37" Name="Bibliography"/>
+  <w:LsdException Locked="false" Priority="39" QFormat="true" Name="TOC Heading"/>
+ </w:LatentStyles>
+</xml><![endif]--><!--[if !mso]><object
+ classid="clsid:38481807-CA0E-42D2-BF39-B33AF135CC4D" id=ieooui></object>
+<style>
+st1\:*{behavior:url(#ieooui) }
+</style>
+<![endif]-->
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;
+	mso-font-charset:1;
+	mso-generic-font-family:roman;
+	mso-font-format:other;
+	mso-font-pitch:variable;
+	mso-font-signature:0 0 0 0 0 0;}
+@font-face
+	{font-family:"Arial Narrow";
+	panose-1:2 11 6 6 2 2 2 3 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:647 2048 0 0 159 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";}
+a:link, span.MsoHyperlink
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+p
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";}
+p.style1, li.style1, div.style1
+	{mso-style-name:style1;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Arial","sans-serif";
+	mso-fareast-font-family:"Times New Roman";}
+p.style2, li.style2, div.style2
+	{mso-style-name:style2;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";
+	color:red;}
+p.style3, li.style3, div.style3
+	{mso-style-name:style3;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";
+	color:red;}
+p.style4, li.style4, div.style4
+	{mso-style-name:style4;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";}
+span.style21
+	{mso-style-name:style21;
+	mso-style-unhide:no;
+	mso-ansi-font-size:10.0pt;
+	mso-bidi-font-size:10.0pt;
+	color:red;}
+span.style31
+	{mso-style-name:style31;
+	mso-style-unhide:no;
+	mso-ansi-font-size:12.0pt;
+	mso-bidi-font-size:12.0pt;
+	color:red;}
+span.style41
+	{mso-style-name:style41;
+	mso-style-unhide:no;
+	mso-ansi-font-size:12.0pt;
+	mso-bidi-font-size:12.0pt;}
+span.SpellE
+	{mso-style-name:"";
+	mso-spl-e:yes;}
+span.GramE
+	{mso-style-name:"";
+	mso-gram-e:yes;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	mso-default-props:yes;
+	font-size:10.0pt;
+	mso-ansi-font-size:10.0pt;
+	mso-bidi-font-size:10.0pt;}
+@page Section1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 90.0pt 72.0pt 90.0pt;
+	mso-header-margin:36.0pt;
+	mso-footer-margin:36.0pt;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+ @list l0
+	{mso-list-id:568000669;
+	mso-list-template-ids:374998002;}
+@list l1
+	{mso-list-id:1321036884;
+	mso-list-type:hybrid;
+	mso-list-template-ids:1294649924 1148489098 67698713 67698715 67698703 67698713 67698715 67698703 67698713 67698715;}
+@list l1:level1
+	{mso-level-tab-stop:43.2pt;
+	mso-level-number-position:left;
+	margin-left:43.2pt;
+	text-indent:-21.6pt;
+	font-family:"Arial","sans-serif";}
+@list l1:level2
+	{mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level3
+	{mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level4
+	{mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level5
+	{mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level6
+	{mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level7
+	{mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level8
+	{mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level9
+	{mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l2
+	{mso-list-id:1417051342;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-2007569708 67698703 67698713 67698715 67698703 67698713 67698715 67698703 67698713 67698715;}
+@list l2:level1
+	{mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l2:level2
+	{mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l2:level3
+	{mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l2:level4
+	{mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l2:level5
+	{mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l2:level6
+	{mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l2:level7
+	{mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l2:level8
+	{mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l2:level9
+	{mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman","serif";}
+.style1 {
+	margin-bottom: 1pt;
+}
+.style2 {
+	color: #FF6600;
+}
+.style4 {
+	color: #FF0000;
+}
+</style>
+<![endif]--><!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="31746"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body lang=EN-IN link=blue vlink=purple style='tab-interval:36.0pt'>
+
+<div class=Section1>
+
+<p class=MsoNormal align=center style='text-align:center;tab-stops:450.0pt'><b
+style='mso-bidi-font-weight:normal'><i><span lang=EN-US style='font-size:20.0pt;
+font-family:"Arial","sans-serif";color:#CC0066;mso-ansi-language:EN-US'>Picasso
+Database Query Optimizer <span class=SpellE>Visualizer</span><o:p></o:p></span></i></b></p>
+
+<p class=MsoNormal align=center style='text-align:center;tab-stops:450.0pt'><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-family:"Arial","sans-serif";
+color:black;mso-ansi-language:EN-US;mso-bidi-font-style:italic'>©Indian
+Institute of Science, <st1:place w:st="on"><st1:City w:st="on">Bangalore</st1:City>,
+ <st1:country-region w:st="on">India</st1:country-region></st1:place></span></b><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-family:"Arial","sans-serif";
+color:black;mso-ansi-language:EN-US'><o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=center style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;text-align:center'><span lang=EN-US style='font-size:16.0pt;font-family:
+"Arial","sans-serif";color:#FF3300;mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=center style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;text-align:center'><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:16.0pt;font-family:"Arial","sans-serif";color:red;
+mso-ansi-language:EN-US'>TROUBLE-SHOOTING<o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=center style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;text-align:center'><span lang=EN-US style='font-size:16.0pt;font-family:
+"Arial","sans-serif";color:#FF3300;mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<ol start=1 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo3;tab-stops:list 36.0pt'><span lang=EN-US
+     style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'>If you
+     get connection errors to the database engines, make sure that you have the
+     appropriate <a href="../Installation/license.htm#Database">database
+     connection <span class=GramE>libraries</span></a><span class=GramE>
+     present in the <b style='mso-bidi-font-weight:normal'><span
+     style='color:fuchsia'>Libraries</span></b> directory,</span> and that you
+     have executed the <span class=SpellE><b style='mso-bidi-font-weight:normal'><i
+     style='mso-bidi-font-style:normal'><span style='color:#9900CC'>activatedb</span></i></b></span><b
+     style='mso-bidi-font-weight:normal'><span style='color:#9900CC'> </span></b><span
+     style='color:black'>script.</span><span style='color:#9900CC'><![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+     <![endif]></span><o:p></o:p></span></li>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo3;tab-stops:list 36.0pt'><span lang=EN-US
+     style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'>If you
+     get visualization errors, make sure that you have the appropriate <a
+     href="../Installation/license.htm#Graphics">graphics libraries</a> present
+     in the <b style='mso-bidi-font-weight:normal'><span style='color:fuchsia'>Libraries</span></b>
+     directory.<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+     <![endif]><o:p></o:p></span></li>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo3;tab-stops:list 36.0pt'><span lang=EN-US
+     style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'>If the <span
+     class=SpellE><b style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:
+     normal'><span style='color:blue'>AutoConvert</span></i></b></span><b
+     style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'><span
+     style='color:blue'> SQL <span class=GramE>Dialect<span style='color:windowtext;
+     font-weight:normal;font-style:normal'><span style='mso-spacerun:yes'> 
+     </span>button</span></span></span></i></b> is <span class=SpellE>greyed</span>
+     out, you will need to download the <span class=SpellE><b style='mso-bidi-font-weight:
+     normal'><i style='mso-bidi-font-style:normal'><span style='color:black'>SwisSQL.API.jar</span></i></b></span><span
+     style='mso-spacerun:yes'>  </span>library file into the <b
+     style='mso-bidi-font-weight:normal'><span style='color:fuchsia'>Libraries</span></b>
+     directory (see the <a href="../Installation/license.htm">licenses
+     documentation</a> for download details). Note that this optional library
+     is not provided even with the full distribution of Picasso.<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+     <![endif]><o:p></o:p></span></li>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo3;tab-stops:list 36.0pt'><span lang=EN-US
+     style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'>If you
+     have problems running Picasso with the Java3D installed on your system,
+     copy the library files <b style='mso-bidi-font-weight:normal'><i
+     style='mso-bidi-font-style:normal'>j3dcore.jar</i></b>, <b
+     style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'>j3dutils.jar</i></b>
+     and <b style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:
+     normal'>vecmath.jar</i></b> from the system’s Java3D directory to the <b
+     style='mso-bidi-font-weight:normal'><span style='color:fuchsia'>Libraries</span></b>
+     directory. <br>
+     In Windows, if the problem persists, edit <b style='mso-bidi-font-weight:
+     normal'><i style='mso-bidi-font-style:normal'><span style='color:#9900CC'>runClient.bat</span></i></b>
+     as follows<span class=GramE>:</span><br>
+     Change <i style='mso-bidi-font-style:normal'>“java -Xmx256m …”</i> to <br>
+     <span style='mso-spacerun:yes'>            </span><i style='mso-bidi-font-style:
+     normal'>“java <b style='mso-bidi-font-weight:normal'>–<span class=SpellE>Djava.library.path</span>=&lt;JDK_HOME&gt;\<span
+     class=SpellE>jre</span>\bin</b><span style='mso-spacerun:yes'> 
+     </span>–Xmx256m …”</i> <br>
+     This directory contains <b style='mso-bidi-font-weight:normal'><i
+     style='mso-bidi-font-style:normal'>J3D.dll</i></b> and <b
+     style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'>J3dUtils.dll</i></b>
+     which are required to run Picasso.<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+     <![endif]><o:p></o:p></span></li>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo3;tab-stops:list 36.0pt'><span lang=EN-US
+     style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'>If the 
+	Picasso Client doesn’t seem to be responding, or is taking a long time for 
+	some operation, check the console from which the Client was run. If there is 
+	any error message like “Out of memory exception”, then close the Client
+     and restart it.<![if !supportLineBreakNewLine]> If the problem persists, 
+	increase the JVM memory amount to 1 GB by providing <span style='color:fuchsia'>-Xmx1024m</span> 
+	argument. By default it is set to 256 MB.<br style='mso-special-character:line-break'>
+     <![endif]><o:p></o:p></span></li>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo3;tab-stops:list 36.0pt'><span lang=EN-US
+     style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'>During
+     its operations, the Picasso Client may throw an error message “Out of
+     Memory Error, Please Restart <span class=SpellE>PicassoClient</span>”. <span
+     style='mso-spacerun:yes'> </span>This happens when too many diagrams are
+     created in the current session of the client.<span
+     style='mso-spacerun:yes'>  </span>When this happens, close the Client and
+     start it again.<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+     <![endif]><o:p></o:p></span></li>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo3;tab-stops:list 36.0pt'><span lang=EN-US
+     style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'>After
+     clicking on a diagram tab, you may sometimes receive a black diagram
+     screen instead of the picture.<span style='mso-spacerun:yes'>  </span>This
+     is usually because your system does not have sufficient video memory to
+     host all the diagrams retrieved from the server.<span
+     style='mso-spacerun:yes'>  </span>To conserve video memory, try lowering
+     the screen resolution and reducing the color quality.<span
+     style='mso-spacerun:yes'>  </span>Alternatively, set the flag </span><span
+     lang=EN-US style='font-size:11.0pt;font-family:"Arial Narrow","sans-serif";
+     mso-bidi-font-family:Arial;mso-ansi-language:EN-US'>LOW_VIDEO</span><span
+     lang=EN-US style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'>
+     in </span><span lang=EN-US style='font-family:"Arial Narrow","sans-serif";
+     mso-bidi-font-family:Arial;mso-ansi-language:EN-US'>PicassoConstants.java</span><span
+     lang=EN-US style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'>
+     to True (the default value is False), recompile the client, and resume
+     operations – with this flag set to true, the video memory is flushed
+     before each new diagram is loaded.<span style='mso-spacerun:yes'>  </span>
+     <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+     <![endif]><o:p></o:p></span></li>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo3;tab-stops:list 36.0pt'><span lang=EN-US
+     style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'>The
+     Picasso Client window always starts in a maximized state.<span
+     style='mso-spacerun:yes'>  </span>If it is resized to some other state
+     during its operations, then the <b style='mso-bidi-font-weight:normal'><i
+     style='mso-bidi-font-style:normal'><span style='color:#CC9900'>Status Bar</span></i></b>
+     may not be visible.<span style='mso-spacerun:yes'>  </span>To see the
+     status bar, maximize the Client window.<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+     <![endif]><o:p></o:p></span></li>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo3;tab-stops:list 36.0pt'><span lang=EN-US
+     style='font-family:"Arial","sans-serif";color:black;mso-ansi-language:
+     EN-US'>The Plan Legend may not show sometimes – in such cases, try
+     resizing the window to Normal size and then revert to Maximized size.</span><span
+     lang=EN-US style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'><![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+     <![endif]><o:p></o:p></span></li>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo3;tab-stops:list 36.0pt'><span lang=EN-US
+     style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'>If the
+     Picasso Client or the Picasso Server seems to hang, it could be because
+     the associated <b style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:
+     normal'>console</i></b> is in the ‘Select’ mode, perhaps due to a mouse
+     click.<span style='mso-spacerun:yes'>  </span>In this situation, try to
+     bring the console back to the normal mode by pressing the ‘Enter’ key in
+     the console.<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+     <![endif]><o:p></o:p></span></li>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo3;tab-stops:list 36.0pt'><span lang=EN-US
+     style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'>If the <b
+     style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'><span
+     style='color:#CC9900'>Machine</span></i></b> field of the <span
+     class=SpellE><b style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:
+     normal'><span style='color:#CC9900'>DBConnection</span></i></b></span><b
+     style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'><span
+     style='color:#CC9900'> Settings</span></i></b> dialog accepts the IP of a
+     machine, but does not accept the machine name, then add the machine to the
+     file <b style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:
+     normal'><span style='color:#663300'>Windows\system32\drivers\etc\hosts</span></i></b><span
+     style='color:#663300'> </span><b style='mso-bidi-font-weight:normal'><span
+     style='color:black'>|</span></b><span style='color:#663300'> <b
+     style='mso-bidi-font-weight:normal'>/etc/hosts</b></span> in Windows <b
+     style='mso-bidi-font-weight:normal'>|</b> Unix and try again.<br>
+	</span></li>
+	<li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo3;tab-stops:list 36.0pt'><span lang=EN-US
+     style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'>For a
+     Picasso error that appears related to the database engine, first check if
+     the query can be independently and successfully executed directly on the
+     database engine, in order to make sure the error is not due to the query
+     syntax or semantics (such as missing table, wrong schema, etc), and take
+     measures accordingly.<o:p></o:p></span></li>
+</ol>
+<br>
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto'>
+	<span lang=EN-US
+     style='font-family:"Arial","sans-serif";mso-ansi-language:
+     EN-US;color:red'>Note:</span><span lang=EN-US
+     style='font-family:"Arial","sans-serif";mso-ansi-language:
+     EN-US' class="style2"> </span>
+	<span lang=EN-US
+     style='font-family:"Arial","sans-serif";color:black;mso-ansi-language:
+     EN-US'>If the above solutions do not address your problem, please contact 
+us at <a href="mailto:picasso@dsl.serc.iisc.ernet.in">
+	picasso@dsl.serc.iisc.ernet.in</a> with a description of the problem. </span><span lang=EN-US
+     style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'>Both the
+     Picasso Server and the Picasso Client write their outputs and errors into
+     log files in the <span class=SpellE><b style='mso-bidi-font-weight:normal'><i
+     style='mso-bidi-font-style:normal'><span style='color:#663300'>PicassoRun</span></i></b></span><b
+     style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'><span
+     style='color:#663300'>/Logs</span></i></b> directory.<span
+     style='mso-spacerun:yes'>  </span>The log files typically take up a few 
+tens of kilobytes space for each freshly processed query template. With your 
+email, please attach the Server and
+     Client log files, the <span class=SpellE>SelLog</span> text file (created 
+in Logs directory by executing Save in the File menu for the <span
+     class=SpellE>SelLog</span> screen),<span style='mso-spacerun:yes'> 
+     </span>as well as screen dumps of the Server and Client consoles.</span></p>
+<br/>
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto'><span
+lang=EN-US style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'>    </span><b style='mso-bidi-font-weight:normal'><span
+style='color:#FF6600'><span style='mso-spacerun:yes'><br>
+ </span></span><span class=style4>KNOWN<span
+style='mso-spacerun:yes'>  </span>ISSUES</span><span
+style='color:#FF6600'>:<o:p></o:p></span></b></span></p>
+
+<ol>
+	<li>
+	<p class=style1 style='margin-left:3pt;mso-list:l1 level1 lfo5;
+tab-stops:list 43.2pt'><span lang=EN-US style='mso-ansi-language:EN-US'>In
+a Linux environment, the client may throw the exception </span>
+	<span
+class=style21><i>
+	<span lang=EN-US style='font-size:10.0pt;mso-ansi-language:
+EN-US'>(&lt;unknown&gt;:8407): <span class=SpellE>Gtk</span>-CRITICAL **: 
+	<span
+class=SpellE>gtk_paint_box</span>: assertion `style-&gt;depth == 
+	<span
+class=SpellE>gdk_drawable_get_depth</span> (window)' failed</span></i></span><span
+class=style31><span lang=EN-US style='mso-ansi-language:EN-US'>. </span></span>
+	<span
+class=style41><span lang=EN-US style='mso-ansi-language:EN-US'>This is an open
+bug currently being examined by Sun Developer Network. For more details, please
+refer to <a href="http://bugs.sun.com/view_bug.do?bug_id=6624717">this page</a>.</span></span></p>
+	</li>
+</ol>
+<p class=style1 style='margin-left:43.2pt;text-indent:-21.6pt;mso-list:l1 level1 lfo5;
+tab-stops:list 43.2pt'>&nbsp;</p>
+
+<p align=center style='text-align:center'><span lang=EN-US style='font-size:
+14.0pt;font-family:"Arial","sans-serif";mso-ansi-language:EN-US'><a
+href="../index.htm">Documentation Home</a></span></p>
+
+</div>
+
+</body>
+
+</html>

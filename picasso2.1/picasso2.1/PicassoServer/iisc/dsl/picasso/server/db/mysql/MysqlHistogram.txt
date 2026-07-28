@@ -1,0 +1,157 @@
+/*
+# Copyright (C) 2005, 2006 Indian Institute of Science
+# Bangalore 560012, INDIA
+#
+# This program is part of the PICASSO distribution invented at the
+# Database Systems Lab, Indian Institute of Science. The use of
+# the software is governed by the licensing agreement set up between 
+# the owner, Indian Institute of Science, and the licensee.
+#
+# This program is distributed WITHOUT ANY WARRANTY; without even the 
+# implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+#
+# The public URL of the PICASSO project is
+# http://dsl.serc.iisc.ernet.in/projects/PICASSO/index.html
+#
+# For any issues, contact 
+#       Prof. Jayant R. Haritsa
+#       SERC
+#       Indian Institute of Science
+#       Bangalore 560012, India.
+#       Telephone: (+91) 80 2293-2793
+#       Fax      : (+91) 80 2360-2648
+#       Email: haritsa@dsl.serc.iisc.ernet.in
+#       WWW: http://dsl.serc.iisc.ernet.in/~haritsa
+*/
+package iisc.dsl.picasso.server.db.mysql;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ListIterator;
+import java.util.Vector;
+
+import iisc.dsl.picasso.server.PicassoException;
+import iisc.dsl.picasso.server.db.Database;
+import iisc.dsl.picasso.server.db.Histogram;
+import iisc.dsl.picasso.server.db.datatype.Datatype;
+import iisc.dsl.picasso.server.network.ServerMessageUtil;
+
+public class MysqlHistogram extends Histogram {
+	
+	protected Datatype lowValue,highValue;
+	
+	MysqlHistogram(Database db, String tabName, String schema, String attribName)
+		throws PicassoException
+	{
+		this.db = db;
+		this.tabName = tabName;
+		this.schema = schema;
+		this.attribName = attribName;
+		
+		value = new Vector();
+		freq = new Vector();
+		
+		/*
+		 * We need to get the dType first so that we can create correct
+		 * Datatype object for lowValue, highValue and histogram values
+		 */
+		dType = getDatatype();
+		if (!(dType.equals("integer") || dType.equals("real") || dType
+				.equals("string") || dType.equals("date"))) {
+			throw new PicassoException(
+					"One of the datatypes of the attributes among the :varies predicates is not handled in Picasso currently.");
+		}
+
+		readHistogram();
+	}
+	
+	public String getConstant(double selectivity)
+	{
+		long leftBoundary = 0 , rightBoundary = 0;
+		double step = (selectivity * cardinality);
+		int index = 0;
+		ListIterator it = freq.listIterator();
+		if(it.hasNext())
+			leftBoundary = ((Integer)it.next()).intValue();
+		// This is for frequency histogram where leftBoundary is not zero
+		if(step < leftBoundary)
+			return ((Datatype)value.get(0)).getStringValue();
+		while( it.hasNext()){
+			rightBoundary = ((Integer)it.next()).intValue();
+			index++;
+			if (step >= leftBoundary && step < rightBoundary) {
+				double scale = ((double)(step - leftBoundary)) / (rightBoundary - leftBoundary);
+				Datatype lbValue = (Datatype)value.get(index-1);
+				Datatype rbValue = (Datatype)value.get(index);
+				return lbValue.interpolate(rbValue,scale);
+			}
+			leftBoundary = rightBoundary;
+		}
+		return ((Datatype)value.lastElement()).getStringValue();
+	}
+	
+	private String getDatatype()
+	{
+		String type=null;
+		try{
+			Statement stmt = db.createStatement ();
+			ResultSet rset = stmt.executeQuery
+			("select DATA_TYPE from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME= '"
+					+ tabName.toLowerCase()+ "' and  COLUMN_NAME='" 
+					+ attribName.toUpperCase()+ "'");
+			if (rset.next ()) 
+				type = rset.getString (1).trim();
+			rset.close();
+			stmt.close ();
+		}catch(SQLException e) {
+			ServerMessageUtil.SPrintToConsole("getDatatype : "+e);
+		}
+		if (type.equals ("int")||type.equals ("bigint")||type.equals ("mediumint")||type.equals ("tinyint")||type.equals ("smallint"))    
+			type = "integer";
+		else if (type.equals ("float")||type.equals ("decimal")||type.equals ("real")||type.equals ("double precision")||type.equals ("numeric"))
+			type = "real";
+		else if (type.equals ("datetime")||type.equals ("date")||type.equals ("time")||type.equals ("timestamp"))	    
+			type = "date";
+		else if (type.equals ("char") || type.equals ("varchar")||type.equals("text")||type.equals ("blob")||type.equals ("enum")||type.equals ("set"))
+			type = "string";
+		else{
+			ServerMessageUtil.SPrintToConsole("Unknown datatype="+type+" for table "+tabName.toLowerCase()+" attribute "+attribName.toUpperCase());
+			type = "invalid";
+		}
+		return type;
+	}
+	/*
+	 * We expect lowValue and dType to be set before readHistogram is called
+	 */
+	private void readHistogram() throws PicassoException
+	{
+		try{
+			String str = "select count(*), min("+attribName.toUpperCase()+"), max("+attribName.toUpperCase()+") "+
+				" from "+schema+"."+tabName.toLowerCase();
+			//System.out.println(str);
+			Statement stmt = db.createStatement ();
+			ResultSet rset = stmt.executeQuery(str);
+			//System.out.println("table :"+tabName +"\tcolumn :"+attribName+"\tcard :"+cardinality);
+			while (rset.next ()) {
+				cardinality = rset.getInt(1);
+				lowValue = Datatype.makeObject(dType,rset.getString(2));
+				highValue = Datatype.makeObject(dType,rset.getString(3));
+				
+				value.addElement(lowValue);
+				freq.addElement(new Integer(0));
+				
+				value.addElement(highValue);
+				freq.addElement(new Integer(cardinality));
+				//System.out.println("value :"+highValue+"\tfreq :"+cardinality);
+			}
+			rset.close();
+			stmt.close ();
+		}catch(SQLException e) {
+			e.printStackTrace();
+			ServerMessageUtil.SPrintToConsole("readHistogram : "+e);
+			throw new PicassoException("Cannot read histogram for attribute "+
+					attribName+" "+e);
+		}
+	}
+}

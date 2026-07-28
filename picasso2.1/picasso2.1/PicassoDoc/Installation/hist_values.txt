@@ -1,0 +1,303 @@
+create  procedure hist_values 
+ @tabname varchar(62)=null, @colname varchar(62)= null
+as
+
+create table #cells(seq int,colnum int)
+/*go*/
+
+create table #histogram (step char(9),weight char(10),symbol char(3), value varchar(40))
+
+declare @steps_act int, @freq_cell smallint, @seq int, @used_count int, @statid smallint,  @tabid int, @colid int, @big_endian tinyint , @colid_len tinyint, @rownum int,@value_raw varbinary(255), @value_c varchar(255), @typename varchar(30), @scale varchar(3) , @collength varchar(10), @precision varchar(3),  @step char(9)
+      , @weight char(10)
+      , @prev_step char(9)
+      , @prev_weight char(10)
+
+/*go*/
+select @typename = st.name from syscolumns sc , systypes st where st.type=sc.type and sc.name=@colname and sc.id=(select id from sysobjects where name=@tabname)
+
+select @colid_len= col_length('syscolumns','colid')
+
+select @big_endian = sign(convert(tinyint,substring(convert(varbinary,convert(smallint,255)),2,1)))
+
+select @steps_act=convert(int,ss.c4)
+from syscolumns sc,sysstatistics ss
+where sc.id=(select id from sysobjects where name=@tabname)
+and sc.name = @colname
+and ss.id = sc.id
+and substring(ss.colidarray,1,col_length('syscolumns','colid')) = convert(varbinary,sc.colid)
+and formatid=100
+
+select @tabid=id from sysobjects where name=@tabname
+/*print 'tabid:         %1!',@tabid*/
+
+select @colid=colid from syscolumns where name =@colname and id =(select id from sysobjects where 
+name=@tabname)
+
+/*print 'colid:         %1!',@colid*/
+
+select @statid=ss.statid from sysstatistics ss, syscolumns sc where sc.id=ss.id and sc.id=(select id from sysobjects where name=@tabname) and sc.name =@colname and ss.formatid= 108
+
+/*print 'statid:         %1!',@statid*/
+
+select  @collength=
+ ltrim(str(convert(int,ss.c7),5))
+from syscolumns sc, sysstatistics ss, systypes st
+where sc.id = (select id from sysobjects where name=@tabname)
+and   sc.name like isnull(@colname,"%")
+and   ss.id = sc.id
+and   convert(int,ss.c6) *= st.type
+and   st.name not in ("timestamp","sysname", "nchar", "nvarchar")
+and   st.usertype < 100
+and   substring(ss.colidarray,1,col_length('syscolumns','colid')) = convert(varbinary,sc.colid)
+and   ss.formatid = 100
+
+
+select @precision=
+  ltrim(str(convert(int,ss.c8),3))
+from syscolumns sc, sysstatistics ss, systypes st
+where sc.id = (select id from sysobjects where name=@tabname)
+and   sc.name like isnull(@colname,"%")
+and   ss.id = sc.id
+and   convert(int,ss.c6) *= st.type
+and   st.name not in ("timestamp","sysname", "nchar", "nvarchar")
+and   st.usertype < 100
+and   substring(ss.colidarray,1,col_length('syscolumns','colid')) = convert(varbinary,sc.colid)
+and   ss.formatid = 100
+
+select @scale=
+  ltrim(str(convert(int,ss.c9),3))
+from syscolumns sc, sysstatistics ss, systypes st
+where sc.id = (select id from sysobjects where name=@tabname)
+and   sc.name like isnull(@colname,"%")
+and   ss.id = sc.id
+and   convert(int,ss.c6) *= st.type
+and   st.name not in ("timestamp","sysname", "nchar", "nvarchar")
+and   st.usertype < 100
+and   substring(ss.colidarray,1,col_length('syscolumns','colid')) = convert(varbinary,sc.colid)
+and   ss.formatid = 100
+
+
+declare histogram_cursor cursor for
+select 
+ /** Here is the step number **/
+ str( ((c.seq-1)*80 + c.colnum ) ,9),
+
+ /** And here is the Weight of the cell **/
+ str( isnull(convert(real, case (c.colnum - 1)
+      when 0 then s.c0 when 1 then s.c1 when 2 then s.c2 when 3 then s.c3
+      when 4 then s.c4 when 5 then s.c5 when 6 then s.c6 when 7 then s.c7
+      when 8 then s.c8 when 9 then s.c9 when 10 then s.c10 when 11 then s.c11
+      when 12 then s.c12 when 13 then s.c13 when 14 then s.c14 when 15 then s.c15
+      when 16 then s.c16 when 17 then s.c17 when 18 then s.c18 when 19 then s.c19
+      when 20 then s.c20 when 21 then s.c21 when 22 then s.c22 when 23 then s.c23
+      when 24 then s.c24 when 25 then s.c25 when 26 then s.c26 when 27 then s.c27
+      when 28 then s.c28 when 29 then s.c29 when 30 then s.c30 when 31 then s.c31
+      when 32 then s.c32 when 33 then s.c33 when 34 then s.c34 when 35 then s.c35
+      when 36 then s.c36 when 37 then s.c37 when 38 then s.c38 when 39 then s.c39
+      when 40 then s.c40 when 41 then s.c41 when 42 then s.c42 when 43 then s.c43
+      when 44 then s.c44 when 45 then s.c45 when 46 then s.c46 when 47 then s.c47
+      when 48 then s.c48 when 49 then s.c49 when 50 then s.c50 when 51 then s.c51
+      when 52 then s.c52 when 53 then s.c53 when 54 then s.c54 when 55 then s.c55
+      when 56 then s.c56 when 57 then s.c57 when 58 then s.c58 when 59 then s.c59
+      when 60 then s.c60 when 61 then s.c61 when 62 then s.c62 when 63 then s.c63
+      when 64 then s.c64 when 65 then s.c65 when 66 then s.c66 when 67 then s.c67
+      when 68 then s.c68 when 69 then s.c69 when 70 then s.c70 when 71 then s.c71
+      when 72 then s.c72 when 73 then s.c73 when 74 then s.c74 when 75 then s.c75
+      when 76 then s.c76 when 77 then s.c77 when 78 then s.c78 when 79 then s.c79
+      else convert(varbinary(255),0)
+      end /* case */
+                     ),0) /* convert(real, isnull( */
+     ,10,8) /* str( */,
+
+ /** And finally, here is the Value of the cell **/
+ convert(varbinary(255), case (c.colnum - 1)
+      when 0 then v.c0 when 1 then v.c1 when 2 then v.c2 when 3 then v.c3
+      when 4 then v.c4 when 5 then v.c5 when 6 then v.c6 when 7 then v.c7
+      when 8 then v.c8 when 9 then v.c9 when 10 then v.c10 when 11 then v.c11
+      when 12 then v.c12 when 13 then v.c13 when 14 then v.c14 when 15 then v.c15
+      when 16 then v.c16 when 17 then v.c17 when 18 then v.c18 when 19 then v.c19
+      when 20 then v.c20 when 21 then v.c21 when 22 then v.c22 when 23 then v.c23
+      when 24 then v.c24 when 25 then v.c25 when 26 then v.c26 when 27 then v.c27
+      when 28 then v.c28 when 29 then v.c29 when 30 then v.c30 when 31 then v.c31
+      when 32 then v.c32 when 33 then v.c33 when 34 then v.c34 when 35 then v.c35
+      when 36 then v.c36 when 37 then v.c37 when 38 then v.c38 when 39 then v.c39
+      when 40 then v.c40 when 41 then v.c41 when 42 then v.c42 when 43 then v.c43
+      when 44 then v.c44 when 45 then v.c45 when 46 then v.c46 when 47 then v.c47
+      when 48 then v.c48 when 49 then v.c49 when 50 then v.c50 when 51 then v.c51
+      when 52 then v.c52 when 53 then v.c53 when 54 then v.c54 when 55 then v.c55
+      when 56 then v.c56 when 57 then v.c57 when 58 then v.c58 when 59 then v.c59
+      when 60 then v.c60 when 61 then v.c61 when 62 then v.c62 when 63 then v.c63
+      when 64 then v.c64 when 65 then v.c65 when 66 then v.c66 when 67 then v.c67
+      when 68 then v.c68 when 69 then v.c69 when 70 then v.c70 when 71 then v.c71
+      when 72 then v.c72 when 73 then v.c73 when 74 then v.c74 when 75 then v.c75
+      when 76 then v.c76 when 77 then v.c77 when 78 then v.c78 when 79 then v.c79
+      end
+    ) /* convert */
+                          
+from #cells c, sysstatistics s, sysstatistics v
+where s.id = @tabid
+--- Here, we have to account for either 1byte or 2byte colids
+and s.colidarray = substring(convert(varbinary,convert(int,@colid)),(@big_endian * (4 - @colid_len)) + 1,@colid_len)
+and s.formatid = 104
+and v.id =* s.id
+and v.colidarray =* s.colidarray
+and v.statid =* s.statid
+and v.sequence =* s.sequence
+and v.formatid = 102
+and c.seq = s.sequence
+for read only
+
+
+
+
+
+
+
+
+ if (@steps_act is not null) /** Print a Histogram **/
+         begin
+            truncate table #cells
+            select @freq_cell = 0, @seq = 1
+            select @used_count = isnull(sum(usedcount),0)
+            from sysstatistics
+            where id = @tabid
+             and  statid = @statid
+             and  colidarray = substring(convert(varbinary,convert(int,@colid)),(@big_endian * (4 - @colid_len)) + 1,@colid_len)
+             and  formatid = 104
+             and  sequence = @seq
+            while (@used_count > 0)
+            begin
+               select @rownum = 1
+               while (@rownum <= @used_count)
+               begin
+                  insert into #cells(seq,colnum) values (@seq,@rownum)
+                  select @rownum = @rownum + 1
+               end
+               select @seq = @seq + 1
+               select @used_count = isnull(sum(usedcount),0)
+               from sysstatistics
+               where id = @tabid
+                and  statid = @statid
+                and  colidarray = substring(convert(varbinary,convert(int,@colid)),(@big_endian * (4 - @colid_len)) + 1,@colid_len)
+                and  formatid = 104
+                and  sequence = @seq
+            end
+
+
+
+
+    open histogram_cursor 
+            fetch histogram_cursor into
+               @step, @weight, @value_raw
+            while (@@sqlstatus = 0)
+            begin
+               select 
+                 @value_c = 
+                     CASE 
+                      WHEN @typename in ("varchar","nvarchar","char","nchar")
+                       THEN '"' + convert(varchar(255),@value_raw) + '"'
+
+                      WHEN @typename in ("int","intn","integer")
+                       THEN str(convert(int,@value_raw),11)
+
+                      WHEN @typename in ("smallint")
+                       THEN str(convert(smallint,@value_raw),11)
+
+                      WHEN @typename in ("tinyint")
+                       THEN str(convert(tinyint,@value_raw),11)
+
+                      /** Oh, oh, a scaled numeric, where does the decimal place go"?""?""?" **/
+                      WHEN (@typename in ("numeric","decimal","numericn","decimaln") and convert(smallint,@scale) > 0)
+                       THEN str(convert(numeric(38),substring(@value_raw,1,1) 
+                                    + right(replicate(0x00,255-convert(int,@collength)) 
+                                    + right(@value_raw,convert(int,@collength) - 1),16))
+                              /* move over @scale decimal places please */
+                                /power(convert(numeric,10),convert(smallint,@scale))
+                              /* make room for @precision, minus, and decimal signs */
+                               , convert(smallint,@precision)+2,convert(smallint,@scale))
+
+                      WHEN (@typename in ("numeric","decimal","numericn","decimaln") and @scale = "0")
+                       THEN str(convert(numeric(38),substring(@value_raw,1,1)
+                                    + right(replicate(0x00,255-convert(int,@collength)) 
+                                    + right(@value_raw,convert(int,@collength) - 1),16))
+                                , convert(smallint,@precision))
+
+                      WHEN (@typename in ("float","floatn","real") and @collength = "4")
+                       THEN str(convert(real,@value_raw),40,8)
+
+                      WHEN (@typename in ("float","floatn","double precision") and @collength = "8")
+                       THEN str(convert(double precision,@value_raw),40,16)
+
+                      WHEN @typename in ("money","moneyn","smallmoney")
+                       THEN str(convert(money,@value_raw),22,2)
+
+                      WHEN @typename in ("datetime","datetimn")
+                       THEN '"' + convert(varchar(255),convert(datetime,@value_raw),109) + '"'
+
+                      WHEN @typename in ("smalldatetime")
+                       THEN '"' + convert(varchar(255),convert(smalldatetime,@value_raw),100) + '"'
+
+                      WHEN @typename in ("date","daten")
+                       THEN '"' + substring(convert(varchar(255),convert(datetime,@value_raw+0x00000000),101),1,11) + '"'
+
+                      WHEN @typename in ("time","timen")
+                       THEN '"' + substring(convert(varchar(255),convert(datetime,0x00000000+@value_raw)),12,8) + '"'
+
+                      ELSE @value_raw
+                     END
+            
+               if (@value_raw is null)
+                 select @freq_cell =1 , @prev_step = @step, @prev_weight = @weight, @value_c = "null"
+               else
+               begin
+                 select @value_c = ltrim(@value_c)
+                 if (@freq_cell = 1)
+                 begin /* Printing a frequency cell */
+                    if (@typename in ("binary","varbinary","timestamp"))
+                    begin 
+                      /* print '%1!     %2!        <       %3!',@prev_step,@prev_weight,@value_raw */
+                insert into #histogram values(@prev_step,@prev_weight,"<",@value_raw)
+                      /* print '%1!     %2!        =       %3!',@step,@weight,@value_raw */
+                insert into #histogram values(@step,@weight,"=",@value_raw)
+             
+                    end
+                    else
+                    begin 
+                      /* print '%1!     %2!        <       %3!',@prev_step,@prev_weight,@value_c
+                       print '%1!     %2!        =       %3!',@step,@weight,@value_c  */
+                 insert into #histogram values(@prev_step,@prev_weight,"<",@value_c)
+                 insert into #histogram values(@step,@weight,"=",@value_c)
+                    
+                    end 
+                 end
+                 else /* NOT printing a frequency cell */
+                 begin
+                    if (@typename in ("binary","varbinary","timestamp"))
+                     /*  print '%1!     %2!       <=       %3!',@step,@weight,@value_raw */
+                   insert into #histogram values(@step,@weight,"<=",@value_raw)
+                    else
+ /*                       print '%1!     %2!       <=       %3!',@step,@weight,@value_c */
+                   insert into #histogram values(@step,@weight,"<=",@value_c)
+                 end
+                 select @freq_cell = 0
+               end
+
+               fetch histogram_cursor into
+                  @step, @weight, @value_raw
+            end
+            close histogram_cursor
+            /* Is there only one cell (a freqency cell) */
+            if (@freq_cell = 1)
+                   /* print '%1!     %2!        =       %3!',@prev_step,@prev_weight,@value_c */
+           /* print '' */
+            
+          insert into #histogram values(@prev_step,@prev_weight,"=",@value_c)
+        /* end  */
+ 
+ 
+
+
+
+--Adaptive Server has expanded all '*' elements in the following statement
+select #histogram.step, #histogram.weight, #histogram.symbol, #histogram.value from #histogram 
+end

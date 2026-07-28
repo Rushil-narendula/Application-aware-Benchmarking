@@ -1,0 +1,2176 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns:st1="urn:schemas-microsoft-com:office:smarttags"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 12">
+<meta name=Originator content="Microsoft Word 12">
+<link rel=File-List href="porting_files/filelist.xml">
+<title>Picasso Porting Guide</title>
+<o:SmartTagType namespaceuri="urn:schemas-microsoft-com:office:smarttags"
+ name="country-region"/>
+<o:SmartTagType namespaceuri="urn:schemas-microsoft-com:office:smarttags"
+ name="place"/>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>dsl</o:Author>
+  <o:Template>Normal</o:Template>
+  <o:LastAuthor>Priyank</o:LastAuthor>
+  <o:Revision>84</o:Revision>
+  <o:TotalTime>570</o:TotalTime>
+  <o:LastPrinted>2006-10-25T10:36:00Z</o:LastPrinted>
+  <o:Created>2006-07-21T15:19:00Z</o:Created>
+  <o:LastSaved>2009-02-11T22:58:00Z</o:LastSaved>
+  <o:Pages>4</o:Pages>
+  <o:Words>1782</o:Words>
+  <o:Characters>10159</o:Characters>
+  <o:Company>IISc</o:Company>
+  <o:Lines>84</o:Lines>
+  <o:Paragraphs>23</o:Paragraphs>
+  <o:CharactersWithSpaces>11918</o:CharactersWithSpaces>
+  <o:Version>12.00</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]-->
+<link rel=dataStoreItem href="porting_files/item0006.xml"
+target="porting_files/props0007.xml">
+<link rel=themeData href="porting_files/themedata.thmx">
+<link rel=colorSchemeMapping href="porting_files/colorschememapping.xml">
+<!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:Zoom>103</w:Zoom>
+  <w:SpellingState>Clean</w:SpellingState>
+  <w:GrammarState>Clean</w:GrammarState>
+  <w:TrackMoves/>
+  <w:TrackFormatting/>
+  <w:DrawingGridHorizontalSpacing>6 pt</w:DrawingGridHorizontalSpacing>
+  <w:DisplayHorizontalDrawingGridEvery>2</w:DisplayHorizontalDrawingGridEvery>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:DoNotPromoteQF/>
+  <w:LidThemeOther>EN-US</w:LidThemeOther>
+  <w:LidThemeAsian>X-NONE</w:LidThemeAsian>
+  <w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript>
+  <w:Compatibility>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+   <w:SplitPgBreakAndParaMark/>
+   <w:DontVertAlignCellWithSp/>
+   <w:DontBreakConstrainedForcedTables/>
+   <w:DontVertAlignInTxbx/>
+   <w:Word11KerningPairs/>
+   <w:CachedColBalance/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+  <m:mathPr>
+   <m:mathFont m:val="Cambria Math"/>
+   <m:brkBin m:val="before"/>
+   <m:brkBinSub m:val="--"/>
+   <m:smallFrac m:val="off"/>
+   <m:dispDef/>
+   <m:lMargin m:val="0"/>
+   <m:rMargin m:val="0"/>
+   <m:defJc m:val="centerGroup"/>
+   <m:wrapIndent m:val="1440"/>
+   <m:intLim m:val="subSup"/>
+   <m:naryLim m:val="undOvr"/>
+  </m:mathPr></w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" DefUnhideWhenUsed="true"
+  DefSemiHidden="true" DefQFormat="false" DefPriority="99"
+  LatentStyleCount="267">
+  <w:LsdException Locked="false" Priority="0" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Normal"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="heading 1"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 2"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 3"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 4"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 5"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 6"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 7"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 8"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 9"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 1"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 2"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 3"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 4"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 5"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 6"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 7"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 8"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 9"/>
+  <w:LsdException Locked="false" Priority="35" QFormat="true" Name="caption"/>
+  <w:LsdException Locked="false" Priority="10" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Title"/>
+  <w:LsdException Locked="false" Priority="1" Name="Default Paragraph Font"/>
+  <w:LsdException Locked="false" Priority="11" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Subtitle"/>
+  <w:LsdException Locked="false" Priority="22" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Strong"/>
+  <w:LsdException Locked="false" Priority="20" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Emphasis"/>
+  <w:LsdException Locked="false" Priority="59" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Table Grid"/>
+  <w:LsdException Locked="false" UnhideWhenUsed="false" Name="Placeholder Text"/>
+  <w:LsdException Locked="false" Priority="1" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="No Spacing"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 1"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 1"/>
+  <w:LsdException Locked="false" UnhideWhenUsed="false" Name="Revision"/>
+  <w:LsdException Locked="false" Priority="34" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="List Paragraph"/>
+  <w:LsdException Locked="false" Priority="29" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Quote"/>
+  <w:LsdException Locked="false" Priority="30" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Intense Quote"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 1"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 1"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 2"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 2"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 2"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 3"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 3"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 3"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 4"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 4"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 4"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 5"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 5"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 5"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 6"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 6"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 6"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="19" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Subtle Emphasis"/>
+  <w:LsdException Locked="false" Priority="21" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Intense Emphasis"/>
+  <w:LsdException Locked="false" Priority="31" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Subtle Reference"/>
+  <w:LsdException Locked="false" Priority="32" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Intense Reference"/>
+  <w:LsdException Locked="false" Priority="33" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Book Title"/>
+  <w:LsdException Locked="false" Priority="37" Name="Bibliography"/>
+  <w:LsdException Locked="false" Priority="39" QFormat="true" Name="TOC Heading"/>
+ </w:LatentStyles>
+</xml><![endif]--><!--[if !mso]><object
+ classid="clsid:38481807-CA0E-42D2-BF39-B33AF135CC4D" id=ieooui></object>
+<style>
+st1\:*{behavior:url(#ieooui) }
+</style>
+<![endif]-->
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:-1610611985 1107304683 0 0 159 0;}
+@font-face
+	{font-family:Consolas;
+	panose-1:2 11 6 9 2 2 4 3 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:modern;
+	mso-font-pitch:fixed;
+	mso-font-signature:-1610611985 1073750091 0 0 159 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";}
+h1
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Heading 1 Char";
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:1;
+	font-size:24.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	color:black;
+	font-weight:bold;}
+a:link, span.MsoHyperlink
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+p
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";}
+pre
+	{mso-style-priority:99;
+	mso-style-link:"HTML Preformatted Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+	font-size:10.0pt;
+	font-family:"Courier New";
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+span.Heading1Char
+	{mso-style-name:"Heading 1 Char";
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Heading 1";
+	mso-ansi-font-size:14.0pt;
+	mso-bidi-font-size:14.0pt;
+	font-family:"Cambria","serif";
+	mso-ascii-font-family:Cambria;
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:Cambria;
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#365F91;
+	mso-themecolor:accent1;
+	mso-themeshade:191;
+	font-weight:bold;}
+span.HTMLPreformattedChar
+	{mso-style-name:"HTML Preformatted Char";
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"HTML Preformatted";
+	font-family:Consolas;
+	mso-ascii-font-family:Consolas;
+	mso-hansi-font-family:Consolas;}
+p.style1, li.style1, div.style1
+	{mso-style-name:style1;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";
+	color:maroon;}
+span.emphasis
+	{mso-style-name:emphasis;
+	mso-style-unhide:no;}
+span.SpellE
+	{mso-style-name:"";
+	mso-spl-e:yes;}
+span.GramE
+	{mso-style-name:"";
+	mso-gram-e:yes;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	mso-default-props:yes;
+	font-size:10.0pt;
+	mso-ansi-font-size:10.0pt;
+	mso-bidi-font-size:10.0pt;}
+@page Section1
+	{size:595.45pt 841.7pt;
+	margin:.5in .5in .5in .5in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman","serif";}
+table.MsoTableGrid
+	{mso-style-name:"Table Grid";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-priority:59;
+	mso-style-unhide:no;
+	border:solid windowtext 1.0pt;
+	mso-border-alt:solid windowtext .5pt;
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-border-insideh:.5pt solid windowtext;
+	mso-border-insidev:.5pt solid windowtext;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman","serif";}
+.style1 {
+	font-family: Arial, sans-serif;
+	font-size: 12pt;
+}
+.style2 {
+	color: #800000;
+}
+.style3 {
+	color: #000000;
+}
+</style>
+<![endif]--><!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="1026"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:.5in'>
+
+<div class=Section1>
+
+<p class=MsoNormal align=center style='text-align:center'><b><i>
+<span
+style='font-size:20.0pt;font-family:"Arial","sans-serif";color:#CC0066'>Picasso
+Database Query Optimizer <span class=SpellE>Visualizer</span><o:p></o:p></span></i></b></p>
+
+<p class=MsoNormal align=center style='text-align:center'><b><span
+style='font-family:"Arial","sans-serif";color:black'>©Indian Institute of
+Science, <st1:city w:st="on">Bangalore</st1:city>,
+<st1:country-region w:st="on">India</st1:country-region><o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span
+style='font-family:"Arial","sans-serif"'>&nbsp;<o:p></o:p></span></p>
+
+<h1 align=center style='text-align:center'><span style='font-size:16.0pt;
+font-family:"Arial","sans-serif";color:red'>PORTING<span class=GramE>&nbsp;
+GUIDE</span><o:p></o:p></span></h1>
+
+<h1 align=center style='text-align:center'><span style='font-size:18.0pt;
+font-family:"Arial","sans-serif";color:red'><o:p>&nbsp;</o:p></span></h1>
+
+<p><span style='font-family:"Arial","sans-serif"'>This document outlines the
+steps for porting Picasso to database platforms other than those natively
+supported in the current code-base: <b><span style='color:#669900'>DB2, Oracle,
+SQL Server, Sybase ASE, <span class=SpellE>PostgreSQL</span>.</span></b>&nbsp;&nbsp;
+<o:p></o:p></span></p>
+
+<p><span style='font-family:"Arial","sans-serif"'>Let the new database engine
+be called <b><i>ABC.</i></b>&nbsp; These are the changes that need to be
+carried out to port Picasso to <b><i><span style='color:green'>ABC</span></i></b>:<o:p></o:p></span></p>
+<ol><li>
+<p style='margin-left:0pt'><span style='font-family:
+"Arial","sans-serif"'>Edit the file <b><i><span style='color:#663300'>DBConstants.java</span></i></b>
+in the package <span class=SpellE><b><i><span style='color:#663300'>iisc.dsl.picasso.common</span></i></b></span>,
+adding the following lines:<o:p></o:p></span></p>
+</li></ol>
+<p style='margin-left:.5in'><span style='font-size:11.0pt;font-family:"Arial","sans-serif"'>In
+global scope<span class=GramE>:</span></span><span style='font-family:"Arial","sans-serif"'><br>
+</span><i><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:#9900CC'>import <span class=SpellE>iisc.dsl.picasso.common.db.AbcInfo</span>;</span></i><span
+style='font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+
+<p style='margin-left:.5in'><span style='font-size:11.0pt;font-family:"Arial","sans-serif"'>Inside
+the class <span class=SpellE><i>DBConstants</i></span><span class=GramE>:</span><br>
+<i><span style='color:#9900CC'>public static final String ABC =
+&quot;ABC&quot;;<o:p></o:p></span></i></span></p>
+
+<p style='margin-left:.5in'><span style='font-size:11.0pt;font-family:"Arial","sans-serif"'>Inside
+the <span class=SpellE>initializer</span> specification of the <i>databases</i>
+array<span class=GramE>:</span><span style='color:#9900CC'><br>
+<i>new <span class=SpellE>AbcInfo</span>()</i></span></span><span
+style='font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+<ol start="2"><li>
+<p style='margin-left:0pt'><span style='font-family:
+"Arial","sans-serif"'>Edit the file <b><i><span style='color:#663300'>Database.java</span></i></b>
+in the package <span class=SpellE><b><i><span style='color:#663300'>iisc.dsl.picasso.server.db</span></i></b></span><b><i>.
+</i></b><span style='color:black'><o:p></o:p></span></span></p>
+</li></ol>
+<p style='margin-left:30.0pt'><span style='font-family:"Arial","sans-serif";
+color:black'>Add the line: </span><i><span style='font-size:11.0pt;font-family:
+"Arial","sans-serif";color:#9900CC'>import <span class=SpellE>iisc.dsl.picasso.server.db.abc.abcDatabase</span>;</span></i><span
+style='font-family:"Arial","sans-serif";color:black'><o:p></o:p></span></p>
+
+<p style='margin-left:30.0pt'><span style='font-family:"Arial","sans-serif"'>In
+the <i>Database </i>class, modify the function <span class=SpellE><span
+class=GramE><b><i><span style='color:#9900CC'>getDatabase</span></i></b></span></span><span
+class=GramE><b><i><span style='color:#9900CC'>(</span></i></b></span><b><i><span
+style='color:#9900CC'>)</span></i><span style='color:#9900CC'>,</span></b><span
+style='color:black'> adding the following lines:<o:p></o:p></span></span></p>
+
+<pre><i><span style='font-family:"Arial","sans-serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></i><span
+class=GramE><i><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:#9900CC'>else</span></i></span><i><span style='font-size:11.0pt;
+font-family:"Arial","sans-serif";color:#9900CC'> if(<span class=SpellE>vendor.equals</span>(DBConstants.ABC))<o:p></o:p></span></i></pre><pre><i><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:#9900CC'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span
+class=GramE>db</span> = new <span class=SpellE>AbcDatabase</span>(settings);<o:p></o:p></span></i></pre>
+<ol start="3"><li>
+<p style='margin-left:0pt;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><span
+style='font-family:"Arial","sans-serif"'>Create a package <span class=SpellE><span
+class=GramE><b><i><span style='color:#663300'>abc</span></i></b></span></span><span
+style='color:#663300'> </span>in the package <span class=SpellE><b><i><span
+style='color:#663300'>iisc.dsl.picasso.server.db</span></i></b></span><o:p></o:p></span></p>
+</li>
+<li>
+<p style='margin-left:0pt;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><span
+style='font-family:"Arial","sans-serif"'>Create the class <span class=SpellE><b><i><span
+style='color:#663300'>abcInfo</span></i></b></span> (which extends <span
+class=SpellE><b><i><span style='color:#663300'>DBInfo</span></i></b></span>) in
+the package <span class=SpellE><b><i><span style='color:#663300'>iisc.dsl.picasso.common.db</span></i></b></span><b><i>.</i></b>&nbsp;
+In this class, define inside the constructor, the variables <i><span
+style='color:#CC6600'>name</span></i><span style='color:#CC6600'>, <span
+class=SpellE><i>defaultPort</i></span>, <span class=SpellE><i>treeNames</i></span><i>,
+<span class=SpellE>treecard</span></i></span> and <span class=SpellE><i><span
+style='color:#CC6600'>optLevels</span></i></span>:&nbsp; (a) <i><span
+style='color:#CC6600'>name</span></i> should be the same as <i><span
+style='color:#9900CC'>DBConstants.ABC</span></i>;&nbsp; (b) <span class=SpellE><i><span
+style='color:#CC6600'>optLevels</span></i></span> is an array of Strings
+representing different optimization levels supported by the database; <span
+style='color:black'>(c)</span><i><span style='color:#CC6600'> <span
+class=SpellE>treeNames</span></span></i> is an array of Strings representing
+the names appearing in the plan tree nodes, and is used for assigning colors to
+the plan tree nodes; (d)<i><span style='color:#CC6600'> <span class=SpellE>treecard</span>
+</span></i>is an array of integers representing the<span style='color:#CC6600'>
+</span>expected number of children for corresponding nodes in <span
+class=SpellE><i>treeNames</i></span><i>; and (e)<span style='color:#CC6600'> <span
+class=SpellE>defaultPort</span></span> </i>is a String that denotes the default
+port that is shown when a new <span class=SpellE>DBConnection</span> Descriptor
+is created.<o:p></o:p></span></p>
+</li>
+<li>
+<p style='margin-left:0pt;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><span
+style='font-family:"Arial","sans-serif"'>Create the class <span class=SpellE><b><i><span
+style='color:#663300'>abcDatabase</span></i></b></span> (which extends <b><i><span
+style='color:#663300'>Database</span></i></b>) in the package <span
+class=SpellE><b><i><span style='color:#663300'>iisc.dsl.picasso.server.db.abc</span></i></b></span><span
+style='color:#663300'>.</span>&nbsp; This class should implement all the
+abstract functions defined in <b><span style='color:#663300'>Database</span></b>.
+They are:</span><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:black'><o:p></o:p></span></p>
+</li>
+</ol>
+<p style='margin-left:.5in;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><span
+class=GramE><i><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:#9900CC'>abstract</span></i></span><i><span style='font-size:11.0pt;
+font-family:"Arial","sans-serif";color:#9900CC'> public <span class=SpellE>boolean</span>
+connect(<span class=SpellE>DBSettings</span> settings)</span></i><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:purple'> </span><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif"'>- <span
+style='color:black'>Should attempt to establish a connection to the given
+database URL (using JDBC) and return a <span class=SpellE>boolean</span>
+corresponding to whether or not the connection was successfully established.<o:p></o:p></span></span></p>
+
+<p style='margin-left:.5in;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><span
+class=GramE><i><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:#9900CC'>abstract</span></i></span><i><span style='font-size:11.0pt;
+font-family:"Arial","sans-serif";color:#9900CC'> public Histogram <span
+class=SpellE>getHistogram</span>(String <span class=SpellE>tabname</span>,
+String schema, String attrib)</span></i><span style='font-size:11.0pt;
+font-family:"Arial","sans-serif";color:purple'> </span><span style='font-size:
+11.0pt;font-family:"Arial","sans-serif";color:black'>&nbsp;- Should fill in the
+value and freq (frequency) Vectors of the Histogram object after reading the
+histogram corresponding to the requested attribute from the database.<o:p></o:p></span></p>
+
+<p style='margin-left:.5in;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><span
+class=GramE><i><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:#9900CC'>abstract</span></i></span><i><span style='font-size:11.0pt;
+font-family:"Arial","sans-serif";color:#9900CC'> public Plan <span
+class=SpellE>getPlan</span>(String query)</span></i><span style='font-size:
+11.0pt;font-family:"Arial","sans-serif";color:black'> - Should create and
+return a Plan object corresponding to the query string after retrieving and
+parsing the plan got from the database engine.<o:p></o:p></span></p>
+
+<p style='margin-left:.5in;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><span
+class=GramE><i><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:#9900CC'>abstract</span></i></span><i><span style='font-size:11.0pt;
+font-family:"Arial","sans-serif";color:#9900CC'> public Plan <span
+class=SpellE>getPlan</span>(String query, <span class=SpellE>int</span> <span
+class=SpellE>startQueryNumber</span>)</span></i><span style='font-size:11.0pt;
+font-family:"Arial","sans-serif";color:black'> - Used to set an identification
+number for the plan in the database's <i>explain </i>output table. In case the
+database engine does not support such identification <span class=GramE>or</span>
+has no plan table, this function can simply call the function above.<o:p></o:p></span></p>
+
+<p style='margin-left:.5in;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><span
+class=GramE><i><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:#9900CC'>abstract</span></i></span><i><span style='font-size:11.0pt;
+font-family:"Arial","sans-serif";color:#9900CC'> public void <span
+class=SpellE>emptyPlanTable</span>()</span></i><span style='font-size:11.0pt;
+font-family:"Arial","sans-serif";color:purple'> </span><span style='font-size:
+11.0pt;font-family:"Arial","sans-serif";color:black'>&nbsp;- Should empty the
+database's plan table, if such a table exists.<o:p></o:p></span></p>
+
+<p style='margin-left:.5in;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><span
+class=GramE><i><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:#9900CC'>abstract</span></i></span><i><span style='font-size:11.0pt;
+font-family:"Arial","sans-serif";color:#9900CC'> public void <span
+class=SpellE>removeFromPlanTable</span>(<span class=SpellE>int</span> <span
+class=SpellE>qno</span>)</span></i><span style='font-size:11.0pt;font-family:
+"Arial","sans-serif";color:purple'> </span><span style='font-size:11.0pt;
+font-family:"Arial","sans-serif";color:black'>- Should remove the plan
+corresponding to the identification number passed as a parameter from the
+database's plan table. If no plan table exists, this function maybe empty.<o:p></o:p></span></p>
+
+<p style='margin-left:.5in;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><span
+class=GramE><i><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:#9900CC'>abstract</span></i></span><i><span style='font-size:11.0pt;
+font-family:"Arial","sans-serif";color:#9900CC'> public <span class=SpellE>boolean</span>
+<span class=SpellE>checkPlanTable</span>()</span></i><span style='font-size:
+11.0pt;font-family:"Arial","sans-serif";color:black'> - Should return a <span
+class=SpellE>boolean</span> indicating the presence or absence of the plan
+table in the database, if one can exist. If the database does not have a plan
+table, this function should always return true.<o:p></o:p></span></p>
+
+<p style='margin-left:27.0pt;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'>
+<span
+style='font-size:11.0pt;font-family:"Arial","sans-serif"'>The following functions are necessary to create the Picasso tables, whose
+schema is given below:<span style='color:black'><o:p></o:p></span></span></p>
+
+<pre
+style='margin-left:0.5in'><span class=GramE><i><span style='font-size:11.0pt;
+font-family:"Arial","sans-serif";color:#9900CC'>abstract</span></i></span><i><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:#9900CC'> protected void <span
+class=SpellE>createQTIDMap</span>(Statement stmt)<o:p></o:p></span></i></pre>
+
+<pre style='margin-left:0.5in'><span class=GramE><i><span style='font-size:
+11.0pt;font-family:"Arial","sans-serif";color:#9900CC'>abstract</span></i></span><i><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:#9900CC'> protected void <span
+class=SpellE>createPlanStore</span>(Statement stmt)<o:p></o:p></span></i></pre>
+<pre
+style='margin-left:0.5in'><span class=GramE><i><span style='font-size:11.0pt;
+font-family:"Arial","sans-serif";color:#9900CC'>abstract</span></i></span><i><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:#9900CC'> protected void <span
+class=SpellE>createPlanTree</span>(Statement stmt)<o:p></o:p></span></i></pre><pre
+style='margin-left:0.5in'><span class=GramE><i><span style='font-size:11.0pt;
+font-family:"Arial","sans-serif";color:#9900CC'>abstract</span></i></span><i><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:#9900CC'> protected void <span
+class=SpellE>createPlanTreeArgs</span>(Statement stmt)<o:p></o:p></span></i></pre>
+<pre
+style='margin-left:0.5in'><span class=GramE><i><span style='font-size:11.0pt;
+font-family:"Arial","sans-serif";color:#9900CC'>abstract</span></i></span><i><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:#9900CC'> protected void <span
+class=SpellE>createSelectivityLog</span>(Statement stmt)<o:p></o:p></span></i></pre><pre
+style='margin-left:0.5in'><span class=GramE><i><span style='font-size:11.0pt;
+font-family:"Arial","sans-serif";color:#9900CC'>abstract</span></i></span><i><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:#9900CC'> protected void <span
+class=SpellE>createSelectivityMap</span>(Statement stmt)<o:p></o:p></span></i></pre>
+<pre
+style='margin-left:0.5in'><span class=GramE><i><span style='font-size:11.0pt;
+font-family:"Arial","sans-serif";color:#9900CC'>abstract</span></i></span><i><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:#9900CC'> protected void <span
+class=SpellE>createPicassoRangeResMap</span>(Statement stmt)<o:p></o:p></span></i></pre><pre
+style='margin-left:0.5in'><span class=GramE><i><span style='font-size:11.0pt;
+font-family:"Arial","sans-serif";color:#9900CC'>abstract</span></i></span><i><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:#9900CC'> protected void <span
+class=SpellE>createPicassoApproxSpecs</span>(Statement stmt)<o:p></o:p></span></i></pre><pre
+style='margin-left:0.5in'><span class=GramE><i><span style='font-size:11.0pt;
+font-family:"Arial","sans-serif";color:#9900CC'>abstract</span></i></span><i><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:#9900CC'> protected void <span
+class=SpellE>createPicassoColumns</span>(Statement stmt)<o:p></o:p></span></i></pre><pre style='margin-left:45.8pt'><i><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:#9900CC'><o:p>&nbsp;</o:p></span></i></pre><pre
+style='margin-left:42pt'><span style='font-size:14.0pt;font-family:"Arial","sans-serif";
+color:maroon'>1. Table <span class=SpellE><i>picassoqtidmap</i></span><i><o:p></o:p></i></span></pre><pre
+style='margin-left:45.8pt'><i><span style='font-size:14.0pt;font-family:"Arial","sans-serif";
+color:maroon'><o:p>&nbsp;</o:p></span></i></pre>
+<pre style='margin-left:45.8pt'><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:windowtext;
+mso-bidi-font-style:italic'>It stores global information about each Picasso diagram<o:p>.</o:p></span></pre>
+<pre
+style='margin-left:45.8pt'><i><span style='font-size:14.0pt;font-family:"Arial","sans-serif";
+color:maroon'><o:p>&nbsp;</o:p></span></i></pre>
+<div style="padding-left:45.8pt">
+<table class=MsoTableGrid border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none;mso-yfti-tbllook:
+ 1184;mso-padding-alt:0in 5.4pt 0in 5.4pt'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'>
+  <td valign=top style='width:48pt; border:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><pre><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:maroon'>Column<o:p></o:p></span></pre></td>
+  <td valign=top style='border-right: 1.0pt solid windowtext; border-top: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:86pt; border-left:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:maroon'>Type<o:p></o:p></span></pre></td>
+  <td valign=top style='border-right: 1.0pt solid windowtext; border-top: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:80px; border-left:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:maroon'>Modifiers<o:p></o:p></span></pre></td>
+  <td valign=top style='border-right: 1.0pt solid windowtext; border-top: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:150pt; border-left:none; padding:0in 5.4pt 0in 5.4pt'><pre><span style='font-size:
+  12.0pt;font-family:"Arial","sans-serif";color:maroon'>Description<o:p></o:p></span></pre></td>
+ </tr>
+ <tr style='mso-yfti-irow:1'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:48pt; border-top:none; padding:0in 5.4pt 0in 5.4pt; height: 38px;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>qtid</span></span><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:86pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt; height: 38px;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>integer<o:p></o:p></span></pre></td>
+  <td valign=top style='width:80px; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt; height: 38px;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>not null<o:p></o:p></span></pre></td>
+  <td valign=top style='width:150pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt; height: 38px;'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Unique identifier for each Picasso Diagram generated.<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:2'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:48pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>qtemplate</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:86pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>text<o:p></o:p></span></pre></td>
+  <td valign=top style='width:80px; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre></td>
+  <td valign=top style='width:150pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Query template provided by the user for generating the Picasso Diagram.<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:3'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:48pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>qtname</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:86pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span style="font-family: Arial, sans-serif;font-size:12pt">varchar </span><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>(64)<o:p></o:p></span></pre></td>
+  <td valign=top style='width:80px; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>not null,</span></pre>
+	<pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>unique<o:p></o:p></span></pre></td>
+  <td valign=top style='width:150pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Unique string identifier associated with the Picasso Diagram.<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:4'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:48pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>resolution<o:p></o:p></span></pre></td>
+  <td valign=top style='width:86pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>integer<o:p></o:p></span></pre></td>
+  <td valign=top style='width:80px; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre></td>
+  <td valign=top style='width:150pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>A value of 10<span class=GramE>,30,100,300</span> or 1000 indicates a diagram of the corresponding resolution on all dimensions 
+	over the entire selectivity space.<o:p> </o:p></span><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>A value of -1 indicates a 'custom range' or 'custom resolution' diagram.<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:5'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:48pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>dimension<o:p></o:p></span></pre></td>
+  <td valign=top style='width:86pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>integer<o:p></o:p></span></pre></td>
+  <td valign=top style='width:80px; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre></td>
+  <td valign=top style='width:150pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Number of dimensions of the Picasso diagram, equivalent to the number of Picasso predicates in the 
+	query template.<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:6'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:48pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>exectype</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:86pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span style="font-family: Arial, sans-serif;font-size:12pt">varchar </span><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>(32)<o:p></o:p></span></pre></td>
+  <td valign=top style='width:80px; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre></td>
+  <td valign=top style='width:150pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>It can have the values COMPILETIME, RUNTIME or APPROX-COMPILETIME.<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:7'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:48pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>distribution<o:p></o:p></span></pre></td>
+  <td valign=top style='width:86pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span style="font-family: Arial, sans-serif;font-size:12pt">varchar </span><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>(32)<o:p></o:p></span></pre></td>
+  <td valign=top style='width:80px; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre></td>
+  <td valign=top style='width:150pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>It can have the values UNIFORM or EXPONENTIAL.<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:8'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:48pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>optlevel</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:86pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span style="font-family: Arial, sans-serif;font-size:12pt">varchar </span><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>(64)<o:p></o:p></span></pre></td>
+  <td valign=top style='width:80px; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre></td>
+  <td valign=top style='width:150pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Optimization level chosen by the user.<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:9'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:48pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>plandifflevel</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:86pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span style="font-family: Arial, sans-serif;font-size:12pt">varchar </span><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>(32)<o:p></o:p></span></pre></td>
+  <td valign=top style='width:80px; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre></td>
+  <td valign=top style='width:150pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Indicates the level at which two plan trees are compared. It can have the value SUB-OPERATOR or OPERATOR.<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:10'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:48pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>gentime</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:86pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>bigint</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:80px; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre></td>
+  <td valign=top style='width:150pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Time of generation.<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:11;mso-yfti-lastrow:yes'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:48pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>genduration</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:86pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>bigint</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:80px; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre></td>
+  <td valign=top style='width:150pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Time taken for generating the diagram.<o:p></o:p></span></td>
+ </tr>
+</table>
+</div>
+<pre style='margin-left:45.8pt'><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:windowtext'><o:p>&nbsp;</o:p></span></pre><pre style='margin-left:45.8pt'><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:windowtext'>Primary Key: (<span
+class=SpellE>qtid</span>)<o:p></o:p></span></pre><pre style='margin-left:45.8pt'><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre><pre
+style='margin-left:45.8pt'>&nbsp;</pre>
+<pre
+style='margin-left:42pt'><span style='font-size:14.0pt;font-family:"Arial","sans-serif";
+color:maroon'>2. Table <span class=SpellE><i>picassoplanstore</i></span><i><o:p></o:p></i></span></pre><pre
+style='margin-left:45.8pt'><i><span style='font-size:14.0pt;font-family:"Arial","sans-serif";
+color:maroon'><o:p>&nbsp;</o:p></span></i></pre><p style='margin-left:45.8pt'><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:windowtext;
+mso-bidi-font-style:italic'>It stores the plan number, compilation and execution costs, 
+and compilation and execution cardinalities, for each point in the selectivity space.<o:p></o:p></span></p><pre
+style='margin-left:31.5pt'><i><span style='font-size:14.0pt;font-family:"Arial","sans-serif";
+color:maroon'><o:p>&nbsp;</o:p></span></i></pre>
+<div style="padding-left:45.8pt">
+<table class=MsoTableGrid border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none;mso-yfti-tbllook:
+ 1184;mso-padding-alt:0in 5.4pt 0in 5.4pt'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'>
+  <td valign=top style='width:48pt; border:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><pre><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:maroon'>Column<o:p></o:p></span></pre></td>
+  <td valign=top style='border-right: 1.0pt solid windowtext; border-top: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:94pt; border-left:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:maroon'>Type<o:p></o:p></span></pre></td>
+  <td valign=top style='border-right: 1.0pt solid windowtext; border-top: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:0.72in; border-left:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:maroon'>Modifiers<o:p></o:p></span></pre></td>
+  <td valign=top style='border-right: 1.0pt solid windowtext; border-top: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:219px; border-left:none; padding:0in 5.4pt 0in 5.4pt'><pre><span style='font-size:
+  12.0pt;font-family:"Arial","sans-serif";color:maroon'>Description<o:p></o:p></span></pre></td>
+ </tr>
+ <tr style='mso-yfti-irow:1'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:48pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>qtid</span></span><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:94pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>integer<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.72in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>not null<o:p></o:p></span></pre></td>
+  <td valign=top style='width:219px; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span class=GramE><span style='font-size:
+  12.0pt;font-family:"Arial","sans-serif";color:windowtext'>Unique<span style='mso-spacerun:yes'>  </span>identifier</span></span><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'> for each Picasso<span style='mso-spacerun:yes'>  </span>Diagram generated (references <span
+  class=SpellE>picassoqtidmap</span>).<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:2'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:48pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>qid</span></span><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:94pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>integer<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.72in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>not null<o:p></o:p></span></pre></td>
+  <td valign=top style='width:219px; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Identifier for each point in the selectivity space ('product of resolution' number of <span
+  class=SpellE>entries</span>).<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:3'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:48pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>planno</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:94pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>integer<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.72in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre></td>
+  <td valign=top style='width:219px; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Plan number corresponding to the selectivity point.<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:4'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:48pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>cost<o:p></o:p></span></pre></td>
+  <td valign=top style='width:94pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>double precision<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.72in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre></td>
+  <td valign=top style='width:219px; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Corresponding compile time estimated cost.<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:5'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:48pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>card<o:p></o:p></span></pre></td>
+  <td valign=top style='width:94pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>double precision<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.72in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre></td>
+  <td valign=top style='width:219px; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Corresponding compile time estimated cardinality.<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:6'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:48pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>runcost</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:94pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>double precision<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.72in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre></td>
+  <td valign=top style='width:219px; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Corresponding run time cost (0 for compile time diagrams).<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:7;mso-yfti-lastrow:yes'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:48pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>runcard</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:94pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>double precision<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.72in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre></td>
+  <td valign=top style='width:219px; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Corresponding run time cardinality (0 for compile time diagrams).<o:p></o:p></span></td>
+ </tr>
+</table>
+</div>
+<pre style='margin-left:45.8pt'><span style='font-size:14.0pt;font-family:"Arial","sans-serif";
+color:maroon'><o:p>&nbsp;</o:p></span></pre><pre style='margin-left:45.8pt'><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:windowtext'>Primary Key: (<span
+class=SpellE>qtid</span>, <span class=SpellE>qid</span>)<o:p></o:p></span></pre><p
+style='margin-left:45.8pt'><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:windowtext'>Foreign Key constraints: (<span class=SpellE>qtid</span>) REFERENCES <span
+class=SpellE><span class=GramE>picassoqtidmap</span></span><span class=GramE>(</span><span
+class=SpellE>qtid</span>) ON DELETE CASCADE<o:p></o:p></span></p><pre
+style='margin-left:45.8pt'><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+color:maroon'><o:p>&nbsp;</o:p></span></pre><pre style='margin-left:45.8pt'><span
+style='font-size:12.0pt;font-family:"Arial","sans-serif";color:maroon'><o:p>&nbsp;</o:p></span></pre><pre
+style='margin-left:42pt'><span style='font-size:14.0pt;font-family:"Arial","sans-serif";
+color:maroon'>3. Table <span class=SpellE><i>picassoplantree</i></span><i><o:p></o:p></i></span></pre><pre
+style='margin-left:45.8pt'><i><span style='font-size:14.0pt;font-family:"Arial","sans-serif";
+color:maroon'><o:p>&nbsp;</o:p></span></i></pre><p style='margin-left:45.8pt'><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:windowtext;
+mso-bidi-font-style:italic'>It stores the representative plan tree for each plan 
+appearing in a Picasso Diagram. Each record represents a node of a plan-tree.</span></p><pre
+style='margin-left:45.8pt'><i><span style='font-size:14.0pt;font-family:"Arial","sans-serif";
+color:maroon'><o:p>&nbsp;</o:p></span></i></pre>
+<div style="padding-left:45.8pt">
+<table class=MsoTableGrid border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none;mso-yfti-tbllook:
+ 1184;mso-padding-alt:0in 5.4pt 0in 5.4pt'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'>
+  <td valign=top style='width:50pt; border:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><pre><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:maroon'>Column<o:p></o:p></span></pre></td>
+  <td valign=top style='border-right: 1.0pt solid windowtext; border-top: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:60pt; border-left:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:maroon'>Type<o:p></o:p></span></pre></td>
+  <td valign=top style='border-right: 1.0pt solid windowtext; border-top: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:0.8in; border-left:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:maroon'>Modifiers<o:p></o:p></span></pre></td>
+  <td valign=top style='border-right: 1.0pt solid windowtext; border-top: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:164pt; border-left:none; padding:0in 5.4pt 0in 5.4pt'><pre><span style='font-size:
+  12.0pt;font-family:"Arial","sans-serif";color:maroon'>Description<o:p></o:p></span></pre></td>
+ </tr>
+ <tr style='mso-yfti-irow:1'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:50pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>qtid</span></span><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:60pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>integer<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.8in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>not null<o:p></o:p></span></pre></td>
+  <td valign=top style='width:164pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span class=GramE><span style='font-size:
+  12.0pt;font-family:"Arial","sans-serif";color:windowtext'>Unique<span style='mso-spacerun:yes'>  </span>identifier</span></span><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'> for each Picasso Diagram generated (references <span
+  class=SpellE>picassoqtidmap</span>).<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:2'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:50pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>planno</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:60pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>integer<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.8in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>not null<o:p></o:p></span></pre></td>
+  <td valign=top style='width:164pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Identifier for each distinct plan.<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:3'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:50pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>id<o:p></o:p></span></pre></td>
+  <td valign=top style='width:60pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>integer<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.8in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>not null<o:p></o:p></span></pre></td>
+  <td valign=top style='width:164pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Identifier for each node in the plan tree.<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:4'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:50pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>parentid</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:60pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>integer<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.8in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>not null<o:p></o:p></span></pre></td>
+  <td valign=top style='width:164pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Identifier of the parent node.<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:5'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:50pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>name<o:p></o:p></span></pre></td>
+  <td valign=top style='width:60pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>varchar (64)<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.8in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre></td>
+  <td valign=top style='width:164pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>String identifier associated with the node<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:6'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:50pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>cost<o:p></o:p></span></pre></td>
+  <td valign=top style='width:60pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>double precision<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.8in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre></td>
+  <td valign=top style='width:164pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Cost corresponding to the node<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:7;mso-yfti-lastrow:yes'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:50pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>card<o:p></o:p></span></pre></td>
+  <td valign=top style='width:60pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>double precision<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.8in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre></td>
+  <td valign=top style='width:164pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Cardinality corresponding to the node<o:p></o:p></span></td>
+ </tr>
+</table>
+</div>
+<pre style='margin-left:45.8pt'><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:windowtext'><o:p>&nbsp;</o:p></span></pre><pre style='margin-left:45.8pt'><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:windowtext'>Primary Key: (<span
+class=SpellE>qtid</span>, <span class=SpellE>planno</span>, id, <span
+class=SpellE>parentid</span>)<o:p></o:p></span></pre><p style='margin-left:
+45.8pt'><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:windowtext'>Foreign Key constraints: (<span class=SpellE>qtid</span>) REFERENCES <span
+class=SpellE><span class=GramE>picassoqtidmap</span></span><span class=GramE>(</span><span
+class=SpellE>qtid</span>) ON DELETE CASCADE<o:p></o:p></span></p><pre
+style='margin-left:45.8pt'><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:windowtext'><o:p>&nbsp;</o:p></span></pre><pre style='margin-left:45.8pt'><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre><pre
+style='margin-left:42pt'><span style='font-size:14.0pt;font-family:"Arial","sans-serif";
+color:maroon'>4. Table <span class=SpellE><i>picassoplantreeargs</i></span><i><o:p></o:p></i></span></pre><pre
+style='margin-left:45.8pt'><i><span style='font-size:14.0pt;font-family:"Arial","sans-serif";
+color:maroon'><o:p>&nbsp;</o:p></span></i></pre><p style='margin-left:45.8pt'><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:windowtext;
+mso-bidi-font-style:italic'>It stores the parameter information, if any, for 
+each node in a plan tree. There can be multiple 
+parameters for a single node, each of them resulting in a record in the table.<o:p></o:p></span></p><pre
+style='margin-left:45.8pt'><i><span style='font-size:14.0pt;font-family:"Arial","sans-serif";
+color:maroon'><o:p>&nbsp;</o:p></span></i></pre>
+<div style="padding-left:45.8pt">
+<table class=MsoTableGrid border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none;mso-yfti-tbllook:
+ 1184;mso-padding-alt:0in 5.4pt 0in 5.4pt'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'>
+  <td valign=top style='width:54pt; border:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><pre><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:maroon'>Column<o:p></o:p></span></pre></td>
+  <td valign=top style='border-right: 1.0pt solid windowtext; border-top: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:92pt; border-left:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:maroon'>Type<o:p></o:p></span></pre></td>
+  <td valign=top style='border-right: 1.0pt solid windowtext; border-top: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:0.64in; border-left:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:maroon'>Modifiers<o:p></o:p></span></pre></td>
+  <td valign=top style='border-right: 1.0pt solid windowtext; border-top: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:164pt; border-left:none; padding:0in 5.4pt 0in 5.4pt'><pre><span style='font-size:
+  12.0pt;font-family:"Arial","sans-serif";color:maroon'>Description<o:p></o:p></span></pre></td>
+ </tr>
+ <tr style='mso-yfti-irow:1'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:54pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>qtid</span></span><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:92pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>integer<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.64in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>not null<o:p></o:p></span></pre></td>
+  <td valign=top style='width:164pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Unique identifier for each Picasso Diagram generated (references <span
+  class=SpellE>picassoqtidmap</span>).<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:2'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:54pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>planno</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:92pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>integer<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.64in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>not null<o:p></o:p></span></pre></td>
+  <td valign=top style='width:164pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Identifier for each distinct plan.<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:3'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:54pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>id<o:p></o:p></span></pre></td>
+  <td valign=top style='width:92pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>integer<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.64in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>not null<o:p></o:p></span></pre></td>
+  <td valign=top style='width:164pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Identifier for each node in the plan tree.<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:4'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:54pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>argname</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:92pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>varchar (64)<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.64in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>not null<o:p></o:p></span></pre></td>
+  <td valign=top style='width:164pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>String identifier associated with the sub-operator.<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:5;mso-yfti-lastrow:yes'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:54pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>argvalue</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:92pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>varchar (64)<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.64in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>not null<o:p></o:p></span></pre></td>
+  <td valign=top style='width:164pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Value of the sub-operator.<o:p></o:p></span></td>
+ </tr>
+</table>
+</div>
+<pre style='margin-left:45.8pt'><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:windowtext'><o:p>&nbsp;</o:p></span></pre><pre style='margin-left:45.8pt'><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:windowtext'>Primary Key: (<span
+class=SpellE>qtid</span>, <span class=SpellE>planno</span>, id, <span
+class=SpellE>argname</span>, <span class=SpellE>argvalue</span>)<o:p></o:p></span></pre><p
+style='margin-left:45.8pt'><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:windowtext'>Foreign Key constraints:&nbsp; (<span class=SpellE>qtid</span>) REFERENCES <span
+class=SpellE><span class=GramE>picassoqtidmap</span></span><span class=GramE>(</span><span
+class=SpellE>qtid</span>) ON DELETE CASCADE<o:p></o:p></span></p><pre
+style='margin-left:45.8pt'><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:windowtext'><o:p>&nbsp;</o:p></span></pre><pre style='margin-left:45.8pt'><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre>
+<pre
+style='margin-left:45.8pt'><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:windowtext'><o:p>&nbsp;</o:p></span></pre><pre style='margin-left:42pt'><span
+style='font-size:14.0pt;font-family:"Arial","sans-serif";color:maroon'>5. Table <span
+class=SpellE><i>picassoselectivitylog</i></span><i><o:p></o:p></i></span></pre><pre
+style='margin-left:45.8pt'><i><span style='font-size:14.0pt;font-family:"Arial","sans-serif";
+color:maroon'><o:p>&nbsp;</o:p></span></i></pre><p style='margin-left:45.8pt'><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:windowtext;
+mso-bidi-font-style:italic'>It stores for each axis point in a plan diagram, the 
+Picasso, Plan and Predicate selectivities along with the constants used. The 
+total number of entries inserted into the table per diagram is equal to the <em>sum</em> 
+of the dimensional resolutions. </span><i>
+<span style='font-size:14.0pt;font-family:"Arial","sans-serif";
+color:maroon'>
+<o:p>&nbsp;</o:p></span></i></p>
+<div style="padding-left:45.8pt">
+<table class=MsoTableGrid border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none;mso-yfti-tbllook:
+ 1184;mso-padding-alt:0in 5.4pt 0in 5.4pt'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'>
+  <td valign=top style='width:53pt; border:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><pre><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:maroon'>Column<o:p></o:p></span></pre></td>
+  <td valign=top style='border-right: 1.0pt solid windowtext; border-top: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:69pt; border-left:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:maroon'>Type<o:p></o:p></span></pre></td>
+  <td valign=top style='border-right: 1.0pt solid windowtext; border-top: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:0.84in; border-left:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:maroon'>Modifiers<o:p></o:p></span></pre></td>
+  <td valign=top style='border-right: 1.0pt solid windowtext; border-top: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:158pt; border-left:none; padding:0in 5.4pt 0in 5.4pt'><pre><span style='font-size:
+  12.0pt;font-family:"Arial","sans-serif";color:maroon'>Description<o:p></o:p></span></pre></td>
+ </tr>
+ <tr style='mso-yfti-irow:1'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:53pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>qtid</span></span><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:69pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>integer<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.84in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>not null<o:p></o:p></span></pre></td>
+  <td valign=top style='width:158pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Unique identifier for each Picasso Diagram generated (references <span
+  class=SpellE>picassoqtidmap</span>).<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:2'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:53pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>dimension<o:p></o:p></span></pre></td>
+  <td valign=top style='width:69pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>integer<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.84in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>not null<o:p></o:p></span></pre></td>
+  <td valign=top style='width:158pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Dimension number<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:3'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:53pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>sid</span></span><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:69pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>integer<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.84in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>not null<o:p></o:p></span></pre></td>
+  <td valign=top style='width:158pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Identifier for the selectivity point. Ranges from 0 to the 
+	dimension's resolution - 1<o:p>.</o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:4'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:53pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>picsel</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:69pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>double precision<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.84in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre></td>
+  <td valign=top style='width:158pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Corresponding Picasso selectivity<o:p>.</o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:5'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:53pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>plansel</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:69pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>double precision<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.84in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre></td>
+  <td valign=top style='width:158pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Corresponding Plan selectivity<o:p>.</o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:6'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:53pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>predsel</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:69pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>double precision<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.84in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre></td>
+  <td valign=top style='width:158pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Corresponding Predicate selectivity<o:p>.</o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:7'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:53pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>datasel</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:69pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>double precision<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.84in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre></td>
+  <td valign=top style='width:158pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Reserved for future use<o:p>.</o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:8;mso-yfti-lastrow:yes'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:53pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>const<o:p></o:p></span></pre></td>
+  <td valign=top style='width:69pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>varchar (512)<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.84in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre></td>
+  <td valign=top style='width:158pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Constant corresponding to the selectivity<o:p>.</o:p></span></td>
+ </tr>
+</table>
+</div>
+<pre style='margin-left:45.8pt'><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:windowtext'><o:p>&nbsp;</o:p></span></pre><pre style='margin-left:45.8pt'><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:windowtext'>Primary Key: (<span
+class=SpellE>qtid</span>, dimension, <span class=SpellE><span class=GramE>sid</span></span>)<o:p></o:p></span></pre><p
+style='margin-left:45.8pt'><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:windowtext'>Foreign Key constraints: (<span class=SpellE>qtid</span>) REFERENCES <span
+class=SpellE><span class=GramE>picassoqtidmap</span></span><span class=GramE>(</span><span
+class=SpellE>qtid</span>) ON DELETE CASCADE<o:p></o:p></span></p><pre
+style='margin-left:45.8pt'><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:windowtext'><o:p>&nbsp;</o:p></span></pre><pre style='margin-left:45.8pt'><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre><pre
+style='margin-left:42pt'><span style='font-size:14.0pt;font-family:"Arial","sans-serif";
+color:maroon'>6. Table <span class=SpellE><i>picassoselectivitymap</i></span><i><o:p></o:p></i></span></pre><pre
+style='margin-left:45.8pt'><i><span style='font-size:14.0pt;font-family:"Arial","sans-serif";
+color:maroon'><o:p>&nbsp;</o:p></span></i></pre><p style='margin-left:45.8pt'><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:windowtext;
+mso-bidi-font-style:italic'>It maps each entry in </span>
+<span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";mso-bidi-font-style:italic'> 
+<span class=style2><em>picassoplanstore</em></span></span><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:windowtext;
+mso-bidi-font-style:italic'> to entries in the </span>
+<span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";mso-bidi-font-style:italic'> 
+<span
+class=style2><em>picassoselectivitylog </em></span> <span
+class=style3>table.</span></span></p><pre
+style='margin-left:45.8pt'><i><span style='font-size:14.0pt;font-family:"Arial","sans-serif";
+color:maroon'><o:p>&nbsp;</o:p></span></i></pre>
+<div style="padding-left:45.8pt">
+<table class=MsoTableGrid border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none;mso-yfti-tbllook:
+ 1184;mso-padding-alt:0in 5.4pt 0in 5.4pt'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'>
+  <td valign=top style='width:52pt; border:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><pre><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:maroon'>Column<o:p></o:p></span></pre></td>
+  <td valign=top style='border-right: 1.0pt solid windowtext; border-top: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:62pt; border-left:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:maroon'>Type<o:p></o:p></span></pre></td>
+  <td valign=top style='border-right: 1.0pt solid windowtext; border-top: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:0.84in; border-left:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:maroon'>Modifiers<o:p></o:p></span></pre></td>
+  <td valign=top style='border-right: 1.0pt solid windowtext; border-top: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:181pt; border-left:none; padding:0in 5.4pt 0in 5.4pt'><pre><span style='font-size:
+  12.0pt;font-family:"Arial","sans-serif";color:maroon'>Description<o:p></o:p></span></pre></td>
+ </tr>
+ <tr style='mso-yfti-irow:1'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:52pt; border-top:none; padding:0in 5.4pt 0in 5.4pt; height: 19px;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>qtid</span></span><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:62pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt; height: 19px;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>integer<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.84in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt; height: 19px;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>not null<o:p></o:p></span></pre></td>
+  <td valign=top style='width:181pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt; height: 19px;'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Unique identifier for each Picasso Diagram generated (references <span
+  class=SpellE>picassoqtidmap</span>).<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:2'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:52pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>qid</span></span><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:62pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>integer<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.84in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>not null<o:p></o:p></span></pre></td>
+  <td valign=top style='width:181pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Identifier for each point in the selectivity space ('product of resolution' times).<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:3'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:52pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>dimension<o:p></o:p></span></pre></td>
+  <td valign=top style='width:62pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>integer<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.84in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>not null<o:p></o:p></span></pre></td>
+  <td valign=top style='width:181pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Dimension number.<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:4;mso-yfti-lastrow:yes'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:52pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>sid</span></span><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:62pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>integer<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.84in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>not null<o:p></o:p></span></pre></td>
+  <td valign=top style='width:181pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Identifier for the selectivity point. Ranges from 0 to the 'resolution in the corresponding dimension' - 1.<o:p></o:p></span></td>
+ </tr>
+</table>
+</div>
+<pre style='margin-left:45.8pt'><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:windowtext'><o:p>&nbsp;</o:p></span></pre><pre style='margin-left:45.8pt'><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:windowtext'>Primary Key: (<span
+class=SpellE>qtid</span>, <span class=SpellE>qid</span>, dimension)<o:p></o:p></span></pre><p
+style='margin-left:45.8pt'><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:windowtext'>Foreign Key constraints: (<span class=SpellE>qtid</span>) REFERENCES <span
+class=SpellE><span class=GramE>picassoqtidmap</span></span><span class=GramE>(</span><span
+class=SpellE>qtid</span>) ON DELETE CASCADE<o:p></o:p></span></p><pre
+style='margin-left:45.8pt'><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:windowtext'><o:p>&nbsp;</o:p></span></pre><pre style='margin-left:45.8pt'><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre><pre
+style='margin-left:42pt'><span style='font-size:14.0pt;font-family:"Arial","sans-serif";
+color:maroon'>7. Table <span class=SpellE><i>picassorange</i></span><i><o:p>resmap</o:p></i></span></pre><pre
+style='margin-left:45.8pt'><i><span style='font-size:14.0pt;font-family:"Arial","sans-serif";
+color:maroon'><o:p>&nbsp;</o:p></span></i></pre><p style='margin-left:45.8pt'><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:windowtext;
+mso-bidi-font-style:italic'>It stores the range and resolution information for the Picasso Diagrams which have '-1'&nbsp; 
+(i.e. Custom) as their resolution value in </span>
+<span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";mso-bidi-font-style:italic'> 
+<span
+class=style2><em>picassoqtidmap</em></span></span><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:windowtext;
+mso-bidi-font-style:italic'>.<o:p></o:p></span></p><pre
+style='margin-left:45.8pt'><span lang=EN-IN style='mso-ansi-language:EN-IN'><o:p>&nbsp;</o:p></span></pre>
+<div style="padding-left:45.8pt">
+<table class=MsoTableGrid border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none;mso-yfti-tbllook:
+ 1184;mso-padding-alt:0in 5.4pt 0in 5.4pt'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'>
+  <td valign=top style='width:63pt; border:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><pre><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:maroon'>Column<o:p></o:p></span></pre></td>
+  <td valign=top style='border-right: 1.0pt solid windowtext; border-top: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:76pt; border-left:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:maroon'>Type<o:p></o:p></span></pre></td>
+  <td valign=top style='border-right: 1.0pt solid windowtext; border-top: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:0.76in; border-left:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:maroon'>Modifiers<o:p></o:p></span></pre></td>
+  <td valign=top style='border-right: 1.0pt solid windowtext; border-top: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:154pt; border-left:none; padding:0in 5.4pt 0in 5.4pt'><pre><span style='font-size:
+  12.0pt;font-family:"Arial","sans-serif";color:maroon'>Description<o:p></o:p></span></pre></td>
+ </tr>
+ <tr style='mso-yfti-irow:1'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:63pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>qtid</span></span><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:76pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>integer<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.76in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>not null<o:p></o:p></span></pre></td>
+  <td valign=top style='width:154pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Unique identifier for each Picasso Diagram generated (references <span
+  class=SpellE>picassoqtidmap</span>).<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:2'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:63pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>dimnum</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:76pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>integer<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.76in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>not null<o:p></o:p></span></pre></td>
+  <td valign=top style='width:154pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Dimension number.<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:3'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:63pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>resolution<o:p></o:p></span></pre></td>
+  <td valign=top style='width:76pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>integer<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.76in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>not null<o:p></o:p></span></pre></td>
+  <td valign=top style='width:154pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Corresponding resolution.<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:4'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:63pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>startpoint</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:76pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>double precision<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.76in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>not null<o:p></o:p></span></pre></td>
+  <td valign=top style='width:154pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Corresponding start point of the selectivity range.<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:5;mso-yfti-lastrow:yes'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:63pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>endpoint<o:p></o:p></span></pre></td>
+  <td valign=top style='width:76pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>double precision<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.76in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>not null<o:p></o:p></span></pre></td>
+  <td valign=top style='width:154pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Corresponding end point of the selectivity range.<o:p></o:p></span></td>
+ </tr>
+</table>
+</div>
+<pre style='margin-left:45.8pt'><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:windowtext'><o:p>&nbsp;</o:p></span></pre><pre style='margin-left:45.8pt'><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:windowtext'>Primary Key: (<span
+class=SpellE>qtid</span>, <span class=SpellE>dimnum</span>)<o:p></o:p></span></pre><p
+style='margin-left:45.8pt'><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:windowtext'>Foreign Key constraints: (<span class=SpellE>qtid</span>) REFERENCES <span
+class=SpellE><span class=GramE>picassoqtidmap</span></span><span class=GramE>(</span><span
+class=SpellE>qtid</span>) ON DELETE CASCADE<o:p></o:p></span></p><pre
+style='margin-left:45.8pt'><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:windowtext'><o:p>&nbsp;</o:p></span></pre><pre style='margin-left:45.8pt'><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre><pre
+style='margin-left:42pt'><span style='font-size:14.0pt;font-family:"Arial","sans-serif";
+color:maroon'>8. Table <span class=SpellE><i>picassoapproxmap</i></span><i><o:p></o:p></i></span></pre><pre
+style='margin-left:45.8pt'><i><span style='font-size:14.0pt;font-family:"Arial","sans-serif";
+color:maroon'><o:p>&nbsp;</o:p></span></i></pre>
+<pre style='margin-left:45.8pt;
+tab-stops:31.5pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt; width: 391px;'><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:windowtext;
+mso-bidi-font-style:italic'>It stores information about Approximate Picasso Diagrams<o:p>.</o:p></span></pre><p
+style='margin-left:45.8pt'><i><span style='font-size:14.0pt;font-family:"Arial","sans-serif";
+color:maroon'><o:p>&nbsp;</o:p></span></i></p>
+<div style="padding-left:45.8pt">
+<table class=MsoTableGrid border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none;mso-yfti-tbllook:
+ 1184;mso-padding-alt:0in 5.4pt 0in 5.4pt'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'>
+  <td valign=top style='width:77pt; border:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><pre><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:maroon'>Column<o:p></o:p></span></pre></td>
+  <td valign=top style='border-right: 1.0pt solid windowtext; border-top: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:86pt; border-left:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:maroon'>Type<o:p></o:p></span></pre></td>
+  <td valign=top style='border-right: 1.0pt solid windowtext; border-top: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:0.6in; border-left:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:maroon'>Modifiers<o:p></o:p></span></pre></td>
+  <td valign=top style='border-right: 1.0pt solid windowtext; border-top: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:146pt; border-left:none; padding:0in 5.4pt 0in 5.4pt'><pre><span style='font-size:
+  12.0pt;font-family:"Arial","sans-serif";color:maroon'>Description<o:p></o:p></span></pre></td>
+ </tr>
+ <tr style='mso-yfti-irow:1'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:77pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>qtid</span></span><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:86pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>integer<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.6in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>not null<o:p></o:p></span></pre></td>
+  <td valign=top style='width:146pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Unique identifier for each Picasso Diagram generated (references <span
+  class=SpellE>picassoqtidmap</span>).<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:2'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:77pt; border-top:none; padding:0in 5.4pt 0in 5.4pt; height: 38px;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>samplesize</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:86pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt; height: 38px;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>float<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.6in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt; height: 38px;'><pre>&nbsp;&nbsp;</pre></td>
+  <td valign=top style='width:146pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt; height: 38px;'>
+  <p class=MsoNormal style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><span
+  style='font-family:"Arial","sans-serif"'>Sample size in percentage required 
+	for approximation. <o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:3'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:77pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>samplingmode</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:86pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>integer<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.6in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre>&nbsp;&nbsp;</pre></td>
+  <td valign=top style='width:146pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Specifies the approximation algorithm used. ‘0’ for RS_NN and <span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>‘</span>1<span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>’</span> or GS_PQO<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:4'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:77pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>areaerror</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:86pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>double precision<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.6in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre>&nbsp;&nbsp;</pre></td>
+  <td valign=top style='width:146pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Specifies the area error tolerance provided by user.<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:5;mso-yfti-lastrow:yes'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:77pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>identityerror</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:86pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>double precision<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.6in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre>&nbsp;&nbsp;</pre></td>
+  <td valign=top style='width:146pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Specifies the identity error tolerance provided by user.<o:p></o:p></span></td>
+ </tr>
+ <tr style='mso-yfti-irow:5;mso-yfti-lastrow:yes'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:77pt; border-top:none; padding:0in 5.4pt 0in 5.4pt; height: 29px;' class="style1"><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>fpc</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:86pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt; height: 29px;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>integer<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.6in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt; height: 29px;'><pre>&nbsp;&nbsp;</pre></td>
+  <td valign=top style='width:146pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt; height: 29px;'><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'>Reserved for future use<o:p></o:p></span></td>
+ </tr>
+</table>
+</div>
+<pre style='margin-left:45.8pt'><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:windowtext'><o:p>&nbsp;</o:p></span></pre><pre style='margin-left:45.8pt'><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:windowtext'>Primary Key: (<span
+class=SpellE>qtid</span>)<o:p></o:p></span></pre><p style='margin-left:45.8pt'><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:windowtext'>Foreign Key constraints: (<span
+class=SpellE>qtid</span>) REFERENCES <span class=SpellE><span class=GramE>picassoqtidmap</span></span><span
+class=GramE>(</span><span class=SpellE>qtid</span>) ON DELETE CASCADE<o:p></o:p></span></p><pre
+style='margin-left:45.8pt'><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:windowtext'><o:p>&nbsp;</o:p></span></pre><pre style='margin-left:45.8pt'><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre><pre
+style='margin-left:42pt'><span style='font-size:14.0pt;font-family:"Arial","sans-serif";
+color:maroon'>9. View <span class=SpellE><i>picassocolumns</i></span><i><o:p></o:p></i></span></pre><pre
+style='margin-left:45.8pt'><i><span style='font-size:14.0pt;font-family:"Arial","sans-serif";
+color:maroon'><o:p>&nbsp;</o:p></span></i></pre><p style='margin-left:45.8pt;
+tab-stops:.5in 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:windowtext;
+mso-bidi-font-style:italic'>It stores information about all the user tables and columns 
+(including Picasso)&nbsp; present in the database.<o:p></o:p></span></p><pre
+style='margin-left:45.8pt'><i><span style='font-size:14.0pt;font-family:"Arial","sans-serif";
+color:maroon'><o:p>&nbsp;</o:p></span></i></pre>
+
+<div style="padding-left:45.8pt">
+<table class=MsoTableGrid border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none;mso-yfti-tbllook:
+ 1184;mso-padding-alt:0in 5.4pt 0in 5.4pt'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'>
+  <td valign=top style='width:80pt; border:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'><pre><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:maroon'>Column<o:p></o:p></span></pre></td>
+  <td valign=top style='border-right: 1.0pt solid windowtext; border-top: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:44pt; border-left:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:maroon'>Type<o:p></o:p></span></pre></td>
+  <td valign=top style='border-right: 1.0pt solid windowtext; border-top: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:0.76in; border-left:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:maroon'>Modifiers<o:p></o:p></span></pre></td>
+ </tr>
+ <tr style='mso-yfti-irow:1'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:80pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>column_name</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:44pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>name<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.76in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre></td>
+ </tr>
+ <tr style='mso-yfti-irow:2'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:80pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>table_name</span></span><span style='font-size:12.0pt;
+  font-family:"Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:44pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>name<o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.76in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre></td>
+ </tr>
+ <tr style='mso-yfti-irow:3;mso-yfti-lastrow:yes'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:80pt; border-top:none; padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'>owner<o:p></o:p></span></pre></td>
+  <td valign=top style='width:44pt; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  class=SpellE><span style='font-size:12.0pt;font-family:"Arial","sans-serif";
+  color:windowtext'>oid</span></span><span style='font-size:12.0pt;font-family:
+  "Arial","sans-serif";color:windowtext'><o:p></o:p></span></pre></td>
+  <td valign=top style='width:0.76in; border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt;'><pre><span
+  style='font-size:12.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre></td>
+ </tr>
+</table>
+</div>
+<pre style='margin-left:45.8pt'><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:windowtext'><o:p>&nbsp;</o:p></span></pre><pre style='margin-left:45.8pt'><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:windowtext'><o:p>&nbsp;</o:p></span></pre><pre
+style='margin-left:45.8pt'><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:windowtext'><o:p>&nbsp;</o:p></span></pre>
+<ol start="6"><li>
+<p style='margin-left:0pt;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><span
+style='font-family:"Arial","sans-serif"'>Create the class <span class=SpellE><b><i><span
+style='color:#663300'>abcHistogram</span></i></b></span> (which extends <b><i><span
+style='color:#663300'>Histogram</span></i></b>) in the package <span
+class=SpellE><b><i><span style='color:#663300'>iisc.dsl.picasso.server.db.abc</span></i></b></span>.&nbsp;
+The class should implement the constructor which provides an instance of <span
+class=SpellE><b><span style='color:#663300'>abcDatabase</span></b></span> and
+table name, schema and attribute name. <i><o:p></o:p></i></span></p>
+</li></ol>
+<p style='margin-left:.7in'><span class=SpellE><span class=GramE><i><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:#9900CC'>abcHistogram</span></i></span></span><span
+class=GramE><i><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:#9900CC'>(</span></i></span><i><span style='font-size:11.0pt;font-family:
+"Arial","sans-serif";color:#9900CC'>Database db, String <span class=SpellE>tabName</span>, String schema, String <span
+class=SpellE>attribName</span>)</span></i><span style='font-size:11.0pt;
+font-family:"Arial","sans-serif";color:#9900CC'><o:p></o:p></span></p>
+
+<p class=MsoNormal style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><span
+style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
+
+<p style='margin-left:30.0pt;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><span
+style='font-family:"Arial","sans-serif"'>This class should also implement the
+following function which returns a constant of appropriate data-type, given a
+selectivity value:<o:p></o:p></span></p>
+
+<pre style='margin-left:.7in'><span class=GramE><i><span style='font-size:11.0pt;
+font-family:"Arial","sans-serif";color:#9900CC'>abstract</span></i></span><i><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:#9900CC'> public String <span
+class=SpellE>getConstant</span>(double <span class=SpellE>sel</span>)<o:p></o:p></span></i></pre><pre
+style='margin-left:.7in'><i><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:#9900CC'><o:p>&nbsp;</o:p></span></i></pre><pre><i><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif";color:#9900CC'><o:p>&nbsp;</o:p></span></i></pre><p><b><span
+style='font-size:12.0pt;font-family:"Arial","sans-serif";color:#006600'>Note: For information on the overall code structure of Picasso, see <a
+href="http://bhairav.serc.iisc.ernet.in/doc/Code/history.htm"><span
+style='color:#006600'>Code-design</span></a>.<o:p></o:p></span></b></p><pre><b><span
+style='font-size:12.0pt;font-family:"Arial","sans-serif";color:#006600'><o:p>&nbsp;</o:p></span></b></pre><pre
+style='margin-left:.5in'><span style='font-size:11.0pt;font-family:"Arial","sans-serif";
+color:red'><o:p>&nbsp;</o:p></span></pre>
+
+<p class=MsoNormal style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><span
+style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
+
+<p align=center style='text-align:center;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><a
+href="http://bhairav.serc.iisc.ernet.in/doc/index.htm"><span style='font-size:
+14.0pt;font-family:"Arial","sans-serif"'>Documentation Home</span></a></p>
+
+</div>
+
+</body>
+
+</html>

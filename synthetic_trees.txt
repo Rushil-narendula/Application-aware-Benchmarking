@@ -1,0 +1,2951 @@
+================================================================================
+SYNTHETIC: query_001_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── NESTED_LOOP
+            │   │   ├── HASH_JOIN
+            │   │   │   ├── SEQ_SCAN
+            │   │   │   └── SEQ_SCAN
+            │   │   └── INDEX_SCAN
+            │   └── INDEX_SCAN
+            └── MEMOIZE
+                └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_002_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── NESTED_LOOP
+            │   │   ├── HASH_JOIN
+            │   │   │   ├── SEQ_SCAN
+            │   │   │   └── SEQ_SCAN
+            │   │   └── INDEX_SCAN
+            │   └── INDEX_SCAN
+            └── MEMOIZE
+                └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_003_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── NESTED_LOOP
+                ├── NESTED_LOOP
+                │   ├── MERGE_JOIN
+                │   │   ├── SORT
+                │   │   │   └── HASH_JOIN
+                │   │   │       ├── HASH_JOIN
+                │   │   │       │   ├── SEQ_SCAN
+                │   │   │       │   └── SEQ_SCAN
+                │   │   │       └── HASH_JOIN
+                │   │   │           ├── SEQ_SCAN
+                │   │   │           └── SEQ_SCAN
+                │   │   └── SORT
+                │   │       └── HASH_JOIN
+                │   │           ├── SEQ_SCAN
+                │   │           └── SEQ_SCAN
+                │   └── INDEX_SCAN
+                └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_004_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── NESTED_LOOP
+                ├── NESTED_LOOP
+                │   ├── MERGE_JOIN
+                │   │   ├── SORT
+                │   │   │   └── HASH_JOIN
+                │   │   │       ├── HASH_JOIN
+                │   │   │       │   ├── SEQ_SCAN
+                │   │   │       │   └── SEQ_SCAN
+                │   │   │       └── HASH_JOIN
+                │   │   │           ├── SEQ_SCAN
+                │   │   │           └── SEQ_SCAN
+                │   │   └── SORT
+                │   │       └── HASH_JOIN
+                │   │           ├── SEQ_SCAN
+                │   │           └── SEQ_SCAN
+                │   └── INDEX_SCAN
+                └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_005_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── NESTED_LOOP
+                ├── NESTED_LOOP
+                │   ├── MERGE_JOIN
+                │   │   ├── SORT
+                │   │   │   └── HASH_JOIN
+                │   │   │       ├── HASH_JOIN
+                │   │   │       │   ├── SEQ_SCAN
+                │   │   │       │   └── SEQ_SCAN
+                │   │   │       └── HASH_JOIN
+                │   │   │           ├── SEQ_SCAN
+                │   │   │           └── SEQ_SCAN
+                │   │   └── SORT
+                │   │       └── HASH_JOIN
+                │   │           ├── SEQ_SCAN
+                │   │           └── SEQ_SCAN
+                │   └── INDEX_SCAN
+                └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_006_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── NESTED_LOOP
+                ├── NESTED_LOOP
+                │   ├── MERGE_JOIN
+                │   │   ├── SORT
+                │   │   │   └── HASH_JOIN
+                │   │   │       ├── HASH_JOIN
+                │   │   │       │   ├── SEQ_SCAN
+                │   │   │       │   └── SEQ_SCAN
+                │   │   │       └── HASH_JOIN
+                │   │   │           ├── SEQ_SCAN
+                │   │   │           └── SEQ_SCAN
+                │   │   └── SORT
+                │   │       └── HASH_JOIN
+                │   │           ├── SEQ_SCAN
+                │   │           └── SEQ_SCAN
+                │   └── INDEX_SCAN
+                └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_007_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── NESTED_LOOP
+                ├── NESTED_LOOP
+                │   ├── MERGE_JOIN
+                │   │   ├── SORT
+                │   │   │   └── HASH_JOIN
+                │   │   │       ├── HASH_JOIN
+                │   │   │       │   ├── SEQ_SCAN
+                │   │   │       │   └── SEQ_SCAN
+                │   │   │       └── HASH_JOIN
+                │   │   │           ├── SEQ_SCAN
+                │   │   │           └── SEQ_SCAN
+                │   │   └── SORT
+                │   │       └── HASH_JOIN
+                │   │           ├── SEQ_SCAN
+                │   │           └── SEQ_SCAN
+                │   └── INDEX_SCAN
+                └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_008_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── NESTED_LOOP
+                ├── NESTED_LOOP
+                │   ├── MERGE_JOIN
+                │   │   ├── SORT
+                │   │   │   └── HASH_JOIN
+                │   │   │       ├── HASH_JOIN
+                │   │   │       │   ├── SEQ_SCAN
+                │   │   │       │   └── SEQ_SCAN
+                │   │   │       └── HASH_JOIN
+                │   │   │           ├── SEQ_SCAN
+                │   │   │           └── SEQ_SCAN
+                │   │   └── SORT
+                │   │       └── HASH_JOIN
+                │   │           ├── SEQ_SCAN
+                │   │           └── SEQ_SCAN
+                │   └── INDEX_SCAN
+                └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_009_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── NESTED_LOOP
+                ├── NESTED_LOOP
+                │   ├── MERGE_JOIN
+                │   │   ├── SORT
+                │   │   │   └── HASH_JOIN
+                │   │   │       ├── HASH_JOIN
+                │   │   │       │   ├── SEQ_SCAN
+                │   │   │       │   └── SEQ_SCAN
+                │   │   │       └── HASH_JOIN
+                │   │   │           ├── SEQ_SCAN
+                │   │   │           └── SEQ_SCAN
+                │   │   └── SORT
+                │   │       └── HASH_JOIN
+                │   │           ├── SEQ_SCAN
+                │   │           └── SEQ_SCAN
+                │   └── INDEX_SCAN
+                └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_010_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── NESTED_LOOP
+                ├── NESTED_LOOP
+                │   ├── MERGE_JOIN
+                │   │   ├── SORT
+                │   │   │   └── HASH_JOIN
+                │   │   │       ├── HASH_JOIN
+                │   │   │       │   ├── SEQ_SCAN
+                │   │   │       │   └── SEQ_SCAN
+                │   │   │       └── HASH_JOIN
+                │   │   │           ├── SEQ_SCAN
+                │   │   │           └── SEQ_SCAN
+                │   │   └── SORT
+                │   │       └── HASH_JOIN
+                │   │           ├── SEQ_SCAN
+                │   │           └── SEQ_SCAN
+                │   └── INDEX_SCAN
+                └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_011_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── NESTED_LOOP
+                ├── NESTED_LOOP
+                │   ├── MERGE_JOIN
+                │   │   ├── SORT
+                │   │   │   └── HASH_JOIN
+                │   │   │       ├── HASH_JOIN
+                │   │   │       │   ├── SEQ_SCAN
+                │   │   │       │   └── SEQ_SCAN
+                │   │   │       └── HASH_JOIN
+                │   │   │           ├── SEQ_SCAN
+                │   │   │           └── SEQ_SCAN
+                │   │   └── SORT
+                │   │       └── HASH_JOIN
+                │   │           ├── SEQ_SCAN
+                │   │           └── SEQ_SCAN
+                │   └── INDEX_SCAN
+                └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_012_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── NESTED_LOOP
+                ├── NESTED_LOOP
+                │   ├── MERGE_JOIN
+                │   │   ├── SORT
+                │   │   │   └── HASH_JOIN
+                │   │   │       ├── HASH_JOIN
+                │   │   │       │   ├── SEQ_SCAN
+                │   │   │       │   └── SEQ_SCAN
+                │   │   │       └── HASH_JOIN
+                │   │   │           ├── SEQ_SCAN
+                │   │   │           └── SEQ_SCAN
+                │   │   └── SORT
+                │   │       └── HASH_JOIN
+                │   │           ├── SEQ_SCAN
+                │   │           └── SEQ_SCAN
+                │   └── INDEX_SCAN
+                └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_013_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── HASH_JOIN
+                ├── NESTED_LOOP
+                │   ├── HASH_JOIN
+                │   │   ├── SEQ_SCAN
+                │   │   └── SEQ_SCAN
+                │   └── INDEX_SCAN
+                └── SEQ_SCAN
+
+================================================================================
+SYNTHETIC: query_014_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── HASH_JOIN
+                ├── NESTED_LOOP
+                │   ├── HASH_JOIN
+                │   │   ├── SEQ_SCAN
+                │   │   └── SEQ_SCAN
+                │   └── INDEX_SCAN
+                └── SEQ_SCAN
+
+================================================================================
+SYNTHETIC: query_015_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── HASH_JOIN
+                ├── NESTED_LOOP
+                │   ├── HASH_JOIN
+                │   │   ├── SEQ_SCAN
+                │   │   └── SEQ_SCAN
+                │   └── INDEX_SCAN
+                └── SEQ_SCAN
+
+================================================================================
+SYNTHETIC: query_016_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── HASH_JOIN
+                ├── NESTED_LOOP
+                │   ├── HASH_JOIN
+                │   │   ├── SEQ_SCAN
+                │   │   └── SEQ_SCAN
+                │   └── INDEX_SCAN
+                └── SEQ_SCAN
+
+================================================================================
+SYNTHETIC: query_017_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── HASH_JOIN
+                ├── NESTED_LOOP
+                │   ├── HASH_JOIN
+                │   │   ├── SEQ_SCAN
+                │   │   └── SEQ_SCAN
+                │   └── INDEX_SCAN
+                └── SEQ_SCAN
+
+================================================================================
+SYNTHETIC: query_018_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── HASH_JOIN
+            │   ├── HASH_JOIN
+            │   │   ├── SEQ_SCAN
+            │   │   └── SEQ_SCAN
+            │   └── HASH_JOIN
+            │       ├── SEQ_SCAN
+            │       └── SEQ_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_019_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── HASH_JOIN
+            │   ├── HASH_JOIN
+            │   │   ├── SEQ_SCAN
+            │   │   └── SEQ_SCAN
+            │   └── HASH_JOIN
+            │       ├── SEQ_SCAN
+            │       └── SEQ_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_020_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── HASH_JOIN
+            │   ├── HASH_JOIN
+            │   │   ├── SEQ_SCAN
+            │   │   └── SEQ_SCAN
+            │   └── HASH_JOIN
+            │       ├── SEQ_SCAN
+            │       └── SEQ_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_021_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── HASH_JOIN
+                ├── NESTED_LOOP
+                │   ├── HASH_JOIN
+                │   │   ├── SEQ_SCAN
+                │   │   └── SEQ_SCAN
+                │   └── INDEX_SCAN
+                └── SEQ_SCAN
+
+================================================================================
+SYNTHETIC: query_022_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── HASH_JOIN
+                ├── NESTED_LOOP
+                │   ├── HASH_JOIN
+                │   │   ├── SEQ_SCAN
+                │   │   └── SEQ_SCAN
+                │   └── INDEX_SCAN
+                └── SEQ_SCAN
+
+================================================================================
+SYNTHETIC: query_023_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── HASH_JOIN
+            │   │   ├── SEQ_SCAN
+            │   │   └── HASH_JOIN
+            │   │       ├── NESTED_LOOP
+            │   │       │   ├── HASH_JOIN
+            │   │       │   │   ├── HASH_JOIN
+            │   │       │   │   │   ├── SEQ_SCAN
+            │   │       │   │   │   └── SEQ_SCAN
+            │   │       │   │   └── SEQ_SCAN
+            │   │       │   └── INDEX_SCAN
+            │   │       └── SEQ_SCAN
+            │   └── INDEX_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_024_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── HASH_JOIN
+            │   ├── SEQ_SCAN
+            │   └── HASH_SEMI_JOIN
+            │       ├── NESTED_LOOP
+            │       │   ├── HASH_JOIN
+            │       │   │   ├── SEQ_SCAN
+            │       │   │   └── SEQ_SCAN
+            │       │   └── INDEX_SCAN
+            │       └── HASH_JOIN
+            │           ├── SEQ_SCAN
+            │           └── SEQ_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_025_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── HASH_JOIN
+            │   ├── SEQ_SCAN
+            │   └── HASH_SEMI_JOIN
+            │       ├── NESTED_LOOP
+            │       │   ├── HASH_JOIN
+            │       │   │   ├── SEQ_SCAN
+            │       │   │   └── SEQ_SCAN
+            │       │   └── INDEX_SCAN
+            │       └── HASH_JOIN
+            │           ├── SEQ_SCAN
+            │           └── SEQ_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_026_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── HASH_JOIN
+            │   ├── SEQ_SCAN
+            │   └── HASH_SEMI_JOIN
+            │       ├── NESTED_LOOP
+            │       │   ├── HASH_JOIN
+            │       │   │   ├── SEQ_SCAN
+            │       │   │   └── SEQ_SCAN
+            │       │   └── INDEX_SCAN
+            │       └── HASH_JOIN
+            │           ├── SEQ_SCAN
+            │           └── SEQ_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_027_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── HASH_JOIN
+            │   ├── SEQ_SCAN
+            │   └── HASH_SEMI_JOIN
+            │       ├── NESTED_LOOP
+            │       │   ├── HASH_JOIN
+            │       │   │   ├── SEQ_SCAN
+            │       │   │   └── SEQ_SCAN
+            │       │   └── INDEX_SCAN
+            │       └── HASH_JOIN
+            │           ├── SEQ_SCAN
+            │           └── SEQ_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_028_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── HASH_JOIN
+            │   ├── SEQ_SCAN
+            │   └── HASH_SEMI_JOIN
+            │       ├── NESTED_LOOP
+            │       │   ├── HASH_JOIN
+            │       │   │   ├── SEQ_SCAN
+            │       │   │   └── SEQ_SCAN
+            │       │   └── INDEX_SCAN
+            │       └── HASH_JOIN
+            │           ├── SEQ_SCAN
+            │           └── SEQ_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_029_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── HASH_JOIN
+            │   ├── SEQ_SCAN
+            │   └── HASH_SEMI_JOIN
+            │       ├── NESTED_LOOP
+            │       │   ├── HASH_JOIN
+            │       │   │   ├── SEQ_SCAN
+            │       │   │   └── SEQ_SCAN
+            │       │   └── INDEX_SCAN
+            │       └── HASH_JOIN
+            │           ├── SEQ_SCAN
+            │           └── SEQ_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_030_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── HASH_JOIN
+            │   │   ├── SEQ_SCAN
+            │   │   └── HASH_JOIN
+            │   │       ├── SEQ_SCAN
+            │   │       └── NESTED_LOOP
+            │   │           ├── NESTED_LOOP
+            │   │           │   ├── HASH_JOIN
+            │   │           │   │   ├── SEQ_SCAN
+            │   │           │   │   └── SEQ_SCAN
+            │   │           │   └── INDEX_SCAN
+            │   │           └── MEMOIZE
+            │   │               └── INDEX_SCAN
+            │   └── INDEX_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_031_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── HASH_JOIN
+            │   │   ├── SEQ_SCAN
+            │   │   └── HASH_JOIN
+            │   │       ├── SEQ_SCAN
+            │   │       └── NESTED_LOOP
+            │   │           ├── NESTED_LOOP
+            │   │           │   ├── HASH_JOIN
+            │   │           │   │   ├── SEQ_SCAN
+            │   │           │   │   └── SEQ_SCAN
+            │   │           │   └── INDEX_SCAN
+            │   │           └── MEMOIZE
+            │   │               └── INDEX_SCAN
+            │   └── INDEX_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_032_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── NESTED_LOOP
+            │   │   ├── HASH_JOIN
+            │   │   │   ├── SEQ_SCAN
+            │   │   │   └── NESTED_LOOP
+            │   │   │       ├── HASH_JOIN
+            │   │   │       │   ├── UNIQUE
+            │   │   │       │   │   └── SORT
+            │   │   │       │   │       └── SEQ_SCAN
+            │   │   │       │   └── SEQ_SCAN
+            │   │   │       └── SEQ_SCAN
+            │   │   └── INDEX_SCAN
+            │   └── INDEX_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_033_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── NESTED_LOOP
+        ├── NESTED_LOOP
+        │   ├── SORT
+        │   │   └── HASH_JOIN
+        │   │       ├── HASH_JOIN
+        │   │       │   ├── HASH_JOIN
+        │   │       │   │   ├── SEQ_SCAN
+        │   │       │   │   └── SEQ_SCAN
+        │   │       │   └── SEQ_SCAN
+        │   │       └── SEQ_SCAN
+        │   └── MATERIALIZE
+        │       └── HASH_JOIN
+        │           ├── UNIQUE
+        │           │   └── SORT
+        │           │       └── SEQ_SCAN
+        │           └── SEQ_SCAN
+        └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_034_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── NESTED_LOOP
+        ├── NESTED_LOOP
+        │   ├── SORT
+        │   │   └── NESTED_LOOP
+        │   │       ├── HASH_JOIN
+        │   │       │   ├── SEQ_SCAN
+        │   │       │   └── NESTED_LOOP
+        │   │       │       ├── HASH_JOIN
+        │   │       │       │   ├── UNIQUE
+        │   │       │       │   │   └── SORT
+        │   │       │       │   │       └── SEQ_SCAN
+        │   │       │       │   └── SEQ_SCAN
+        │   │       │       └── SEQ_SCAN
+        │   │       └── INDEX_SCAN
+        │   └── INDEX_SCAN
+        └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_035_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── NESTED_LOOP
+        ├── NESTED_LOOP
+        │   ├── SORT
+        │   │   └── NESTED_LOOP
+        │   │       ├── HASH_JOIN
+        │   │       │   ├── SEQ_SCAN
+        │   │       │   └── NESTED_LOOP
+        │   │       │       ├── HASH_JOIN
+        │   │       │       │   ├── UNIQUE
+        │   │       │       │   │   └── SORT
+        │   │       │       │   │       └── SEQ_SCAN
+        │   │       │       │   └── SEQ_SCAN
+        │   │       │       └── SEQ_SCAN
+        │   │       └── INDEX_SCAN
+        │   └── INDEX_SCAN
+        └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_036_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── NESTED_LOOP
+        ├── NESTED_LOOP
+        │   ├── SORT
+        │   │   └── HASH_JOIN
+        │   │       ├── HASH_JOIN
+        │   │       │   ├── HASH_JOIN
+        │   │       │   │   ├── SEQ_SCAN
+        │   │       │   │   └── SEQ_SCAN
+        │   │       │   └── SEQ_SCAN
+        │   │       └── SEQ_SCAN
+        │   └── MATERIALIZE
+        │       └── HASH_JOIN
+        │           ├── UNIQUE
+        │           │   └── SORT
+        │           │       └── SEQ_SCAN
+        │           └── SEQ_SCAN
+        └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_037_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── HASH_JOIN
+            │   │   ├── SEQ_SCAN
+            │   │   └── HASH_JOIN
+            │   │       ├── NESTED_LOOP
+            │   │       │   ├── HASH_JOIN
+            │   │       │   │   ├── HASH_JOIN
+            │   │       │   │   │   ├── SEQ_SCAN
+            │   │       │   │   │   └── SEQ_SCAN
+            │   │       │   │   └── SEQ_SCAN
+            │   │       │   └── INDEX_SCAN
+            │   │       └── SEQ_SCAN
+            │   └── INDEX_SCAN
+            └── MEMOIZE
+                └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_038_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── NESTED_LOOP
+            │   │   ├── HASH_JOIN
+            │   │   │   ├── HASH_JOIN
+            │   │   │   │   ├── SEQ_SCAN
+            │   │   │   │   └── SEQ_SCAN
+            │   │   │   └── HASH_JOIN
+            │   │   │       ├── HASH_JOIN
+            │   │   │       │   ├── SEQ_SCAN
+            │   │   │       │   └── SEQ_SCAN
+            │   │   │       └── SEQ_SCAN
+            │   │   └── INDEX_SCAN
+            │   └── MEMOIZE
+            │       └── INDEX_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_039_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── HASH_SEMI_JOIN
+            ├── NESTED_LOOP
+            │   ├── NESTED_LOOP
+            │   │   ├── HASH_JOIN
+            │   │   │   ├── SEQ_SCAN
+            │   │   │   └── NESTED_LOOP
+            │   │   │       ├── HASH_JOIN
+            │   │   │       │   ├── HASH_JOIN
+            │   │   │       │   │   ├── SEQ_SCAN
+            │   │   │       │   │   └── SEQ_SCAN
+            │   │   │       │   └── HASH_JOIN
+            │   │   │       │       ├── SEQ_SCAN
+            │   │   │       │       └── SEQ_SCAN
+            │   │   │       └── INDEX_SCAN
+            │   │   └── INDEX_SCAN
+            │   └── MATERIALIZE
+            │       └── SEQ_SCAN
+            └── SEQ_SCAN
+
+================================================================================
+SYNTHETIC: query_040_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── HASH_JOIN
+            │   ├── SEQ_SCAN
+            │   └── NESTED_LOOP
+            │       ├── HASH_JOIN
+            │       │   ├── SEQ_SCAN
+            │       │   └── NESTED_LOOP
+            │       │       ├── HASH_JOIN
+            │       │       │   ├── HASH_JOIN
+            │       │       │   │   ├── SEQ_SCAN
+            │       │       │   │   └── SEQ_SCAN
+            │       │       │   └── HASH_JOIN
+            │       │       │       ├── SEQ_SCAN
+            │       │       │       └── SEQ_SCAN
+            │       │       └── INDEX_SCAN
+            │       └── INDEX_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_041_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── HASH_JOIN
+            │   ├── SEQ_SCAN
+            │   └── NESTED_LOOP
+            │       ├── HASH_JOIN
+            │       │   ├── SEQ_SCAN
+            │       │   └── NESTED_LOOP
+            │       │       ├── HASH_JOIN
+            │       │       │   ├── HASH_JOIN
+            │       │       │   │   ├── SEQ_SCAN
+            │       │       │   │   └── SEQ_SCAN
+            │       │       │   └── HASH_JOIN
+            │       │       │       ├── SEQ_SCAN
+            │       │       │       └── SEQ_SCAN
+            │       │       └── INDEX_SCAN
+            │       └── INDEX_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_042_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── HASH_JOIN
+            │   │   ├── SEQ_SCAN
+            │   │   └── NESTED_LOOP
+            │   │       ├── HASH_JOIN
+            │   │       │   ├── HASH_JOIN
+            │   │       │   │   ├── SEQ_SCAN
+            │   │       │   │   └── SEQ_SCAN
+            │   │       │   └── HASH_JOIN
+            │   │       │       ├── SEQ_SCAN
+            │   │       │       └── SEQ_SCAN
+            │   │       └── INDEX_SCAN
+            │   └── INDEX_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_043_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── HASH_JOIN
+            │   │   ├── SEQ_SCAN
+            │   │   └── NESTED_LOOP
+            │   │       ├── HASH_JOIN
+            │   │       │   ├── HASH_JOIN
+            │   │       │   │   ├── SEQ_SCAN
+            │   │       │   │   └── SEQ_SCAN
+            │   │       │   └── HASH_JOIN
+            │   │       │       ├── SEQ_SCAN
+            │   │       │       └── SEQ_SCAN
+            │   │       └── INDEX_SCAN
+            │   └── INDEX_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_044_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── HASH_JOIN
+            │   │   ├── SEQ_SCAN
+            │   │   └── NESTED_LOOP
+            │   │       ├── HASH_JOIN
+            │   │       │   ├── HASH_JOIN
+            │   │       │   │   ├── SEQ_SCAN
+            │   │       │   │   └── SEQ_SCAN
+            │   │       │   └── HASH_JOIN
+            │   │       │       ├── SEQ_SCAN
+            │   │       │       └── SEQ_SCAN
+            │   │       └── INDEX_SCAN
+            │   └── INDEX_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_045_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── HASH_JOIN
+            │   ├── NESTED_LOOP
+            │   │   ├── HASH_JOIN
+            │   │   │   ├── SEQ_SCAN
+            │   │   │   └── NESTED_LOOP
+            │   │   │       ├── HASH_JOIN
+            │   │   │       │   ├── HASH_JOIN
+            │   │   │       │   │   ├── SEQ_SCAN
+            │   │   │       │   │   └── SEQ_SCAN
+            │   │   │       │   └── HASH_JOIN
+            │   │   │       │       ├── SEQ_SCAN
+            │   │   │       │       └── SEQ_SCAN
+            │   │   │       └── INDEX_SCAN
+            │   │   └── INDEX_SCAN
+            │   └── SEQ_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_046_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── HASH_JOIN
+            │   │   ├── SEQ_SCAN
+            │   │   └── NESTED_LOOP
+            │   │       ├── HASH_JOIN
+            │   │       │   ├── HASH_JOIN
+            │   │       │   │   ├── SEQ_SCAN
+            │   │       │   │   └── SEQ_SCAN
+            │   │       │   └── HASH_JOIN
+            │   │       │       ├── SEQ_SCAN
+            │   │       │       └── SEQ_SCAN
+            │   │       └── INDEX_SCAN
+            │   └── INDEX_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_047_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── HASH_JOIN
+            │   │   ├── SEQ_SCAN
+            │   │   └── NESTED_LOOP
+            │   │       ├── HASH_JOIN
+            │   │       │   ├── HASH_JOIN
+            │   │       │   │   ├── SEQ_SCAN
+            │   │       │   │   └── SEQ_SCAN
+            │   │       │   └── HASH_JOIN
+            │   │       │       ├── SEQ_SCAN
+            │   │       │       └── SEQ_SCAN
+            │   │       └── INDEX_SCAN
+            │   └── INDEX_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_048_explain.json
+================================================================================
+GROUPAGGREGATE
+└── SORT
+    └── HASH_JOIN
+        ├── SEQ_SCAN
+        └── HASH_JOIN
+            ├── HASH_JOIN
+            │   ├── SEQ_SCAN
+            │   └── SEQ_SCAN
+            └── NESTED_LOOP
+                ├── HASH_JOIN
+                │   ├── SEQ_SCAN
+                │   └── SEQ_SCAN
+                └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_049_explain.json
+================================================================================
+GROUPAGGREGATE
+└── SORT
+    └── HASH_JOIN
+        ├── SEQ_SCAN
+        └── HASH_JOIN
+            ├── HASH_JOIN
+            │   ├── SEQ_SCAN
+            │   └── SEQ_SCAN
+            └── NESTED_LOOP
+                ├── HASH_JOIN
+                │   ├── SEQ_SCAN
+                │   └── SEQ_SCAN
+                └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_050_explain.json
+================================================================================
+GROUPAGGREGATE
+└── SORT
+    └── HASH_JOIN
+        ├── SEQ_SCAN
+        └── HASH_JOIN
+            ├── HASH_JOIN
+            │   ├── SEQ_SCAN
+            │   └── SEQ_SCAN
+            └── NESTED_LOOP
+                ├── HASH_JOIN
+                │   ├── SEQ_SCAN
+                │   └── SEQ_SCAN
+                └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_051_explain.json
+================================================================================
+GROUPAGGREGATE
+└── SORT
+    └── HASH_JOIN
+        ├── SEQ_SCAN
+        └── HASH_JOIN
+            ├── HASH_JOIN
+            │   ├── SEQ_SCAN
+            │   └── SEQ_SCAN
+            └── NESTED_LOOP
+                ├── HASH_JOIN
+                │   ├── SEQ_SCAN
+                │   └── SEQ_SCAN
+                └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_052_explain.json
+================================================================================
+GROUPAGGREGATE
+└── SORT
+    └── HASH_JOIN
+        ├── SEQ_SCAN
+        └── HASH_JOIN
+            ├── HASH_JOIN
+            │   ├── SEQ_SCAN
+            │   └── SEQ_SCAN
+            └── NESTED_LOOP
+                ├── HASH_JOIN
+                │   ├── SEQ_SCAN
+                │   └── SEQ_SCAN
+                └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_053_explain.json
+================================================================================
+GROUPAGGREGATE
+└── SORT
+    └── HASH_JOIN
+        ├── SEQ_SCAN
+        └── HASH_JOIN
+            ├── HASH_JOIN
+            │   ├── SEQ_SCAN
+            │   └── SEQ_SCAN
+            └── NESTED_LOOP
+                ├── HASH_JOIN
+                │   ├── SEQ_SCAN
+                │   └── SEQ_SCAN
+                └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_054_explain.json
+================================================================================
+GROUPAGGREGATE
+└── SORT
+    └── HASH_JOIN
+        ├── SEQ_SCAN
+        └── HASH_JOIN
+            ├── HASH_JOIN
+            │   ├── SEQ_SCAN
+            │   └── SEQ_SCAN
+            └── NESTED_LOOP
+                ├── HASH_JOIN
+                │   ├── SEQ_SCAN
+                │   └── SEQ_SCAN
+                └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_055_explain.json
+================================================================================
+GROUPAGGREGATE
+└── SORT
+    └── HASH_JOIN
+        ├── SEQ_SCAN
+        └── HASH_JOIN
+            ├── HASH_JOIN
+            │   ├── SEQ_SCAN
+            │   └── SEQ_SCAN
+            └── NESTED_LOOP
+                ├── HASH_JOIN
+                │   ├── SEQ_SCAN
+                │   └── SEQ_SCAN
+                └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_056_explain.json
+================================================================================
+GROUPAGGREGATE
+└── SORT
+    └── HASH_JOIN
+        ├── SEQ_SCAN
+        └── HASH_JOIN
+            ├── HASH_JOIN
+            │   ├── SEQ_SCAN
+            │   └── SEQ_SCAN
+            └── NESTED_LOOP
+                ├── HASH_JOIN
+                │   ├── SEQ_SCAN
+                │   └── SEQ_SCAN
+                └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_057_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── HASH_JOIN
+            │   ├── SEQ_SCAN
+            │   └── NESTED_LOOP
+            │       ├── HASH_JOIN
+            │       │   ├── HASH_JOIN
+            │       │   │   ├── SEQ_SCAN
+            │       │   │   └── SEQ_SCAN
+            │       │   └── HASH_JOIN
+            │       │       ├── SEQ_SCAN
+            │       │       └── SEQ_SCAN
+            │       └── INDEX_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_058_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── HASH_JOIN
+            │   ├── SEQ_SCAN
+            │   └── NESTED_LOOP
+            │       ├── HASH_JOIN
+            │       │   ├── HASH_JOIN
+            │       │   │   ├── SEQ_SCAN
+            │       │   │   └── SEQ_SCAN
+            │       │   └── HASH_JOIN
+            │       │       ├── SEQ_SCAN
+            │       │       └── SEQ_SCAN
+            │       └── INDEX_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_059_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── HASH_JOIN
+            │   ├── SEQ_SCAN
+            │   └── NESTED_LOOP
+            │       ├── HASH_JOIN
+            │       │   ├── HASH_JOIN
+            │       │   │   ├── SEQ_SCAN
+            │       │   │   └── SEQ_SCAN
+            │       │   └── HASH_JOIN
+            │       │       ├── SEQ_SCAN
+            │       │       └── SEQ_SCAN
+            │       └── INDEX_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_060_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── HASH_JOIN
+            ├── HASH_SEMI_JOIN
+            │   ├── NESTED_LOOP
+            │   │   ├── HASH_JOIN
+            │   │   │   ├── SEQ_SCAN
+            │   │   │   └── NESTED_LOOP
+            │   │   │       ├── HASH_JOIN
+            │   │   │       │   ├── NESTED_LOOP
+            │   │   │       │   │   ├── HASH_JOIN
+            │   │   │       │   │   │   ├── HASH_JOIN
+            │   │   │       │   │   │   │   ├── SEQ_SCAN
+            │   │   │       │   │   │   │   └── SEQ_SCAN
+            │   │   │       │   │   │   └── SEQ_SCAN
+            │   │   │       │   │   └── INDEX_SCAN
+            │   │   │       │   └── SEQ_SCAN
+            │   │   │       └── MEMOIZE
+            │   │   │           └── INDEX_SCAN
+            │   │   └── INDEX_SCAN
+            │   └── HASH_JOIN
+            │       ├── SEQ_SCAN
+            │       └── SEQ_SCAN
+            └── SEQ_SCAN
+
+================================================================================
+SYNTHETIC: query_061_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── HASH_JOIN
+            ├── HASH_SEMI_JOIN
+            │   ├── NESTED_LOOP
+            │   │   ├── HASH_JOIN
+            │   │   │   ├── SEQ_SCAN
+            │   │   │   └── NESTED_LOOP
+            │   │   │       ├── NESTED_LOOP
+            │   │   │       │   ├── HASH_JOIN
+            │   │   │       │   │   ├── SEQ_SCAN
+            │   │   │       │   │   └── HASH_JOIN
+            │   │   │       │   │       ├── HASH_JOIN
+            │   │   │       │   │       │   ├── SEQ_SCAN
+            │   │   │       │   │       │   └── SEQ_SCAN
+            │   │   │       │   │       └── SEQ_SCAN
+            │   │   │       │   └── INDEX_SCAN
+            │   │   │       └── MEMOIZE
+            │   │   │           └── INDEX_SCAN
+            │   │   └── INDEX_SCAN
+            │   └── HASH_JOIN
+            │       ├── SEQ_SCAN
+            │       └── SEQ_SCAN
+            └── SEQ_SCAN
+
+================================================================================
+SYNTHETIC: query_062_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── HASH_JOIN
+            ├── HASH_SEMI_JOIN
+            │   ├── NESTED_LOOP
+            │   │   ├── HASH_JOIN
+            │   │   │   ├── SEQ_SCAN
+            │   │   │   └── NESTED_LOOP
+            │   │   │       ├── HASH_JOIN
+            │   │   │       │   ├── NESTED_LOOP
+            │   │   │       │   │   ├── HASH_JOIN
+            │   │   │       │   │   │   ├── HASH_JOIN
+            │   │   │       │   │   │   │   ├── SEQ_SCAN
+            │   │   │       │   │   │   │   └── SEQ_SCAN
+            │   │   │       │   │   │   └── SEQ_SCAN
+            │   │   │       │   │   └── INDEX_SCAN
+            │   │   │       │   └── SEQ_SCAN
+            │   │   │       └── MEMOIZE
+            │   │   │           └── INDEX_SCAN
+            │   │   └── INDEX_SCAN
+            │   └── HASH_JOIN
+            │       ├── SEQ_SCAN
+            │       └── SEQ_SCAN
+            └── SEQ_SCAN
+
+================================================================================
+SYNTHETIC: query_063_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── HASH_JOIN
+            ├── HASH_SEMI_JOIN
+            │   ├── NESTED_LOOP
+            │   │   ├── HASH_JOIN
+            │   │   │   ├── SEQ_SCAN
+            │   │   │   └── NESTED_LOOP
+            │   │   │       ├── HASH_JOIN
+            │   │   │       │   ├── NESTED_LOOP
+            │   │   │       │   │   ├── HASH_JOIN
+            │   │   │       │   │   │   ├── HASH_JOIN
+            │   │   │       │   │   │   │   ├── SEQ_SCAN
+            │   │   │       │   │   │   │   └── SEQ_SCAN
+            │   │   │       │   │   │   └── SEQ_SCAN
+            │   │   │       │   │   └── INDEX_SCAN
+            │   │   │       │   └── SEQ_SCAN
+            │   │   │       └── MEMOIZE
+            │   │   │           └── INDEX_SCAN
+            │   │   └── INDEX_SCAN
+            │   └── HASH_JOIN
+            │       ├── SEQ_SCAN
+            │       └── SEQ_SCAN
+            └── SEQ_SCAN
+
+================================================================================
+SYNTHETIC: query_064_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── HASH_JOIN
+            ├── HASH_SEMI_JOIN
+            │   ├── NESTED_LOOP
+            │   │   ├── HASH_JOIN
+            │   │   │   ├── SEQ_SCAN
+            │   │   │   └── NESTED_LOOP
+            │   │   │       ├── HASH_JOIN
+            │   │   │       │   ├── NESTED_LOOP
+            │   │   │       │   │   ├── HASH_JOIN
+            │   │   │       │   │   │   ├── HASH_JOIN
+            │   │   │       │   │   │   │   ├── SEQ_SCAN
+            │   │   │       │   │   │   │   └── SEQ_SCAN
+            │   │   │       │   │   │   └── SEQ_SCAN
+            │   │   │       │   │   └── INDEX_SCAN
+            │   │   │       │   └── SEQ_SCAN
+            │   │   │       └── MEMOIZE
+            │   │   │           └── INDEX_SCAN
+            │   │   └── INDEX_SCAN
+            │   └── HASH_JOIN
+            │       ├── SEQ_SCAN
+            │       └── SEQ_SCAN
+            └── SEQ_SCAN
+
+================================================================================
+SYNTHETIC: query_065_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── HASH_SEMI_JOIN
+            │   ├── NESTED_LOOP
+            │   │   ├── NESTED_LOOP
+            │   │   │   ├── HASH_JOIN
+            │   │   │   │   ├── SEQ_SCAN
+            │   │   │   │   └── NESTED_LOOP
+            │   │   │   │       ├── NESTED_LOOP
+            │   │   │   │       │   ├── HASH_JOIN
+            │   │   │   │       │   │   ├── HASH_JOIN
+            │   │   │   │       │   │   │   ├── SEQ_SCAN
+            │   │   │   │       │   │   │   └── SEQ_SCAN
+            │   │   │   │       │   │   └── SEQ_SCAN
+            │   │   │   │       │   └── INDEX_SCAN
+            │   │   │   │       └── INDEX_SCAN
+            │   │   │   └── INDEX_SCAN
+            │   │   └── INDEX_SCAN
+            │   └── HASH_JOIN
+            │       ├── SEQ_SCAN
+            │       └── SEQ_SCAN
+            └── SEQ_SCAN
+
+================================================================================
+SYNTHETIC: query_066_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── NESTED_LOOP_SEMI_JOIN
+        ├── SORT
+        │   └── HASH_SEMI_JOIN
+        │       ├── NESTED_LOOP
+        │       │   ├── HASH_JOIN
+        │       │   │   ├── SEQ_SCAN
+        │       │   │   └── NESTED_LOOP
+        │       │   │       ├── HASH_JOIN
+        │       │   │       │   ├── SEQ_SCAN
+        │       │   │       │   └── NESTED_LOOP
+        │       │   │       │       ├── NESTED_LOOP
+        │       │   │       │       │   ├── NESTED_LOOP
+        │       │   │       │       │   │   ├── MERGE_JOIN
+        │       │   │       │       │   │   │   ├── SORT
+        │       │   │       │       │   │   │   │   └── HASH_JOIN
+        │       │   │       │       │   │   │   │       ├── SEQ_SCAN
+        │       │   │       │       │   │   │   │       └── HASH_JOIN
+        │       │   │       │       │   │   │   │           ├── HASH_JOIN
+        │       │   │       │       │   │   │   │           │   ├── SEQ_SCAN
+        │       │   │       │       │   │   │   │           │   └── SEQ_SCAN
+        │       │   │       │       │   │   │   │           └── SEQ_SCAN
+        │       │   │       │       │   │   │   └── SORT
+        │       │   │       │       │   │   │       └── HASH_JOIN
+        │       │   │       │       │   │   │           ├── SEQ_SCAN
+        │       │   │       │       │   │   │           └── SEQ_SCAN
+        │       │   │       │       │   │   └── INDEX_SCAN
+        │       │   │       │       │   └── INDEX_SCAN
+        │       │   │       │       └── INDEX_SCAN
+        │       │   │       └── INDEX_SCAN
+        │       │   └── INDEX_SCAN
+        │       └── HASH_JOIN
+        │           ├── SEQ_SCAN
+        │           └── HASH_JOIN
+        │               ├── SEQ_SCAN
+        │               └── SEQ_SCAN
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── SEQ_SCAN
+
+================================================================================
+SYNTHETIC: query_067_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── NESTED_LOOP_SEMI_JOIN
+        ├── SORT
+        │   └── HASH_SEMI_JOIN
+        │       ├── NESTED_LOOP
+        │       │   ├── HASH_JOIN
+        │       │   │   ├── SEQ_SCAN
+        │       │   │   └── NESTED_LOOP
+        │       │   │       ├── HASH_JOIN
+        │       │   │       │   ├── SEQ_SCAN
+        │       │   │       │   └── NESTED_LOOP
+        │       │   │       │       ├── NESTED_LOOP
+        │       │   │       │       │   ├── NESTED_LOOP
+        │       │   │       │       │   │   ├── MERGE_JOIN
+        │       │   │       │       │   │   │   ├── SORT
+        │       │   │       │       │   │   │   │   └── HASH_JOIN
+        │       │   │       │       │   │   │   │       ├── SEQ_SCAN
+        │       │   │       │       │   │   │   │       └── HASH_JOIN
+        │       │   │       │       │   │   │   │           ├── HASH_JOIN
+        │       │   │       │       │   │   │   │           │   ├── SEQ_SCAN
+        │       │   │       │       │   │   │   │           │   └── SEQ_SCAN
+        │       │   │       │       │   │   │   │           └── SEQ_SCAN
+        │       │   │       │       │   │   │   └── SORT
+        │       │   │       │       │   │   │       └── HASH_JOIN
+        │       │   │       │       │   │   │           ├── SEQ_SCAN
+        │       │   │       │       │   │   │           └── SEQ_SCAN
+        │       │   │       │       │   │   └── INDEX_SCAN
+        │       │   │       │       │   └── INDEX_SCAN
+        │       │   │       │       └── INDEX_SCAN
+        │       │   │       └── INDEX_SCAN
+        │       │   └── INDEX_SCAN
+        │       └── HASH_JOIN
+        │           ├── SEQ_SCAN
+        │           └── HASH_JOIN
+        │               ├── SEQ_SCAN
+        │               └── SEQ_SCAN
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── SEQ_SCAN
+
+================================================================================
+SYNTHETIC: query_068_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── NESTED_LOOP_SEMI_JOIN
+        ├── SORT
+        │   └── HASH_SEMI_JOIN
+        │       ├── NESTED_LOOP
+        │       │   ├── HASH_JOIN
+        │       │   │   ├── SEQ_SCAN
+        │       │   │   └── NESTED_LOOP
+        │       │   │       ├── HASH_JOIN
+        │       │   │       │   ├── SEQ_SCAN
+        │       │   │       │   └── NESTED_LOOP
+        │       │   │       │       ├── NESTED_LOOP
+        │       │   │       │       │   ├── NESTED_LOOP
+        │       │   │       │       │   │   ├── MERGE_JOIN
+        │       │   │       │       │   │   │   ├── SORT
+        │       │   │       │       │   │   │   │   └── HASH_JOIN
+        │       │   │       │       │   │   │   │       ├── SEQ_SCAN
+        │       │   │       │       │   │   │   │       └── HASH_JOIN
+        │       │   │       │       │   │   │   │           ├── HASH_JOIN
+        │       │   │       │       │   │   │   │           │   ├── SEQ_SCAN
+        │       │   │       │       │   │   │   │           │   └── SEQ_SCAN
+        │       │   │       │       │   │   │   │           └── SEQ_SCAN
+        │       │   │       │       │   │   │   └── SORT
+        │       │   │       │       │   │   │       └── HASH_JOIN
+        │       │   │       │       │   │   │           ├── SEQ_SCAN
+        │       │   │       │       │   │   │           └── SEQ_SCAN
+        │       │   │       │       │   │   └── INDEX_SCAN
+        │       │   │       │       │   └── INDEX_SCAN
+        │       │   │       │       └── INDEX_SCAN
+        │       │   │       └── INDEX_SCAN
+        │       │   └── INDEX_SCAN
+        │       └── HASH_JOIN
+        │           ├── SEQ_SCAN
+        │           └── HASH_JOIN
+        │               ├── SEQ_SCAN
+        │               └── SEQ_SCAN
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── SEQ_SCAN
+
+================================================================================
+SYNTHETIC: query_069_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── NESTED_LOOP_SEMI_JOIN
+        ├── SORT
+        │   └── HASH_SEMI_JOIN
+        │       ├── NESTED_LOOP
+        │       │   ├── HASH_JOIN
+        │       │   │   ├── SEQ_SCAN
+        │       │   │   └── NESTED_LOOP
+        │       │   │       ├── HASH_JOIN
+        │       │   │       │   ├── SEQ_SCAN
+        │       │   │       │   └── NESTED_LOOP
+        │       │   │       │       ├── NESTED_LOOP
+        │       │   │       │       │   ├── NESTED_LOOP
+        │       │   │       │       │   │   ├── MERGE_JOIN
+        │       │   │       │       │   │   │   ├── SORT
+        │       │   │       │       │   │   │   │   └── HASH_JOIN
+        │       │   │       │       │   │   │   │       ├── SEQ_SCAN
+        │       │   │       │       │   │   │   │       └── HASH_JOIN
+        │       │   │       │       │   │   │   │           ├── HASH_JOIN
+        │       │   │       │       │   │   │   │           │   ├── SEQ_SCAN
+        │       │   │       │       │   │   │   │           │   └── SEQ_SCAN
+        │       │   │       │       │   │   │   │           └── SEQ_SCAN
+        │       │   │       │       │   │   │   └── SORT
+        │       │   │       │       │   │   │       └── HASH_JOIN
+        │       │   │       │       │   │   │           ├── SEQ_SCAN
+        │       │   │       │       │   │   │           └── SEQ_SCAN
+        │       │   │       │       │   │   └── INDEX_SCAN
+        │       │   │       │       │   └── INDEX_SCAN
+        │       │   │       │       └── INDEX_SCAN
+        │       │   │       └── INDEX_SCAN
+        │       │   └── INDEX_SCAN
+        │       └── HASH_JOIN
+        │           ├── SEQ_SCAN
+        │           └── HASH_JOIN
+        │               ├── SEQ_SCAN
+        │               └── SEQ_SCAN
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── SEQ_SCAN
+
+================================================================================
+SYNTHETIC: query_070_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── NESTED_LOOP_SEMI_JOIN
+        ├── SORT
+        │   └── HASH_SEMI_JOIN
+        │       ├── NESTED_LOOP
+        │       │   ├── HASH_JOIN
+        │       │   │   ├── SEQ_SCAN
+        │       │   │   └── NESTED_LOOP
+        │       │   │       ├── HASH_JOIN
+        │       │   │       │   ├── SEQ_SCAN
+        │       │   │       │   └── NESTED_LOOP
+        │       │   │       │       ├── NESTED_LOOP
+        │       │   │       │       │   ├── NESTED_LOOP
+        │       │   │       │       │   │   ├── MERGE_JOIN
+        │       │   │       │       │   │   │   ├── SORT
+        │       │   │       │       │   │   │   │   └── HASH_JOIN
+        │       │   │       │       │   │   │   │       ├── SEQ_SCAN
+        │       │   │       │       │   │   │   │       └── HASH_JOIN
+        │       │   │       │       │   │   │   │           ├── HASH_JOIN
+        │       │   │       │       │   │   │   │           │   ├── SEQ_SCAN
+        │       │   │       │       │   │   │   │           │   └── SEQ_SCAN
+        │       │   │       │       │   │   │   │           └── SEQ_SCAN
+        │       │   │       │       │   │   │   └── SORT
+        │       │   │       │       │   │   │       └── HASH_JOIN
+        │       │   │       │       │   │   │           ├── SEQ_SCAN
+        │       │   │       │       │   │   │           └── SEQ_SCAN
+        │       │   │       │       │   │   └── INDEX_SCAN
+        │       │   │       │       │   └── INDEX_SCAN
+        │       │   │       │       └── INDEX_SCAN
+        │       │   │       └── INDEX_SCAN
+        │       │   └── INDEX_SCAN
+        │       └── HASH_JOIN
+        │           ├── SEQ_SCAN
+        │           └── HASH_JOIN
+        │               ├── SEQ_SCAN
+        │               └── SEQ_SCAN
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── SEQ_SCAN
+
+================================================================================
+SYNTHETIC: query_071_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── NESTED_LOOP_SEMI_JOIN
+        ├── SORT
+        │   └── HASH_SEMI_JOIN
+        │       ├── NESTED_LOOP
+        │       │   ├── HASH_JOIN
+        │       │   │   ├── SEQ_SCAN
+        │       │   │   └── NESTED_LOOP
+        │       │   │       ├── HASH_JOIN
+        │       │   │       │   ├── SEQ_SCAN
+        │       │   │       │   └── NESTED_LOOP
+        │       │   │       │       ├── NESTED_LOOP
+        │       │   │       │       │   ├── NESTED_LOOP
+        │       │   │       │       │   │   ├── MERGE_JOIN
+        │       │   │       │       │   │   │   ├── SORT
+        │       │   │       │       │   │   │   │   └── HASH_JOIN
+        │       │   │       │       │   │   │   │       ├── SEQ_SCAN
+        │       │   │       │       │   │   │   │       └── HASH_JOIN
+        │       │   │       │       │   │   │   │           ├── HASH_JOIN
+        │       │   │       │       │   │   │   │           │   ├── SEQ_SCAN
+        │       │   │       │       │   │   │   │           │   └── SEQ_SCAN
+        │       │   │       │       │   │   │   │           └── SEQ_SCAN
+        │       │   │       │       │   │   │   └── SORT
+        │       │   │       │       │   │   │       └── HASH_JOIN
+        │       │   │       │       │   │   │           ├── SEQ_SCAN
+        │       │   │       │       │   │   │           └── SEQ_SCAN
+        │       │   │       │       │   │   └── INDEX_SCAN
+        │       │   │       │       │   └── INDEX_SCAN
+        │       │   │       │       └── INDEX_SCAN
+        │       │   │       └── INDEX_SCAN
+        │       │   └── INDEX_SCAN
+        │       └── HASH_JOIN
+        │           ├── SEQ_SCAN
+        │           └── HASH_JOIN
+        │               ├── SEQ_SCAN
+        │               └── SEQ_SCAN
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── SEQ_SCAN
+
+================================================================================
+SYNTHETIC: query_072_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── NESTED_LOOP_SEMI_JOIN
+        ├── SORT
+        │   └── HASH_SEMI_JOIN
+        │       ├── NESTED_LOOP
+        │       │   ├── HASH_JOIN
+        │       │   │   ├── SEQ_SCAN
+        │       │   │   └── NESTED_LOOP
+        │       │   │       ├── HASH_JOIN
+        │       │   │       │   ├── SEQ_SCAN
+        │       │   │       │   └── NESTED_LOOP
+        │       │   │       │       ├── NESTED_LOOP
+        │       │   │       │       │   ├── NESTED_LOOP
+        │       │   │       │       │   │   ├── MERGE_JOIN
+        │       │   │       │       │   │   │   ├── SORT
+        │       │   │       │       │   │   │   │   └── HASH_JOIN
+        │       │   │       │       │   │   │   │       ├── SEQ_SCAN
+        │       │   │       │       │   │   │   │       └── HASH_JOIN
+        │       │   │       │       │   │   │   │           ├── HASH_JOIN
+        │       │   │       │       │   │   │   │           │   ├── SEQ_SCAN
+        │       │   │       │       │   │   │   │           │   └── SEQ_SCAN
+        │       │   │       │       │   │   │   │           └── SEQ_SCAN
+        │       │   │       │       │   │   │   └── SORT
+        │       │   │       │       │   │   │       └── HASH_JOIN
+        │       │   │       │       │   │   │           ├── SEQ_SCAN
+        │       │   │       │       │   │   │           └── SEQ_SCAN
+        │       │   │       │       │   │   └── INDEX_SCAN
+        │       │   │       │       │   └── INDEX_SCAN
+        │       │   │       │       └── INDEX_SCAN
+        │       │   │       └── INDEX_SCAN
+        │       │   └── INDEX_SCAN
+        │       └── HASH_JOIN
+        │           ├── SEQ_SCAN
+        │           └── HASH_JOIN
+        │               ├── SEQ_SCAN
+        │               └── SEQ_SCAN
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── SEQ_SCAN
+
+================================================================================
+SYNTHETIC: query_073_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── NESTED_LOOP_SEMI_JOIN
+        ├── SORT
+        │   └── HASH_SEMI_JOIN
+        │       ├── NESTED_LOOP
+        │       │   ├── HASH_JOIN
+        │       │   │   ├── SEQ_SCAN
+        │       │   │   └── NESTED_LOOP
+        │       │   │       ├── HASH_JOIN
+        │       │   │       │   ├── SEQ_SCAN
+        │       │   │       │   └── NESTED_LOOP
+        │       │   │       │       ├── NESTED_LOOP
+        │       │   │       │       │   ├── NESTED_LOOP
+        │       │   │       │       │   │   ├── MERGE_JOIN
+        │       │   │       │       │   │   │   ├── SORT
+        │       │   │       │       │   │   │   │   └── HASH_JOIN
+        │       │   │       │       │   │   │   │       ├── SEQ_SCAN
+        │       │   │       │       │   │   │   │       └── HASH_JOIN
+        │       │   │       │       │   │   │   │           ├── HASH_JOIN
+        │       │   │       │       │   │   │   │           │   ├── SEQ_SCAN
+        │       │   │       │       │   │   │   │           │   └── SEQ_SCAN
+        │       │   │       │       │   │   │   │           └── SEQ_SCAN
+        │       │   │       │       │   │   │   └── SORT
+        │       │   │       │       │   │   │       └── HASH_JOIN
+        │       │   │       │       │   │   │           ├── SEQ_SCAN
+        │       │   │       │       │   │   │           └── SEQ_SCAN
+        │       │   │       │       │   │   └── INDEX_SCAN
+        │       │   │       │       │   └── INDEX_SCAN
+        │       │   │       │       └── INDEX_SCAN
+        │       │   │       └── INDEX_SCAN
+        │       │   └── INDEX_SCAN
+        │       └── HASH_JOIN
+        │           ├── SEQ_SCAN
+        │           └── HASH_JOIN
+        │               ├── SEQ_SCAN
+        │               └── SEQ_SCAN
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── SEQ_SCAN
+
+================================================================================
+SYNTHETIC: query_074_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── NESTED_LOOP_SEMI_JOIN
+        ├── SORT
+        │   └── HASH_SEMI_JOIN
+        │       ├── NESTED_LOOP
+        │       │   ├── HASH_JOIN
+        │       │   │   ├── SEQ_SCAN
+        │       │   │   └── NESTED_LOOP
+        │       │   │       ├── HASH_JOIN
+        │       │   │       │   ├── SEQ_SCAN
+        │       │   │       │   └── NESTED_LOOP
+        │       │   │       │       ├── NESTED_LOOP
+        │       │   │       │       │   ├── NESTED_LOOP
+        │       │   │       │       │   │   ├── MERGE_JOIN
+        │       │   │       │       │   │   │   ├── SORT
+        │       │   │       │       │   │   │   │   └── HASH_JOIN
+        │       │   │       │       │   │   │   │       ├── SEQ_SCAN
+        │       │   │       │       │   │   │   │       └── HASH_JOIN
+        │       │   │       │       │   │   │   │           ├── HASH_JOIN
+        │       │   │       │       │   │   │   │           │   ├── SEQ_SCAN
+        │       │   │       │       │   │   │   │           │   └── SEQ_SCAN
+        │       │   │       │       │   │   │   │           └── SEQ_SCAN
+        │       │   │       │       │   │   │   └── SORT
+        │       │   │       │       │   │   │       └── HASH_JOIN
+        │       │   │       │       │   │   │           ├── SEQ_SCAN
+        │       │   │       │       │   │   │           └── SEQ_SCAN
+        │       │   │       │       │   │   └── INDEX_SCAN
+        │       │   │       │       │   └── INDEX_SCAN
+        │       │   │       │       └── INDEX_SCAN
+        │       │   │       └── INDEX_SCAN
+        │       │   └── INDEX_SCAN
+        │       └── HASH_JOIN
+        │           ├── SEQ_SCAN
+        │           └── HASH_JOIN
+        │               ├── SEQ_SCAN
+        │               └── SEQ_SCAN
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── SEQ_SCAN
+
+================================================================================
+SYNTHETIC: query_075_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── NESTED_LOOP_SEMI_JOIN
+        ├── SORT
+        │   └── HASH_SEMI_JOIN
+        │       ├── NESTED_LOOP
+        │       │   ├── HASH_JOIN
+        │       │   │   ├── SEQ_SCAN
+        │       │   │   └── NESTED_LOOP
+        │       │   │       ├── HASH_JOIN
+        │       │   │       │   ├── SEQ_SCAN
+        │       │   │       │   └── NESTED_LOOP
+        │       │   │       │       ├── NESTED_LOOP
+        │       │   │       │       │   ├── NESTED_LOOP
+        │       │   │       │       │   │   ├── MERGE_JOIN
+        │       │   │       │       │   │   │   ├── SORT
+        │       │   │       │       │   │   │   │   └── HASH_JOIN
+        │       │   │       │       │   │   │   │       ├── SEQ_SCAN
+        │       │   │       │       │   │   │   │       └── HASH_JOIN
+        │       │   │       │       │   │   │   │           ├── HASH_JOIN
+        │       │   │       │       │   │   │   │           │   ├── SEQ_SCAN
+        │       │   │       │       │   │   │   │           │   └── SEQ_SCAN
+        │       │   │       │       │   │   │   │           └── SEQ_SCAN
+        │       │   │       │       │   │   │   └── SORT
+        │       │   │       │       │   │   │       └── HASH_JOIN
+        │       │   │       │       │   │   │           ├── SEQ_SCAN
+        │       │   │       │       │   │   │           └── SEQ_SCAN
+        │       │   │       │       │   │   └── INDEX_SCAN
+        │       │   │       │       │   └── INDEX_SCAN
+        │       │   │       │       └── INDEX_SCAN
+        │       │   │       └── INDEX_SCAN
+        │       │   └── INDEX_SCAN
+        │       └── HASH_JOIN
+        │           ├── SEQ_SCAN
+        │           └── HASH_JOIN
+        │               ├── SEQ_SCAN
+        │               └── SEQ_SCAN
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── SEQ_SCAN
+
+================================================================================
+SYNTHETIC: query_076_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── HASH_JOIN
+            │   │   ├── SEQ_SCAN
+            │   │   └── NESTED_LOOP
+            │   │       ├── HASH_JOIN
+            │   │       │   ├── HASH_JOIN
+            │   │       │   │   ├── SEQ_SCAN
+            │   │       │   │   └── SEQ_SCAN
+            │   │       │   └── HASH_JOIN
+            │   │       │       ├── HASH_JOIN
+            │   │       │       │   ├── SEQ_SCAN
+            │   │       │       │   └── SEQ_SCAN
+            │   │       │       └── SEQ_SCAN
+            │   │       └── INDEX_SCAN
+            │   └── INDEX_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_077_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── HASH_JOIN
+            │   │   ├── SEQ_SCAN
+            │   │   └── NESTED_LOOP
+            │   │       ├── HASH_JOIN
+            │   │       │   ├── HASH_JOIN
+            │   │       │   │   ├── SEQ_SCAN
+            │   │       │   │   └── SEQ_SCAN
+            │   │       │   └── HASH_JOIN
+            │   │       │       ├── HASH_JOIN
+            │   │       │       │   ├── SEQ_SCAN
+            │   │       │       │   └── SEQ_SCAN
+            │   │       │       └── SEQ_SCAN
+            │   │       └── INDEX_SCAN
+            │   └── INDEX_SCAN
+            └── MEMOIZE
+                └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_078_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── HASH_JOIN
+            │   │   ├── SEQ_SCAN
+            │   │   └── NESTED_LOOP
+            │   │       ├── HASH_JOIN
+            │   │       │   ├── HASH_JOIN
+            │   │       │   │   ├── SEQ_SCAN
+            │   │       │   │   └── SEQ_SCAN
+            │   │       │   └── HASH_JOIN
+            │   │       │       ├── HASH_JOIN
+            │   │       │       │   ├── SEQ_SCAN
+            │   │       │       │   └── SEQ_SCAN
+            │   │       │       └── SEQ_SCAN
+            │   │       └── INDEX_SCAN
+            │   └── INDEX_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_079_explain.json
+================================================================================
+GROUPAGGREGATE
+└── SORT
+    └── NESTED_LOOP
+        ├── SORT
+        │   └── NESTED_LOOP
+        │       ├── SEQ_SCAN
+        │       └── INDEX_SCAN
+        └── MATERIALIZE
+            └── HASH_JOIN
+                ├── SEQ_SCAN
+                └── NESTED_LOOP
+                    ├── HASH_JOIN
+                    │   ├── SEQ_SCAN
+                    │   └── NESTED_LOOP
+                    │       ├── HASH_JOIN
+                    │       │   ├── SEQ_SCAN
+                    │       │   └── SEQ_SCAN
+                    │       └── INDEX_SCAN
+                    └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_080_explain.json
+================================================================================
+GROUPAGGREGATE
+└── SORT
+    └── NESTED_LOOP
+        ├── SORT
+        │   └── NESTED_LOOP
+        │       ├── SEQ_SCAN
+        │       └── INDEX_SCAN
+        └── MATERIALIZE
+            └── HASH_JOIN
+                ├── SEQ_SCAN
+                └── NESTED_LOOP
+                    ├── HASH_JOIN
+                    │   ├── SEQ_SCAN
+                    │   └── NESTED_LOOP
+                    │       ├── HASH_JOIN
+                    │       │   ├── SEQ_SCAN
+                    │       │   └── SEQ_SCAN
+                    │       └── INDEX_SCAN
+                    └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_081_explain.json
+================================================================================
+GROUPAGGREGATE
+└── SORT
+    └── NESTED_LOOP
+        ├── SORT
+        │   └── NESTED_LOOP
+        │       ├── SEQ_SCAN
+        │       └── INDEX_SCAN
+        └── MATERIALIZE
+            └── HASH_JOIN
+                ├── SEQ_SCAN
+                └── NESTED_LOOP
+                    ├── HASH_JOIN
+                    │   ├── SEQ_SCAN
+                    │   └── NESTED_LOOP
+                    │       ├── HASH_JOIN
+                    │       │   ├── SEQ_SCAN
+                    │       │   └── SEQ_SCAN
+                    │       └── INDEX_SCAN
+                    └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_082_explain.json
+================================================================================
+GROUPAGGREGATE
+└── SORT
+    └── NESTED_LOOP
+        ├── SORT
+        │   └── NESTED_LOOP
+        │       ├── SEQ_SCAN
+        │       └── INDEX_SCAN
+        └── MATERIALIZE
+            └── HASH_JOIN
+                ├── SEQ_SCAN
+                └── NESTED_LOOP
+                    ├── HASH_JOIN
+                    │   ├── SEQ_SCAN
+                    │   └── NESTED_LOOP
+                    │       ├── HASH_JOIN
+                    │       │   ├── SEQ_SCAN
+                    │       │   └── SEQ_SCAN
+                    │       └── INDEX_SCAN
+                    └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_083_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── HASH_JOIN
+            │   │   ├── HASH_JOIN
+            │   │   │   ├── SEQ_SCAN
+            │   │   │   └── NESTED_LOOP
+            │   │   │       ├── HASH_JOIN
+            │   │   │       │   ├── SEQ_SCAN
+            │   │   │       │   └── NESTED_LOOP
+            │   │   │       │       ├── HASH_JOIN
+            │   │   │       │       │   ├── HASH_JOIN
+            │   │   │       │       │   │   ├── SEQ_SCAN
+            │   │   │       │       │   │   └── SEQ_SCAN
+            │   │   │       │       │   └── HASH_JOIN
+            │   │   │       │       │       ├── SEQ_SCAN
+            │   │   │       │       │       └── SEQ_SCAN
+            │   │   │       │       └── INDEX_SCAN
+            │   │   │       └── INDEX_SCAN
+            │   │   └── SEQ_SCAN
+            │   └── INDEX_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_084_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── NESTED_LOOP
+            │   │   ├── HASH_JOIN
+            │   │   │   ├── SEQ_SCAN
+            │   │   │   └── NESTED_LOOP
+            │   │   │       ├── HASH_JOIN
+            │   │   │       │   ├── SEQ_SCAN
+            │   │   │       │   └── NESTED_LOOP
+            │   │   │       │       ├── HASH_JOIN
+            │   │   │       │       │   ├── HASH_JOIN
+            │   │   │       │       │   │   ├── SEQ_SCAN
+            │   │   │       │       │   │   └── SEQ_SCAN
+            │   │   │       │       │   └── HASH_JOIN
+            │   │   │       │       │       ├── SEQ_SCAN
+            │   │   │       │       │       └── SEQ_SCAN
+            │   │   │       │       └── INDEX_SCAN
+            │   │   │       └── INDEX_SCAN
+            │   │   └── MEMOIZE
+            │   │       └── INDEX_SCAN
+            │   └── SEQ_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_085_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── NESTED_LOOP
+            │   │   ├── NESTED_LOOP
+            │   │   │   ├── HASH_JOIN
+            │   │   │   │   ├── SEQ_SCAN
+            │   │   │   │   └── HASH_JOIN
+            │   │   │   │       ├── SEQ_SCAN
+            │   │   │   │       └── NESTED_LOOP
+            │   │   │   │           ├── HASH_JOIN
+            │   │   │   │           │   ├── HASH_JOIN
+            │   │   │   │           │   │   ├── SEQ_SCAN
+            │   │   │   │           │   │   └── SEQ_SCAN
+            │   │   │   │           │   └── HASH_JOIN
+            │   │   │   │           │       ├── SEQ_SCAN
+            │   │   │   │           │       └── SEQ_SCAN
+            │   │   │   │           └── INDEX_SCAN
+            │   │   │   └── INDEX_SCAN
+            │   │   └── MEMOIZE
+            │   │       └── INDEX_SCAN
+            │   └── SEQ_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_086_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── NESTED_LOOP
+            │   │   ├── NESTED_LOOP
+            │   │   │   ├── HASH_JOIN
+            │   │   │   │   ├── HASH_JOIN
+            │   │   │   │   │   ├── SEQ_SCAN
+            │   │   │   │   │   └── NESTED_LOOP
+            │   │   │   │   │       ├── HASH_JOIN
+            │   │   │   │   │       │   ├── SEQ_SCAN
+            │   │   │   │   │       │   └── NESTED_LOOP
+            │   │   │   │   │       │       ├── HASH_JOIN
+            │   │   │   │   │       │       │   ├── HASH_JOIN
+            │   │   │   │   │       │       │   │   ├── SEQ_SCAN
+            │   │   │   │   │       │       │   │   └── SEQ_SCAN
+            │   │   │   │   │       │       │   └── HASH_JOIN
+            │   │   │   │   │       │       │       ├── SEQ_SCAN
+            │   │   │   │   │       │       │       └── SEQ_SCAN
+            │   │   │   │   │       │       └── INDEX_SCAN
+            │   │   │   │   │       └── INDEX_SCAN
+            │   │   │   │   └── SEQ_SCAN
+            │   │   │   └── MEMOIZE
+            │   │   │       └── INDEX_SCAN
+            │   │   └── INDEX_SCAN
+            │   └── INDEX_SCAN
+            └── SEQ_SCAN
+
+================================================================================
+SYNTHETIC: query_087_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── NESTED_LOOP
+            │   │   ├── NESTED_LOOP
+            │   │   │   ├── HASH_JOIN
+            │   │   │   │   ├── HASH_JOIN
+            │   │   │   │   │   ├── SEQ_SCAN
+            │   │   │   │   │   └── NESTED_LOOP
+            │   │   │   │   │       ├── HASH_JOIN
+            │   │   │   │   │       │   ├── SEQ_SCAN
+            │   │   │   │   │       │   └── NESTED_LOOP
+            │   │   │   │   │       │       ├── HASH_JOIN
+            │   │   │   │   │       │       │   ├── HASH_JOIN
+            │   │   │   │   │       │       │   │   ├── SEQ_SCAN
+            │   │   │   │   │       │       │   │   └── SEQ_SCAN
+            │   │   │   │   │       │       │   └── HASH_JOIN
+            │   │   │   │   │       │       │       ├── SEQ_SCAN
+            │   │   │   │   │       │       │       └── SEQ_SCAN
+            │   │   │   │   │       │       └── INDEX_SCAN
+            │   │   │   │   │       └── INDEX_SCAN
+            │   │   │   │   └── SEQ_SCAN
+            │   │   │   └── MEMOIZE
+            │   │   │       └── INDEX_SCAN
+            │   │   └── INDEX_SCAN
+            │   └── INDEX_SCAN
+            └── SEQ_SCAN
+
+================================================================================
+SYNTHETIC: query_088_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── NESTED_LOOP
+                ├── NESTED_LOOP
+                │   ├── HASH_JOIN
+                │   │   ├── SEQ_SCAN
+                │   │   └── NESTED_LOOP
+                │   │       ├── HASH_JOIN
+                │   │       │   ├── HASH_JOIN
+                │   │       │   │   ├── SEQ_SCAN
+                │   │       │   │   └── SEQ_SCAN
+                │   │       │   └── HASH_JOIN
+                │   │       │       ├── SEQ_SCAN
+                │   │       │       └── SEQ_SCAN
+                │   │       └── INDEX_SCAN
+                │   └── INDEX_SCAN
+                └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_089_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── NESTED_LOOP
+                ├── NESTED_LOOP
+                │   ├── HASH_JOIN
+                │   │   ├── SEQ_SCAN
+                │   │   └── NESTED_LOOP
+                │   │       ├── HASH_JOIN
+                │   │       │   ├── HASH_JOIN
+                │   │       │   │   ├── SEQ_SCAN
+                │   │       │   │   └── SEQ_SCAN
+                │   │       │   └── HASH_JOIN
+                │   │       │       ├── SEQ_SCAN
+                │   │       │       └── SEQ_SCAN
+                │   │       └── INDEX_SCAN
+                │   └── INDEX_SCAN
+                └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_090_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── NESTED_LOOP
+                ├── NESTED_LOOP
+                │   ├── HASH_JOIN
+                │   │   ├── SEQ_SCAN
+                │   │   └── NESTED_LOOP
+                │   │       ├── HASH_JOIN
+                │   │       │   ├── HASH_JOIN
+                │   │       │   │   ├── SEQ_SCAN
+                │   │       │   │   └── SEQ_SCAN
+                │   │       │   └── HASH_JOIN
+                │   │       │       ├── SEQ_SCAN
+                │   │       │       └── SEQ_SCAN
+                │   │       └── INDEX_SCAN
+                │   └── INDEX_SCAN
+                └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_091_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── NESTED_LOOP
+        ├── NESTED_LOOP
+        │   ├── NESTED_LOOP_SEMI_JOIN
+        │   │   ├── SORT
+        │   │   │   └── HASH_JOIN
+        │   │   │       ├── NESTED_LOOP
+        │   │   │       │   ├── HASH_JOIN
+        │   │   │       │   │   ├── SEQ_SCAN
+        │   │   │       │   │   └── HASH_JOIN
+        │   │   │       │   │       ├── SEQ_SCAN
+        │   │   │       │   │       └── NESTED_LOOP
+        │   │   │       │   │           ├── HASH_JOIN
+        │   │   │       │   │           │   ├── HASH_JOIN
+        │   │   │       │   │           │   │   ├── SEQ_SCAN
+        │   │   │       │   │           │   │   └── SEQ_SCAN
+        │   │   │       │   │           │   └── HASH_JOIN
+        │   │   │       │   │           │       ├── SEQ_SCAN
+        │   │   │       │   │           │       └── SEQ_SCAN
+        │   │   │       │   │           └── INDEX_SCAN
+        │   │   │       │   └── INDEX_SCAN
+        │   │   │       └── SEQ_SCAN
+        │   │   └── HASH_JOIN
+        │   │       ├── SEQ_SCAN
+        │   │       └── SEQ_SCAN
+        │   └── INDEX_SCAN
+        └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_092_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── NESTED_LOOP
+            │   │   ├── HASH_SEMI_JOIN
+            │   │   │   ├── NESTED_LOOP
+            │   │   │   │   ├── HASH_JOIN
+            │   │   │   │   │   ├── SEQ_SCAN
+            │   │   │   │   │   └── HASH_JOIN
+            │   │   │   │   │       ├── SEQ_SCAN
+            │   │   │   │   │       └── NESTED_LOOP
+            │   │   │   │   │           ├── HASH_JOIN
+            │   │   │   │   │           │   ├── HASH_JOIN
+            │   │   │   │   │           │   │   ├── SEQ_SCAN
+            │   │   │   │   │           │   │   └── SEQ_SCAN
+            │   │   │   │   │           │   └── HASH_JOIN
+            │   │   │   │   │           │       ├── SEQ_SCAN
+            │   │   │   │   │           │       └── SEQ_SCAN
+            │   │   │   │   │           └── INDEX_SCAN
+            │   │   │   │   └── INDEX_SCAN
+            │   │   │   └── HASH_JOIN
+            │   │   │       ├── SEQ_SCAN
+            │   │   │       └── SEQ_SCAN
+            │   │   └── INDEX_SCAN
+            │   └── SEQ_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_093_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── NESTED_LOOP
+            │   │   ├── HASH_SEMI_JOIN
+            │   │   │   ├── NESTED_LOOP
+            │   │   │   │   ├── HASH_JOIN
+            │   │   │   │   │   ├── SEQ_SCAN
+            │   │   │   │   │   └── HASH_JOIN
+            │   │   │   │   │       ├── SEQ_SCAN
+            │   │   │   │   │       └── NESTED_LOOP
+            │   │   │   │   │           ├── HASH_JOIN
+            │   │   │   │   │           │   ├── HASH_JOIN
+            │   │   │   │   │           │   │   ├── SEQ_SCAN
+            │   │   │   │   │           │   │   └── SEQ_SCAN
+            │   │   │   │   │           │   └── HASH_JOIN
+            │   │   │   │   │           │       ├── SEQ_SCAN
+            │   │   │   │   │           │       └── SEQ_SCAN
+            │   │   │   │   │           └── INDEX_SCAN
+            │   │   │   │   └── INDEX_SCAN
+            │   │   │   └── HASH_JOIN
+            │   │   │       ├── SEQ_SCAN
+            │   │   │       └── SEQ_SCAN
+            │   │   └── INDEX_SCAN
+            │   └── SEQ_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_094_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── NESTED_LOOP
+            │   │   ├── NESTED_LOOP
+            │   │   │   ├── HASH_JOIN
+            │   │   │   │   ├── SEQ_SCAN
+            │   │   │   │   └── NESTED_LOOP
+            │   │   │   │       ├── HASH_JOIN
+            │   │   │   │       │   ├── HASH_JOIN
+            │   │   │   │       │   │   ├── SEQ_SCAN
+            │   │   │   │       │   │   └── SEQ_SCAN
+            │   │   │   │       │   └── HASH_JOIN
+            │   │   │   │       │       ├── HASH_JOIN
+            │   │   │   │       │       │   ├── SEQ_SCAN
+            │   │   │   │       │       │   └── SEQ_SCAN
+            │   │   │   │       │       └── SEQ_SCAN
+            │   │   │   │       └── INDEX_SCAN
+            │   │   │   └── INDEX_SCAN
+            │   │   └── MEMOIZE
+            │   │       └── INDEX_SCAN
+            │   └── HASH_JOIN
+            │       ├── SEQ_SCAN
+            │       └── SEQ_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_095_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── NESTED_LOOP
+            │   │   ├── NESTED_LOOP
+            │   │   │   ├── HASH_JOIN
+            │   │   │   │   ├── SEQ_SCAN
+            │   │   │   │   └── NESTED_LOOP
+            │   │   │   │       ├── HASH_JOIN
+            │   │   │   │       │   ├── HASH_JOIN
+            │   │   │   │       │   │   ├── SEQ_SCAN
+            │   │   │   │       │   │   └── SEQ_SCAN
+            │   │   │   │       │   └── HASH_JOIN
+            │   │   │   │       │       ├── HASH_JOIN
+            │   │   │   │       │       │   ├── SEQ_SCAN
+            │   │   │   │       │       │   └── SEQ_SCAN
+            │   │   │   │       │       └── SEQ_SCAN
+            │   │   │   │       └── INDEX_SCAN
+            │   │   │   └── INDEX_SCAN
+            │   │   └── MEMOIZE
+            │   │       └── INDEX_SCAN
+            │   └── HASH_JOIN
+            │       ├── SEQ_SCAN
+            │       └── SEQ_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_096_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── NESTED_LOOP
+            │   │   ├── NESTED_LOOP
+            │   │   │   ├── HASH_JOIN
+            │   │   │   │   ├── SEQ_SCAN
+            │   │   │   │   └── NESTED_LOOP
+            │   │   │   │       ├── HASH_JOIN
+            │   │   │   │       │   ├── HASH_JOIN
+            │   │   │   │       │   │   ├── SEQ_SCAN
+            │   │   │   │       │   │   └── SEQ_SCAN
+            │   │   │   │       │   └── HASH_JOIN
+            │   │   │   │       │       ├── HASH_JOIN
+            │   │   │   │       │       │   ├── SEQ_SCAN
+            │   │   │   │       │       │   └── SEQ_SCAN
+            │   │   │   │       │       └── SEQ_SCAN
+            │   │   │   │       └── INDEX_SCAN
+            │   │   │   └── INDEX_SCAN
+            │   │   └── MEMOIZE
+            │   │       └── INDEX_SCAN
+            │   └── HASH_JOIN
+            │       ├── SEQ_SCAN
+            │       └── SEQ_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_097_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── NESTED_LOOP
+        ├── NESTED_LOOP_SEMI_JOIN
+        │   ├── NESTED_LOOP
+        │   │   ├── SORT
+        │   │   │   └── NESTED_LOOP
+        │   │   │       ├── NESTED_LOOP
+        │   │   │       │   ├── HASH_JOIN
+        │   │   │       │   │   ├── SEQ_SCAN
+        │   │   │       │   │   └── HASH_JOIN
+        │   │   │       │   │       ├── HASH_JOIN
+        │   │   │       │   │       │   ├── HASH_JOIN
+        │   │   │       │   │       │   │   ├── SEQ_SCAN
+        │   │   │       │   │       │   │   └── SEQ_SCAN
+        │   │   │       │   │       │   └── HASH_JOIN
+        │   │   │       │   │       │       ├── SEQ_SCAN
+        │   │   │       │   │       │       └── MERGE_JOIN
+        │   │   │       │   │       │           ├── INDEX_SCAN
+        │   │   │       │   │       │           └── SORT
+        │   │   │       │   │       │               └── SEQ_SCAN
+        │   │   │       │   │       └── SEQ_SCAN
+        │   │   │       │   └── INDEX_SCAN
+        │   │   │       └── MEMOIZE
+        │   │   │           └── INDEX_SCAN
+        │   │   └── MATERIALIZE
+        │   │       └── HASH_JOIN
+        │   │           ├── SEQ_SCAN
+        │   │           └── SEQ_SCAN
+        │   └── HASH_JOIN
+        │       ├── SEQ_SCAN
+        │       └── SEQ_SCAN
+        └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_098_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── NESTED_LOOP
+        ├── NESTED_LOOP_SEMI_JOIN
+        │   ├── NESTED_LOOP
+        │   │   ├── SORT
+        │   │   │   └── NESTED_LOOP
+        │   │   │       ├── NESTED_LOOP
+        │   │   │       │   ├── HASH_JOIN
+        │   │   │       │   │   ├── SEQ_SCAN
+        │   │   │       │   │   └── HASH_JOIN
+        │   │   │       │   │       ├── HASH_JOIN
+        │   │   │       │   │       │   ├── HASH_JOIN
+        │   │   │       │   │       │   │   ├── SEQ_SCAN
+        │   │   │       │   │       │   │   └── SEQ_SCAN
+        │   │   │       │   │       │   └── HASH_JOIN
+        │   │   │       │   │       │       ├── SEQ_SCAN
+        │   │   │       │   │       │       └── MERGE_JOIN
+        │   │   │       │   │       │           ├── INDEX_SCAN
+        │   │   │       │   │       │           └── SORT
+        │   │   │       │   │       │               └── SEQ_SCAN
+        │   │   │       │   │       └── SEQ_SCAN
+        │   │   │       │   └── INDEX_SCAN
+        │   │   │       └── MEMOIZE
+        │   │   │           └── INDEX_SCAN
+        │   │   └── MATERIALIZE
+        │   │       └── HASH_JOIN
+        │   │           ├── SEQ_SCAN
+        │   │           └── SEQ_SCAN
+        │   └── HASH_JOIN
+        │       ├── SEQ_SCAN
+        │       └── SEQ_SCAN
+        └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_099_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── NESTED_LOOP
+        ├── NESTED_LOOP_SEMI_JOIN
+        │   ├── NESTED_LOOP
+        │   │   ├── SORT
+        │   │   │   └── NESTED_LOOP
+        │   │   │       ├── NESTED_LOOP
+        │   │   │       │   ├── HASH_JOIN
+        │   │   │       │   │   ├── SEQ_SCAN
+        │   │   │       │   │   └── HASH_JOIN
+        │   │   │       │   │       ├── HASH_JOIN
+        │   │   │       │   │       │   ├── HASH_JOIN
+        │   │   │       │   │       │   │   ├── SEQ_SCAN
+        │   │   │       │   │       │   │   └── SEQ_SCAN
+        │   │   │       │   │       │   └── HASH_JOIN
+        │   │   │       │   │       │       ├── SEQ_SCAN
+        │   │   │       │   │       │       └── MERGE_JOIN
+        │   │   │       │   │       │           ├── INDEX_SCAN
+        │   │   │       │   │       │           └── SORT
+        │   │   │       │   │       │               └── SEQ_SCAN
+        │   │   │       │   │       └── SEQ_SCAN
+        │   │   │       │   └── INDEX_SCAN
+        │   │   │       └── MEMOIZE
+        │   │   │           └── INDEX_SCAN
+        │   │   └── MATERIALIZE
+        │   │       └── HASH_JOIN
+        │   │           ├── SEQ_SCAN
+        │   │           └── SEQ_SCAN
+        │   └── HASH_JOIN
+        │       ├── SEQ_SCAN
+        │       └── SEQ_SCAN
+        └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_100_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── NESTED_LOOP
+        ├── NESTED_LOOP
+        │   ├── SORT
+        │   │   └── HASH_SEMI_JOIN
+        │   │       ├── NESTED_LOOP
+        │   │       │   ├── HASH_JOIN
+        │   │       │   │   ├── SEQ_SCAN
+        │   │       │   │   └── NESTED_LOOP
+        │   │       │   │       ├── HASH_JOIN
+        │   │       │   │       │   ├── SEQ_SCAN
+        │   │       │   │       │   └── NESTED_LOOP
+        │   │       │   │       │       ├── HASH_JOIN
+        │   │       │   │       │       │   ├── HASH_JOIN
+        │   │       │   │       │       │   │   ├── SEQ_SCAN
+        │   │       │   │       │       │   │   └── SEQ_SCAN
+        │   │       │   │       │       │   └── HASH_JOIN
+        │   │       │   │       │       │       ├── SEQ_SCAN
+        │   │       │   │       │       │       └── SEQ_SCAN
+        │   │       │   │       │       └── INDEX_SCAN
+        │   │       │   │       └── INDEX_SCAN
+        │   │       │   └── MEMOIZE
+        │   │       │       └── INDEX_SCAN
+        │   │       └── SEQ_SCAN
+        │   └── HASH_JOIN
+        │       ├── HASH_JOIN
+        │       │   ├── SEQ_SCAN
+        │       │   └── SEQ_SCAN
+        │       └── HASH_JOIN
+        │           ├── SEQ_SCAN
+        │           └── SEQ_SCAN
+        └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_101_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── NESTED_LOOP
+        ├── NESTED_LOOP
+        │   ├── SORT
+        │   │   └── HASH_SEMI_JOIN
+        │   │       ├── NESTED_LOOP
+        │   │       │   ├── HASH_JOIN
+        │   │       │   │   ├── SEQ_SCAN
+        │   │       │   │   └── NESTED_LOOP
+        │   │       │   │       ├── HASH_JOIN
+        │   │       │   │       │   ├── SEQ_SCAN
+        │   │       │   │       │   └── NESTED_LOOP
+        │   │       │   │       │       ├── HASH_JOIN
+        │   │       │   │       │       │   ├── HASH_JOIN
+        │   │       │   │       │       │   │   ├── SEQ_SCAN
+        │   │       │   │       │       │   │   └── SEQ_SCAN
+        │   │       │   │       │       │   └── HASH_JOIN
+        │   │       │   │       │       │       ├── SEQ_SCAN
+        │   │       │   │       │       │       └── SEQ_SCAN
+        │   │       │   │       │       └── INDEX_SCAN
+        │   │       │   │       └── INDEX_SCAN
+        │   │       │   └── MEMOIZE
+        │   │       │       └── INDEX_SCAN
+        │   │       └── SEQ_SCAN
+        │   └── HASH_JOIN
+        │       ├── HASH_JOIN
+        │       │   ├── SEQ_SCAN
+        │       │   └── SEQ_SCAN
+        │       └── HASH_JOIN
+        │           ├── SEQ_SCAN
+        │           └── SEQ_SCAN
+        └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_102_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── NESTED_LOOP
+        ├── NESTED_LOOP
+        │   ├── SORT
+        │   │   └── HASH_SEMI_JOIN
+        │   │       ├── NESTED_LOOP
+        │   │       │   ├── HASH_JOIN
+        │   │       │   │   ├── SEQ_SCAN
+        │   │       │   │   └── NESTED_LOOP
+        │   │       │   │       ├── HASH_JOIN
+        │   │       │   │       │   ├── SEQ_SCAN
+        │   │       │   │       │   └── NESTED_LOOP
+        │   │       │   │       │       ├── HASH_JOIN
+        │   │       │   │       │       │   ├── HASH_JOIN
+        │   │       │   │       │       │   │   ├── SEQ_SCAN
+        │   │       │   │       │       │   │   └── SEQ_SCAN
+        │   │       │   │       │       │   └── HASH_JOIN
+        │   │       │   │       │       │       ├── SEQ_SCAN
+        │   │       │   │       │       │       └── SEQ_SCAN
+        │   │       │   │       │       └── INDEX_SCAN
+        │   │       │   │       └── INDEX_SCAN
+        │   │       │   └── MEMOIZE
+        │   │       │       └── INDEX_SCAN
+        │   │       └── SEQ_SCAN
+        │   └── HASH_JOIN
+        │       ├── HASH_JOIN
+        │       │   ├── SEQ_SCAN
+        │       │   └── SEQ_SCAN
+        │       └── HASH_JOIN
+        │           ├── SEQ_SCAN
+        │           └── SEQ_SCAN
+        └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_103_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── NESTED_LOOP_SEMI_JOIN
+        ├── NESTED_LOOP
+        │   ├── SORT
+        │   │   └── MERGE_JOIN
+        │   │       ├── SORT
+        │   │       │   └── NESTED_LOOP
+        │   │       │       ├── HASH_JOIN
+        │   │       │       │   ├── SEQ_SCAN
+        │   │       │       │   └── NESTED_LOOP
+        │   │       │       │       ├── HASH_JOIN
+        │   │       │       │       │   ├── SEQ_SCAN
+        │   │       │       │       │   └── NESTED_LOOP
+        │   │       │       │       │       ├── HASH_JOIN
+        │   │       │       │       │       │   ├── HASH_JOIN
+        │   │       │       │       │       │   │   ├── SEQ_SCAN
+        │   │       │       │       │       │   │   └── SEQ_SCAN
+        │   │       │       │       │       │   └── HASH_JOIN
+        │   │       │       │       │       │       ├── SEQ_SCAN
+        │   │       │       │       │       │       └── SEQ_SCAN
+        │   │       │       │       │       └── INDEX_SCAN
+        │   │       │       │       └── INDEX_SCAN
+        │   │       │       └── MEMOIZE
+        │   │       │           └── INDEX_SCAN
+        │   │       └── SORT
+        │   │           └── HASH_JOIN
+        │   │               ├── HASH_JOIN
+        │   │               │   ├── SEQ_SCAN
+        │   │               │   └── SEQ_SCAN
+        │   │               └── HASH_JOIN
+        │   │                   ├── SEQ_SCAN
+        │   │                   └── SEQ_SCAN
+        │   └── INDEX_SCAN
+        └── SEQ_SCAN
+
+================================================================================
+SYNTHETIC: query_104_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── NESTED_LOOP_SEMI_JOIN
+        ├── NESTED_LOOP
+        │   ├── SORT
+        │   │   └── MERGE_JOIN
+        │   │       ├── SORT
+        │   │       │   └── NESTED_LOOP
+        │   │       │       ├── HASH_JOIN
+        │   │       │       │   ├── SEQ_SCAN
+        │   │       │       │   └── NESTED_LOOP
+        │   │       │       │       ├── HASH_JOIN
+        │   │       │       │       │   ├── SEQ_SCAN
+        │   │       │       │       │   └── NESTED_LOOP
+        │   │       │       │       │       ├── HASH_JOIN
+        │   │       │       │       │       │   ├── HASH_JOIN
+        │   │       │       │       │       │   │   ├── SEQ_SCAN
+        │   │       │       │       │       │   │   └── SEQ_SCAN
+        │   │       │       │       │       │   └── HASH_JOIN
+        │   │       │       │       │       │       ├── SEQ_SCAN
+        │   │       │       │       │       │       └── SEQ_SCAN
+        │   │       │       │       │       └── INDEX_SCAN
+        │   │       │       │       └── INDEX_SCAN
+        │   │       │       └── MEMOIZE
+        │   │       │           └── INDEX_SCAN
+        │   │       └── SORT
+        │   │           └── HASH_JOIN
+        │   │               ├── HASH_JOIN
+        │   │               │   ├── SEQ_SCAN
+        │   │               │   └── SEQ_SCAN
+        │   │               └── HASH_JOIN
+        │   │                   ├── SEQ_SCAN
+        │   │                   └── SEQ_SCAN
+        │   └── INDEX_SCAN
+        └── SEQ_SCAN
+
+================================================================================
+SYNTHETIC: query_105_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── NESTED_LOOP
+            │   │   ├── HASH_JOIN
+            │   │   │   ├── SEQ_SCAN
+            │   │   │   └── NESTED_LOOP
+            │   │   │       ├── NESTED_LOOP
+            │   │   │       │   ├── HASH_JOIN
+            │   │   │       │   │   ├── SEQ_SCAN
+            │   │   │       │   │   └── NESTED_LOOP
+            │   │   │       │   │       ├── HASH_JOIN
+            │   │   │       │   │       │   ├── HASH_JOIN
+            │   │   │       │   │       │   │   ├── SEQ_SCAN
+            │   │   │       │   │       │   │   └── SEQ_SCAN
+            │   │   │       │   │       │   └── HASH_JOIN
+            │   │   │       │   │       │       ├── SEQ_SCAN
+            │   │   │       │   │       │       └── SEQ_SCAN
+            │   │   │       │   │       └── INDEX_SCAN
+            │   │   │       │   └── INDEX_SCAN
+            │   │   │       └── SEQ_SCAN
+            │   │   └── INDEX_SCAN
+            │   └── INDEX_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_106_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── NESTED_LOOP
+            │   │   ├── HASH_JOIN
+            │   │   │   ├── SEQ_SCAN
+            │   │   │   └── NESTED_LOOP
+            │   │   │       ├── NESTED_LOOP
+            │   │   │       │   ├── HASH_JOIN
+            │   │   │       │   │   ├── SEQ_SCAN
+            │   │   │       │   │   └── NESTED_LOOP
+            │   │   │       │   │       ├── HASH_JOIN
+            │   │   │       │   │       │   ├── HASH_JOIN
+            │   │   │       │   │       │   │   ├── SEQ_SCAN
+            │   │   │       │   │       │   │   └── SEQ_SCAN
+            │   │   │       │   │       │   └── HASH_JOIN
+            │   │   │       │   │       │       ├── SEQ_SCAN
+            │   │   │       │   │       │       └── SEQ_SCAN
+            │   │   │       │   │       └── INDEX_SCAN
+            │   │   │       │   └── INDEX_SCAN
+            │   │   │       └── SEQ_SCAN
+            │   │   └── INDEX_SCAN
+            │   └── INDEX_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_107_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── NESTED_LOOP
+            │   │   ├── HASH_JOIN
+            │   │   │   ├── SEQ_SCAN
+            │   │   │   └── NESTED_LOOP
+            │   │   │       ├── NESTED_LOOP
+            │   │   │       │   ├── HASH_JOIN
+            │   │   │       │   │   ├── SEQ_SCAN
+            │   │   │       │   │   └── NESTED_LOOP
+            │   │   │       │   │       ├── HASH_JOIN
+            │   │   │       │   │       │   ├── HASH_JOIN
+            │   │   │       │   │       │   │   ├── SEQ_SCAN
+            │   │   │       │   │       │   │   └── SEQ_SCAN
+            │   │   │       │   │       │   └── HASH_JOIN
+            │   │   │       │   │       │       ├── SEQ_SCAN
+            │   │   │       │   │       │       └── SEQ_SCAN
+            │   │   │       │   │       └── INDEX_SCAN
+            │   │   │       │   └── INDEX_SCAN
+            │   │   │       └── SEQ_SCAN
+            │   │   └── INDEX_SCAN
+            │   └── INDEX_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_108_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── HASH_JOIN
+            │   │   ├── NESTED_LOOP
+            │   │   │   ├── HASH_JOIN
+            │   │   │   │   ├── HASH_JOIN
+            │   │   │   │   │   ├── SEQ_SCAN
+            │   │   │   │   │   └── NESTED_LOOP
+            │   │   │   │   │       ├── HASH_JOIN
+            │   │   │   │   │       │   ├── HASH_JOIN
+            │   │   │   │   │       │   │   ├── SEQ_SCAN
+            │   │   │   │   │       │   │   └── SEQ_SCAN
+            │   │   │   │   │       │   └── HASH_JOIN
+            │   │   │   │   │       │       ├── SEQ_SCAN
+            │   │   │   │   │       │       └── SEQ_SCAN
+            │   │   │   │   │       └── INDEX_SCAN
+            │   │   │   │   └── SEQ_SCAN
+            │   │   │   └── INDEX_SCAN
+            │   │   └── SEQ_SCAN
+            │   └── INDEX_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_109_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── HASH_JOIN
+            │   │   ├── NESTED_LOOP
+            │   │   │   ├── HASH_JOIN
+            │   │   │   │   ├── HASH_JOIN
+            │   │   │   │   │   ├── SEQ_SCAN
+            │   │   │   │   │   └── NESTED_LOOP
+            │   │   │   │   │       ├── HASH_JOIN
+            │   │   │   │   │       │   ├── HASH_JOIN
+            │   │   │   │   │       │   │   ├── SEQ_SCAN
+            │   │   │   │   │       │   │   └── SEQ_SCAN
+            │   │   │   │   │       │   └── HASH_JOIN
+            │   │   │   │   │       │       ├── SEQ_SCAN
+            │   │   │   │   │       │       └── SEQ_SCAN
+            │   │   │   │   │       └── INDEX_SCAN
+            │   │   │   │   └── SEQ_SCAN
+            │   │   │   └── INDEX_SCAN
+            │   │   └── SEQ_SCAN
+            │   └── INDEX_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_110_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── NESTED_LOOP
+            │   ├── HASH_JOIN
+            │   │   ├── NESTED_LOOP
+            │   │   │   ├── HASH_JOIN
+            │   │   │   │   ├── HASH_JOIN
+            │   │   │   │   │   ├── SEQ_SCAN
+            │   │   │   │   │   └── NESTED_LOOP
+            │   │   │   │   │       ├── HASH_JOIN
+            │   │   │   │   │       │   ├── HASH_JOIN
+            │   │   │   │   │       │   │   ├── SEQ_SCAN
+            │   │   │   │   │       │   │   └── SEQ_SCAN
+            │   │   │   │   │       │   └── HASH_JOIN
+            │   │   │   │   │       │       ├── SEQ_SCAN
+            │   │   │   │   │       │       └── SEQ_SCAN
+            │   │   │   │   │       └── INDEX_SCAN
+            │   │   │   │   └── SEQ_SCAN
+            │   │   │   └── INDEX_SCAN
+            │   │   └── SEQ_SCAN
+            │   └── INDEX_SCAN
+            └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_111_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── NESTED_LOOP
+                ├── HASH_JOIN
+                │   ├── SEQ_SCAN
+                │   └── NESTED_LOOP
+                │       ├── HASH_JOIN
+                │       │   ├── HASH_JOIN
+                │       │   │   ├── SEQ_SCAN
+                │       │   │   └── SEQ_SCAN
+                │       │   └── HASH_JOIN
+                │       │       ├── SEQ_SCAN
+                │       │       └── SEQ_SCAN
+                │       └── INDEX_SCAN
+                └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_112_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── HASH_JOIN
+            ├── SEQ_SCAN
+            └── NESTED_LOOP
+                ├── HASH_JOIN
+                │   ├── SEQ_SCAN
+                │   └── NESTED_LOOP
+                │       ├── HASH_JOIN
+                │       │   ├── HASH_JOIN
+                │       │   │   ├── SEQ_SCAN
+                │       │   │   └── SEQ_SCAN
+                │       │   └── HASH_JOIN
+                │       │       ├── SEQ_SCAN
+                │       │       └── SEQ_SCAN
+                │       └── INDEX_SCAN
+                └── INDEX_SCAN
+
+================================================================================
+SYNTHETIC: query_113_explain.json
+================================================================================
+SORT
+└── GROUPAGGREGATE
+    └── SORT
+        └── NESTED_LOOP
+            ├── HASH_JOIN
+            │   ├── SEQ_SCAN
+            │   └── HASH_JOIN
+            │       ├── SEQ_SCAN
+            │       └── NESTED_LOOP
+            │           ├── HASH_JOIN
+            │           │   ├── HASH_JOIN
+            │           │   │   ├── SEQ_SCAN
+            │           │   │   └── SEQ_SCAN
+            │           │   └── HASH_JOIN
+            │           │       ├── SEQ_SCAN
+            │           │       └── SEQ_SCAN
+            │           └── INDEX_SCAN
+            └── INDEX_SCAN
+

@@ -141,8 +141,32 @@ Additional advanced dashboards have been included to perform deep-dive statistic
 - **`cdf_relative_error.html`**: A dedicated Cumulative Distribution Function visualization that maps the relative prediction errors dynamically.
 - **`Final_templates.html`**: A dashboard detailing the JOB schema SQL templates, table relationships, and parameterized structures used as the baseline for generation.
 
-### 9. Key Quantitative Findings
+### 9. Optimizer Plan Structure & Behavior Preservation (Picasso-style Analysis)
+To verify if cost-distribution matching preserves the database optimizer's behavior and structural decisions, I conducted a deep execution-plan structure comparison of all 113 original-synthetic query pairs:
+- **`optimizer_fidelity_report.html` (Rooted Subplan Jaccard Analysis):** Measures structural agreement using set-based Jaccard similarity over all canonicalized rooted subplans (using order-independent sibling sorting and tree canonicalization).
+  - *Mean Jaccard Similarity:* **18.02%**
+  - *Median Jaccard Similarity:* **16.67%**
+  - *Range:* **9.09%** (query_034) to **45.45%** (query_021).
+  - *Insight:* Even the best-preserved query plan shape has less than 50% structural similarity to its original counterpart, confirming that the generator does not preserve optimizer plan shapes.
+- **`optimizer_coverage_dashboard.html` (Execution Fragment Coverage Study):** Enumerates every connected downward fragment (arbitrary depth/pruning) to measure the proportion of the original plan's structure preserved by the synthetic plan.
+  - *Mean Fragment Coverage:* **5.29%**
+  - *Median Fragment Coverage:* **2.90%**
+  - *Max Fragment Coverage:* **25.68%**
+  - *Insight:* A microscopic average coverage of 5.29% proves that almost none of the optimizer's complex execution strategies are preserved.
+- **`picasso_analysis_report.html` (Picasso Tree Differencing Analysis):** Evaluates structural query plan similarity using IISc Picasso tree differencing logic.
+  - *Mean Jaccard Similarity (1 - Distance):* **21.85%**
+  - *Median Jaccard Similarity:* **21.82%**
+  - *Range:* **11.43%** (query_074) to **35.14%** (query_045).
+  - *Insight:* None of the 113 queries had 100% matching execution plan trees. Root Jaccard similarities were consistently **0%**, indicating that structural divergence begins right at the top-level operator structure.
+- **Plan Comparison Outputs:**
+  - **`original_trees.txt` & `synthetic_trees.txt`:** Full canonicalized plan tree representations.
+  - **`comparison_results.csv`:** Detailed per-query comparison metrics including Tree Edit Distance (TED) and Multiset Jaccard operator similarity.
+  - **`plan_comparator_v5.py` & `plan_comparator_v6.py`:** Python comparison scripts that implement the Zhang-Shasha tree edit distance and fragment enumeration.
+  - **`picasso2.1/`:** Full IISc Picasso database query optimizer visualizer and query plan tree differencing codebase.
+
+### 10. Key Quantitative Findings
 Based on the advanced statistical tracking and CDF visualizations, several concrete results emerged:
+- **Near-Zero Plan Preservation:** The new Picasso-style structural analyses and tree differencing reports prove a major finding: despite matching the macroscopic cost distribution, the synthetic workload has a **mean rooted subplan similarity of only 18.02%**, a **mean fragment coverage of just 5.29%**, and a **mean Picasso tree similarity of 21.85%**. The optimizer is generating radically different plan shapes, access paths, and join trees for the synthetic queries.
 - **Median vs. Mean Error Divergence:** While the median relative error across all 113 queries sits in a moderate range, the Mean Absolute Percentage Error (MAPE) is massively inflated by extreme outliers. This proves that average error metrics are misleading for synthetic workloads.
 - **High-Cost Fidelity:** Synthetic cost estimation is notably more accurate for high-complexity queries. Queries with original execution costs exceeding 700K exhibit a much tighter error bound (typically **2% – 35%**). This suggests the generative model performs more reliably when query optimizer costs are naturally large.
 - **Low-Cost Variance (The Outlier Problem):** Conversely, queries with very low original costs (≤ 85K) suffer from enormous percentage errors (often **> 200%**, maxing out at **2,429%** for Query #39). In these cases, even minor absolute prediction mistakes cause catastrophic relative skews.

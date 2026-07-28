@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Modelistic Software Ltd. (http://www.modelistic.com) -->
+<jme>
+	<diagram scope="picasso_client.elementSet.scope.iisc.dsl.picasso.client" style="defaultProfile.diagramStyle.default" version="1.3.7">
+		<class yLocation="-932" xLocation="-282" project="Picasso_Client" className="iisc.dsl.picasso.client.Picasso_Applet"/>
+		<class yLocation="-499" xLocation="-432" project="Picasso_Client" className="iisc.dsl.picasso.client.panel.DataBaseSettingsPanel"/>
+		<class yLocation="-836" xLocation="355" project="Picasso_Client" className="iisc.dsl.picasso.client.panel.PicassoPanel"/>
+		<class yLocation="-499" xLocation="205" project="Picasso_Client" className="iisc.dsl.picasso.client.panel.PlanCardPanel"/>
+		<class yLocation="-220" xLocation="-162" project="Picasso_Client" className="iisc.dsl.picasso.client.panel.PlanCostPanel"/>
+		<class yLocation="-220" xLocation="405" project="Picasso_Client" className="iisc.dsl.picasso.client.panel.PlanPanel"/>
+		<class yLocation="-796" xLocation="-883" project="Picasso_Client" className="iisc.dsl.picasso.client.panel.QueryBuilderPanel"/>
+	</diagram>
+	<profileRoot>
+		<elementSet childrenOred="false" typeFilter="false" id="scope.iisc.dsl.picasso.client">
+			<types exclude="false" packagePattern="iisc.dsl.picasso.client"/>
+		</elementSet>
+	</profileRoot>
+</jme>

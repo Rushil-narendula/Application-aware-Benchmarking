@@ -1,0 +1,1308 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns:st1="urn:schemas-microsoft-com:office:smarttags"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=FrontPage.Editor.Document>
+<meta name=Generator content="Microsoft FrontPage 12.0">
+<meta name=Originator content="Microsoft Word 12">
+<title>Picasso Algorithms</title>
+<o:SmartTagType namespaceuri="urn:schemas-microsoft-com:office:smarttags"
+ name="place"/>
+<o:SmartTagType namespaceuri="urn:schemas-microsoft-com:office:smarttags"
+ name="country-region"/>
+<o:SmartTagType namespaceuri="urn:schemas-microsoft-com:office:smarttags"
+ name="City"/>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>dsl</o:Author>
+  <o:Template>Normal</o:Template>
+  <o:LastAuthor>dsladmin</o:LastAuthor>
+  <o:Revision>86</o:Revision>
+  <o:TotalTime>911</o:TotalTime>
+  <o:Created>2006-10-30T09:59:00Z</o:Created>
+  <o:LastSaved>2009-02-06T17:06:00Z</o:LastSaved>
+  <o:Pages>3</o:Pages>
+  <o:Words>2499</o:Words>
+  <o:Characters>14250</o:Characters>
+  <o:Company>IISc</o:Company>
+  <o:Lines>118</o:Lines>
+  <o:Paragraphs>33</o:Paragraphs>
+  <o:CharactersWithSpaces>16716</o:CharactersWithSpaces>
+  <o:Version>12.00</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]-->
+<link rel=themeData href="algorithms_files/themedata.thmx">
+<link rel=colorSchemeMapping href="algorithms_files/colorschememapping.xml">
+<!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:Zoom>90</w:Zoom>
+  <w:SpellingState>Clean</w:SpellingState>
+  <w:TrackMoves>false</w:TrackMoves>
+  <w:TrackFormatting/>
+  <w:DrawingGridHorizontalSpacing>9.35 pt</w:DrawingGridHorizontalSpacing>
+  <w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:DoNotPromoteQF/>
+  <w:LidThemeOther>EN-US</w:LidThemeOther>
+  <w:LidThemeAsian>X-NONE</w:LidThemeAsian>
+  <w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript>
+  <w:Compatibility>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+   <w:SplitPgBreakAndParaMark/>
+   <w:DontVertAlignCellWithSp/>
+   <w:DontBreakConstrainedForcedTables/>
+   <w:DontVertAlignInTxbx/>
+   <w:Word11KerningPairs/>
+   <w:CachedColBalance/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+  <m:mathPr>
+   <m:mathFont m:val="Cambria Math"/>
+   <m:brkBin m:val="before"/>
+   <m:brkBinSub m:val="--"/>
+   <m:smallFrac m:val="off"/>
+   <m:dispDef/>
+   <m:lMargin m:val="0"/>
+   <m:rMargin m:val="0"/>
+   <m:defJc m:val="centerGroup"/>
+   <m:wrapIndent m:val="1440"/>
+   <m:intLim m:val="subSup"/>
+   <m:naryLim m:val="undOvr"/>
+  </m:mathPr></w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" DefUnhideWhenUsed="false"
+  DefSemiHidden="false" DefQFormat="false" LatentStyleCount="267">
+  <w:LsdException Locked="false" QFormat="true" Name="Normal"/>
+  <w:LsdException Locked="false" QFormat="true" Name="heading 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 6"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 7"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 8"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 9"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="caption"/>
+  <w:LsdException Locked="false" QFormat="true" Name="Title"/>
+  <w:LsdException Locked="false" Priority="1" Name="Default Paragraph Font"/>
+  <w:LsdException Locked="false" QFormat="true" Name="Subtitle"/>
+  <w:LsdException Locked="false" QFormat="true" Name="Strong"/>
+  <w:LsdException Locked="false" QFormat="true" Name="Emphasis"/>
+  <w:LsdException Locked="false" Priority="99" Name="No List"/>
+  <w:LsdException Locked="false" Priority="99" SemiHidden="true"
+   Name="Placeholder Text"/>
+  <w:LsdException Locked="false" Priority="1" QFormat="true" Name="No Spacing"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 1"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="99" SemiHidden="true" Name="Revision"/>
+  <w:LsdException Locked="false" Priority="34" QFormat="true"
+   Name="List Paragraph"/>
+  <w:LsdException Locked="false" Priority="29" QFormat="true" Name="Quote"/>
+  <w:LsdException Locked="false" Priority="30" QFormat="true"
+   Name="Intense Quote"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 1"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 1"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 2"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 2"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 2"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 3"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 3"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 3"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 4"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 4"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 4"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 5"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 5"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 5"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 6"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 6"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 6"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="19" QFormat="true"
+   Name="Subtle Emphasis"/>
+  <w:LsdException Locked="false" Priority="21" QFormat="true"
+   Name="Intense Emphasis"/>
+  <w:LsdException Locked="false" Priority="31" QFormat="true"
+   Name="Subtle Reference"/>
+  <w:LsdException Locked="false" Priority="32" QFormat="true"
+   Name="Intense Reference"/>
+  <w:LsdException Locked="false" Priority="33" QFormat="true" Name="Book Title"/>
+  <w:LsdException Locked="false" Priority="37" SemiHidden="true"
+   UnhideWhenUsed="true" Name="Bibliography"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="TOC Heading"/>
+ </w:LatentStyles>
+</xml><![endif]-->
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;
+	mso-font-charset:1;
+	mso-generic-font-family:roman;
+	mso-font-format:other;
+	mso-font-pitch:variable;
+	mso-font-signature:0 0 0 0 0 0;}
+@font-face
+	{font-family:"Arial Narrow";
+	panose-1:2 11 6 6 2 2 2 3 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:647 2048 0 0 159 0;}
+@font-face
+	{font-family:"Arial Black";
+	panose-1:2 11 10 4 2 1 2 2 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:647 0 0 0 159 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman"; margin-left:0in; margin-right:0in; margin-top:0in}
+a:link, span.MsoHyperlink
+	{mso-style-unhide:no;
+	color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-unhide:no;
+	color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+p
+	{mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
+	{mso-style-priority:34;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.5in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoListParagraphCxSpFirst, li.MsoListParagraphCxSpFirst, div.MsoListParagraphCxSpFirst
+	{mso-style-priority:34;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-type:export-only;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.5in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoListParagraphCxSpMiddle, li.MsoListParagraphCxSpMiddle, div.MsoListParagraphCxSpMiddle
+	{mso-style-priority:34;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-type:export-only;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.5in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoListParagraphCxSpLast, li.MsoListParagraphCxSpLast, div.MsoListParagraphCxSpLast
+	{mso-style-priority:34;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-type:export-only;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.5in;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";}
+p.style1, li.style1, div.style1
+	{mso-style-name:style1;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Arial","sans-serif";
+	mso-fareast-font-family:"Times New Roman";}
+p.style2, li.style2, div.style2
+	{mso-style-name:style2;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Arial","sans-serif";
+	mso-fareast-font-family:"Times New Roman";}
+p.style3, li.style3, div.style3
+	{mso-style-name:style3;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:.25in;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Arial","sans-serif";
+	mso-fareast-font-family:"Times New Roman";}
+p.style4, li.style4, div.style4
+	{mso-style-name:style4;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";}
+p.style6, li.style6, div.style6
+	{mso-style-name:style6;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:.5in;
+	line-height:115%;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Arial","sans-serif";
+	mso-fareast-font-family:"Times New Roman";
+	color:black;}
+p.style7, li.style7, div.style7
+	{mso-style-name:style7;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:.5in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Arial","sans-serif";
+	mso-fareast-font-family:"Times New Roman";}
+span.style41
+	{mso-style-name:style41;
+	mso-style-unhide:no;
+	font-weight:normal;}
+span.style21
+	{mso-style-name:style21;
+	mso-style-unhide:no;
+	font-family:"Arial","sans-serif";
+	mso-ascii-font-family:Arial;
+	mso-hansi-font-family:Arial;
+	mso-bidi-font-family:Arial;}
+span.style11
+	{mso-style-name:style11;
+	mso-style-unhide:no;
+	mso-ansi-font-size:12.0pt;
+	mso-bidi-font-size:12.0pt;
+	font-family:"Arial","sans-serif";
+	mso-ascii-font-family:Arial;
+	mso-hansi-font-family:Arial;
+	mso-bidi-font-family:Arial;}
+span.SpellE
+	{mso-style-name:"";
+	mso-spl-e:yes}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	mso-default-props:yes;
+	font-size:10.0pt;
+	mso-ansi-font-size:10.0pt;
+	mso-bidi-font-size:10.0pt;}
+@page Section1
+	{size:595.45pt 841.7pt;
+	margin:1.0in 1.25in 1.0in 1.25in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+@list l0
+	{mso-list-id:1092773464;
+	mso-list-type:hybrid;
+	mso-list-template-ids:633524008 67698693 67698691 67698693 67698689 67698691 67698693 67698689 67698691 67698693;}
+@list l0:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	margin-left:1.0in;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+@list l0:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	margin-left:1.5in;
+	text-indent:-.25in;
+	font-family:"Courier New";}
+@list l0:level3
+	{mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l0:level4
+	{mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l0:level5
+	{mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l0:level6
+	{mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l0:level7
+	{mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l0:level8
+	{mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l0:level9
+	{mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1
+	{mso-list-id:1171721247;
+	mso-list-type:hybrid;
+	mso-list-template-ids:1957308050 1074331663 1074331673 1074331675 1074331663 1074331673 1074331675 1074331663 1074331673 1074331675;}
+@list l1:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level2
+	{mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level3
+	{mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level4
+	{mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level5
+	{mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level6
+	{mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level7
+	{mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level8
+	{mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level9
+	{mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l2
+	{mso-list-id:1410467011;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1100562268 67698703 67698713 67698715 67698703 67698713 67698715 67698703 67698713 67698715;}
+@list l2:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:1.0in;
+	text-indent:-.25in;}
+@list l2:level2
+	{mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l2:level3
+	{mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l2:level4
+	{mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l2:level5
+	{mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l2:level6
+	{mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l2:level7
+	{mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l2:level8
+	{mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l2:level9
+	{mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman","serif"}
+.style4 {
+	font-family: "Arial Narrow";
+}
+.style6 {
+	font-family: Arial, Helvetica, sans-serif;
+}
+.style7 {
+	text-decoration: none;
+}
+.style8 {
+	font-style: normal;
+	font-weight: normal;
+	color: black;
+}
+.style9 {
+	font-family: Arial;
+}
+.style10 {
+	font-family: Arial, sans-serif;
+}
+.style16 {
+	color: #0000FF;
+}
+</style>
+<![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:.5in'>
+
+<div>
+
+<p class=MsoNormal align=center style='text-align:center'><b style='mso-bidi-font-weight:
+normal'><i><span style='font-size:20.0pt;font-family:"Arial","sans-serif";
+color:#CC0066'>Picasso Database Query Optimizer <span class=SpellE>Visualizer</span><o:p></o:p></span></i></b></p>
+
+<p class=MsoNormal align=center style='text-align:center'><b style='mso-bidi-font-weight:
+normal'><span style='font-family:"Arial","sans-serif";color:black;mso-bidi-font-style:
+italic'>©Indian Institute of Science, <st1:place w:st="on"><st1:City w:st="on">Bangalore</st1:City>,
+ <st1:country-region w:st="on">India</st1:country-region></st1:place></span></b><b
+style='mso-bidi-font-weight:normal'><span style='font-family:"Arial","sans-serif";
+color:black'><o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span
+style='font-family:"Arial","sans-serif"'>&nbsp;<o:p></o:p></span></p>
+
+<p align=center style='margin-left:.25in;text-align:center;text-indent:-.25in'><b
+style='mso-bidi-font-weight:normal'><span style='font-size:16.0pt;font-family:
+"Arial","sans-serif";color:red'>ALGORITHMIC<span style='mso-spacerun:yes'> 
+</span>DETAILS <o:p></o:p></span></b></p>
+
+<p align=center style='margin-left:.25in;text-align:center;text-indent:-.25in'><b
+style='mso-bidi-font-weight:normal'><span style='font-size:16.0pt;font-family:
+"Arial","sans-serif";color:red'><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoListParagraph style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;mso-add-space:auto;text-indent:-.25in;mso-list:l1 level1 lfo2'><![if !supportLists]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:14.0pt;font-family:
+"Arial","sans-serif";mso-fareast-font-family:Arial;color:green'><span
+style='mso-list:Ignore'>1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;
+</span></span></span></b><![endif]><b style='mso-bidi-font-weight:normal'><span
+style='font-size:14.0pt;font-family:"Arial","sans-serif";color:green'>Plan
+Reduction Algorithms<o:p></o:p></span></b></p>
+
+<br/>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><span style='font-family:"Arial","sans-serif"'>A detailed
+assessment of the Plan Reduction problem is available in this <a
+href="http://dsl.serc.iisc.ernet.in/publications/report/TR/TR-2007-01.pdf">technical
+report</a>. It is shown in the report that, <span style='color:black'>given </span>an
+optimality criterion of minimizing the plan cardinality of the reduced plan
+diagram for a user-specified cost increase threshold, finding the optimal
+solution is NP-Hard. Therefore, the only recourse is to develop heuristic-based&nbsp;
+algorithms – Picasso 1.0 supported two greedy algorithms, referred to
+as <b style='mso-bidi-font-weight:normal'>AreaGreedy </b>and <b
+style='mso-bidi-font-weight:normal'>CostGreedy</b>, respectively. In Picasso 
+2.0, only
+CostGreedy is retained since it is has significantly better performance characteristics,
+with regard to both reduction and efficiency, than AreaGreedy.
+<o:p>&nbsp;</o:p></span></p>
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'>
+<o:p></o:p>
+<o:p></o:p>
+</p>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><span style='font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><span class=SpellE><b style='mso-bidi-font-weight:normal'><span
+style='font-family:"Arial","sans-serif";color:blue'>CostGreedy</span></b></span><b
+style='mso-bidi-font-weight:normal'><u><span style='font-family:"Arial","sans-serif";
+color:blue'><o:p></o:p></span></u></b></p>
+
+<br/>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;margin-bottom:12.0pt;
+margin-left:.5in'><span style='font-family:"Arial","sans-serif"'>This algorithm 
+operates under the assumption that the Cost Domination Principle (query 
+processing costs increase as we move outwards from the origin in the selectivity 
+space) holds and therefore only plan swallowing possibilities in the <em>first 
+quadrant</em> are considered with respect to the plan under consideration.&nbsp; 
+A direct corollary of this assumption is that in exploring swallowing 
+possibilities for a given plan, we do not need to retain all points contained in 
+each potential swallower plan, but only those corresponding to the&nbsp; minimum 
+cost in the first quadrant.&nbsp; The algorithm
+processes the query points starting from the top-right corner (with the Cost 
+Domination assumption, this corner will have the highest cost of all points) and 
+progressively makes its way to the origin, in the process using the Greedy SetCover algorithm 
+to recolor the points – the complete details are in this <a href="http://dsl.serc.iisc.ernet.in/publications/report/TR/TR-2007-01.pdf">technical&nbsp; 
+report</a> . The time complexity of CostGreedy is <b style='mso-bidi-font-weight:normal'>O(mn)</b> 
+where <strong>n</strong> is the number of plans in the plan diagram and<strong> 
+m</strong> is the number of of points in the diagram, a significant improvement 
+over AreaGreedy whose complexity is </span><span style='font-family:"Arial","sans-serif"'> <b style='mso-bidi-font-weight:normal'>O(m<sup>2</sup>)</b></span><span style='font-family:"Arial","sans-serif"'>.<span
+style='mso-spacerun:yes'> More importantly, it can be shown that CostGreedy 
+provides the best possible approximation factor with respect to the optimal 
+reduction.</span></span></p>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><u><b style='mso-bidi-font-weight:normal'><span
+style='font-family:"Arial","sans-serif";color:#660033'>Knee Estimator<o:p></o:p></span></b></u></p>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><span style='font-family:"Arial","sans-serif"'>As an aid to 
+help users make informed choices of the values to enter in <span style='mso-bidi-font-weight:bold;
+mso-bidi-font-style:italic'>the<b><i> </i></b><i>Enter Cost Increase Threshold</i></span>
+dialog box, a rough estimate of the <span style='mso-bidi-font-weight:bold;
+mso-bidi-font-style:italic'>location of the threshold value corresponding to the&nbsp; 
+“knee” in the graph characterizing “Plan Cardinality of the Reduced Plan Diagram 
+versus Cost Increase Threshold”,&nbsp; is provided in the box. Also provided is 
+an estimate of the minimum threshold required to reach a desired number of plans&nbsp; 
+(</span></span><span style='mso-no-proof:yes'><span lang=EN-US
+style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'><span
+lang=EN-US style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US;
+mso-bidi-font-weight:bold;mso-bidi-font-style:italic'>specified by the </span><span lang=EN-US style='font-size:10.0pt;font-family:
+"Arial Narrow","sans-serif";mso-bidi-font-family:Arial;mso-ansi-language:EN-US;
+mso-bidi-font-weight:bold;mso-bidi-font-style:italic'>DESIRED_NUM_PLANS </span><span
+lang=EN-US style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US;
+mso-bidi-font-weight:bold;mso-bidi-font-style:italic'>macro in</span><span
+lang=EN-US style='font-size:10.0pt;font-family:"Arial Narrow","sans-serif";
+mso-bidi-font-family:Arial;mso-ansi-language:EN-US;mso-bidi-font-weight:bold;
+mso-bidi-font-style:italic'> </span><span lang=EN-US style='font-family:"Arial Narrow","sans-serif";
+mso-bidi-font-family:Arial;mso-ansi-language:EN-US;mso-bidi-font-weight:bold;
+mso-bidi-font-style:italic'>PicassoConstants.java, </span>
+<span lang=EN-US
+style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US;mso-bidi-font-weight:
+bold;mso-bidi-font-style:italic'>set to </span><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:10.0pt;font-family:"Arial","sans-serif";
+mso-ansi-language:EN-US;mso-bidi-font-style:italic'><span class="style16">10</span> </span></b><span
+lang=EN-US style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US;
+mso-bidi-font-weight:bold;mso-bidi-font-style:italic'>in the distribution</span></span></span><span style='mso-bidi-font-weight:bold;
+mso-bidi-font-style:italic'><span style='font-family:"Arial","sans-serif"'>) in the reduced plan diagram. The estimator implemented in Picasso is the <b>AmmEst</b>
+estimator described in this&nbsp; 
+<a href="http://dsl.serc.iisc.ernet.in/publications/report/TR/TR-2007-01.pdf">technical
+report.</a></span></span></p>
+<br>
+<u>
+<b style='mso-bidi-font-weight:normal'>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><b style='mso-bidi-font-weight:normal'><span
+style='font-family:"Arial","sans-serif";color:#660033'>Cost Increase Statistics<o:p></o:p></span></b></p>
+
+</b></u><span style='mso-bidi-font-weight:normal'>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><span style='font-family:"Arial","sans-serif"'>In the panel
+immediately to the right of the reduced diagram, we show bounds on the minimum,
+average and maximum cost increase (in percentage terms) computed over all
+points that have undergone plan replacement during the reduction process.<span
+style='mso-spacerun:yes'>  </span>By definition, these values will all be
+smaller than the user-specified cost increase threshold.<o:p></o:p></span></p>
+</span><b style='mso-bidi-font-weight:normal'>
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'>
+<o:p></o:p></p>
+<br/>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.25in'>
+
+</b><span style='mso-bidi-font-weight:normal'>
+
+<![if !supportLists]><b
+style='mso-bidi-font-weight:normal'>
+<span style='font-size:14.0pt;font-family:
+"Arial","sans-serif";mso-fareast-font-family:Arial;color:green'>
+<span
+style='mso-list:Ignore'>2.<span style='font-style: normal; font-variant: normal; font-size: 7.0pt; line-height: normal; font-family: &#039;Times New Roman&#039;;'>&nbsp;&nbsp;
+</span></span></span></b><![endif]><b style='mso-bidi-font-weight:normal'><span
+style='font-size:14.0pt;font-family:"Arial","sans-serif";color:green'>Robust
+Plan Reduction Algorithms<o:p></o:p></span></b>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><span style='font-family:"Arial","sans-serif";mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>The above-mentioned reduction algorithms, AreaGreedy<i style='mso-bidi-font-style:normal'> </i>and CostGreedy, 
+ensure that the replacement plans are within the cost-increase-threshold at all 
+points in the optimality regions of the replaced plans. However, in practice, 
+query optimizers are subject to significant errors in their selectivity 
+estimates, and it may therefore be possible that the location of the query at 
+run-time may lie outside the optimality region of the replaced plan. At such 
+locations, the&nbsp;
+performance of the replacement plan could be much worse than the replaced plan,
+resulting in the replacement being harmful from a global perspective.<span
+style='mso-spacerun:yes'>  </span>This possibility naturally leads to the
+concept of a <i style='mso-bidi-font-style:normal'>robust </i>replacement –
+that is, a replacement where the &#955;-threshold criterion is satisfied at <i
+style='mso-bidi-font-style:normal'>all points in the selectivity space,</i>
+i.e. the replacement ensures <b style='mso-bidi-font-weight:normal'>global
+safety</b>. Providing robust replacements requires costing of plans outside
+their optimality regions, and it is therefore possible only with database
+engines that support the <i style='mso-bidi-font-style:normal'>Abstract Plan
+Costing</i> feature (in Picasso, these engines are</span><span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast' class="style4"> SQL Server </span><span style='font-family:"Arial","sans-serif";mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>and </span>
+<span style='mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast' class="style4">Sybase 
+ASE</span><span style='font-family:"Arial","sans-serif";mso-fareast-font-family:
+"Times New Roman";mso-fareast-theme-font:minor-fareast'>). Direct approaches to
+achieving robust plan reduction are computationally prohibitively expensive,
+but through empirical modeling of plan cost function behavior, we have been able to
+develop efficient alternatives, which are described in this <u>
+<a
+href="http://dsl.serc.iisc.ernet.in/publications/report/TR/TR-2007-02.pdf" class="style7">technical
+report</a></u>. The algorithm described there, called <b style='mso-bidi-font-weight:
+normal'>SEER</b>, guarantees global safety and requires Abstract-plan-costing operations only
+along the <i style='mso-bidi-font-style:normal'>surfaces</i> of the selectivity
+space hyper-cube.<span style='mso-spacerun:yes'>  </span>More remarkably, we
+have found through detailed experiments with industrial-strength benchmark
+environments that SEER provides global safety <i style='mso-bidi-font-style:
+normal'>without jeopardizing anorexic reduction</i>.<span
+style='mso-spacerun:yes'>  </span></span><span class=style21>Unlike the Cost
+Bounding-based reduction algorithms, which are completely conditioned on Cost 
+Domination holding true, the Abstract-plan-costing-based approach can supported a richer
+class of plan cost models wherein the plan cost function can have one
+local maxima or one local minima in the interior of the selectivity space. I</span><span style='font-family:"Arial","sans-serif";
+mso-fareast-font-family:"Times New Roman";mso-fareast-theme-font:minor-fareast'>n Picasso 2.0, the following two variations
+of SEER have been implemented:</span></span><b style='mso-bidi-font-weight:normal'>
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'></p>
+<br/>
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><span
+style='font-family:"Arial","sans-serif";color:blue'>CC-SEER (CornerCube SEER)
+</span></p>
+
+</b>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><span style='font-family:"Arial","sans-serif"'>CC-SEER
+guarantees global safety like SEER but improves on its efficiency by
+implementing a more conservative test for global robust replacement.
+Specifically, <span class=style21>CC-SEER only involves Abstract-plan-costing operations at the <i
+style='mso-bidi-font-style:normal'>corner hyper-cubes</i> of the selectivity
+space and is therefore significantly faster than SEER. Moreover, its
+performance is resolution independent unlike SEER, and therefore the
+performance gap between CC-SEER and SEER increases with higher resolution
+diagrams. Concretely, while SEER’s time complexity is <i style='mso-bidi-font-style:
+normal'>O(m.r<sup>d -1</sup>), </i>where<i style='mso-bidi-font-style:normal'>
+m </i>is the number of points in the diagram<i style='mso-bidi-font-style:normal'>,
+r </i>is the resolution<i style='mso-bidi-font-style:normal'> </i>and<i
+style='mso-bidi-font-style:normal'> d </i>is the dimensionality<i
+style='mso-bidi-font-style:normal'>,</i> CC-SEER cuts it down to<i
+style='mso-bidi-font-style:normal'> </i><span style='mso-spacerun:yes'> </span><i
+style='mso-bidi-font-style:normal'>O(m.4<sup>d </sup>). </i>Our experimental
+results indicate that CC-SEER’s reduction quality is comparable to that of
+SEER, and it therefore provides an extremely attractive tradeoff between
+efficiency and reduction quality.</span></span></p>
+
+<br />
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><b style='mso-bidi-font-weight:normal'><span class=SpellE><span
+style='font-family:"Arial","sans-serif";color:blue'>LiteSEER</span></span><span
+style='color:blue'><o:p></o:p></span></p>
+
+</b></u><span style='mso-bidi-font-weight:normal'>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><span class=SpellE><span style='font-family:"Arial","sans-serif"'>LiteSeer</span></span><span
+style='font-family:"Arial","sans-serif"'> is a light-weight heuristic-based
+variant of SEER that makes its replacement decisions solely based on Abstract-plan-costing
+operations at the <i style='mso-bidi-font-style:normal'>corners</i> of the
+hypercube, and is therefore extremely efficient.<span
+style='mso-spacerun:yes'>  </span>In fact, it can be shown that <span
+class=SpellE>LiteSEER</span> is optimal in the sense that it incurs the minimum
+work (complexity-wise) required by any reduction algorithm.<span
+style='mso-spacerun:yes'>  </span>While it does not <i style='mso-bidi-font-style:
+normal'>guarantee</i> global safety, our experimental results indicate that in
+practice, its safety and reduction characteristics are quite close to that of
+SEER and CC-SEER.</span></p>
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'>&nbsp;</p>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><u><b style='mso-bidi-font-weight:normal'><span
+style='font-family:"Arial","sans-serif";color:#660033'>Knee Estimator<o:p></o:p></span></b></u></p>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><span style='font-family:"Arial","sans-serif"'>Currently, no estimators 
+have been designed for CC-SEER and</span><span style='mso-bidi-font-weight:bold;
+mso-bidi-font-style:italic'><span style='font-family:"Arial","sans-serif"'> 
+we 
+intend to address this issue in our future work. As an interim measure, we 
+suggest that users can first obtain the estimates from CostGreedy, 
+and then use the same with CC-SEER. A word of caution, however </span>
+<span class="style9">–</span><span style='font-family:"Arial","sans-serif"'> 
+there may be significant differences&nbsp; between the Reduced-Plan-Cardinality vs. 
+Threshold graphs of CostGreedy and CC-SEER.&nbsp; This is because, on the one 
+hand, there is greater potential for reduction in CC-SEER due to using explicit 
+costs instead of cost bounds. But, on the other hand, the global safety 
+guarantee may prevent some replacements permitted by CostGreedy.&nbsp; Our 
+experience has been that the latter factor dominates in the higher-resolution 
+diagrams and therefore the knee of the graph is typically at a larger threshold 
+for CC-SEER as compared to CostGreedy.&nbsp;&nbsp; <br>
+</span></span></p>
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><span class="style10">The above-mentioned issues for CC-SEER 
+arise with </span>
+<span style='mso-bidi-font-weight:bold;
+mso-bidi-font-style:italic'><span style='font-family:"Arial","sans-serif"'> 
+LiteSEER as well, and due to its relaxed safety criterion, LiteSEER's knee will 
+always be lower than that of CC-SEER.</span></span></p>
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'>&nbsp;</p>
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><b
+style='mso-bidi-font-weight:normal'>
+<span style='font-family:"Arial","sans-serif";
+color:#660033'><u>Cost Increase Statistics</u><o:p></o:p></span></b></p>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><span style='font-family:"Arial","sans-serif"'>The cost
+increase statistics, mentioned above for the <span class=SpellE>CostGreedy</span>
+and <span class=SpellE>AreaGreedy</span> algorithms, are not provided for the
+robust reduction algorithms, CC-SEER and <span class=SpellE>LiteSEER</span>.
+This is because computing these statistics would require costing (using Abstract-plan-costing) of
+the replacement plans at all replaced points in the selectivity space, which
+would be prohibitively expensive.<span style='mso-spacerun:yes'> 
+</span>However, at any specific replaced point in the reduced plan diagram, the
+cost of the replacement plan can be ascertained by using the <i
+style='mso-bidi-font-style:normal'>Shift+Right-click</i> command which provides
+the <b style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'>QueryInfo
+</i></b>message box.</span></p>
+</span><b style='mso-bidi-font-weight:normal'>
+
+<br/><br/>
+
+<p class=MsoListParagraph style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;mso-add-space:auto;text-indent:-.25in;mso-list:l1 level1 lfo2'><![if !supportLists]><b
+style='mso-bidi-font-weight:normal'><span style='font-size:14.0pt;font-family:
+"Arial","sans-serif";mso-fareast-font-family:Arial;color:green'><span
+style='mso-list:Ignore'>3.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;
+</span></span></span></b><![endif]><b style='mso-bidi-font-weight:normal'><span
+style='font-size:14.0pt;font-family:"Arial","sans-serif";color:green'>Plan
+Difference Algorithm<o:p></o:p></span></b></p>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto'><b
+style='mso-bidi-font-weight:normal'><span style='font-size:14.0pt;
+font-family:"Arial","sans-serif";color:green'><o:p>&nbsp;</o:p></span></b></p>
+
+</b><span style='mso-bidi-font-weight:normal'>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><span class="style6">The</span><span style='font-family:"Arial","sans-serif"'> plan difference
+algorithm visually highlights the difference between a pair of selected plans.
+The common parts between the two plan trees are shown in white, whereas all
+differences are colored as mentioned in the <u>
+<a href="../Usage/PlanTree.htm" class="style7">Plan
+Tree Windows documentation</a></u>, reproduced below: <o:p></o:p></span>
+</span>
+<span style='mso-bidi-font-weight:normal'>
+
+
+<p style='margin-left:1.0in;text-indent:-.25in;mso-list:l0 level1 lfo4;
+tab-stops:list 1.0in'><![if !supportLists]><span
+style='mso-list:Ignore'><span style='font-family:Wingdings;
+mso-fareast-font-family:Wingdings;mso-bidi-font-family:Wingdings'>§</span></span><span
+style='mso-list:Ignore'><span style='font-family:Wingdings;
+mso-fareast-font-family:Wingdings;mso-bidi-font-family:Wingdings'><span style='font-style: normal; font-variant: normal; font-size: 7.0pt; line-height: normal; font-family: &#039;Times New Roman&#039;;'>&nbsp; </span></span></span>
+<![endif]><span
+style='font-family:"Arial","sans-serif"'>Node labels, Node parameters and Node
+inputs are identical: White nodes with Black input links<o:p></o:p></span>
+
+<p style='margin-left:1.0in;text-indent:-.25in;mso-list:l0 level1 lfo4;
+tab-stops:list 1.0in'><![if !supportLists]><span style='font-family:Wingdings;
+mso-fareast-font-family:Wingdings;mso-bidi-font-family:Wingdings'><span
+style='mso-list:Ignore'>§<span style='font-style: normal; font-variant: normal; font-size: 7.0pt; line-height: normal; font-family: &#039;Times New Roman&#039;;'>&nbsp; </span></span></span>
+<![endif]><span
+style='font-family:"Arial","sans-serif"'>Node labels are the same: White Fill<o:p></o:p></span></p>
+
+<p style='margin-left:1.5in;text-indent:-.25in;mso-list:l0 level2 lfo4;
+tab-stops:list 1.5in'><![if !supportLists]><span style='font-family:"Courier New";
+mso-fareast-font-family:"Courier New"'><span style='mso-list:Ignore'>o<span
+style='font-style: normal; font-variant: normal; font-size: 7.0pt; line-height: normal; font-family: &#039;Times New Roman&#039;;'>&nbsp;&nbsp; </span></span></span>
+<![endif]><span
+style='font-family:"Arial","sans-serif"'>Parameters different: Green-bordered
+nodes with Black input links<o:p></o:p></span></p>
+
+<p style='margin-left:1.5in;text-indent:-.25in;mso-list:l0 level2 lfo4;
+tab-stops:list 1.5in'><![if !supportLists]><span style='font-family:"Courier New";
+mso-fareast-font-family:"Courier New"'><span style='mso-list:Ignore'>o<span
+style='font-style: normal; font-variant: normal; font-size: 7.0pt; line-height: normal; font-family: &#039;Times New Roman&#039;;'>&nbsp;&nbsp; </span></span></span>
+<![endif]><span
+style='font-family:"Arial","sans-serif"'>Left and right inputs swapped:
+Orange-bordered nodes with Blue input links<o:p></o:p></span></p>
+
+<p style='margin-left:1.5in;text-indent:-.25in;mso-list:l0 level2 lfo4;
+tab-stops:list 1.5in'><![if !supportLists]><span style='font-family:"Courier New";
+mso-fareast-font-family:"Courier New"'><span style='mso-list:Ignore'>o<span
+style='font-style: normal; font-variant: normal; font-size: 7.0pt; line-height: normal; font-family: &#039;Times New Roman&#039;;'>&nbsp;&nbsp; </span></span></span>
+<![endif]><span
+style='font-family:"Arial","sans-serif"'>Left and right inputs different:
+Orange-bordered nodes with Red input links<o:p></o:p></span></p>
+
+<p style='margin-left:1.0in;text-indent:-.25in;mso-list:l0 level1 lfo4;
+tab-stops:list 1.0in'><![if !supportLists]><span style='font-family:Wingdings;
+mso-fareast-font-family:Wingdings;mso-bidi-font-family:Wingdings'><span
+style='mso-list:Ignore'>§<span style='font-style: normal; font-variant: normal; font-size: 7.0pt; line-height: normal; font-family: &#039;Times New Roman&#039;;'>&nbsp; </span></span></span>
+<![endif]><span
+style='font-family:"Arial","sans-serif"'>Node labels are different:
+Red-bordered nodes filled with the native node color <o:p></o:p></span></p>
+
+<p style='margin-left:1.5in;text-indent:-.25in;mso-list:l0 level2 lfo4;
+tab-stops:list 1.5in'><![if !supportLists]><span style='font-family:"Courier New";
+mso-fareast-font-family:"Courier New"'><span style='mso-list:Ignore'>o<span
+style='font-style: normal; font-variant: normal; font-size: 7.0pt; line-height: normal; font-family: &#039;Times New Roman&#039;;'>&nbsp;&nbsp; </span></span></span>
+<![endif]><span
+style='font-family:"Arial","sans-serif"'>Left and right inputs swapped: Blue input
+links<o:p></o:p></span></p>
+
+<p style='margin-left:1.5in;text-indent:-.25in;mso-list:l0 level2 lfo4;
+tab-stops:list 1.5in'><![if !supportLists]><span style='font-family:"Courier New";
+mso-fareast-font-family:"Courier New"'><span style='mso-list:Ignore'>o<span
+style='font-style: normal; font-variant: normal; font-size: 7.0pt; line-height: normal; font-family: &#039;Times New Roman&#039;;'>&nbsp;&nbsp; </span></span></span>
+<![endif]><span
+style='font-family:"Arial","sans-serif"'>Left and right inputs different: Red
+input links<o:p></o:p></span></p>
+
+<p style='margin-left:1.0in;text-indent:-.25in;mso-list:l0 level1 lfo4;
+tab-stops:list 1.0in'><![if !supportLists]><span style='font-family:Wingdings;
+mso-fareast-font-family:Wingdings;mso-bidi-font-family:Wingdings'><span
+style='mso-list:Ignore'>§<span style='font-style: normal; font-variant: normal; font-size: 7.0pt; line-height: normal; font-family: &#039;Times New Roman&#039;;'>&nbsp; </span></span></span>
+<![endif]><span
+style='font-family:"Arial","sans-serif"'>Nodes are unmapped (i.e. no
+corresponding node in the other tree): Nodes filled with the native node color
+and Black input links<o:p></o:p></span></p>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><span style='font-family:"Arial","sans-serif"'>We describe
+here the node matching process between the two trees, <b style='mso-bidi-font-weight:
+normal'><i style='mso-bidi-font-style:normal'>P<sub>A</sub></i></b><sub> </sub>and
+<b style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'>P<sub>B</sub></i></b>
+. In our description, the term “branch” is used to refer to any connected chain
+of nodes between a pair of branching nodes, or between a branching node and a
+leaf, in these trees. Branches are directed from the lower node to the higher
+node. The matching proceeds as follows:<o:p><br>
+</o:p></span></p>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><b><i><span style='font-size:11.0pt;font-family:"Arial","sans-serif"'>1.</span></i></b><i><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif"'> First all the leaf
+nodes (relations) and all the nodes with binary inputs (typically join nodes)
+are identified for P<sub>A</sub> and P<sub>B</sub>. <o:p></o:p></span></i></p>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><b style='mso-bidi-font-weight:normal'><i><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif"'>2.</span></i></b><i><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif"'> A leaf of P<sub>A</sub>
+is matched with a leaf of P<sub>B </sub>if and only if they both have the same
+relation label. In the situation that there are multiple matches available
+(that is, if the same relation label appears in multiple leaves), an
+edit-distance computation is made between the branches of all pairs of matching
+leaves between P<sub>A</sub> and P<sub>B</sub>. The assignments are then made
+in increasing order of edit-distances.<o:p></o:p></span></i></p>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><b><i><span style='font-size:11.0pt;font-family:"Arial","sans-serif"'>3.</span></i></b><i><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif"'> A binary node of P<sub>A
+</sub>is matched with a binary node of P<sub>B</sub> if the set of base
+relations that are processed is the same. If the node label, node parameters,
+and the left and right inputs are identical (in terms of base relations), the
+node is colored white and the input links are black. However, if the node label
+is different, or the node parameters are different, or if the left and right
+input relation subsets are different, then the node and the input links are
+colored as per the above coloring scheme</span></i><span style='font-family:
+"Arial","sans-serif"'>.</span><i><span style='font-size:11.0pt;font-family:
+"Arial","sans-serif"'><o:p></o:p></span></i></p>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><b style='mso-bidi-font-weight:normal'><i><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif"'>4.</span></i></b><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif"'><i> A minimal
+edit-distance computation is made between the branches arising out of each pair
+of matched nodes, and the nodes that have to be added or deleted, if any, in
+order to make the branches identical are colored as per the above coloring
+scheme. Unmodified nodes, on the other hand, are matched with their
+counterparts in the sibling tree and colored either white or white with green
+border.</i></span></span><span style='mso-bidi-font-weight:normal'><b style='mso-bidi-font-weight:normal'><o:p></o:p></b>
+
+<p style='margin-left:.5in'><span style="font-family:Arial,sans-serif"><strong>Note: </strong></span>
+When plan difference is carried out on a
+<b style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'><span
+style='color:blue'>OperatorDiff</span></i></b><span style='color:black'>-based </span>plan
+diagram, the <span style='color:black'>trees</span><span
+style='color:black'>will always include at least one colored node or link (that
+is, unlike </span><b style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:
+normal'><span style='color:blue'>ParameterDiff -</span><span class="style8">based</span><span style='color:blue'> </span></i></b></span>plan diagrams, it is not possible to have pure
+black-and-white trees with only green node borders).<br/><br/>
+
+<b style='mso-bidi-font-weight:normal'>
+
+<p class=MsoListParagraph style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;mso-add-space:auto;text-indent:-.25in;mso-list:l1 level1 lfo2'><![if !supportLists]>
+<span style='font-size:14.0pt;font-family:
+"Arial","sans-serif";mso-fareast-font-family:Arial;color:green'>
+<span
+style='mso-list:Ignore'>4.<span style='font-style: normal; font-variant: normal; font-size: 7.0pt; line-height: normal; font-family: &#039;Times New Roman&#039;;'>&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+style='font-size:14.0pt;font-family:"Arial","sans-serif";color:green'>Approximation
+Algorithms<o:p></o:p></span></b></p>
+
+<span style='mso-bidi-font-weight:normal'>
+
+<u>
+</u></span></b><span style='mso-bidi-font-weight:normal'>
+<br/>
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><span style='font-family:"Arial","sans-serif"'>Plan diagrams
+can be computationally extremely expensive for plan diagrams on
+higher-dimension query templates and fine-grained diagram resolutions. For
+example, a 3D plan diagram with a resolution of 100 on each dimension could
+well take about a week to produce. To address this problem, diagram
+approximation algorithms have been incorporated in Picasso 2.0. Specifically,
+these algorithms produce approximate diagrams by explicitly optimizing only a
+small subset of points from the query selectivity space and <i
+style='mso-bidi-font-style:normal'>inferring </i>the remaining points, thereby
+drastically reducing the computation time. T<span class=style11>wo categories
+of errors can arise in the approximation proces</span>s:<o:p></o:p></span></p>
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'>
+<o:p></o:p></p>
+
+<p class=MsoListParagraphCxSpFirst style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;margin-left:1.0in;mso-add-space:auto;text-indent:-.25in;mso-list:l2 level1 lfo6'><![if !supportLists]><span
+style='font-family:"Arial","sans-serif";mso-fareast-font-family:Arial'><span
+style='mso-list:Ignore'>1.<span style='font-style: normal; font-variant: normal; font-size: 7.0pt; line-height: normal; font-family: &#039;Times New Roman&#039;;'>&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+style='font-family:"Arial","sans-serif"'>Plan Identity Error: </span></b><span
+style='font-family:"Arial","sans-serif"'><span
+style='mso-spacerun:yes'> This error metric refers to the possibility of the 
+approximation missing out on a subset of the plans present in the exact plan 
+diagram. It is computed as the percentage of </span>plans lost in the 
+approximation process.<o:p> This error is challenging to control since a 
+majority of the plans appearing in plan diagrams are typically small in area and 
+therefore hard to find.</o:p></span></p>
+<p class=MsoListParagraphCxSpFirst style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;margin-left:1.0in;mso-add-space:auto;text-indent:-.25in;mso-list:l2 level1 lfo6'>
+<o:p></o:p>
+</p>
+
+<p class=MsoListParagraphCxSpLast style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;margin-left:1.0in;mso-add-space:auto;text-indent:-.25in;mso-list:l2 level1 lfo6'><![if !supportLists]><span
+style='font-family:"Arial","sans-serif";mso-fareast-font-family:Arial'><span
+style='mso-list:Ignore'>2.<span style='font-style: normal; font-variant: normal; font-size: 7.0pt; line-height: normal; font-family: &#039;Times New Roman&#039;;'>&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><b style='mso-bidi-font-weight:normal'><span
+style='font-family:"Arial","sans-serif"'>Plan Location Error:<span
+style='mso-spacerun:yes'>  </span></span></b>&nbsp;<span class="style6">T</span><span style='font-family:"Arial","sans-serif"'>his 
+error metric refers to the possibility of incorrectly assigning plans to query 
+points in the approximate plan diagram. It is computed as the percentage of 
+incorrectly assigned points. This error is also challenging to control since the 
+plan boundaries can be highly non-linear and are sometimes even irregular in 
+shape.</span></p>
+<p class=MsoListParagraphCxSpLast style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;margin-left:1.0in;mso-add-space:auto;text-indent:-.25in;mso-list:l2 level1 lfo6'>
+&nbsp;</p>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><span style='font-family:"Arial","sans-serif"'>We take from
+the user the tolerance levels for these two errors and our algorithms attempt
+to ensure that the actual errors in the approximate diagram are in the close
+proximity of these thresholds, while at the same time minimizing the diagram production
+overheads. The two approximation algorithms currently implemented in Picasso
+are briefly described below.</span></p>
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'>&nbsp;</p>
+
+</span><b style='mso-bidi-font-weight:normal'>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><span
+style='font-family:"Arial","sans-serif";color:blue'>Random Sampling with
+Nearest Neighbor Inference (RS_NN)</span><span style='color:blue'><o:p></o:p></span></p>
+
+</b><span style='mso-bidi-font-weight:normal'>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><span style='font-family:"Arial","sans-serif"'>This algorithm 
+employs classical random sampling and nearest neighbor classification to 
+generate approximate diagrams. It begins by optimizing a small seed-set of 
+randomly chosen points in the diagram, and then repeatedly optimizes a 
+similarly-sized&nbsp; random group from the remaining un-optimized query points 
+in each successive iteration.&nbsp; The stopping condition for the iteration is 
+when the&nbsp; identity-error is expected, using a statistical estimator, to 
+have reached below the user's tolerance level. After this, the algorithm repeatedly
+(a) in</span><span style='mso-bidi-font-weight:normal'><span style='font-family:"Arial","sans-serif"'>fers 
+the plan assignments for all un-optimized points using nearest neighbor 
+classification, and then (b) explicitly </span>
+</span><span style='font-family:"Arial","sans-serif"'>optimizes a subset of 
+these points, 
+until the location-error is estimated to have reached below the user's tolerance 
+level.&nbsp; To reduce the number of misclassifications along plan region boundaries, the 
+plan assignments of the inferred points in the diagram are passed through a low-pass filter 
+in the final step.</span></p>
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'>&nbsp;</p>
+</span><b style='mso-bidi-font-weight:normal'>
+
+<p class=MsoListParagraph style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;mso-add-space:auto'><b style='mso-bidi-font-weight:normal'><span
+style='font-family:"Arial","sans-serif";color:blue'>Grid Partitioning with
+Parametric Query Optimization Inference (GS_PQO)<o:p></o:p></span></b></p>
+
+</b><span style='mso-bidi-font-weight:normal'>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><span style='font-family:"Arial","sans-serif"'>This algorithm 
+employs grid partitioning and the basic notions of parametric query optimization,
+along with plan-tree differencing techniques to generate approximate diagrams.
+Unlike RS_NN, heuristics are used to measure the expected quality of&nbsp;
+approximation. The entire diagram is partitioned into a coarse grid and the plan richness 
+factor is computed for each
+of the grid cells. The plan richness is determined by the extent of structural 
+differences between the plans at the corners of the cell. The cells are first 
+arranged in a max-heap structure based on their plan richness factor. Then, the 
+cell at the top of the heap is extracted and repeatedly sub-divided until the 
+plan richness of the resultant cells reaches below a certain threshold (this 
+value is derived directly from the user given error tolerances).</span></p>
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'>&nbsp;</p>
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><span style='font-family:"Arial","sans-serif"'>The plan 
+assignment process operates as follows: <em>If any pair of adjacent corner points have different plans, then 
+explicitly optimize the middle point of the edge joining these two corners, otherwise 
+assign the corner plan to the middle point. Then, process
+the center point of the cell based on the plans lying on the cross-hairs joining 
+the middle points. Break the cell into smaller cells using the newly assigned points and calculate their plan richness
+factor. Insert them into the heap.</em></span></p>
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'>&nbsp;</p>
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><span style='font-family:"Arial","sans-serif"'>Once all the rectangles in the heap 
+reach a plan richness factor below the desired threshold, the plans are inferred 
+for all the remaining un-optimized points &mdash; the middle point of each edge is 
+assigned a plan chosen randomly from the plans at the corners of the edge. 
+Finally, the algorithm terminates if the heap is empty.</span></p>
+
+</span><b style='mso-bidi-font-weight:normal'>
+
+<u>
+
+</u></b><span style='mso-bidi-font-weight:normal'>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'></span><br>
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:.5in'><span style='font-family:"Arial","sans-serif"'>
+<span style='mso-bidi-font-weight:normal'>
+
+For detailed
+descriptions of the approximation algorithms and the associated experimental
+results, please refer to this </span>
+
+<u>
+
+<span style='mso-bidi-font-weight:normal'>
+
+<a
+href="http://dsl.serc.iisc.ernet.in/publications/report/TR/TR-2008-01.pdf" class="style7">technical
+report</a></span></u></span><b style='mso-bidi-font-weight:normal'> .<br><br></b>
+<b style='mso-bidi-font-weight:normal'> <u><p align=center style='text-align:center'>
+<span style='font-size:14.0pt;
+font-family:"Arial","sans-serif"'><a href="../index.htm">Documentation Home</a></span><span
+style='font-size:14.0pt'><o:p></o:p></span></p>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,1099 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns:st1="urn:schemas-microsoft-com:office:smarttags" xmlns:m="http://schemas.microsoft.com/office/2004/12/omml" xmlns="http://www.w3.org/TR/REC-html40"><head>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta name="ProgId" content="Word.Document">
+<meta name="Generator" content="Microsoft Word 10">
+<meta name="Originator" content="Microsoft Word 10">
+<link rel="File-List" href="http://dsl.serc.iisc.ernet.in/projects/PICASSO/picasso_download/doc/Usage/semantics_files/filelist.xml">
+<link rel="Edit-Time-Data" href="http://dsl.serc.iisc.ernet.in/projects/PICASSO/picasso_download/doc/Usage/semantics_files/editdata.mso">
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style>
+<![endif]-->
+<title>Diagram Semantics</title>
+<o:smarttagtype namespaceuri="urn:schemas-microsoft-com:office:smarttags" name="place"></o:smarttagtype>
+<o:smarttagtype namespaceuri="urn:schemas-microsoft-com:office:smarttags" name="country-region"></o:smarttagtype>
+<o:smarttagtype namespaceuri="urn:schemas-microsoft-com:office:smarttags" name="City"></o:smarttagtype>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>Bhairav DSL</o:Author>
+  <o:LastAuthor>Bhairav DSL</o:LastAuthor>
+  <o:Revision>1</o:Revision>
+  <o:TotalTime>4</o:TotalTime>
+  <o:LastPrinted>2006-10-20T06:49:00Z</o:LastPrinted>
+  <o:Created>2009-02-14T08:10:00Z</o:Created>
+  <o:LastSaved>2009-02-14T08:14:00Z</o:LastSaved>
+  <o:Pages>1</o:Pages>
+  <o:Words>2735</o:Words>
+  <o:Characters>15596</o:Characters>
+  <o:Company>IISc</o:Company>
+  <o:Lines>129</o:Lines>
+  <o:Paragraphs>36</o:Paragraphs>
+  <o:CharactersWithSpaces>18295</o:CharactersWithSpaces>
+  <o:Version>10.2625</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:SpellingState>Clean</w:SpellingState>
+  <w:GrammarState>Clean</w:GrammarState>
+  <w:DrawingGridHorizontalSpacing>6 pt</w:DrawingGridHorizontalSpacing>
+  <w:DisplayHorizontalDrawingGridEvery>2</w:DisplayHorizontalDrawingGridEvery>
+  <w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery>
+  <w:Compatibility>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+   <w:SplitPgBreakAndParaMark/>
+   <w:DontVertAlignCellWithSp/>
+   <w:DontBreakConstrainedForcedTables/>
+   <w:DontVertAlignInTxbx/>
+   <w:Word11KerningPairs/>
+   <w:CachedColBalance/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+  <w:TrackMoves>false</w:TrackMoves>
+  <w:TrackFormatting/>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:DoNotPromoteQF/>
+  <w:LidThemeOther>EN-IN</w:LidThemeOther>
+  <w:LidThemeAsian>X-NONE</w:LidThemeAsian>
+  <w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript>
+  <m:mathPr>
+   <m:mathFont m:val="Cambria Math"/>
+   <m:brkBin m:val="before"/>
+   <m:brkBinSub m:val="--"/>
+   <m:smallFrac m:val="off"/>
+   <m:dispDef/>
+   <m:lMargin m:val="0"/>
+   <m:rMargin m:val="0"/>
+   <m:defJc m:val="centerGroup"/>
+   <m:wrapIndent m:val="1440"/>
+   <m:intLim m:val="subSup"/>
+   <m:naryLim m:val="undOvr"/>
+  </m:mathPr>
+ </w:WordDocument>
+</xml><![endif]--><!--[if !mso]><object
+ classid="clsid:38481807-CA0E-42D2-BF39-B33AF135CC4D" id=ieooui></object>
+<style>
+st1\:*{behavior:url(#ieooui) }
+</style>
+<![endif]-->
+<style>
+<!--p.MSONORMAL
+	{mso-style-unhide:no;
+	mso-style-qformat:yes;}
+li.MSONORMAL
+	{mso-style-unhide:no;
+	mso-style-qformat:yes;}
+div.MSONORMAL
+	{mso-style-unhide:no;
+	mso-style-qformat:yes;}
+a:link
+	{mso-style-unhide:no;}
+span.MSOHYPERLINK
+	{mso-style-unhide:no;}
+a:visited
+	{mso-style-unhide:no;}
+span.MSOHYPERLINKFOLLOWED
+	{mso-style-unhide:no;}
+p
+	{mso-style-unhide:no;}
+p.MSOACETATE
+	{mso-style-unhide:no;}
+li.MSOACETATE
+	{mso-style-unhide:no;}
+div.MSOACETATE
+	{mso-style-unhide:no;}
+span.BALLOONTEXTCHAR
+	{mso-style-unhide:no;
+	mso-style-locked:yes;}
+p.STYLE1
+	{mso-style-unhide:no;}
+li.STYLE1
+	{mso-style-unhide:no;}
+div.STYLE1
+	{mso-style-unhide:no;}
+p.STYLE2
+	{mso-style-unhide:no;}
+li.STYLE2
+	{mso-style-unhide:no;}
+div.STYLE2
+	{mso-style-unhide:no;}
+p.STYLE3
+	{mso-style-unhide:no;}
+li.STYLE3
+	{mso-style-unhide:no;}
+div.STYLE3
+	{mso-style-unhide:no;}
+span.STYLE31
+	{mso-style-unhide:no;}
+span.STYLE11
+	{mso-style-unhide:no;}
+span.STYLE21
+	{mso-style-unhide:no;}
+.MSOCHPDEFAULT
+	{mso-default-props:yes;}
+table.MSONORMALTABLE
+	{mso-style-priority:99;
+	mso-style-qformat:yes;}
+
+ /* Font Definitions */
+ @font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:1627421319 -2147483648 8 0 66047 0;}
+@font-face
+	{font-family:"Arial Narrow";
+	panose-1:2 11 5 6 2 2 2 3 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:647 2048 0 0 159 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+p
+	{mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";}
+span.BalloonTextChar
+	{mso-style-name:"Balloon Text Char";
+	mso-style-link:"Balloon Text";
+	mso-ansi-font-size:8.0pt;
+	mso-bidi-font-size:8.0pt;
+	font-family:Tahoma;
+	mso-ascii-font-family:Tahoma;
+	mso-hansi-font-family:Tahoma;
+	mso-bidi-font-family:Tahoma;}
+p.msoacetate, li.msoacetate, div.msoacetate
+	{mso-style-name:msoacetate;
+	mso-style-link:"Balloon Text Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:Tahoma;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";}
+p.style1, li.style1, div.style1
+	{mso-style-name:style1;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	color:maroon;}
+p.style2, li.style2, div.style2
+	{mso-style-name:style2;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	color:red;}
+p.style3, li.style3, div.style3
+	{mso-style-name:style3;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	color:red;}
+p.style4, li.style4, div.style4
+	{mso-style-name:style4;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Arial Narrow";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";}
+span.style31
+	{mso-style-name:style31;
+	font-family:Arial;
+	mso-ascii-font-family:Arial;
+	mso-hansi-font-family:Arial;
+	mso-bidi-font-family:Arial;
+	color:red;}
+span.style11
+	{mso-style-name:style11;
+	font-family:Arial;
+	mso-ascii-font-family:Arial;
+	mso-hansi-font-family:Arial;
+	mso-bidi-font-family:Arial;}
+span.style21
+	{mso-style-name:style21;
+	color:red;}
+span.style12
+	{mso-style-name:style12;
+	color:maroon;}
+span.style41
+	{mso-style-name:style41;
+	font-family:"Arial Narrow";
+	mso-ascii-font-family:"Arial Narrow";
+	mso-hansi-font-family:"Arial Narrow";}
+span.SpellE
+	{mso-style-name:"";
+	mso-spl-e:yes;}
+span.GramE
+	{mso-style-name:"";
+	mso-gram-e:yes;}
+@page Section1
+	{size:595.45pt 841.7pt;
+	margin:.5in .5in .5in .5in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+ @list l0
+	{mso-list-id:172647674;
+	mso-list-type:hybrid;
+	mso-list-template-ids:602860754 -361965702 67698713 67698715 67698703 67698713 67698715 67698703 67698713 67698715;}
+@list l0:level1
+	{mso-level-tab-stop:.85in;
+	mso-level-number-position:left;
+	margin-left:.85in;
+	text-indent:-.3in;}
+@list l0:level2
+	{mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l0:level3
+	{mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l0:level4
+	{mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l0:level5
+	{mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l0:level6
+	{mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l0:level7
+	{mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l0:level8
+	{mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l0:level9
+	{mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1
+	{mso-list-id:320349514;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1818620376 1406425900 67698691 67698693 67698689 67698691 67698693 67698689 67698691 67698693;}
+@list l1:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:12.0pt;
+	mso-bidi-font-size:12.0pt;
+	font-family:Symbol;}
+@list l1:level2
+	{mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level3
+	{mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level4
+	{mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level5
+	{mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level6
+	{mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level7
+	{mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level8
+	{mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l1:level9
+	{mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l2
+	{mso-list-id:346181011;
+	mso-list-template-ids:-1261286548;}
+@list l2:level1
+	{mso-level-start-at:7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	color:green;}
+@list l3
+	{mso-list-id:372776871;
+	mso-list-template-ids:1649943646;}
+@list l3:level1
+	{mso-level-start-at:4;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	color:green;}
+@list l4
+	{mso-list-id:413940765;
+	mso-list-template-ids:-761658762;}
+@list l4:level1
+	{mso-level-start-at:2;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	color:green;}
+@list l5
+	{mso-list-id:488444752;
+	mso-list-template-ids:-792806430;}
+@list l5:level1
+	{mso-level-start-at:3;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	color:green;}
+@list l6
+	{mso-list-id:527186071;
+	mso-list-type:hybrid;
+	mso-list-template-ids:1528460140 1074331663 1074331673 1074331675 1074331663 1074331673 1074331675 1074331663 1074331673 1074331675;}
+@list l6:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:57.0pt;
+	text-indent:-.25in;}
+@list l6:level2
+	{mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l6:level3
+	{mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l6:level4
+	{mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l6:level5
+	{mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l6:level6
+	{mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l6:level7
+	{mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l6:level8
+	{mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l6:level9
+	{mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l7
+	{mso-list-id:531110895;
+	mso-list-template-ids:-1218411864;}
+@list l7:level1
+	{mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l8
+	{mso-list-id:785739043;
+	mso-list-template-ids:-1392713218;}
+@list l8:level1
+	{mso-level-start-at:5;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	color:green;}
+@list l9
+	{mso-list-id:829715611;
+	mso-list-type:hybrid;
+	mso-list-template-ids:1326725414 67698689 67698691 67698693 67698689 67698691 67698693 67698689 67698691 67698693;}
+@list l9:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l9:level2
+	{mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l9:level3
+	{mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l9:level4
+	{mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l9:level5
+	{mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l9:level6
+	{mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l9:level7
+	{mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l9:level8
+	{mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l9:level9
+	{mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l10
+	{mso-list-id:1097362394;
+	mso-list-template-ids:1492830272;}
+@list l10:level1
+	{mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	color:green;}
+@list l11
+	{mso-list-id:1540700266;
+	mso-list-template-ids:2083183958;}
+@list l11:level1
+	{mso-level-start-at:6;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	color:green;}
+ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";}
+</style>
+<![endif]-->
+<link rel="themeData" href="http://dsl.serc.iisc.ernet.in/projects/PICASSO/picasso_download/doc/Usage/semantics_files/themedata.thmx">
+<link rel="colorSchemeMapping" href="http://dsl.serc.iisc.ernet.in/projects/PICASSO/picasso_download/doc/Usage/semantics_files/colorschememapping.xml">
+<!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" DefUnhideWhenUsed="false" DefSemiHidden="false" DefQFormat="false" LatentStyleCount="267">
+  <w:LsdException Locked="false" QFormat="true" Name="Normal"/>
+  <w:LsdException Locked="false" QFormat="true" Name="heading 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true" QFormat="true" Name="heading 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true" QFormat="true" Name="heading 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true" QFormat="true" Name="heading 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true" QFormat="true" Name="heading 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true" QFormat="true" Name="heading 6"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true" QFormat="true" Name="heading 7"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true" QFormat="true" Name="heading 8"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true" QFormat="true" Name="heading 9"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true" QFormat="true" Name="caption"/>
+  <w:LsdException Locked="false" QFormat="true" Name="Title"/>
+  <w:LsdException Locked="false" Priority="1" Name="Default Paragraph Font"/>
+  <w:LsdException Locked="false" QFormat="true" Name="Subtitle"/>
+  <w:LsdException Locked="false" QFormat="true" Name="Strong"/>
+  <w:LsdException Locked="false" QFormat="true" Name="Emphasis"/>
+  <w:LsdException Locked="false" Priority="99" Name="No List"/>
+  <w:LsdException Locked="false" Priority="99" SemiHidden="true" Name="Placeholder Text"/>
+  <w:LsdException Locked="false" Priority="1" QFormat="true" Name="No Spacing"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 1"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="99" SemiHidden="true" Name="Revision"/>
+  <w:LsdException Locked="false" Priority="34" QFormat="true" Name="List Paragraph"/>
+  <w:LsdException Locked="false" Priority="29" QFormat="true" Name="Quote"/>
+  <w:LsdException Locked="false" Priority="30" QFormat="true" Name="Intense Quote"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 1"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 1"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 2"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 2"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 2"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 3"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 3"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 3"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 4"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 4"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 4"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 5"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 5"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 5"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 6"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 6"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 6"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="19" QFormat="true" Name="Subtle Emphasis"/>
+  <w:LsdException Locked="false" Priority="21" QFormat="true" Name="Intense Emphasis"/>
+  <w:LsdException Locked="false" Priority="31" QFormat="true" Name="Subtle Reference"/>
+  <w:LsdException Locked="false" Priority="32" QFormat="true" Name="Intense Reference"/>
+  <w:LsdException Locked="false" Priority="33" QFormat="true" Name="Book Title"/>
+  <w:LsdException Locked="false" Priority="37" SemiHidden="true" UnhideWhenUsed="true" Name="Bibliography"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true" UnhideWhenUsed="true" QFormat="true" Name="TOC Heading"/>
+ </w:LatentStyles>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="52226"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]-->
+</head><body style="" vlink="purple" lang="EN-US" link="blue">
+
+<div class="Section1">
+
+<p class="MsoNormal" style="text-align: center;" align="center"><b style=""><i><span style="font-size: 20pt; font-family: Arial; color: rgb(204, 0, 102);">Picasso Database Query Optimizer <span class="SpellE">Visualizer</span></span></i></b><b style=""><i><span style="font-size: 20pt; font-family: Arial; color: rgb(51, 153, 102);"><o:p></o:p></span></i></b></p>
+
+<p class="MsoNormal" style="text-align: center;" align="center"><b style=""><span style="font-family: Arial; color: black;">©Indian Institute of Science, </span></b><st1:place><st1:city><b style=""><span style="font-family: Arial; color: black;">Bangalore</span></b></st1:city><b style=""><span style="font-family: Arial; color: black;">, </span></b><st1:country-region><b style=""><span style="font-family: Arial; color: black;">India</span></b></st1:country-region></st1:place><b style=""><span style="font-family: Arial; color: black;"><o:p></o:p></span></b></p>
+
+<p style="margin-left: 0.25in; text-align: center; text-indent: -0.25in;" align="center"><span style="font-size: 16pt; font-family: Arial; color: aqua;"><o:p>&nbsp;</o:p></span></p>
+
+<p style="margin-left: 0.25in; text-align: center; text-indent: -0.25in;" align="center"><span class="GramE"><b><span style="font-size: 16pt; font-family: Arial; color: red;">DIAGRAM<span style="">&nbsp; </span>SEMANTICS</span></b></span><b><span style="font-size: 16pt; font-family: Arial; color: red;"><br style="">
+<!--[if !supportLineBreakNewLine]--><br style="">
+<!--[endif]--><o:p></o:p></span></b></p>
+
+<p style="margin-left: 0.25in; text-indent: -0.25in;"><span style="font-family: Arial; color: black;">This section describes the semantics
+underlying the various Picasso diagrams.<o:p></o:p></span></p>
+
+<p style="margin-left: 0.5in; text-indent: -0.25in;"><a name="Production"></a><!--[if !supportLists]--><span style="color: green;"><span style="">1.<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><!--[endif]--><span style="font-size: 14pt; font-family: Arial; color: rgb(0, 153, 0);">Diagram Production</span></p>
+
+<p style="margin-left: 30pt;"><span style="font-family: Arial;">Given a <b style=""><i style="">d</i></b>-dimensional
+query template and a plot resolution of <span class="SpellE"><span class="GramE"><b style=""><i style="">n<sub>i</sub></i></b></span></span><b style=""><i style=""><sub>
+</sub></i></b>on dimension <span class="SpellE"><strong><i style=""><span style="font-family: Arial;">i</span></i></strong></span>, the
+Picasso Server generates <img id="_x0000_i1025" src="semantics_files/piOverN.jpg" width="39" height="15">queries that are either uniformly or exponentially (based on
+the user’s choice of <b><i><span style="color: maroon;">Query Distribution</span></i></b><span style="color: maroon;">)</span>
+distributed over the selected selectivity space. In the case of compilation
+diagrams, each of these queries is submitted to the database engine to be
+optimized, whereas in the case of execution diagrams, the queries are actually
+executed. After the plans corresponding to all the points are obtained, a
+different color is associated with each unique plan, and all query points are
+colored with their associated plan colors. Then, the rest of the diagram is
+colored by painting the hyper-rectangle around each point with the color
+corresponding to its plan.<span style="">&nbsp; </span>For example,
+in a 2-D plan diagram with a uniform grid resolution of 10, there are 100 real
+query points, and around each such point a square of dimension 10x10 is painted
+with the point’s associated plan color.<span style="">&nbsp;
+</span>The implementation in Picasso is such that the query instances are
+generated in <i style="">row-major order</i>
+beginning with the point closest to the origin.<o:p></o:p></span></p>
+
+<p style="margin-left: 30pt;"><span style="font-family: Arial;">Note that the
+above description is true for <span class="GramE">producing<span style="">&nbsp; </span>exact</span> diagrams, the only option in
+Picasso v1.<span style="">&nbsp; </span>However, in version 2, a new
+feature of <b style="">approximate compilation
+diagrams</b> is supported. In these approximate diagrams, only a subset of the
+points in the selectivity space is explicitly optimized while the
+characteristics of the remaining points are <i style="">inferred.<span style="">&nbsp;&nbsp; </span></i>The quality of the approximation and the
+associated overheads are determined by the error tolerances specified by the
+user.<o:p></o:p></span></p>
+
+<p style="margin-left: 30pt;"><span style="font-family: Arial;">For each database
+on a database engine, all Picasso-related information is stored in a set of
+tables and views within the database on the engine – the tables are </span><span class="SpellE"><b style=""><span style="font-family: &quot;Arial Narrow&quot;; color: rgb(204, 153, 0);">PicassoQTIDMap</span></b></span><b style=""><span style="font-family: &quot;Arial Narrow&quot;; color: rgb(204, 153, 0);">, <span class="SpellE">PicassoPlanStore</span>,
+<span class="SpellE">PicassoPlanTree</span>, <span class="SpellE">PicassoPlanTreeArgs</span>,
+<span class="SpellE">PicassoSelectivityMap</span>, <span class="SpellE">PicassoSelectivityLog</span></span></b><span style="font-family: &quot;Arial Narrow&quot;;">,</span><span style="font-family: Arial;"> </span><span class="SpellE"><b style=""><span style="font-family: &quot;Arial Narrow&quot;; color: rgb(204, 153, 0);">PicassoRangeResMap</span></b></span><b style=""><span style="font-family: &quot;Arial Narrow&quot;; color: rgb(204, 153, 0);">, <span class="SpellE">PicassoXMLPlan</span>, <span class="SpellE">PicassoApproxMap</span></span></b><span style="font-family: Arial;"> and the view is </span><span class="SpellE"><b style=""><span style="font-family: &quot;Arial Narrow&quot;; color: rgb(204, 153, 0);">picasso_columns</span></b></span><span style="font-family: Arial;">.<o:p></o:p></span></p>
+
+<p style="margin-left: 0.25in; text-indent: -0.25in;">&nbsp;</p>
+
+<p style="margin-left: 0.5in; text-indent: -0.25in;"><!--[if !supportLists]--><span style="color: green;"><span style="">2.<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><!--[endif]--><span style="font-size: 14pt; font-family: Arial; color: rgb(0, 153, 0);">Picasso/Predicate/Plan <span class="SpellE">Selectivities</span></span></p>
+
+<p style="margin-left: 30pt;"><span style="font-family: Arial;">Given a query
+point in the selectivity space, Picasso estimates the constants that would
+result in the desired <span class="SpellE">selectivities</span> of the base
+relations by essentially carrying out an “inverse-transform” of the statistical
+summaries corresponding to the Picasso columns (PSPs). However, it is possible
+that there are discrepancies between the optimizer’s view of the <span class="SpellE">selectivities</span> corresponding to these constants and the
+Picasso view for a variety of reasons:<o:p></o:p></span></p>
+
+<p style="margin-left: 0.85in; text-indent: -0.3in;"><!--[if !supportLists]--><span style="font-family: Arial;"><span style="">1.<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><!--[endif]--><span style="font-family: Arial;">Different
+interpolation mechanisms from the summaries – Picasso always uses <i style="">linear</i> interpolation (for the commercial
+optimizers, such internal information is not readily available).<o:p></o:p></span></p>
+
+<p style="margin-left: 0.85in; text-indent: -0.3in;"><!--[if !supportLists]--><span style="font-family: Arial;"><span style="">2.<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><!--[endif]--><span style="font-family: Arial;">Different usage
+of the summaries – for example, some optimizers choose to not use the histogram
+statistics at low optimization levels, whereas Picasso always uses the complete
+information.<o:p></o:p></span></p>
+
+<p style="margin-left: 0.85in; text-indent: -0.3in;"><!--[if !supportLists]--><span style="font-family: Arial;"><span style="">3.<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><!--[endif]--><span style="font-family: Arial;">Values presented
+in the optimizer’s query plan may sometimes be a function of the overall plan
+structure – for example, when an engine chooses a nested mode of execution with
+a PSP in the inner sub-query, the <span class="SpellE">selectivities</span> shown
+may not correspond to the range of the PSP, but to the equality predicate that
+is checked in each iteration of the nested execution.<o:p></o:p></span></p>
+
+<p style="margin-left: 0.85in; text-indent: -0.3in;"><!--[if !supportLists]--><span style="font-family: Arial;"><span style="">4.<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><!--[endif]--><span style="font-family: Arial;">Incorrect
+calculations in the optimizer – for example, one of the optimizers makes a
+miscalculation whenever the constant happens to coincide exactly with histogram
+bucket boundaries, resulting in the clearly impossible situation where even
+with <i style="">C1 &lt; C2, </i>the selectivity of <i style="">R.A &#8804; C2</i> is estimated to be less
+than the selectivity of <i style="">R.A &#8804; C1</i>,
+because <i style="">C2 </i>happens to coincide
+exactly with the bucket boundary.<o:p></o:p></span></p>
+
+<p style="margin-left: 0.85in; text-indent: -0.3in;"><!--[if !supportLists]--><span style="font-family: Arial;"><span style="">5.<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><!--[endif]--><span style="font-family: Arial;">Sometimes, for
+some of the selectivity locations in a given plan diagram, the Plan <span class="SpellE">Selectivities</span> (see definition below) may be quite different
+from the corresponding Picasso or Predicate <span class="SpellE">selectivities</span>
+(see definition below) because the plans at those selectivity points may impose
+predicates in addition to the PSP on the node. This can happen, for example,
+when the PSP features in the inner relation of a nested loop join. Another
+reason for differences is that the plan <span class="SpellE">selectivities</span>
+are computed on a <b style=""><i style="">d</i></b>-dimensional space, whereas the Picasso and Predicate <span class="SpellE">selectivities</span> are computed on <span class="SpellE">uni</span>-dimensional
+space, and therefore the query points on which the plan <span class="SpellE">selectivities</span>
+are computed may produce plans that have issues like the nested-loop join
+situation.<span style="">&nbsp; </span>Finally, it is also possible
+that the optimizers may, for certain plan structures, produce rule-based <span class="SpellE">selectivities</span>.<o:p></o:p></span></p>
+
+<p style="margin-left: 30pt;"><span style="font-family: Arial;"><br>
+To provide users with a holistic view of this issue, Picasso gives <u>three</u>
+<span class="SpellE">selectivities</span>: <b style=""><i style=""><span style="color: blue;">Picasso</span></i></b>,
+<b style=""><i style=""><span style="color: blue;">Predicate</span></i></b><i style="">
+</i>and <b style=""><i style=""><span style="color: blue;">Plan</span></i></b>, for the set of constants
+corresponding to each PSP, in the <b style=""><span style="color: blue;">Selectivity Log</span></b> that is produced along with the
+diagrams. These <span class="SpellE">selectivities</span> are defined as follows:<o:p></o:p></span></p>
+
+<p style="margin-left: 0.5in; text-indent: -0.25in;"><!--[if !supportLists]--><span style="font-family: Symbol;"><span style="">·<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><!--[endif]--><b style=""><span style="font-family: Arial; color: fuchsia;">Picasso</span></b><span style="font-family: Arial;"> selectivity: This is the selectivity of the PSP as
+determined by the Picasso software through the statistical summaries of the
+database engine.<o:p></o:p></span></p>
+
+<p style="margin-left: 0.5in; text-indent: -0.25in;"><!--[if !supportLists]--><span style="font-family: Symbol;"><span style="">·<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><!--[endif]--><b style=""><span style="font-family: Arial; color: fuchsia;">Predicate</span></b><span style="font-family: Arial;"> selectivity: This is the optimizer’s estimated
+selectivity for the PSP when the <span class="SpellE">uni</span>-dimensional
+query “<b style=""><i style=""><span style="color: orange;">select * from Table T where <span class="GramE">PSP(</span>T)</span></i></b>”<span style="">&nbsp;
+</span>is optimized.<o:p></o:p></span></p>
+
+<p style="margin-left: 0.5in; text-indent: -0.25in;"><!--[if !supportLists]--><span style="font-family: Symbol; color: blue;"><span style="">·<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><!--[endif]--><b style=""><span style="font-family: Arial; color: fuchsia;">Plan</span></b><span style="font-family: Arial;"> selectivity: This is the selectivity associated with the <i style="">node</i> containing the PSP in the
+optimizer’s plan for the original query.<span style="">&nbsp;
+</span>The plans are taken from the query points on the <i style="">diagonal </i>of the <b style=""><i style="">d</i></b>-dimensional space. <br>
+<span style="">&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: blue;"><o:p></o:p></span></span></p>
+
+<p style="margin-left: 0.25in; text-indent: -0.25in;">&nbsp;</p>
+
+<p style="margin-left: 0.5in; text-indent: -0.25in;"><!--[if !supportLists]--><span style="color: green;"><span style="">3.<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><!--[endif]--><span style="font-size: 14pt; font-family: Arial; color: rgb(0, 153, 0);">Plan Difference</span></p>
+
+<p style="margin-left: 30pt;"><a name="PlanDifference"></a><span style="font-family: Arial;">The semantics for ‘plan
+difference’ are <i style="">vendor-specific</i> in
+terms of what variations qualify as genuine semantic differences between a pair
+of plans. In the absence of such information, Picasso currently supports two extreme
+levels of differentiating between plans: As a “lower bound”, it compares the
+plans at an <b><span style="color: rgb(153, 0, 204);">Operator</span></b> level, where
+only differences between either the tree structures themselves, or the node
+identities at corresponding locations, are taken into account.<span style="">&nbsp; </span>On the other hand, as an “upper bound”, it
+compares the plans at a <b><span style="color: rgb(153, 0, 204);">Parameter</span></b>
+level, where auxiliary information associated with a node is also taken into
+account.<span style="">&nbsp; </span>To make this clear, consider a <span class="SpellE"><b><i style="">TableScan</i></b></span><i style=""> </i>node in plan P<sub>1 </sub>that has its
+<span class="SpellE"><b><i style="">Prefetch</i></b></span>
+attribute set to <b><i style="">‘None’</i>,</b> while
+in plan P<sub>2</sub> the same node has <span class="SpellE"><b><i style="">Prefetch</i></b></span> set to <b><i style="">‘Sequential’</i>.</b> These two nodes would
+be identical with an Operator perspective, but different from a Parameter
+perspective. <o:p></o:p></span></p>
+
+<p style="margin-left: 30pt;"><span style="font-family: Arial;">A related issue in the above is “what constitutes an operator parameter”,
+that is, what auxiliary information from the plan is to be associated with a
+node. Again, since this is vendor-specific, we have made choices based on our
+understanding of the relevance of the information to the execution engine.
+However, we recommend users of Picasso to suitably modify the code if they
+prefer alternative choices. Currently, the operator parameters included for the
+various engines are the following: <o:p></o:p></span></p>
+
+<p style="margin-left: 0.5in; text-indent: -0.25in;"><!--[if !supportLists]--><span style="font-family: Symbol;"><span style="">·<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><!--[endif]--><b><span style="font-family: Arial;">DB2</span></b><span style="font-family: Arial;"> – all operator parameters
+in the </span><b><span style="font-size: 10pt; font-family: &quot;Arial Narrow&quot;;">EXPLAIN_ARGUMENTS</span></b><span style="font-size: 10pt; font-family: &quot;Arial Narrow&quot;;"><span style="">&nbsp; </span></span><span style="font-family: Arial;">table except </span><span style="font-size: 8pt; font-family: &quot;Arial Narrow&quot;;">NUMROWS, BITFLTR, FETCHMAX, ISCANMAX, MAXPAGES, MAXRIDS, SPILLED<span style="">&nbsp; </span></span><span style="font-size: 10pt; font-family: Arial;">(if a parameter is present
+multiple times for a given operator, only the first is retained)<o:p></o:p></span></p>
+
+<p style="margin-left: 0.5in; text-indent: -0.25in;"><!--[if !supportLists]--><span style="font-family: Symbol;"><span style="">·<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><!--[endif]--><b><span style="font-family: Arial;">Oracle</span></b><span style="font-family: Arial;"> – all operator parameters
+present in the </span><b><span style="font-size: 10pt; font-family: &quot;Arial Narrow&quot;;">OPTIONS</span></b><span style="font-family: Arial;"> table<o:p></o:p></span></p>
+
+<p style="margin-left: 0.5in; text-indent: -0.25in;"><!--[if !supportLists]--><span style="font-family: Symbol;"><span style="">·<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><!--[endif]--><b><span style="font-family: Arial;">SQL Server</span></b><span style="font-family: Arial;"> – all information
+associated with the operator (the constants associated with PSP predicates are
+replaced by <i style="">:varies</i>)<o:p></o:p></span></p>
+
+<p style="margin-left: 0.5in; text-indent: -0.25in;"><!--[if !supportLists]--><span style="font-family: Symbol;"><span style="">·<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><!--[endif]--><b><span style="font-family: Arial;">Sybase ASE </span></b><span style="font-family: Arial;">– the </span><span class="SpellE"><span style="font-size: 11pt; font-family: &quot;Arial Narrow&quot;;">CacheStrategy</span></span><span style="font-family: Arial;"> and </span><span style="font-size: 11pt; font-family: &quot;Arial Narrow&quot;;">Order </span><span style="font-family: Arial;">operator parameters<o:p></o:p></span></p>
+
+<p style="margin-left: 0.5in; text-indent: -0.25in;"><!--[if !supportLists]--><span style="font-family: Symbol;"><span style="">·<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><!--[endif]--><span class="SpellE"><b><span style="font-family: Arial;">PostgreSQL</span></b></span><b><span style="font-family: Arial;"> </span></b><span style="font-family: Arial;">– no operator parameters
+are included since we were unable to identify any parameter information in the
+optimizer’s plan output; as a consequence, there are no differences in the
+pictures derived with Operator and Parameter settings for this engine<o:p></o:p></span></p>
+
+<p style="margin-left: 0.25in; text-indent: -0.25in;"><span style="font-family: Arial;"><o:p>&nbsp;</o:p></span></p>
+
+<p style="margin-left: 0.5in; text-indent: -0.25in;"><a name="PlanReduction"></a><!--[if !supportLists]--><span style="color: green;"><span style="">4.<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><!--[endif]--><span style="font-size: 14pt; font-family: Arial; color: rgb(0, 153, 0);">Plan Reduction</span></p>
+
+<p style="margin-left: 30pt;"><span style="font-family: Arial;">In plan
+reduction, a plan in the plan diagram is replaced if and only if <i style="">all</i> its associated query points can be
+‘swallowed’ by one or more sibling plans, without increasing the original cost
+of the points by more than the user-specified threshold percentage. The query
+points of a swallowed plan are re-colored with the colors of the “swallower”
+plans. <o:p></o:p></span></p>
+
+<p style="margin-left: 30pt;"><span style="font-family: Arial;">There are two
+categories of plan reduction algorithms: <o:p></o:p></span></p>
+
+<p style="margin-left: 1in; text-indent: -0.25in;"><!--[if !supportLists]--><span style="font-family: Arial;"><span style="">1.<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><!--[endif]--><span style="font-family: Arial;">Algorithms based
+on <b style="">Cost-bounding (CB)</b>, wherein
+bounds on the increased costs of swallowed points are inferred from the costs
+of points present in their neighborhood. The <span class="SpellE"><b style=""><span style="color: maroon;">AreaGreedy</span></b></span><b style=""> </b>and <span class="SpellE"><b style=""><span style="color: maroon;">CostGreedy</span></b></span>
+algorithms implemented in Picasso fall into this category. <o:p></o:p></span></p>
+
+<p style="margin-left: 1in; text-indent: -0.25in;"><!--[if !supportLists]--><span style="font-family: Arial;"><span style="">2.<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><!--[endif]--><span style="font-family: Arial;">Algorithms based
+on <b style="">Abstract-plan-costing (APC),</b>
+wherein the increased costs of swallowed points can be explicitly evaluated
+through the Abstract-plan-costing mechanism. The <b style=""><span style="color: maroon;">CC-SEER</span></b> and <span class="SpellE"><b style=""><span style="color: maroon;">LiteSEER</span></b></span>
+algorithms implemented in Picasso fall into this category.<o:p></o:p></span></p>
+
+<p style="margin-left: 30pt;"><b style=""><u><span style="font-family: Arial; color: rgb(0, 112, 192);">Cost-bounding Approach<o:p></o:p></span></u></b></p>
+
+<p style="margin-left: 30pt;"><span style="font-family: Arial;">In the CB-based
+approach, the swallowing criteria used for a query point <span class="SpellE"><i style="">q<sub>s</sub></i></span> is that the
+candidate swallower plan must have at least one query point <i style="">q<sub>t</sub></i><sub> </sub>in the <i style="">first quadrant relative to q as the origin
+in the selectivity space </i>whose cost is within the threshold <span class="SpellE">w.r.t</span>. <span class="SpellE"><i style="">q</i>’s</span> cost. If there are multiple such points, the <i style="">q<sub>t</sub></i><sub> </sub>point with the
+lowest cost is selected as the replacement. Further, if there are multiple feasible
+swallower plans, the plan with the lowest replacement cost is chosen as the
+preferred swallower. <o:p></o:p></span></p>
+
+<p style="margin-left: 30pt;"><span style="font-family: Arial;">A fundamental
+assumption in this reduction approach, which is also the reason for restricting
+attention to the first quadrant, is that <i style="">query
+processing costs monotonically increase with increasing <span class="SpellE">selectivities</span>
+– </i>that is, more input from the base relations implies more work to be done
+and hence more cost incurred (see the Cost Domination Principle in this <a href="http://bhairav.serc.iisc.ernet.in/doc/Usage/paper.pdf">VLDB 2005 paper</a>).
+While this is true in practice for most query templates, it may sometimes not
+hold because of either (a) the intrinsic nature of the query template (e.g.
+presence of the EXISTS operator may lead to cost <i style="">reductions</i> with increasing <span class="SpellE">selectivities</span>),
+or (b) due to erroneous modeling in the optimizer.<span style="">&nbsp; </span>Further, even if it <i style="">apparently holds</i> based on the explicit query points that are
+optimized in the plan diagram, it is possible, albeit unlikely, that there are
+regions <i style="">in between</i> these points where
+it may be violated. Therefore, the reduction diagrams should always be <i style="">interpreted with care</i> keeping in mind
+the likelihood of the cost <span class="SpellE">monotonicity</span> assumption
+being valid. Note that explicit violations of the assumption are flagged by the
+Cost Domination Principle violation alert message in Picasso.<span style="">&nbsp; </span>Further, in such situations where the costs
+do not monotonically increase in the entire space, we permit swallowing only if
+the candidate swallower point in the first quadrant is not only within the
+threshold but also <i style="">has the same or higher
+cost </i>than the point under consideration.<br>
+<br>
+Note that it is possible for a plan P<sub>J </sub>to be swallowed by another
+plan P<sub>K</sub>, and later, for (the now enlarged) P<sub>K</sub> itself to
+be swallowed by a plan P<sub>M</sub>, as long as all the query points now
+associated with P<sub>K </sub>do not have their <u>original</u> costs increased
+by more than the threshold.<o:p></o:p></span></p>
+
+<p style="margin-left: 30pt;"><span style="font-family: Arial;">In general, if a
+sufficiently large threshold is given, the user may expect to wind up with a <i style="">single </i>plan in the reduced plan diagram.
+However, in our implementation, this will happen only if the query costs follow
+the Cost Domination Principle mentioned above.<o:p></o:p></span></p>
+
+<p style="margin-left: 30pt;"><b style=""><u><span style="font-family: Arial; color: rgb(0, 112, 192);">Abstract-plan-costing Approach<o:p></o:p></span></u></b></p>
+
+<p style="margin-left: 30pt;"><span style="font-family: Arial;">In the APC-based
+approach, cost domination and restricting attention to first quadrant is not
+mandatory since Abstract-plan-costing can be used to explicitly evaluate the
+costs of replacement plans at the replaced locations.<span style="">&nbsp; </span>However, in our algorithms, to ensure that
+Abstract-plan-costing needs to be carried out at only a few points in the
+selectivity space, a different assumption is made with regard to the behavior
+of plan cost functions over the selectivity space – specifically, that all
+plans follow the <span class="SpellE">parametrized</span> cost model template
+described in this <a href="http://dsl.serc.iisc.ernet.in/publications/conference/seer.pdf">VLDB 2008
+paper</a>, which was arrived at after an in-depth study of current
+industrial-strength optimizers.<span style="">&nbsp; </span></span></p>
+
+<p style="margin-left: 30pt;"><span style="font-family: Arial;">For a detailed
+treatment of the Plan Reduction problem, see this <a href="http://dsl.serc.iisc.ernet.in/publications/report/TR/TR-2007-01.pdf">technical
+report</a><span style="">&nbsp; </span>(CB-based algorithms) and
+this <a href="http://dsl.serc.iisc.ernet.in/publications/report/TR/TR-2007-02.pdf">technical
+report </a><span style="">&nbsp;</span>(APC-based algorithms).<o:p></o:p></span></p>
+
+<p style="margin-left: 0.25in; text-indent: -0.25in;"><span style="font-family: Arial;"><o:p>&nbsp;</o:p></span></p>
+
+<p style="margin-left: 0.5in; text-indent: -0.25in;"><a name="TimeEstimations"></a><!--[if !supportLists]--><span style="font-family: Arial; color: green;"><span style="">5.<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><!--[endif]--><span style="font-size: 14pt; font-family: Arial; color: rgb(0, 153, 0);">Time Estimations for Exact Diagram
+Production</span><span style="font-family: Arial;"> <o:p></o:p></span></p>
+
+<p style="margin-left: 30pt;"><span style="font-family: Arial;">For estimating
+the time to produce a <b style=""><i style="">compilation </i></b>diagram, Picasso first
+measures the compilation times for five query points spaced uniformly on the
+principal diagonal of the n-D selectivity space and scales the average of these
+by the total number of query points in the diagram. The above initial estimate
+is <i style="">re-calibrated</i> <i style="">dynamically </i>during the diagram processing based on the time taken
+for the queries fired so far and the number of remaining queries.<span style="">&nbsp; </span><o:p></o:p></span></p>
+
+<p style="margin-left: 30pt;"><span style="font-family: Arial;">For estimating
+the time to produce an <b style=""><i style="">execution</i></b> diagram, Picasso first
+measures the execution time of a query point on the principal diagonal that is
+located close to the origin of the n-D selectivity space. For example, in the
+case of a full-range diagram, the query (</span><b style=""><span style="font-size: 10pt; font-family: Arial;">0.05, 0.05,…, 0.05</span></b><span style="font-family: Arial;">). This value is used as an indicator of the
+multiplication factor </span><i style=""><span style="font-size: 14pt; font-family: Arial;">f </span></i><span style="font-family: Arial;">relating the query optimizer’s estimated cost and the actual response
+time.<span style="">&nbsp; </span>Then the optimizer costs for all
+the points in the diagram are aggregated and finally multiplied by </span><i style=""><span style="font-size: 14pt; font-family: Arial;">f </span></i><span style="font-family: Arial;">to estimate the production
+time of the entire diagram.<br>
+<br>
+The above initial estimate is <i style="">re-calibrated</i>
+<i style="">dynamically </i>during the diagram
+processing based on the time taken for the queries fired so far and the
+aggregate estimated cost of the remaining queries.<span style="">&nbsp; </span><o:p></o:p></span></p>
+
+<p style="margin-left: 30pt;"><span style="font-family: Arial;">An important point to note is that since the
+time estimates for producing an execution diagram are based on <i>actually
+executing</i> a sample query, it may therefore take significant time even to
+just produce the estimate. Further, the estimation </span><span style="font-family: Arial;">could be significantly influenced by the current
+system environment, e.g. the contents of the database memory cache.<o:p></o:p></span></p>
+
+<p style="margin-left: 0.25in; text-indent: -0.25in;">&nbsp;</p>
+
+<p style="margin-left: 0.5in; text-indent: -0.25in;"><a name="TimeEstimations0"></a><!--[if !supportLists]--><span style="font-family: Arial; color: green;"><span style="">6.<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><!--[endif]--><span style="font-size: 14pt; font-family: Arial; color: rgb(0, 153, 0);">Time Estimations for Approximate
+Compilation Diagram Production</span><span style="font-family: Arial;"> <o:p></o:p></span></p>
+
+<p style="margin-left: 30pt;"><span style="font-family: Arial;">For estimating
+the time required to generate an <span style="color: orange;">approximate compilation</span>
+diagram,&nbsp; coarse estimators, <span class="style12">S-est </span>and <span class="style12">G-est</span>, are incorporated in the Sampling (RS_NN) and Grid
+(GS_PQO) approximation algorithms, respectively.</span></p>
+
+<p style="margin-left: 30pt;"><strong><span style="font-family: Arial; color: maroon;">S-est:</span></strong><span style="font-family: Arial;"> In this
+time estimator for the RS_NN algorithm, a randomly-chosen small seed set of
+query points is initially optimized and the plan-identity error is estimated
+using the <strong><span style="font-family: Arial;">d<sub>max</sub></span></strong><sub>
+</sub>statistical estimator, as described in this <a href="http://dsl.serc.iisc.ernet.in/publications/report/TR/TR-2008-01.pdf">technical
+report</a>. Then, a second randomly chosen query point set of the same size is
+optimized and the incremental reduction in the error is estimated. Based on
+this reduction, the number of samples required for reducing the error to meet
+the user-specified tolerance is estimated through linear scaling. Finally, the
+time for optimizing the expected number of required samples is estimated, again
+through linear scaling.<br>
+<br>
+Note that our estimation process only considers plan-identity error. This is
+because, given similar tolerance levels for both errors, our empirical
+observation has been that the plan-location error typically lags behind the
+plan-identity error.&nbsp; However, it is possible that the user may have given
+a significantly larger tolerance for identity error as compared to location
+error, in which case the assumption is no longer valid. To handle this
+situation, we artificially treat the lower of the tolerance levels to be the
+plan-identity error in computing the time estimation,&nbsp; in the process
+achieving a conservative estimate (note that this assumption is only intended
+for generation time estimation and does not impact the approximation process
+itself).&nbsp; In the current implementation, the cardinality of the seed set
+is <strong><span style="font-family: Arial;">50</span></strong> query points,
+which typically takes less than a minute to optimize on standard platforms.</span></p>
+
+<p style="margin-left: 30pt;"><strong><span style="font-family: Arial; color: maroon;">G-est:</span></strong><span style="font-family: Arial;"> In this
+time estimator for the GS_PQO algorithm, the points on the corner cells of the
+grid-partitioned space are initially optimized. The "plan richness"
+factor, a&nbsp; measure of the expected number of&nbsp; plans present in the
+region,&nbsp; is computed for each of these cells (see this <a href="http://dsl.serc.iisc.ernet.in/publications/report/TR/TR-2008-01.pdf">technical
+report</a> for details). Among the cells that are adjacent to an axis, we
+choose the one with the maximum plan-richness for repeated partitioning until
+it is estimated that the user tolerance levels have been met within the cell.
+Call this cell as </span><span class="style41">Max<sub>axis</sub></span><sub><span style="font-family: Arial;"> </span></sub><span style="font-family: Arial;">.
+Subsequently, the cell with the highest selectivity coordinates&nbsp; (i.e. the
+cell at the far end of the principal diagonal of the space) is also processed
+in a similar manner. Call this cell as </span><span class="style41">Max<sub>sel</sub></span><span style="font-family: Arial;"> . Now we assume that each cell adjacent to an axis
+will incur the same overheads as&nbsp; </span><span class="style41">Max<sub>axis</sub></span><sub><span style="font-family: Arial;"> </span></sub><span style="font-family: Arial;">, while
+all remaining cells will incur that of </span><span class="style41">Max<sub>sel</sub></span><span style="font-family: Arial;">. We sum up the sample size accordingly as the final
+estimate. In the current implementation, the initial partitioning of the
+selectivity space is such that each cell has an edge length of <strong><span style="font-family: Arial;">8</span></strong> query points.&nbsp; The motivation
+for treating the cells bordering the axes differently than those in the
+hinterland is the commonplace observation that plans tend to be distributed
+richly along the axes as compared to the interior regions.</span></p>
+
+<p>&nbsp;</p>
+
+<p style="margin-left: 0.5in; text-indent: -0.25in;"><a name="ExecDiagram"></a><!--[if !supportLists]--><span style="color: green;"><span style="">7.<span style="font-family: &quot;Times New Roman&quot;; font-style: normal; font-variant: normal; font-weight: normal; font-size: 7pt; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><!--[endif]--><span style="font-size: 14pt; font-family: Arial; color: rgb(0, 153, 0);">Execution Cost Diagram</span></p>
+
+<p style="margin-left: 30pt;"><span style="font-family: Arial;">An important
+point to note with regard to execution cost diagrams is that the actual running
+times depend on a number of factors, including system load, cache status, and
+also, <i style="">the order in which the query
+instances are generated</i> </span><span style="font-family: Symbol;"><span style="">-</span></span><span style="font-family: Arial;">
+this is because the order can influence the cache contents. In the current
+diagrams produced by Picasso, no special effort is made to produce a cold-cache
+– instead the diagram is a function of whatever happens to be the cache status
+during the diagram production process.<span style="">&nbsp;
+</span>Further, as mentioned above, the queries are generated in row order beginning
+with the point closest to the origin.<br>
+<br>
+Note that the above issue does not arise for Execution Cardinality Diagrams,
+since the result cardinality is a function of only the database contents, and
+not the system environment.<o:p></o:p></span></p>
+
+<p style="text-align: center;" align="center"><span style="font-size: 14pt; font-family: Arial;"><o:p>&nbsp;</o:p></span><span style="font-size: 14pt;"><o:p>&nbsp;</o:p></span></p>
+
+<p style="text-align: center;" align="center"><span style="font-size: 14pt; font-family: Arial;"><a href="http://dsl.serc.iisc.ernet.in/projects/PICASSO/picasso_download/doc/index.htm">Documentation Home</a><o:p></o:p></span></p>
+
+</div>
+
+</body></html>

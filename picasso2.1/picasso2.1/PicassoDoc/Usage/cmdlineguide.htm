@@ -1,0 +1,1200 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns:st1="urn:schemas-microsoft-com:office:smarttags"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 12">
+<meta name=Originator content="Microsoft Word 12">
+<link rel=File-List href="cmdlineguide_files/filelist.xml">
+<title>Picasso Command Line Usage Guide</title>
+<o:SmartTagType namespaceuri="urn:schemas-microsoft-com:office:smarttags"
+ name="place"/>
+<o:SmartTagType namespaceuri="urn:schemas-microsoft-com:office:smarttags"
+ name="country-region"/>
+<o:SmartTagType namespaceuri="urn:schemas-microsoft-com:office:smarttags"
+ name="City"/>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>Tarun</o:Author>
+  <o:Template>Normal</o:Template>
+  <o:LastAuthor>Abhirama</o:LastAuthor>
+  <o:Revision>30</o:Revision>
+  <o:TotalTime>253</o:TotalTime>
+  <o:LastPrinted>2007-05-14T03:52:00Z</o:LastPrinted>
+  <o:Created>2007-04-22T17:01:00Z</o:Created>
+  <o:LastSaved>2009-02-03T10:10:00Z</o:LastSaved>
+  <o:Pages>1</o:Pages>
+  <o:Words>822</o:Words>
+  <o:Characters>4688</o:Characters>
+  <o:Company>IISc</o:Company>
+  <o:Lines>39</o:Lines>
+  <o:Paragraphs>10</o:Paragraphs>
+  <o:CharactersWithSpaces>5500</o:CharactersWithSpaces>
+  <o:Version>12.00</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]-->
+<link rel=themeData href="cmdlineguide_files/themedata.thmx">
+<link rel=colorSchemeMapping href="cmdlineguide_files/colorschememapping.xml">
+<!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:Zoom>90</w:Zoom>
+  <w:SpellingState>Clean</w:SpellingState>
+  <w:TrackMoves>false</w:TrackMoves>
+  <w:TrackFormatting/>
+  <w:DrawingGridHorizontalSpacing>6 pt</w:DrawingGridHorizontalSpacing>
+  <w:DisplayHorizontalDrawingGridEvery>2</w:DisplayHorizontalDrawingGridEvery>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:DoNotPromoteQF/>
+  <w:LidThemeOther>EN-IN</w:LidThemeOther>
+  <w:LidThemeAsian>X-NONE</w:LidThemeAsian>
+  <w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript>
+  <w:Compatibility>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+   <w:SplitPgBreakAndParaMark/>
+   <w:DontVertAlignCellWithSp/>
+   <w:DontBreakConstrainedForcedTables/>
+   <w:DontVertAlignInTxbx/>
+   <w:Word11KerningPairs/>
+   <w:CachedColBalance/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+  <m:mathPr>
+   <m:mathFont m:val="Cambria Math"/>
+   <m:brkBin m:val="before"/>
+   <m:brkBinSub m:val="--"/>
+   <m:smallFrac m:val="off"/>
+   <m:dispDef/>
+   <m:lMargin m:val="0"/>
+   <m:rMargin m:val="0"/>
+   <m:defJc m:val="centerGroup"/>
+   <m:wrapIndent m:val="1440"/>
+   <m:intLim m:val="subSup"/>
+   <m:naryLim m:val="undOvr"/>
+  </m:mathPr></w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" DefUnhideWhenUsed="false"
+  DefSemiHidden="false" DefQFormat="false" LatentStyleCount="267">
+  <w:LsdException Locked="false" QFormat="true" Name="Normal"/>
+  <w:LsdException Locked="false" QFormat="true" Name="heading 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 6"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 7"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 8"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 9"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="caption"/>
+  <w:LsdException Locked="false" QFormat="true" Name="Title"/>
+  <w:LsdException Locked="false" Priority="1" Name="Default Paragraph Font"/>
+  <w:LsdException Locked="false" QFormat="true" Name="Subtitle"/>
+  <w:LsdException Locked="false" QFormat="true" Name="Strong"/>
+  <w:LsdException Locked="false" QFormat="true" Name="Emphasis"/>
+  <w:LsdException Locked="false" Priority="99" Name="No List"/>
+  <w:LsdException Locked="false" Priority="99" SemiHidden="true"
+   Name="Placeholder Text"/>
+  <w:LsdException Locked="false" Priority="1" QFormat="true" Name="No Spacing"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 1"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="99" SemiHidden="true" Name="Revision"/>
+  <w:LsdException Locked="false" Priority="34" QFormat="true"
+   Name="List Paragraph"/>
+  <w:LsdException Locked="false" Priority="29" QFormat="true" Name="Quote"/>
+  <w:LsdException Locked="false" Priority="30" QFormat="true"
+   Name="Intense Quote"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 1"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 1"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 2"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 2"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 2"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 3"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 3"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 3"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 4"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 4"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 4"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 5"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 5"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 5"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 6"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 6"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 6"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="19" QFormat="true"
+   Name="Subtle Emphasis"/>
+  <w:LsdException Locked="false" Priority="21" QFormat="true"
+   Name="Intense Emphasis"/>
+  <w:LsdException Locked="false" Priority="31" QFormat="true"
+   Name="Subtle Reference"/>
+  <w:LsdException Locked="false" Priority="32" QFormat="true"
+   Name="Intense Reference"/>
+  <w:LsdException Locked="false" Priority="33" QFormat="true" Name="Book Title"/>
+  <w:LsdException Locked="false" Priority="37" SemiHidden="true"
+   UnhideWhenUsed="true" Name="Bibliography"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="TOC Heading"/>
+ </w:LatentStyles>
+</xml><![endif]--><!--[if !mso]><object
+ classid="clsid:38481807-CA0E-42D2-BF39-B33AF135CC4D" id=ieooui></object>
+<style>
+st1\:*{behavior:url(#ieooui) }
+</style>
+<![endif]-->
+<style>
+<!--.STYLE2
+	{border-left-color: inherit;
+	border-top-color: inherit;}
+
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;
+	mso-font-charset:1;
+	mso-generic-font-family:roman;
+	mso-font-format:other;
+	mso-font-pitch:variable;
+	mso-font-signature:0 0 0 0 0 0;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:-520082689 -1073717157 41 0 66047 0;}
+@font-face
+	{font-family:"Arial Narrow";
+	panose-1:2 11 6 6 2 2 2 3 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:647 2048 0 0 159 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";}
+a:link, span.MsoHyperlink
+	{mso-style-unhide:no;
+	color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-unhide:no;
+	color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+p
+	{mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoAcetate, li.MsoAcetate, div.MsoAcetate
+	{mso-style-unhide:no;
+	mso-style-link:"Balloon Text Char";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Tahoma","sans-serif";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
+	{mso-style-priority:34;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoListParagraphCxSpFirst, li.MsoListParagraphCxSpFirst, div.MsoListParagraphCxSpFirst
+	{mso-style-priority:34;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-type:export-only;
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoListParagraphCxSpMiddle, li.MsoListParagraphCxSpMiddle, div.MsoListParagraphCxSpMiddle
+	{mso-style-priority:34;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-type:export-only;
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoListParagraphCxSpLast, li.MsoListParagraphCxSpLast, div.MsoListParagraphCxSpLast
+	{mso-style-priority:34;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-type:export-only;
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	mso-add-space:auto;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";}
+span.BalloonTextChar
+	{mso-style-name:"Balloon Text Char";
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Balloon Text";
+	mso-ansi-font-size:8.0pt;
+	mso-bidi-font-size:8.0pt;
+	font-family:"Tahoma","sans-serif";
+	mso-ascii-font-family:Tahoma;
+	mso-hansi-font-family:Tahoma;
+	mso-bidi-font-family:Tahoma;}
+p.style1, li.style1, div.style1
+	{mso-style-name:style1;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Arial","sans-serif";
+	mso-fareast-font-family:"Times New Roman";}
+p.style2, li.style2, div.style2
+	{mso-style-name:style2;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	border:none;
+	mso-border-bottom-alt:solid windowtext 1.0pt;
+	mso-border-right-alt:solid windowtext 1.0pt;
+	padding:0cm;
+	mso-padding-alt:0cm 5.0pt 0cm 0cm;
+	font-size:12.0pt;
+	font-family:"Arial","sans-serif";
+	mso-fareast-font-family:"Times New Roman";}
+p.style3, li.style3, div.style3
+	{mso-style-name:style3;
+	mso-style-unhide:no;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Arial","sans-serif";
+	mso-fareast-font-family:"Times New Roman";}
+span.SpellE
+	{mso-style-name:"";
+	mso-spl-e:yes;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	mso-default-props:yes;
+	font-size:10.0pt;
+	mso-ansi-font-size:10.0pt;
+	mso-bidi-font-size:10.0pt;}
+@page Section1
+	{size:595.45pt 841.7pt;
+	margin:36.0pt 36.0pt 36.0pt 36.0pt;
+	mso-header-margin:36.0pt;
+	mso-footer-margin:36.0pt;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+ @list l0
+	{mso-list-id:368258528;
+	mso-list-type:hybrid;
+	mso-list-template-ids:716098128 20753942 1074331673 1074331675 1074331663 1074331673 1074331675 1074331663 1074331673 1074331675;}
+@list l0:level1
+	{mso-level-number-format:alpha-lower;
+	mso-level-text:"%1\)";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	mso-ansi-font-weight:bold;}
+@list l0:level2
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level3
+	{mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level4
+	{mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level5
+	{mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level6
+	{mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level7
+	{mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level8
+	{mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level9
+	{mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1
+	{mso-list-id:1054543017;
+	mso-list-type:hybrid;
+	mso-list-template-ids:705064028 -1994389748 1074331673 1074331675 1074331663 1074331673 1074331675 1074331663 1074331673 1074331675;}
+@list l1:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:54.0pt;
+	text-indent:-18.0pt;
+	color:windowtext;
+	mso-ansi-font-weight:bold;}
+@list l1:level2
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:90.0pt;
+	text-indent:-18.0pt;}
+@list l1:level3
+	{mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level4
+	{mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level5
+	{mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level6
+	{mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level7
+	{mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level8
+	{mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level9
+	{mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman","serif";}
+table.MsoTableGrid
+	{mso-style-name:"Table Grid";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-unhide:no;
+	border:solid windowtext 1.0pt;
+	mso-border-alt:solid windowtext .5pt;
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-border-insideh:.5pt solid windowtext;
+	mso-border-insidev:.5pt solid windowtext;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman","serif";}
+.style1 {
+	font-family: Arial;
+}
+.style2 {
+	color: black;
+}
+.style3 {
+	font-family: "Arial Narrow";
+}
+.style4 {
+	font-weight: normal;
+}
+</style>
+<![endif]-->
+<meta http-equiv=Content-Language content=en-us>
+<!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="11266"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body lang=EN-IN link=blue vlink=blue style='tab-interval:36.0pt'>
+
+<div class=Section1>
+
+<p class=MsoNormal align=center style='text-align:center'><b style='mso-bidi-font-weight:
+normal'><i><span lang=EN-US style='font-size:20.0pt;font-family:"Arial","sans-serif";
+color:#CC0066;mso-ansi-language:EN-US'>Picasso Database Query Optimizer <span
+class=SpellE>Visualizer</span><o:p></o:p></span></i></b></p>
+
+<p class=MsoNormal align=center style='text-align:center'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-family:"Arial","sans-serif";color:black;
+mso-ansi-language:EN-US;mso-bidi-font-style:italic'>©Indian Institute of
+Science, <st1:place w:st="on"><st1:City w:st="on">Bangalore</st1:City>, <st1:country-region
+ w:st="on">India</st1:country-region></st1:place></span></b><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-family:"Arial","sans-serif";
+color:black;mso-ansi-language:EN-US'><o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN-US
+style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'>&nbsp;<o:p></o:p></span></p>
+
+<p align=center style='margin-left:18.0pt;text-align:center;text-indent:-18.0pt'><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:16.0pt;
+font-family:"Arial","sans-serif";color:red;mso-ansi-language:EN-US'>COMMAND
+LINE INTERFACE to PICASSO SERVER<o:p></o:p></span></b></p>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto'><span
+lang=EN-US style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'> </span></span><span lang=EN-US style='font-size:14.0pt;
+font-family:"Arial","sans-serif";color:maroon;mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:18.0pt'><span lang=EN-US
+style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'>Apart from the
+Picasso Client graphical interface described in the main documentation, the Picasso
+Server can also be accessed directly through the command line. The utility
+resides in the <span class=SpellE><b style='mso-bidi-font-weight:normal'><span
+style='color:#FF33CC'>PicassoRun</span></b></span> directory and is called </span><span
+class=SpellE><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='font-size:14.0pt;mso-bidi-font-size:12.0pt;font-family:"Arial Narrow","sans-serif";
+mso-bidi-font-family:Arial;mso-ansi-language:EN-US'>PicassoCmd</span></b></span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-family:"Arial Narrow","sans-serif";
+mso-bidi-font-family:Arial;mso-ansi-language:EN-US'>.<o:p></o:p></span></b></p>
+
+<p class=MsoNormal style='margin-left:18.0pt'><span lang=EN-US
+style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='margin-left:18.0pt'><span lang=EN-US
+style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'>The command
+line utility can be used as follows:<br style='mso-special-character:line-break'>
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+<![endif]><o:p></o:p></span></p>
+
+<ol>
+	<li>
+	<p class=MsoListParagraphCxSpFirst style='margin-left:36.0pt;mso-list:l1 level1 lfo2'>
+	<span lang=EN-US
+style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'><strong>a)</strong> For generating
+exact diagrams that have the same resolution and the complete range on all
+dimensions:<o:p></o:p></span></p>
+	<p class=MsoListParagraphCxSpMiddle style='margin-left:36.0pt;mso-add-space:
+auto'><b style='mso-bidi-font-weight:normal'>
+	<span lang=EN-US style='font-family:
+"Arial","sans-serif";color:maroon;mso-ansi-language:EN-US'><span class=SpellE>PicassoCmd</span><span
+style='mso-spacerun:yes'>  </span>&lt;<span class=SpellE>ServerName</span>&gt;
+&lt;Port&gt; &lt;<span class=SpellE>DBConnection</span>&gt; &lt;<span
+class=SpellE>OptLevel</span>&gt; &lt;QTD&gt; &lt;<span class=SpellE>QDist</span>&gt;
+&lt;<span class=SpellE>DiagType</span>&gt; &lt;<span class=SpellE>QTFile</span>&gt;
+&lt;Resolution&gt; <br>
+	<br>
+	</span></b>
+	<span lang=EN-US style='font-family:
+"Arial","sans-serif";mso-ansi-language:EN-US' class="style2"><strong>b)</strong> </span>
+	<span lang=EN-US style='font-family:"Arial","sans-serif";
+mso-ansi-language:EN-US'>For generating approximate diagrams that have the same
+resolution and the complete range on all dimensions:<o:p></o:p></span></p>
+	<p class=MsoListParagraphCxSpLast style='margin-left:36.0pt;mso-add-space:auto'>
+	<b
+style='mso-bidi-font-weight:normal'>
+	<span lang=EN-US style='font-family:"Arial","sans-serif";
+color:maroon;mso-ansi-language:EN-US'><span class=SpellE>PicassoCmd</span><span style='mso-spacerun:yes'> 
+	</span>&lt;<span class=SpellE>ServerName</span>&gt; &lt;Port&gt; &lt;<span
+class=SpellE>DBConnection</span>&gt; &lt;<span class=SpellE>OptLevel</span>&gt;
+&lt;QTD&gt; &lt;<span class=SpellE>QDist</span>&gt; &lt;<span class=SpellE>DiagType</span>&gt;
+&lt;<span class=SpellE>QTFile</span>&gt; &lt;Approx-<span class=SpellE>algo</span>&gt; 
+&lt;<span class=SpellE>IdError</span>&gt; &lt;<span class=SpellE>LocError</span>&gt; &lt;Resolution&gt;<o:p></o:p></span></b></p>
+	<p class=MsoListParagraphCxSpLast style='margin-left:36.0pt;mso-add-space:auto'>&nbsp;
+	<o:p></o:p></p>
+	</li>
+	<li>
+	<p class=MsoNormal style='margin-left:36.0pt'>
+	<span lang=EN-US style='font-family:"Arial","sans-serif";
+mso-ansi-language:EN-US'><strong>a)</strong> For generating exact diagrams with dimension-specific
+ranges and/or resolutions:<o:p></o:p></span></p>
+	<p class=MsoListParagraphCxSpMiddle style='margin-left:36.0pt;mso-add-space:
+auto'><span class=SpellE><b style='mso-bidi-font-weight:normal'>
+	<span
+lang=EN-US style='font-family:"Arial","sans-serif";color:maroon;mso-ansi-language:
+EN-US'>PicassoCmd</span></b></span><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-family:"Arial","sans-serif";color:maroon;mso-ansi-language:
+EN-US'><span style='mso-spacerun:yes'>  </span>-R &lt;<span class=SpellE>ServerName</span>&gt;
+&lt;Port&gt; &lt;<span class=SpellE>DBConnection</span>&gt; &lt;<span
+class=SpellE>OptLevel</span>&gt; &lt;QTD&gt; &lt;<span class=SpellE>QDist</span>&gt;
+&lt;<span class=SpellE>DiagType</span>&gt; &lt;<span class=SpellE>QTFile</span>&gt;
+&lt;Approx-<span class=SpellE>algo</span>&gt; &lt;<span class=SpellE>IdError</span>&gt; &lt;<span
+class=SpellE>LocError</span>&gt; {&lt;Resolution&gt; &lt;S<span class=SpellE>tartpoint</span>&gt;
+&lt;Endpoint&gt;} </span>
+</b></p>
+	<p class=MsoListParagraphCxSpMiddle style='margin-left:36.0pt;mso-add-space:
+auto'><b style='mso-bidi-font-weight:normal'>
+	<span
+lang=EN-US style='font-family:"Arial","sans-serif";color:maroon;mso-ansi-language:
+EN-US'> <br></span>
+</b>
+<span
+lang=EN-US style='font-family:"Arial","sans-serif";mso-ansi-language:
+EN-US' class="style2"><strong>b)</strong> </span><span
+lang=EN-US style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'>For
+generating approximate diagrams with dimension-specific ranges and/or
+resolutions:<o:p></o:p></span></p>
+
+<p class=MsoListParagraphCxSpLast style='margin-left:36.0pt;mso-add-space:
+auto'><b style='mso-bidi-font-weight:normal'>
+<span
+lang=EN-US style='font-family:"Arial","sans-serif";color:maroon;mso-ansi-language:
+EN-US'><span class=SpellE>PicassoCmd</span><span
+style='mso-spacerun:yes'>  </span>-R &lt;<span class=SpellE>ServerName</span>&gt;
+&lt;Port&gt; &lt;<span class=SpellE>DBConnection</span>&gt; &lt;<span
+class=SpellE>OptLevel</span>&gt; &lt;QTD&gt; &lt;<span class=SpellE>QDist</span>&gt;
+&lt;<span class=SpellE>DiagType</span>&gt; &lt;<span class=SpellE>QTFile</span>&gt;
+{&lt;Resolution&gt; &lt;S<span class=SpellE>tartpoint</span>&gt;
+&lt;Endpoint&gt;}<o:p></o:p></span></b></p>
+	<br>
+	<o:p></o:p>
+	</span></b>
+	</li>
+</ol>
+
+<p class=MsoNormal style='margin-left:-18.0pt'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-family:"Arial","sans-serif";mso-ansi-language:
+EN-US'><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal style='margin-left:18.0pt'><span lang=EN-US
+style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'>The<span
+style='mso-spacerun:yes'> number of </span><b style='mso-bidi-font-weight:normal'><span
+style='color:maroon'><span style='mso-spacerun:yes'> </span>{&lt;Resolution&gt;
+&lt;S<span class=SpellE>tartpoint</span>&gt; &lt;Endpoint&gt;} </span></b><span
+style='color:black'>triplets has to be identical to the dimensionality of the
+query template. The triplets are associated with&nbsp; the 
+<b style='mso-bidi-font-weight:
+normal'>PSP </b>predicates in their <em>syntactic </em>order of appearance </span>
+<span lang=EN-US
+style='mso-ansi-language:EN-US' class="style1">in the query template –</span><span lang=EN-US
+style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'> i.e., the first triplet corresponds 
+to the first&nbsp; <strong>:varies</strong> predicate in textual order, the
+second triplet corresponds to the second
+<b style='mso-bidi-font-weight:
+normal'>:varies</b> predicate, and so on.<o:p></o:p></span></span></p>
+
+<p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='font-family:"Arial","sans-serif";color:black;mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt'><span lang=EN-US
+style='font-family:"Arial","sans-serif";color:black;mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt'><span lang=EN-US
+style='font-family:"Arial","sans-serif";color:black;mso-ansi-language:EN-US'>The
+following table explains the various arguments:<o:p></o:p></span></p>
+<p class=MsoNormal style='margin-left:36.0pt'>
+<o:p></o:p></p>
+<div style="padding-left:36pt">
+<table class=MsoTableGrid border=1 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none;mso-border-alt:
+ solid windowtext .5pt;mso-yfti-tbllook:480;mso-padding-alt:0cm 5.4pt 0cm 5.4pt' align="center">
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'>
+  <td valign=top style='width:80pt; border:solid windowtext 1.0pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal><b style='mso-bidi-font-weight:normal'>
+	<span
+  style='font-family:"Arial","sans-serif";color:red'>Argument<o:p></o:p></span></b></p>
+  </td>
+  <td valign=top align="center" style='text-align:center;border-right: 1.0pt solid windowtext; border-top: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:11.7cm; border-left:none; mso-border-left-alt:solid windowtext .5pt; mso-border-alt:
+  solid windowtext .5pt; padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+  style='font-family:"Arial","sans-serif";color:red'>Meaning<o:p></o:p></span></b></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:1'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:80pt; border-top:none; mso-border-top-alt:solid windowtext .5pt; mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal><span class=SpellE><b style='mso-bidi-font-weight:normal'><i
+  style='mso-bidi-font-style:normal'><span style='font-family:"Arial","sans-serif"'>ServerName</span></i></b></span><b
+  style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'><span
+  style='font-family:"Arial","sans-serif"'><o:p></o:p></span></i></b></p>
+  </td>
+  <td valign=top style='width:11.7cm; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>Name/IP of
+  machine running Picasso Server<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:2'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:80pt; border-top:none; mso-border-top-alt:solid windowtext .5pt; mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><i
+  style='mso-bidi-font-style:normal'><span style='font-family:"Arial","sans-serif"'>Port<o:p></o:p></span></i></b></p>
+  </td>
+  <td valign=top style='width:11.7cm; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>Port number
+  of Picasso Server<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:3'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:80pt; border-top:none; mso-border-top-alt:solid windowtext .5pt; mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal><span class=SpellE><b style='mso-bidi-font-weight:normal'><i
+  style='mso-bidi-font-style:normal'><span style='font-family:"Arial","sans-serif"'>DBConnection</span></i></b></span><b
+  style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'><span
+  style='font-family:"Arial","sans-serif"'><o:p></o:p></span></i></b></p>
+  </td>
+  <td valign=top style='width:11.7cm; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>Database
+  Connection Descriptor<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:4'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:80pt; border-top:none; mso-border-top-alt:solid windowtext .5pt; mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal><span class=SpellE><b style='mso-bidi-font-weight:normal'><i
+  style='mso-bidi-font-style:normal'><span style='font-family:"Arial","sans-serif"'>OptLevel</span></i></b></span><b
+  style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'><span
+  style='font-family:"Arial","sans-serif"'><o:p></o:p></span></i></b></p>
+  </td>
+  <td valign=top style='width:11.7cm; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>Database 
+	Engine's Optimization Level <b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:5'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:80pt; border-top:none; mso-border-top-alt:solid windowtext .5pt; mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><i
+  style='mso-bidi-font-style:normal'><span style='font-family:"Arial","sans-serif"'>QTD<o:p></o:p></span></i></b></p>
+  </td>
+  <td valign=top style='width:11.7cm; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>Query
+  Template Descriptor<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:6'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:80pt; border-top:none; mso-border-top-alt:solid windowtext .5pt; mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal><span class=SpellE><b style='mso-bidi-font-weight:normal'><i
+  style='mso-bidi-font-style:normal'><span style='font-family:"Arial","sans-serif"'>QDist</span></i></b></span><b
+  style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'><span
+  style='font-family:"Arial","sans-serif"'><o:p></o:p></span></i></b></p>
+  </td>
+  <td valign=top style='width:11.7cm; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>Query
+  Distribution </span><span style='font-family:"Arial Narrow","sans-serif";
+  mso-bidi-font-family:Arial'>(permitted values are Uniform and Exponential)</span><b
+  style='mso-bidi-font-weight:normal'><span style='font-family:"Arial","sans-serif"'><o:p></o:p></span></b></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:7'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:80pt; border-top:none; mso-border-top-alt:solid windowtext .5pt; mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal><span class=SpellE><b style='mso-bidi-font-weight:normal'><i
+  style='mso-bidi-font-style:normal'><span style='font-family:"Arial","sans-serif"'>DiagType</span></i></b></span><b
+  style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'><span
+  style='font-family:"Arial","sans-serif"'><o:p></o:p></span></i></b></p>
+  </td>
+  <td valign=top style='width:11.7cm; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>Diagram
+  Type </span><span style='font-family:"Arial Narrow","sans-serif";mso-bidi-font-family:
+  Arial'>(permitted values are Compilation, Approximate and Execution)</span><span
+  style='font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:8'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:80pt; border-top:none; mso-border-top-alt:solid windowtext .5pt; mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal><span class=SpellE><b style='mso-bidi-font-weight:normal'><i
+  style='mso-bidi-font-style:normal'><span style='font-family:"Arial","sans-serif"'>QTFile</span></i></b></span><b
+  style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'><span
+  style='font-family:"Arial","sans-serif"'><o:p></o:p></span></i></b></p>
+  </td>
+  <td valign=top style='width:11.7cm; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>File
+  containing the Query Template<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:9'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:80pt; border-top:none; mso-border-top-alt:solid windowtext .5pt; mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt; height: 21px;'>
+  <p class=style1><strong><i style='mso-bidi-font-style:normal'><span
+  style='font-family:"Arial","sans-serif"'>Approx-<span class=SpellE>algo</span></span></i></strong><i
+  style='mso-bidi-font-style:normal'><o:p></o:p></i></p>
+  </td>
+  <td valign=top style='width:11.7cm; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt; height: 21px;'>
+  <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>Choice of
+  Approximation algorithm </span><span style='font-family:"Arial Narrow","sans-serif";
+  mso-bidi-font-family:Arial'>(permitted values are Sampling and Grid)</span><span
+  style='font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:10;height:15.0pt'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:80pt; border-top:none; mso-border-top-alt:solid windowtext .5pt; mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt; height:15.0pt'>
+  <p class=style1><span class=SpellE><strong><i style='mso-bidi-font-style:
+  normal'><span style='font-family:"Arial","sans-serif"'>IdError</span></i></strong></span><i
+  style='mso-bidi-font-style:normal'><o:p></o:p></i></p>
+  </td>
+  <td valign=top style='width:11.7cm; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
+  <p class=MsoNormal style="width: 421px; height: 19px"><span style='font-family:"Arial","sans-serif"'>Identity
+  error tolerance </span><span class="style3">(1-99 percent)<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:11;height:15.0pt'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:80pt; border-top:none; mso-border-top-alt:solid windowtext .5pt; mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt; height:15.0pt'>
+  <p class=MsoNormal><span class=SpellE><strong><i style='mso-bidi-font-style:
+  normal'><span style='font-family:"Arial","sans-serif"'>LocError</span></i></strong></span><i
+  style='mso-bidi-font-style:normal'><span style='font-family:"Arial","sans-serif"'><o:p></o:p></span></i></p>
+  </td>
+  <td valign=top style='width:11.7cm; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
+  <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>Location
+  error tolerance </span><span class="style3">(1-99 percent)<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:12;height:15.0pt'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:80pt; border-top:none; mso-border-top-alt:solid windowtext .5pt; mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt; height:15.0pt'>
+  <p class=style1><strong><i style='mso-bidi-font-style:normal'><span
+  style='font-family:"Arial","sans-serif"'>Resolution<o:p></o:p></span></i></strong></p>
+  </td>
+  <td valign=top style='width:11.7cm; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
+  <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>Number of
+  query points along a dimension </span><span class="style3">(permitted values are 10, 30, 100, 300 and 1000)</span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:13;height:15.0pt'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:80pt; border-top:none; mso-border-top-alt:solid windowtext .5pt; mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt; height:15.0pt'>
+  <p class=style1><span class=SpellE><strong><i style='mso-bidi-font-style:
+  normal'><span style='font-family:"Arial","sans-serif"'>Startpoint</span></i></strong></span><strong><i
+  style='mso-bidi-font-style:normal'><span style='font-family:"Arial","sans-serif"'><o:p></o:p></span></i></strong></p>
+  </td>
+  <td valign=top style='width:11.7cm; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
+  <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>Start point
+  of the selectivity space along the dimension </span><span class="style3">(0-99 percent)</span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:14;mso-yfti-lastrow:yes;height:15.0pt'>
+  <td valign=top style='border-left: 1.0pt solid windowtext; border-right: 1.0pt solid windowtext; border-bottom: 1.0pt solid windowtext; width:80pt; border-top:none; mso-border-top-alt:solid windowtext .5pt; mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt; height:15.0pt'>
+  <p class=style1><strong><i style='mso-bidi-font-style:normal'><span
+  style='font-family:"Arial","sans-serif"'>Endpoint<o:p></o:p></span></i></strong></p>
+  </td>
+  <td valign=top style='width:11.7cm; border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
+  <p class=MsoNormal><span style='font-family:"Arial","sans-serif"'>End point
+  of the selectivity space along the dimension </span><span class="style3">(1-100 percent)</span><span style='font-family:"Arial","sans-serif"'>.&nbsp; Endpoint must be greater than <span class=SpellE>Startpoint</span> by
+  <span class=SpellE>at least</span> </span><span class="style3">1%</span><span style='font-family:"Arial","sans-serif"'><o:p>.</o:p></span></p>
+  </td>
+ </tr>
+</table>
+</div>
+<p class=MsoNormal style='margin-left:18.0pt'>
+<b style='mso-bidi-font-weight:
+normal'>
+<span lang=EN-US style='font-family:"Arial","sans-serif";mso-ansi-language:
+EN-US'><span style='mso-tab-count:1'>  </span></span></b><span lang=EN-US
+style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'><span
+style='mso-spacerun:yes'> </span><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:18.0pt'><span lang=EN-US
+style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span><span style='mso-bidi-font-style:
+normal'><span lang=EN-US style='font-family:"Arial","sans-serif";color:red;
+mso-ansi-language:EN-US'>Notes:</span></span></p>
+<span style='mso-bidi-font-style:normal'>
+<p class=MsoNormal style='margin-left:18.0pt'></span>
+<span
+lang=EN-US style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'> 
+<span style='mso-bidi-font-style:normal'>1.</span><i style='mso-bidi-font-style:normal'> </i>
+</span><span lang=EN-US style='font-family:"Arial","sans-serif";mso-ansi-language:
+EN-US'>The first eight arguments and&nbsp; </span><span lang=EN-US
+style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'> <b style='mso-bidi-font-weight:normal'><span
+style='color:maroon'>&lt;Resolution&gt;</span></b></span><span lang=EN-US style='font-family:"Arial","sans-serif";mso-ansi-language:
+EN-US'> are compulsory for all diagrams. Further, if <span
+class=SpellE><strong>DiagType</strong></span><strong> = </strong> <em><span style='font-family:"Arial","sans-serif"'>
+<strong>Approximate</strong>,
+</span></em>then the arguments <b style='mso-bidi-font-weight:normal'><span
+style='color:maroon'>&lt;Approx-<span class=SpellE>algo</span>&gt;, &lt;<span
+class=SpellE>IdError</span>&gt;, &lt;<span class=SpellE>LocError</span>&gt; </span></b>are
+compulsory.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:18.0pt'><span lang=EN-US
+style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'>2. If the
+<strong>-R </strong>option is used, then the number of
+<b style='mso-bidi-font-weight:normal'><span
+style='color:maroon'>{&lt;Resolution&gt; &lt;<span class=SpellE>startPoint</span>&gt;
+&lt;<span class=SpellE>endPoint</span>&gt;} </span></b>triplets must be exactly 
+the same as the dimensionality of the query template.<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:18.0pt'><span lang=EN-US
+style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='margin-left:18.0pt'><span lang=EN-US
+style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='margin-left:18.0pt'>
+<span lang=EN-US
+style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'>
+<o:p>The following are representative examples of using the command line 
+facility:</o:p></span></p>
+
+<p class=MsoNormal style='margin-left:18.0pt'><span lang=EN-US
+style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<ol type="a" style="font-family:Arial, Helvetica, sans-serif;font-weight:bold">
+	<li>
+	<p class=MsoListParagraph style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;mso-add-space:auto;margin-left:6.0pt;mso-list:l0 level1 lfo4'>
+	<span
+class=SpellE><b style='mso-bidi-font-weight:normal'>
+	<span lang=EN-US
+style='font-family:"Arial","sans-serif";color:maroon;mso-ansi-language:EN-US'>PicassoCmd</span></b></span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-family:"Arial","sans-serif";
+color:maroon;mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>   
+</span><span class=SpellE>localhost</span><span style='mso-spacerun:yes'>  
+	</span>4444<span style='mso-spacerun:yes'>  </span>
+	<span
+style='mso-spacerun:yes'> </span><span class=SpellE>sql_localhost</span><span
+style='mso-spacerun:yes'>   </span>default<span style='mso-spacerun:yes'> 
+	</span>SQL_Default_Uniform_100_q2<span style='mso-spacerun:yes'> 
+</span>Uniform<span style='mso-spacerun:yes'>  </span>Compilation<span
+style='mso-spacerun:yes'>  </span>E:\Picasso\QueryTemplates\sqlserver\q2.sql
+100</span></b>
+	</li>
+</ol>
+<p class=MsoListParagraphCxSpLast style='margin-left:36.0pt;mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;mso-add-space:auto'><span lang=EN-US style='font-family:"Arial","sans-serif";
+mso-ansi-language:EN-US'>first connects to the Picasso server residing on 
+	<b style='mso-bidi-font-weight:normal'>“localhost”</b> at port 
+	<b style='mso-bidi-font-weight:normal'>“4444”</b> and then to the database engine using the 
+	<b style='mso-bidi-font-weight:normal'>“<span class=SpellE>sql_localhost</span>”</b>
+connection descriptor. It then produces compilation diagrams with 
+	<b style='mso-bidi-font-weight:normal'>QTD</b>
+	<b style='mso-bidi-font-weight:normal'>“SQL_Default_Uniform_100_q2”</b> at a 
+	<b style='mso-bidi-font-weight:normal'>“default”</b> optimization level with queries 
+	<b style='mso-bidi-font-weight:normal'>Uniformly</b> distributed at a resolution of 
+	<b style='mso-bidi-font-weight:normal'>100 </b>on<b style='mso-bidi-font-weight:normal'> </b>each dimension
+over the entire selectivity range, for the query template in file 
+	</span> 
+	“E:\Picasso\QueryTemplates\sqlserver\q2.sql”.<o:p></o:p></p>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto'><span
+lang=EN-US style='mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<ol type="a" start="2" style="font-family:Arial, Helvetica, sans-serif;font-weight:bold">
+	<li>
+	<p class=MsoListParagraphCxSpFirst style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;mso-add-space:auto;margin-left:6.0pt;mso-list:l0 level1 lfo4'>
+	<span class=SpellE><b style='mso-bidi-font-weight:
+normal'>
+	<span lang=EN-US style='font-family:"Arial","sans-serif";color:maroon;
+mso-ansi-language:EN-US'>PicassoCmd</span></b></span><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-family:"Arial","sans-serif";color:maroon;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>    </span>
+	<span
+class=SpellE>localhost</span><span style='mso-spacerun:yes'>   </span>4444<span
+style='mso-spacerun:yes'>   </span><span class=SpellE>sql_localhost</span><span
+style='mso-spacerun:yes'>   </span>default<span style='mso-spacerun:yes'> 
+	</span>SQL_Default_Uniform_100_q8_RS-NN<span style='mso-spacerun:yes'> 
+	</span>Uniform<span style='mso-spacerun:yes'>  </span>Approximate
+E:\Picasso\QueryTemplates\sqlserver\q8.sql Sampling 10 20 100</span></b><span
+lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+	</li>
+</ol>
+
+<p class=MsoListParagraphCxSpLast style='margin-left:36.0pt;mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;mso-add-space:auto'><span lang=EN-US style='font-family:"Arial","sans-serif";
+mso-ansi-language:EN-US'>first connects to the Picasso server residing on <b
+style='mso-bidi-font-weight:normal'>“<span class=SpellE>localhost</span>”</b>
+at port <b style='mso-bidi-font-weight:normal'>“4444”</b> and then to the
+database engine using the <b style='mso-bidi-font-weight:normal'>“<span
+class=SpellE>sql_localhost</span>”</b> connection descriptor. It then produces
+approximate diagrams with <b style='mso-bidi-font-weight:normal'>QTD</b> <b
+style='mso-bidi-font-weight:normal'>“SQL_Default_Uniform_100_q8_RS-NN”</b> at a
+<b style='mso-bidi-font-weight:normal'>“default”</b> optimization level with
+queries <b style='mso-bidi-font-weight:normal'>Uniformly</b> distributed at a
+resolution of <b style='mso-bidi-font-weight:normal'>100 </b>on<b
+style='mso-bidi-font-weight:normal'> </b>each dimension over the entire
+selectivity range, for the query template in file <b style='mso-bidi-font-weight:
+normal'>“E:\Picasso\QueryTemplates\sqlserver\q2.sql” </b>using the <strong><span
+style='font-family:"Arial","sans-serif"'>&quot;Sampling (RS-NN)&quot; </span></strong>approximation 
+algorithm
+with tolerances of <strong><span style='font-family:"Arial","sans-serif"'>10%</span></strong>
+identity error and <strong><span style='font-family:"Arial","sans-serif"'>20%</span></strong>
+location error.</span><span lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:18.0pt;text-indent:2.25pt'><span lang=EN-US style='mso-ansi-language:
+EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<ol type="a" start="3" style="font-family:Arial, Helvetica, sans-serif;font-weight:bold">
+	<li>
+	<p class=MsoListParagraph style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;mso-add-space:auto;margin-left:6.0pt;mso-list:l0 level1 lfo4'>
+	<span class=SpellE><b style='mso-bidi-font-weight:
+normal'>
+	<span lang=EN-US style='font-family:"Arial","sans-serif";color:maroon;
+mso-ansi-language:EN-US'>PicassoCmd</span></b></span><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-family:"Arial","sans-serif";color:maroon;
+mso-ansi-language:EN-US'><span style='mso-spacerun:yes'>  </span>-R<span
+style='mso-spacerun:yes'>  </span><span class=SpellE>localhost</span><span
+style='mso-spacerun:yes'>   </span>4444<span style='mso-spacerun:yes'>  
+</span><span class=SpellE>sql_localhost</span><span style='mso-spacerun:yes'>  
+	</span>default<span style='mso-spacerun:yes'> 
+</span>SQL_Default_Uniform_100_q9_custom<span style='mso-spacerun:yes'> 
+</span>Uniform<span style='mso-spacerun:yes'>  </span>Compilation
+E:\Picasso\QueryTemplates\sqlserver\q8.sql 100 10 80 30 20 50</span></b></li></ol>
+<p class=MsoListParagraphCxSpLast style='margin-left:36.0pt;mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;mso-add-space:auto'>
+	<span class="style4">
+	<span lang=EN-US style='font-family:"Arial","sans-serif";mso-ansi-language:
+EN-US'>first connects to the Picasso server residing on 
+	<b style='mso-bidi-font-weight:
+normal'>“<span class=SpellE>localhost</span>”</b> at port 
+	<b style='mso-bidi-font-weight:
+normal'>“4444”</b> and then to the database engine using the 
+	<b
+style='mso-bidi-font-weight:normal'>“<span class=SpellE>sql_localhost</span>”</b>
+connection descriptor. It then produces compilation diagrams with 
+	<b
+style='mso-bidi-font-weight:normal'>QTD</b>
+	<b style='mso-bidi-font-weight:
+normal'>“SQL_Default_Uniform_100_q9_custom”</b> at a 
+	<b style='mso-bidi-font-weight:
+normal'>“default”</b> optimization level with queries 
+	<b style='mso-bidi-font-weight:
+normal'>Uniformly</b> distributed for the query template in file 
+	<b
+style='mso-bidi-font-weight:normal'>“E:\Picasso\QueryTemplates\sqlserver\q9.sql”.
+	</b>The diagram has customized range and resolution on different dimensions 
+	</span><span lang=EN-US style='mso-ansi-language:
+EN-US' class="style1">–</span><span lang=EN-US style='font-family:"Arial","sans-serif";mso-ansi-language:
+EN-US'> in the first dimension, the
+resolution is <strong><span style='font-family:"Arial","sans-serif"'>100</span></strong>
+with the selectivity range going from <strong>
+	<span style='font-family:"Arial","sans-serif"'>10%</span></strong>
+to <strong><span style='font-family:"Arial","sans-serif"'>80%, </span></strong>while
+in the second dimension the resolution is <strong>
+	<span style='font-family:
+"Arial","sans-serif"'>30</span></strong> with the selectivity range going from 
+	<strong><span
+style='font-family:"Arial","sans-serif"'>20%</span></strong> to <strong>
+	<span
+style='font-family:"Arial","sans-serif"'>50%</span></strong>.</span></span><span
+lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+margin-left:18.0pt'><span lang=EN-US style='mso-ansi-language:EN-US'>&nbsp;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto'><span
+lang=EN-US style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p align=center style='text-align:center'><span lang=EN-US style='font-size:
+14.0pt;font-family:"Arial","sans-serif";mso-ansi-language:EN-US'><a
+href="../index.htm">Documentation Home</a><o:p></o:p></span></p>
+
+</div>
+
+</body>
+
+</html>

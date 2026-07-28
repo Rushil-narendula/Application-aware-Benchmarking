@@ -1,0 +1,711 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns:st1="urn:schemas-microsoft-com:office:smarttags"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 14">
+<meta name=Originator content="Microsoft Word 14">
+<link rel=File-List href="SQLServer_files/filelist.xml">
+<title>Procedure for MS SQLServer</title>
+<o:SmartTagType namespaceuri="urn:schemas-microsoft-com:office:smarttags"
+ name="place"/>
+<o:SmartTagType namespaceuri="urn:schemas-microsoft-com:office:smarttags"
+ name="country-region"/>
+<o:SmartTagType namespaceuri="urn:schemas-microsoft-com:office:smarttags"
+ name="City"/>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>dsl</o:Author>
+  <o:Template>Normal</o:Template>
+  <o:LastAuthor>dsladmin</o:LastAuthor>
+  <o:Revision>59</o:Revision>
+  <o:TotalTime>151</o:TotalTime>
+  <o:Created>2006-07-24T08:12:00Z</o:Created>
+  <o:LastSaved>2011-03-27T19:05:00Z</o:LastSaved>
+  <o:Pages>1</o:Pages>
+  <o:Words>265</o:Words>
+  <o:Characters>1514</o:Characters>
+  <o:Company>IISc</o:Company>
+  <o:Lines>12</o:Lines>
+  <o:Paragraphs>3</o:Paragraphs>
+  <o:CharactersWithSpaces>1776</o:CharactersWithSpaces>
+  <o:Version>14.00</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]-->
+<link rel=themeData href="SQLServer_files/themedata.thmx">
+<link rel=colorSchemeMapping href="SQLServer_files/colorschememapping.xml">
+<!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:Zoom>108</w:Zoom>
+  <w:TrackMoves>false</w:TrackMoves>
+  <w:TrackFormatting/>
+  <w:DrawingGridHorizontalSpacing>9.35 pt</w:DrawingGridHorizontalSpacing>
+  <w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:DoNotPromoteQF/>
+  <w:LidThemeOther>EN-IN</w:LidThemeOther>
+  <w:LidThemeAsian>X-NONE</w:LidThemeAsian>
+  <w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript>
+  <w:Compatibility>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+   <w:SplitPgBreakAndParaMark/>
+   <w:DontVertAlignCellWithSp/>
+   <w:DontBreakConstrainedForcedTables/>
+   <w:DontVertAlignInTxbx/>
+   <w:Word11KerningPairs/>
+   <w:CachedColBalance/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+  <m:mathPr>
+   <m:mathFont m:val="Cambria Math"/>
+   <m:brkBin m:val="before"/>
+   <m:brkBinSub m:val="&#45;-"/>
+   <m:smallFrac m:val="off"/>
+   <m:dispDef/>
+   <m:lMargin m:val="0"/>
+   <m:rMargin m:val="0"/>
+   <m:defJc m:val="centerGroup"/>
+   <m:wrapIndent m:val="1440"/>
+   <m:intLim m:val="subSup"/>
+   <m:naryLim m:val="undOvr"/>
+  </m:mathPr></w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" DefUnhideWhenUsed="true"
+  DefSemiHidden="true" DefQFormat="false" DefPriority="99"
+  LatentStyleCount="267">
+  <w:LsdException Locked="false" Priority="0" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Normal"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="heading 1"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 2"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 3"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 4"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 5"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 6"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 7"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 8"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 9"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 1"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 2"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 3"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 4"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 5"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 6"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 7"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 8"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 9"/>
+  <w:LsdException Locked="false" Priority="35" QFormat="true" Name="caption"/>
+  <w:LsdException Locked="false" Priority="10" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Title"/>
+  <w:LsdException Locked="false" Priority="1" Name="Default Paragraph Font"/>
+  <w:LsdException Locked="false" Priority="11" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Subtitle"/>
+  <w:LsdException Locked="false" Priority="22" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Strong"/>
+  <w:LsdException Locked="false" Priority="20" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Emphasis"/>
+  <w:LsdException Locked="false" Priority="59" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Table Grid"/>
+  <w:LsdException Locked="false" UnhideWhenUsed="false" Name="Placeholder Text"/>
+  <w:LsdException Locked="false" Priority="1" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="No Spacing"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 1"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 1"/>
+  <w:LsdException Locked="false" UnhideWhenUsed="false" Name="Revision"/>
+  <w:LsdException Locked="false" Priority="34" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="List Paragraph"/>
+  <w:LsdException Locked="false" Priority="29" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Quote"/>
+  <w:LsdException Locked="false" Priority="30" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Intense Quote"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 1"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 1"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 2"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 2"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 2"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 3"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 3"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 3"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 4"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 4"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 4"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 5"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 5"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 5"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 6"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 6"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 6"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="19" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Subtle Emphasis"/>
+  <w:LsdException Locked="false" Priority="21" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Intense Emphasis"/>
+  <w:LsdException Locked="false" Priority="31" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Subtle Reference"/>
+  <w:LsdException Locked="false" Priority="32" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Intense Reference"/>
+  <w:LsdException Locked="false" Priority="33" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Book Title"/>
+  <w:LsdException Locked="false" Priority="37" Name="Bibliography"/>
+  <w:LsdException Locked="false" Priority="39" QFormat="true" Name="TOC Heading"/>
+ </w:LatentStyles>
+</xml><![endif]--><!--[if !mso]><object
+ classid="clsid:38481807-CA0E-42D2-BF39-B33AF135CC4D" id=ieooui></object>
+<style>
+st1\:*{behavior:url(#ieooui) }
+</style>
+<![endif]-->
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Batang;
+	panose-1:2 3 6 0 0 1 1 1 1 1;
+	mso-font-alt:\BC14\D0D5;
+	mso-font-charset:129;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+@font-face
+	{font-family:Batang;
+	panose-1:2 3 6 0 0 1 1 1 1 1;
+	mso-font-alt:\BC14\D0D5;
+	mso-font-charset:129;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+@font-face
+	{font-family:"\@Batang";
+	panose-1:2 3 6 0 0 1 1 1 1 1;
+	mso-font-charset:129;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:Batang;
+	mso-fareast-language:KO;}
+a:link, span.MsoHyperlink
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+p
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	mso-default-props:yes;
+	font-size:10.0pt;
+	mso-ansi-font-size:10.0pt;
+	mso-bidi-font-size:10.0pt;}
+@page WordSection1
+	{size:595.45pt 841.7pt;
+	margin:72.0pt 90.0pt 72.0pt 90.0pt;
+	mso-header-margin:36.0pt;
+	mso-footer-margin:36.0pt;
+	mso-paper-source:0;}
+div.WordSection1
+	{page:WordSection1;}
+ /* List Definitions */
+ @list l0
+	{mso-list-id:153376572;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1978662900 1055046904 67698713 67698715 67698703 67698713 67698715 67698703 67698713 67698715;}
+@list l0:level1
+	{mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	color:black;
+	mso-ansi-font-weight:normal;
+	mso-ansi-font-style:normal;}
+@list l0:level2
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level3
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l0:level4
+	{mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level5
+	{mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level6
+	{mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level7
+	{mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level8
+	{mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level9
+	{mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1
+	{mso-list-id:610161965;
+	mso-list-template-ids:-491239386;}
+@list l2
+	{mso-list-id:1093360020;
+	mso-list-template-ids:-1522366430;}
+@list l2:level1
+	{mso-level-start-at:3;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman","serif";}
+</style>
+<![endif]--><!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="1026"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body lang=EN-IN link=blue vlink=purple style='tab-interval:36.0pt'>
+
+<div class=WordSection1>
+
+<p class=MsoNormal align=center style='text-align:center'><b style='mso-bidi-font-weight:
+normal'><i><span lang=EN-US style='font-size:20.0pt;font-family:"Arial","sans-serif";
+color:#CC0066;mso-ansi-language:EN-US'>Picasso Database Query Optimizer
+Visualizer<o:p></o:p></span></i></b></p>
+
+<p class=MsoNormal align=center style='text-align:center'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-family:"Arial","sans-serif";color:black;
+mso-ansi-language:EN-US;mso-bidi-font-style:italic'>©Indian Institute of
+Science, <st1:place w:st="on"><st1:City w:st="on">Bangalore</st1:City>, <st1:country-region
+ w:st="on">India</st1:country-region></st1:place></span></b><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-family:"Arial","sans-serif";
+color:black;mso-ansi-language:EN-US'><o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN-US
+style='mso-ansi-language:EN-US'>&nbsp;<o:p></o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center;mso-layout-grid-align:
+none'><span lang=EN-US style='font-size:16.0pt;font-family:"Arial","sans-serif";
+mso-fareast-font-family:"Times New Roman";color:red;mso-ansi-language:EN-US;
+mso-fareast-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center;mso-layout-grid-align:
+none'><b style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:
+16.0pt;font-family:"Arial","sans-serif";mso-fareast-font-family:"Times New Roman";
+color:red;mso-ansi-language:EN-US;mso-fareast-language:EN-US'>SQL Server <o:p></o:p></span></b></p>
+
+<p class=MsoNormal style='mso-layout-grid-align:none'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-family:"Arial","sans-serif";mso-fareast-font-family:
+"Times New Roman";color:black;mso-ansi-language:EN-US;mso-fareast-language:
+EN-US'><br>
+</span></b><span lang=EN-US style='font-family:"Arial","sans-serif";mso-fareast-font-family:
+"Times New Roman";color:black;mso-ansi-language:EN-US;mso-fareast-language:
+EN-US'>(The following setup procedure is known to work with <b
+style='mso-bidi-font-weight:normal'>Microsoft SQL Server 2000, 2005, 2008</b>
+on Windows.)<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-align:justify;mso-layout-grid-align:none'><span
+lang=EN-US style='font-family:"Arial","sans-serif";mso-fareast-font-family:
+"Times New Roman";color:black;mso-ansi-language:EN-US;mso-fareast-language:
+EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-family:"Arial","sans-serif";
+mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<ol style='margin-top:0cm' start=1 type=1>
+ <li class=MsoNormal style='mso-list:l0 level1 lfo3;tab-stops:list 36.0pt'><span
+     lang=EN-US style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'>Install
+     MS SQL Server.<span style='mso-spacerun:yes'>   </span>Run <b
+     style='mso-bidi-font-weight:normal'><i><span style='color:#663300'>setup.exe</span></i></b>
+     (or <b style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:
+     normal'><span style='color:#663300'>Autorun.exe</span></i></b>) and follow
+     the wizard for installation of MS SQL Server.<span
+     style='mso-spacerun:yes'>  </span>Install with SQLServer
+     authentication.<span style='mso-spacerun:yes'>  </span>You will be asked
+     for the password for username “sa”.<br style='mso-special-character:line-break'>
+     <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+     <![endif]><o:p></o:p></span></li>
+ <li class=MsoNormal style='mso-list:l0 level1 lfo3;tab-stops:list 36.0pt'><span
+     lang=EN-US style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'>Open
+     Enterprise Manager using <b style='mso-bidi-font-weight:normal'><span
+     style='color:#663300'>Start </span></b><span style='color:#663300'>&#8594;<b
+     style='mso-bidi-font-weight:normal'> Programs </b>&#8594; <b
+     style='mso-bidi-font-weight:normal'>Microsoft SQL Server </b>&#8594;<b
+     style='mso-bidi-font-weight:normal'> Enterprise Manager</b></span>. <o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal><span lang=EN-US style='font-family:"Arial","sans-serif";
+mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<ol style='margin-top:0cm' start=3 type=1>
+ <li class=MsoNormal style='mso-list:l0 level1 lfo3;tab-stops:list 36.0pt'><span
+     lang=EN-US style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'>Create
+     a new database by right-clicking the <b style='mso-bidi-font-weight:normal'><span
+     style='color:#663300'>Databases</span></b> and selecting <b
+     style='mso-bidi-font-weight:normal'><span style='color:#663300'>New
+     Database</span></b> in the tree view in the left pane. <br
+     style='mso-special-character:line-break'>
+     <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+     <![endif]><o:p></o:p></span></li>
+ <li class=MsoNormal style='mso-list:l0 level1 lfo3;tab-stops:list 36.0pt'><a
+     name=schema><span lang=EN-US style='font-family:"Arial","sans-serif";
+     mso-ansi-language:EN-US'>Create the tables using the <b style='mso-bidi-font-weight:
+     normal'><span style='color:#663300'>Enterprise Manager.</span></b><span
+     style='mso-spacerun:yes'>  </span>Under the database you just created,
+     right-click on <b style='mso-bidi-font-weight:normal'><span
+     style='color:#663300'>Tables &#8594; New Table</span></b><span
+     style='color:#663300'>.</span><span style='mso-spacerun:yes'>  </span>Here
+     you can enter the table information. <br style='mso-special-character:
+     line-break'>
+     <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+     <![endif]><o:p></o:p></span></a></li>
+ <li class=MsoNormal style='mso-list:l0 level1 lfo3;tab-stops:list 36.0pt'><span
+     style='mso-bookmark:schema'><a name=load><span lang=EN-US
+     style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'>Load the
+     data into the database.<span style='mso-spacerun:yes'>  </span>If the data
+     to be loaded is in files, right click on the database and select <b
+     style='mso-bidi-font-weight:normal'><span style='color:#663300'>Tasks </span></b><span
+     style='color:#663300'>&#8594;<b style='mso-bidi-font-weight:normal'>
+     Import Data</b></span> and follow the wizard.<span
+     style='mso-spacerun:yes'>  </span>Select the data source as <b
+     style='mso-bidi-font-weight:normal'><span style='color:#663300'>Text File</span></b>
+     and follow the wizard to completion.<span style='mso-spacerun:yes'> 
+     </span><br style='mso-special-character:line-break'>
+     <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+     <![endif]><o:p></o:p></span></a></span></li>
+ <li class=MsoNormal style='mso-list:l0 level1 lfo3;tab-stops:list 36.0pt'><span
+     style='mso-bookmark:schema'><span style='mso-bookmark:load'><a name=ri><span
+     lang=EN-US style='font-family:"Arial","sans-serif";mso-fareast-font-family:
+     "Times New Roman";mso-ansi-language:EN-US;mso-fareast-language:EN-US'>Create
+     primary key, foreign key and indexes.<span style='mso-spacerun:yes'> 
+     </span>In the </span></a></span></span><span style='mso-bookmark:schema'><span
+     style='mso-bookmark:load'><span style='mso-bookmark:ri'><b
+     style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-family:
+     "Arial","sans-serif";color:#663300;mso-ansi-language:EN-US'>Enterprise
+     Manager</span></b></span></span></span><span style='mso-bookmark:schema'><span
+     style='mso-bookmark:load'><span style='mso-bookmark:ri'><span lang=EN-US
+     style='font-family:"Arial","sans-serif";mso-fareast-font-family:"Times New Roman";
+     mso-ansi-language:EN-US;mso-fareast-language:EN-US'>, navigate to the
+     table and right-click on it and select <b style='mso-bidi-font-weight:
+     normal'><span style='color:#663300'>Design</span></b>.<span
+     style='mso-spacerun:yes'>  </span>Here you can add keys, indexes,
+     constraints etc.<br style='mso-special-character:line-break'>
+     <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+     <![endif]><o:p></o:p></span></span></span></span></li>
+ <li class=MsoNormal style='margin-bottom:12.0pt;mso-list:l0 level1 lfo3;
+     tab-stops:list 36.0pt'><span style='mso-bookmark:schema'><span
+     style='mso-bookmark:load'><span style='mso-bookmark:ri'><a
+     name=statistics><span lang=EN-US style='font-family:"Arial","sans-serif";
+     mso-ansi-language:EN-US'>Create <b style='mso-bidi-font-weight:normal'><i
+     style='mso-bidi-font-style:normal'><span style='color:#663300'>statistical
+     summaries</span></i></b> for all table columns that may be used as Picasso
+     predicates in the query templates, with this command: <b style='mso-bidi-font-weight:
+     normal'><i style='mso-bidi-font-style:normal'><span style='color:#9900CC'><br>
+     </span></i></b></span></a></span></span></span><span style='mso-bookmark:
+     schema'><span style='mso-bookmark:load'><span style='mso-bookmark:ri'><span
+     style='mso-bookmark:statistics'><span lang=EN-US style='font-family:"Arial","sans-serif";
+     mso-fareast-font-family:"Times New Roman";color:#9900CC;mso-ansi-language:
+     EN-US;mso-fareast-language:EN-US'><span style='mso-spacerun:yes'>       
+     </span></span></span></span></span></span><span style='mso-bookmark:schema'><span
+     style='mso-bookmark:load'><span style='mso-bookmark:ri'><span
+     style='mso-bookmark:statistics'><b style='mso-bidi-font-weight:normal'><i
+     style='mso-bidi-font-style:normal'><span lang=EN-US style='font-family:
+     "Arial","sans-serif";color:#9900CC;mso-ansi-language:EN-US'><span
+     style='mso-spacerun:yes'> </span>CREATE STATISTICS</span></i></b></span></span></span></span><span
+     style='mso-bookmark:schema'><span style='mso-bookmark:load'><span
+     style='mso-bookmark:ri'><span style='mso-bookmark:statistics'><b
+     style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'><span
+     lang=EN-US style='font-family:"Arial","sans-serif";color:#CC00CC;
+     mso-ansi-language:EN-US'> </span></i></b></span></span></span></span><span
+     style='mso-bookmark:schema'><span style='mso-bookmark:load'><span
+     style='mso-bookmark:ri'><span style='mso-bookmark:statistics'><b
+     style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'><span
+     lang=EN-US style='font-family:"Arial","sans-serif";color:#9900CC;
+     mso-ansi-language:EN-US'>&lt;stats_name&gt; ON &lt;table_name&gt;
+     (column_list) WITH FULLSCAN</span></i></b></span></span></span></span><span
+     style='mso-bookmark:schema'><span style='mso-bookmark:load'><span
+     style='mso-bookmark:ri'><span style='mso-bookmark:statistics'><span
+     lang=EN-US style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'><br>
+     To improve the scope for optimization, you could optionally create
+     statistics for <i style='mso-bidi-font-style:normal'>all </i>columns of
+     each table of the database using<span style='mso-spacerun:yes'> 
+     </span>the command:<br>
+     <span style='mso-spacerun:yes'>         </span></span></span></span></span></span><span
+     style='mso-bookmark:schema'><span style='mso-bookmark:load'><span
+     style='mso-bookmark:ri'><span style='mso-bookmark:statistics'><b
+     style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'><span
+     lang=EN-US style='font-family:"Arial","sans-serif";mso-fareast-font-family:
+     "Times New Roman";color:#9900CC;mso-ansi-language:EN-US;mso-fareast-language:
+     EN-US'>exec sp_createstats</span></i></b></span></span></span></span><span
+     style='mso-bookmark:statistics'></span><span style='mso-bookmark:ri'></span><span
+     style='mso-bookmark:load'></span><span style='mso-bookmark:schema'></span><span
+     lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal><span style='mso-fareast-font-family:"Times New Roman";
+mso-fareast-language:EN-IN'><o:p>&nbsp;</o:p></span></p>
+
+<p style='margin-left:33.0pt'><span lang=EN-US style='font-family:"Arial","sans-serif";
+color:red;mso-ansi-language:EN-US'>Note:</span><span lang=EN-US
+style='font-family:"Arial","sans-serif";mso-ansi-language:EN-US'> The diagrams
+on the Picasso website have been generated with statistical summaries created
+on <b style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'>all</i></b>
+table columns.<o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-family:"Arial","sans-serif";
+mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-family:"Arial","sans-serif";
+mso-ansi-language:EN-US'><o:p>&nbsp;</o:p></span></p>
+
+<p align=center style='text-align:center'><span lang=EN-US style='font-size:
+14.0pt;font-family:"Arial","sans-serif";mso-ansi-language:EN-US'><a
+href="../index.htm">Documentation Home</a><o:p></o:p></span></p>
+
+</div>
+
+</body>
+
+</html>
