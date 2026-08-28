@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SQLBarber Replication — Dashboard Index</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  body { font-family: -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; max-width: 780px; margin: 40px auto; padding: 0 20px; color: #1a1a1a; line-height: 1.5; }
+  h1 { font-size: 1.6em; margin-bottom: 4px; }
+  p.subtitle { color: #555; margin-top: 0; }
+  h2 { font-size: 1.1em; margin-top: 32px; border-bottom: 1px solid #ddd; padding-bottom: 6px; }
+  ul { padding-left: 20px; }
+  li { margin-bottom: 8px; }
+  a { color: #0b5fa5; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .desc { color: #666; font-size: 0.92em; }
+  code { background: #f2f2f2; padding: 1px 5px; border-radius: 3px; font-size: 0.9em; }
+</style>
+</head>
+<body>
+
+<h1>SQLBarber Replication &amp; Analysis — Dashboards</h1>
+<p class="subtitle">Application-aware benchmarking internship project (IIT Hyderabad). Click any dashboard below to open it directly — these render live via GitHub Pages.</p>
+
+<h2>Core Pipeline Results</h2>
+<ul>
+  <li><a href="sqlbarber_dashboard_v2.html">Template Profiling &amp; Shift Metrics</a><br><span class="desc">Cost-bin drift analysis across the 33 base SQL templates (81.8% drifted from intended bins).</span></li>
+  <li><a href="Final_updated_profiling.html">Initial Profiling Stage Distribution</a><br><span class="desc">Synthetic vs. ground-truth JOB cost distribution before refinement.</span></li>
+  <li><a href="Updated_refinement.html">Post-Refinement Calibration</a><br><span class="desc">Distribution after quota-based refinement of the 33 templates.</span></li>
+  <li><a href="updated_final_query_comparision.html">Final Query Comparison &amp; Outliers</a><br><span class="desc">Per-query cost deviation between original and synthetic workloads.</span></li>
+  <li><a href="sqlbarber_qrr_report.html">Query Relative Ratio (QRR) Fidelity Report</a><br><span class="desc">Custom metric quantifying per-query fidelity loss hidden by distribution matching.</span></li>
+  <li><a href="Final_templates.html">Final Synthetic Workload Repository</a><br><span class="desc">All 113 generated synthetic queries, spanning complexity tiers.</span></li>
+</ul>
+
+<h2>Plan-Structure Comparison (Picasso-derived)</h2>
+<ul>
+  <li><a href="optimizer_coverage_dashboard.html">Optimizer Coverage Dashboard</a></li>
+  <li><a href="optimizer_fidelity_report.html">Optimizer Fidelity Report</a></li>
+  <li><a href="picasso_analysis_report.html">Picasso Plan-Tree Analysis Report</a></li>
+  <li><a href="cdf_relative_error.html">CDF of Relative Error</a></li>
+  <li><a href="coverage.html">Coverage Summary</a></li>
+</ul>
+
+<h2>Extended Analysis</h2>
+<ul>
+  <li><a href="Final_detailed_analysis.html">Detailed Analysis</a></li>
+  <li><a href="Final_detailed_analysis_weighted.html">Detailed Analysis (Weighted)</a></li>
+  <li><a href="Final_detailed_analysis_weighted_geo.html">Detailed Analysis (Weighted, Geometric)</a></li>
+  <li><a href="Updated_queries_all_with_advanced_features.html">Advanced-Feature Query Breakdown</a></li>
+</ul>
+
+<h2>Source Code &amp; Data</h2>
+<p>Pipeline scripts are in <code>/src</code>, raw EXPLAIN/ANALYZE outputs and generated queries are in <code>/data</code>, and static chart images are in <code>/charts</code>. See the <a href="../README.md">root README</a> for the full write-up.</p>
+
+</body>
+</html>
